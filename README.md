@@ -1,36 +1,90 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🏗️ FooTalentGroup, Repositorio del SmartProject: Frontend  
+ 
+Cada desarrollador tiene su propia rama para evitar conflictos.  
 
-## Getting Started
+---
 
-First, run the development server:
+## 📌 Estructura de Ramas  
 
+🔹 **`main`** → Rama de producción (solo código estable).  
+🔹 **`develop`** → Integración de cambios antes de pasar a `main`.  
+🔹 **`dev-nombre`** → Rama personal de cada desarrollador.  
+
+---
+
+## 🚀 Cómo Crear Tu Rama de Desarrollo  
+
+Cada desarrollador debe crear su propia rama basada en `develop`.  
+
+### 🔹 **1️⃣ Clonar el Repositorio**  
+Si aún no lo tienes en tu máquina:  
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone <URL-DEL-REPO>
+cd <nombre-del-repo>
+```
+### 🔹 2️⃣ Descargar la Última Versión de develop 
+```bash
+git checkout develop
+git pull origin develop
+```
+### 🔹 3️⃣ Crear y Subir Tu Rama Personal
+⚠️ Reemplaza mi-nombre con tu nombre o alias:
+```bash
+git checkout -b dev-mi-nombre
+git push origin dev-mi-nombre
+```
+✅ Ejemplo real:
+```bash
+git checkout -b dev-adrian
+git push origin dev-adrian
+```
+### 🔹 4️⃣ Verificar Que la Rama Se Creó Correctamente
+```bash
+git branch -a
+```
+Si todo salió bien, verás algo así:
+```bash
+* dev-adrian
+  develop
+  remotes/origin/main
+  remotes/origin/develop
+  remotes/origin/dev-alex
+```
+---
+
+# 🔄 Flujo de Trabajo
+## ⏬ 1️⃣ Antes de Comenzar a Trabajar
+Siempre trae lo último de develop antes de hacer cambios:
+```bash
+git checkout develop
+git pull origin develop
+git checkout dev-mi-nombre
+git merge develop
+```
+## 📌 2️⃣ Agregar Cambios y Subirlos
+```bash
+git add .
+git commit -m "Descripción del cambio"
+git push origin dev-mi-nombre
+```
+## 🔄 3️⃣ Unir Tu Rama a develop Cuando Esté Lista
+⚠️ Solo haz esto cuando el código esté listo y probado.
+```bash
+git checkout main
+git merge develop
+git push origin main
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+# ❌ ¿Problemas con Conflictos?
+Si hay conflictos al hacer merge, sigue estos pasos:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 1️⃣ Git te mostrará los archivos con conflictos.
+## 2️⃣ Edita los archivos manualmente y resuelve los conflictos.
+## 3️⃣ Guarda los cambios y sigue con:
+```bash
+git add .
+git commit -m "Resuelvo conflictos"
+git push origin dev-mi-nombre
+```
