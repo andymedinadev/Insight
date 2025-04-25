@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "PsySearch",
+  title: "Insight",
   description: "Todo lo que está bien",
 };
 
