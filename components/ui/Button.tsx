@@ -18,7 +18,7 @@ const Button: React.FC<ButtonProps> = ({
     <button
       type={type}
       onClick={onClick}
-      className={`w-full h-12 bg-neutral-400 border border-black rounded-lg text-sm font-semibold text-black font-['Inter'] ${className}`}
+      className={`md:hover:bg-neutral-300 hover:bg-neutral-300 w-full h-12 bg-neutral-400 border border-black rounded-lg text-sm font-semibold text-black font-['Inter'] ${className}`}
     >
       {children}
     </button>
