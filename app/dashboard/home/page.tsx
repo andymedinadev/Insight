@@ -1,7 +1,9 @@
+//Inicio
+
 import React from 'react'
 
-export default function DashboardHome() {
+export default function Home() {
   return (
-    <div>DashboardHome</div>
+    <div>Home</div>
   )
 }
