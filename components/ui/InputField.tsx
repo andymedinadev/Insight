@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 interface InputFieldProps {
   id: string;
@@ -13,7 +13,7 @@ interface InputFieldProps {
 export default function InputField({
   id,
   label,
-  type = "text",
+  type = 'text',
   required = false,
   value,
   onChange,
@@ -21,10 +21,7 @@ export default function InputField({
 }: InputFieldProps) {
   return (
     <div>
-      <label
-        htmlFor={id}
-        className="block text-base text-black"
-      >
+      <label htmlFor={id} className="block text-base text-black">
         {label} {required && <span className="text-gray-400">*</span>}
       </label>
       <input
@@ -35,7 +32,7 @@ export default function InputField({
         onChange={onChange}
         placeholder={placeholder}
         required={required}
-        className="mt-1 w-full h-12 px-4 rounded-lg border border-gray-300 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+        className="mt-1 h-12 w-full rounded-lg border border-gray-300 bg-gray-50 px-4 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
       />
     </div>
   );
