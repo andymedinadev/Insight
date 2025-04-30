@@ -1,9 +1,12 @@
-import React from 'react'
-
 export default function Navbar() {
   return (
-    <div className='bg-amber-200 w-full h-16'>
-      <nav>Navbar cachi</nav>
-    </div>
-  )
+    <header className="flex h-16 w-full items-center justify-between border-b bg-white px-6 shadow">
+      <h1 className="text-xl font-semibold"></h1>
+      <div className="flex items-center gap-4">
+        <span>🔔</span>
+        <span>👤</span>
+        <span>↓</span>
+      </div>
+    </header>
+  );
 }

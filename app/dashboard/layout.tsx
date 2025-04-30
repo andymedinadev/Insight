@@ -1,31 +1,26 @@
-"use client";
+'use client';
 
-import { Provider } from "react-redux";
-import { store } from "@/store";
-import { Navbar, Sidebar } from "@/components";
+import { Provider } from 'react-redux';
+import { store } from '@/store';
+import { Navbar, Sidebar } from '@/components';
 
-export default function AuthLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   return (
     <Provider store={store}>
-      <div className="">
-        {" "}
-        {/* Usa un div en lugar de html/body */}
-        <div>
-          <Navbar /> {/* Navbar solo se renderiza en el dashboard */}
+      <div className="lg:flex lg:h-screen lg:w-screen lg:overflow-hidden">
+        {/* Sidebar fija al lado izquierdo */}
+        <div className="lg:fixed lg:top-0 lg:left-0 lg:z-20 lg:h-full lg:w-64">
+          <Sidebar />
         </div>
-        <main>
-          <div className="flex flex-row">
-            <div>
-              <Sidebar /> {/* Sidebar solo se renderiza en el dashboard */}
-            </div>
-            <div>{children}</div>
-          </div>
-        </main>{" "}
-        {/* El contenido específico de cada página en el dashboard */}
+
+        {/* Contenido general: navbar + children */}
+        <div className="lg:ml-64 lg:flex lg:w-[calc(100%-16rem)] lg:flex-1 lg:flex-col">
+          {/* Navbar empieza al lado de la sidebar */}
+          <Navbar />
+
+          {/* Contenido scrollable debajo de la navbar */}
+          <main className="lg:flex-1 lg:overflow-y-auto lg:bg-white">{children}</main>
+        </div>
       </div>
     </Provider>
   );
