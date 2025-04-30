@@ -1,5 +1,4 @@
-import { TiUserAddOutline } from 'react-icons/ti';
-import { BsCalendar3 } from 'react-icons/bs';
+import { TiUserAddOutline, TiCalendar } from 'react-icons/ti';
 
 const cardData = [
   {
@@ -10,7 +9,7 @@ const cardData = [
   },
   {
     href: '/dashboard/calendar',
-    icon: BsCalendar3,
+    icon: TiCalendar,
     title: 'Calendario',
     description: 'Aquí puedes visualizar tu agenda de turnos',
   },
