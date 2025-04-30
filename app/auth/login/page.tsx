@@ -20,7 +20,7 @@ export default function LoginPage() {
       <div className="mt-8 block text-center font-['Inter'] text-2xl font-semibold text-black md:hidden">
         INSIGHT
       </div>
-      k{/* Contenido principal con grid */}
+      {/* Contenido principal con grid */}
       <div className="grid h-full w-full grid-cols-1 md:h-screen md:grid-cols-2">
         {/* Columna del formulario */}
         <div className="flex h-full items-center justify-center bg-white p-6 sm:p-10">
