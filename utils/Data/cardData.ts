@@ -1,20 +1,19 @@
-// data/cardData.ts
+import { TiUserAddOutline } from 'react-icons/ti';
+import { BsCalendar3 } from 'react-icons/bs';
 
 const cardData = [
-    {
-      href: '/dashboard/newpatient',
-      icon: '🧒',
-      title: 'Paciente nuevo',
-      description: 'Haz click aquí para añadir un paciente nuevo',
-    },
-    {
-      href: '/dashboard/calendar',
-      icon: '🗓️',
-      title: 'Calendario',
-      description: 'Aquí puedes visualizar tu agenda de turnos',
-    },
-    // Podés seguir agregando más tarjetas si hace falta
-  ];
-  
-  export default cardData;
-  
+  {
+    href: '/dashboard/newpatient',
+    icon: TiUserAddOutline,
+    title: 'Paciente nuevo',
+    description: 'Haz click aquí para añadir un paciente nuevo',
+  },
+  {
+    href: '/dashboard/calendar',
+    icon: BsCalendar3,
+    title: 'Calendario',
+    description: 'Aquí puedes visualizar tu agenda de turnos',
+  },
+];
+
+export default cardData;

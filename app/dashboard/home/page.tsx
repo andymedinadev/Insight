@@ -1,7 +1,8 @@
-import { ButtonCards, CompletedList } from '@/components';
-import { cardData } from '@/utils';
+'use client';
 
 import React from 'react';
+import { ButtonCards, CompletedList } from '@/components';
+import { cardData } from '@/utils';
 
 export default function Home() {
   return (
