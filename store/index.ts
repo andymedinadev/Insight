@@ -1,9 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit';
 import counterReducer from './slices/counterSlice';
+import patientReducer from './slices/patientSlice';
 
 export const store = configureStore({
   reducer: {
     counter: counterReducer,
+    patients: patientReducer,
   },
 });
 
