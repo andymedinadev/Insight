@@ -4,8 +4,9 @@ import Link from 'next/link';
 
 export default function Sidebar() {
   return (
-    <aside className="z-30 flex h-full w-64 flex-col gap-4 border-r bg-white p-6 shadow">
-      <h1 className="mb-24 text-xl font-semibold">INSIGHT</h1>
+    <aside className="hidden
+    lg:z-30 lg:flex lg:h-full lg:w-64 lg:flex-col lg:gap-4 lg:border-r lg:bg-white lg:p-6 lg:shadow">
+      <h1 className="lg:mb-24 lg:text-xl lg:font-semibold">INSIGHT</h1>
       <Link href="/dashboard/home" className="hover:underline">
         Inicio
       </Link>
