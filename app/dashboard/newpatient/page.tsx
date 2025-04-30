@@ -7,7 +7,7 @@ export default function NewPatient() {
   const [formValues, setFormValues] = useState({
     name: '',
     lastname: '',
-    age: '',
+    age: 0,
     birthdate: '',
     gender: '',
     email: '',
