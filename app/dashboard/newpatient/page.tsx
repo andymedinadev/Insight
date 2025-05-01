@@ -1,34 +1,56 @@
 'use client';
-import React, { useState } from 'react';
+import React from 'react';
 import Button from '@/components/ui/Button';
 import { TypeNewPatient } from '@/types';
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
+
+const validationSchema = Yup.object({
+  name: Yup.string().required('El nombre es obligatorio'),
+  lastname: Yup.string().required('El apellido es obligatorio'),
+  birthdate: Yup.date()
+    .max(new Date(), 'La fecha de nacimiento no puede ser futura')
+    .required('La fecha de nacimiento es obligatoria'),
+  gender: Yup.string().required('El género es obligatorio'),
+  email: Yup.string().email('Email inválido').required('El email es obligatorio'),
+  phone: Yup.string()
+    .matches(/^[0-9+]+$/, 'El número solo puede contener dígitos y el símbolo +')
+    .required('El número es obligatorio'),
+  date: Yup.string().required('La fecha de ingreso es obligatoria'),
+});
 
 export default function NewPatient() {
-  const [formValues, setFormValues] = useState({
+  const initialValues: TypeNewPatient = {
     name: '',
     lastname: '',
-    age: 0,
     birthdate: '',
     gender: '',
     email: '',
     phone: '',
     date: '',
+    reason: '',
+    symptoms: '',
+    events: '',
+    diagnosis: '',
+    observations: '',
+    keywords: '',
+    failedActs: '',
+    interconsultations: '',
+    evolution: '',
+    meetingTime: '',
+    frequency: '',
+    careModality: '',
+    time: '',
+    contact: '',
+  };
+
+  const formik = useFormik<TypeNewPatient>({
+    initialValues,
+    validationSchema,
+    onSubmit: (values) => {
+      console.log('Datos del formulario:', values);
+    },
   });
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    const { name, value } = e.target;
-
-    setFormValues((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const createPatient = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-
-    const formData = new FormData(event.currentTarget);
-    const data = Object.fromEntries(formData.entries()) as unknown as TypeNewPatient;
-
-    console.log('Datos del formulario:', data);
-  };
 
   return (
     <div>
@@ -37,43 +59,38 @@ export default function NewPatient() {
       </h1>
 
       <div className="mx-auto max-w-xl p-8">
-        <form onSubmit={createPatient} className="flex flex-col gap-y-6">
+        <form onSubmit={formik.handleSubmit} className="flex flex-col gap-y-6">
           {/* Datos personales */}
           <h2 className="text-[20px] leading-[28px] font-semibold">Datos personales</h2>
 
-          <p className="text-[14px] leading-[20px] font-normal text-gray-600">*Datos requeridos</p>
+          <p className="text-[14px] leading-[20px] font-semibold">*Datos requeridos</p>
 
           <div className="flex flex-col">
             <label className="mb-1">Nombre/s *</label>
             <input
               name="name"
-              value={formValues.name}
-              onChange={handleInputChange}
-              required
+              value={formik.values.name}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
               className="h-[48px] w-full rounded-lg border border-[#000D4D73] bg-white px-3"
             />
+            {formik.touched.name && formik.errors.name && (
+              <p className="mt-1 text-sm text-red-500">{formik.errors.name}</p>
+            )}
           </div>
 
           <div className="flex flex-col">
             <label className="mb-1">Apellido/s *</label>
             <input
               name="lastname"
-              value={formValues.lastname}
-              onChange={handleInputChange}
-              required
+              value={formik.values.lastname}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
               className="h-[48px] w-full rounded-lg border border-[#000D4D73] bg-white px-3"
             />
-          </div>
-
-          <div className="flex flex-col">
-            <label className="mb-1">Edad *</label>
-            <input
-              name="age"
-              value={formValues.age}
-              onChange={handleInputChange}
-              required
-              className="h-[48px] w-full rounded-lg border border-[#000D4D73] bg-white px-3"
-            />
+            {formik.touched.lastname && formik.errors.lastname && (
+              <p className="mt-1 text-sm text-red-500">{formik.errors.lastname}</p>
+            )}
           </div>
 
           <div className="flex flex-col">
@@ -82,16 +99,20 @@ export default function NewPatient() {
             <input
               name="birthdate"
               type="date"
-              value={formValues.birthdate}
-              onChange={handleInputChange}
-              required
+              max={new Date().toISOString().split('T')[0]}
+              value={formik.values.birthdate}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
               className="h-[48px] w-full rounded-lg border border-[#000D4D73] bg-white px-3"
             />
+            {formik.touched.birthdate && formik.errors.birthdate && (
+              <p className="mt-1 text-sm text-red-500">{formik.errors.birthdate}</p>
+            )}
           </div>
 
           <div className="flex flex-col">
             <label className="mb-2 text-base font-medium text-gray-900">Sexo *</label>
-            <div className="flex flex-col gap-y-4">
+            <div className="flex flex-col gap-y-2">
               {['Femenino', 'Masculino', 'Otros'].map((option) => (
                 <label
                   key={option}
@@ -101,15 +122,18 @@ export default function NewPatient() {
                     type="radio"
                     name="gender"
                     value={option.toLowerCase()}
-                    checked={formValues.gender === option.toLowerCase()}
-                    onChange={handleInputChange}
-                    required
+                    checked={formik.values.gender === option.toLowerCase()}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
                     className="h-5 w-5 border border-[#000D4D73] accent-indigo-600"
                   />
                   <span className="text-base text-gray-900">{option}</span>
                 </label>
               ))}
             </div>
+            {formik.touched.gender && formik.errors.gender && (
+              <p className="mt-1 text-sm text-red-500">{formik.errors.gender}</p>
+            )}
           </div>
 
           <div className="flex flex-col">
@@ -117,11 +141,14 @@ export default function NewPatient() {
             <input
               name="email"
               type="email"
-              value={formValues.email}
-              onChange={handleInputChange}
-              required
+              value={formik.values.email}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
               className="h-[48px] w-full rounded-lg border border-[#000D4D73] bg-white px-3"
             />
+            {formik.touched.email && formik.errors.email && (
+              <p className="mt-1 text-sm text-red-500">{formik.errors.email}</p>
+            )}
           </div>
 
           <div className="flex flex-col">
@@ -129,11 +156,14 @@ export default function NewPatient() {
             <input
               name="phone"
               type="tel"
-              value={formValues.phone}
-              onChange={handleInputChange}
-              required
+              value={formik.values.phone}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
               className="h-[48px] w-full rounded-lg border border-[#000D4D73] bg-white px-3"
             />
+            {formik.touched.phone && formik.errors.phone && (
+              <p className="mt-1 text-sm text-red-500">{formik.errors.phone}</p>
+            )}
           </div>
 
           <div className="flex flex-col">
@@ -142,11 +172,14 @@ export default function NewPatient() {
             <input
               name="date"
               type="date"
-              value={formValues.date}
-              onChange={handleInputChange}
-              required
+              value={formik.values.date}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
               className="h-[48px] w-full rounded-lg border border-[#000D4D73] bg-white px-3"
             />
+            {formik.touched.date && formik.errors.date && (
+              <p className="mt-1 text-sm text-red-500">{formik.errors.date}</p>
+            )}
           </div>
           <br />
 
@@ -157,6 +190,9 @@ export default function NewPatient() {
             <label className="mb-1">Motivo principal de consulta</label>
             <textarea
               name="reason"
+              value={formik.values.reason}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
               className="h-[100px] w-full rounded-lg border border-[#000D4D73] bg-white px-3"
             />
           </div>
@@ -165,6 +201,9 @@ export default function NewPatient() {
             <label className="mb-1">Síntomas actuales</label>
             <textarea
               name="symptoms"
+              value={formik.values.symptoms}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
               className="h-[100px] w-full rounded-lg border border-[#000D4D73] bg-white px-3"
             />
           </div>
@@ -173,6 +212,9 @@ export default function NewPatient() {
             <label className="mb-1">Eventos recientes relevantes</label>
             <textarea
               name="events"
+              value={formik.values.events}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
               className="h-[100px] w-full rounded-lg border border-[#000D4D73] bg-white px-3"
             />
           </div>
@@ -181,6 +223,9 @@ export default function NewPatient() {
             <label className="mb-1">Diagnóstico previo</label>
             <textarea
               name="diagnosis"
+              value={formik.values.diagnosis}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
               className="h-[100px] w-full rounded-lg border border-[#000D4D73] bg-white px-3"
             />
           </div>
@@ -193,6 +238,9 @@ export default function NewPatient() {
             <label className="mb-1">Observaciones del profesional</label>
             <textarea
               name="observations"
+              value={formik.values.observations}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
               className="h-[100px] w-full rounded-lg border border-[#000D4D73] bg-white px-3"
             />
           </div>
@@ -201,6 +249,9 @@ export default function NewPatient() {
             <label className="mb-1">Frases recurrentes / palabras clave</label>
             <textarea
               name="keywords"
+              value={formik.values.keywords}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
               className="h-[100px] w-full rounded-lg border border-[#000D4D73] bg-white px-3"
             />
           </div>
@@ -209,6 +260,9 @@ export default function NewPatient() {
             <label className="mb-1">Actos fallidos / asociaciones llamativas</label>
             <textarea
               name="failedActs"
+              value={formik.values.failedActs}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
               className="h-[100px] w-full rounded-lg border border-[#000D4D73] bg-white px-3"
             />
           </div>
@@ -217,6 +271,9 @@ export default function NewPatient() {
             <label className="mb-1">Interconsultas / derivaciones realizadas</label>
             <textarea
               name="interconsultations"
+              value={formik.values.interconsultations}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
               className="h-[100px] w-full rounded-lg border border-[#000D4D73] bg-white px-3"
             />
           </div>
@@ -225,6 +282,9 @@ export default function NewPatient() {
             <label className="mb-1">Evolución del paciente</label>
             <textarea
               name="evolution"
+              value={formik.values.evolution}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
               className="h-[100px] w-full rounded-lg border border-[#000D4D73] bg-white px-3"
             />
           </div>
@@ -237,14 +297,9 @@ export default function NewPatient() {
             <label className="mb-1">Día y horario de la sesión</label>
             <input
               name="meetingTime"
-              className="h-[48px] w-full rounded-lg border border-[#000D4D73] bg-white px-3"
-            />
-          </div>
-
-          <div className="flex flex-col">
-            <label className="mb-1">Frecuencia (semanal, mensual, etc)</label>
-            <input
-              name="frequency"
+              value={formik.values.meetingTime}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
               className="h-[48px] w-full rounded-lg border border-[#000D4D73] bg-white px-3"
             />
           </div>
@@ -253,7 +308,7 @@ export default function NewPatient() {
             <label className="mb-2 text-base font-medium text-gray-900">
               Modalidad de atención
             </label>
-            <div className="flex flex-col gap-y-4">
+            <div className="flex flex-col gap-y-2">
               {['Online', 'Presencial', 'Híbrido'].map((option) => (
                 <label
                   key={option}
@@ -262,7 +317,10 @@ export default function NewPatient() {
                   <input
                     type="radio"
                     name="careModality"
-                    value={option.toLowerCase()}
+                    value={option}
+                    checked={formik.values.careModality === option}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
                     className="h-5 w-5 border border-[#000D4D73] accent-indigo-600"
                   />
                   <span className="text-base text-gray-900">{option}</span>
@@ -275,7 +333,7 @@ export default function NewPatient() {
             <label className="mb-2 text-base font-medium text-gray-900">
               Duración aproximada de la sesión
             </label>
-            <div className="flex flex-col gap-y-4">
+            <div className="flex flex-col gap-y-2">
               {['30 min', '45 min', '50 min', '60 min'].map((option) => (
                 <label
                   key={option}
@@ -284,7 +342,10 @@ export default function NewPatient() {
                   <input
                     type="radio"
                     name="time"
-                    value={option.toLowerCase()}
+                    value={option}
+                    checked={formik.values.time === option}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
                     className="h-5 w-5 border border-[#000D4D73] accent-indigo-600"
                   />
                   <span className="text-base text-gray-900">{option}</span>
@@ -294,9 +355,23 @@ export default function NewPatient() {
           </div>
 
           <div className="flex flex-col">
-            <label className="mb-1">Medio de contacto preferido</label>
+            <label className="mb-1">Frecuencia (semanal, mensual, etc)</label>
+            <input
+              name="frequency"
+              value={formik.values.frequency}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              className="h-[48px] w-full rounded-lg border border-[#000D4D73] bg-white px-3"
+            />
+          </div>
+
+          <div className="flex flex-col">
+            <label className="mb-1">Medio de contacto preferido (email, WhatsApp, etc)</label>
             <input
               name="contact"
+              value={formik.values.contact}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
               className="h-[48px] w-full rounded-lg border border-[#000D4D73] bg-white px-3"
             />
           </div>
