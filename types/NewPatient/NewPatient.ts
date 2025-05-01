@@ -7,20 +7,20 @@ export default interface NewPatient {
   email: string;
   phone: string;
   date: string;
-  
+
   // Motivo de consulta
   reason?: string;
   symptoms?: string;
   events?: string;
   diagnosis?: string;
-  
+
   // Historia clínica
   observations?: string;
   keywords?: string;
   failedActs?: string;
   interconsultations?: string;
   evolution?: string;
-  
+
   // Organización y seguimiento
   meetingTime?: string;
   frequency?: string;
@@ -28,4 +28,3 @@ export default interface NewPatient {
   time?: string;
   contact?: string;
 }
-  
