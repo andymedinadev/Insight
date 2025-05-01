@@ -1,7 +1,6 @@
 export default interface NewPatient {
   name: string;
   lastname: string;
-  age: string;
   birthdate: string;
   gender: string;
   email: string;
