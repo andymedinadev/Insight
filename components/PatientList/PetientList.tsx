@@ -1,16 +1,34 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
-import { RootState } from '@/store';
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState, AppDispatch } from '@/store';
+import { fetchPatients, deletePatient } from '@/store/slices/patientSlice';
 
 interface Props {
   variant?: 'home' | 'list';
 }
 
 export default function PatientList({ variant = 'home' }: Props) {
-  const patients = useSelector((state: RootState) => state.patients.list);
+  const dispatch = useDispatch<AppDispatch>();
+  const { list: patients } = useSelector((state: RootState) => state.patients);
+  const [openMenuId, setOpenMenuId] = useState<string | null>(null);
 
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      if (!target.closest('td')) {
+        setOpenMenuId(null);
+      }
+    };
+    window.addEventListener('click', handleClickOutside);
+    return () => window.removeEventListener('click', handleClickOutside);
+  }, []);
+
+  // Al montar, hacemos fetch
+  useEffect(() => {
+    dispatch(fetchPatients());
+  }, [dispatch]);
   // Estado para detectar el tamaño de la ventana y definir si es Desktop o Mobile
   const [isMobile, setIsMobile] = useState<boolean>(false);
 
@@ -146,7 +164,41 @@ export default function PatientList({ variant = 'home' }: Props) {
                   <td className="px-4 py-3">{patient.lastSession}</td>
                   <td className="hidden px-4 py-3 lg:table-cell">{patient.category}</td>
                   <td className="px-4 py-3">
-                    <button className="text-xl">...</button>
+                    <button
+                      className="text-xl"
+                      onClick={() =>
+                        setOpenMenuId((prev) =>
+                          prev === String(patient.id) ? null : String(patient.id)
+                        )
+                      }
+                    >
+                      ...
+                    </button>
+
+                    {openMenuId === String(patient.id) && (
+                      <div className="absolute right-0 z-10 mt-2 w-40 rounded-md border border-gray-200 bg-white shadow-md">
+                        <ul className="py-1 text-sm text-gray-700">
+                          <li>
+                            <button className="w-full px-4 py-2 text-left hover:bg-gray-100">
+                              Ver detalles
+                            </button>
+                          </li>
+                          <li>
+                            <button className="w-full px-4 py-2 text-left hover:bg-gray-100">
+                              Editar
+                            </button>
+                          </li>
+                          <li>
+                            <button
+                              className="w-full px-4 py-2 text-left text-red-600 hover:bg-gray-100"
+                              onClick={() => dispatch(deletePatient(patient.id))}
+                            >
+                              Eliminar
+                            </button>
+                          </li>
+                        </ul>
+                      </div>
+                    )}
                   </td>
                 </tr>
               )
