@@ -19,3 +19,4 @@ export { default as SearchBar } from './SearchBar/SearchBar';
 export { default as FilterButton } from './FilterButton/FilterButton';
 export { default as PatientList } from './PatientList/PetientList';
 export { default as SeeMoreButton } from './SeeMoreButton/SeeMoreButton';
+export { default as AddPatientButton } from './AddPatientButton/AddPatientButton';
