@@ -95,6 +95,7 @@ const patientSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
+      // Casos para fetchPatients
       .addCase(fetchPatients.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -107,8 +108,19 @@ const patientSlice = createSlice({
         state.loading = false;
         state.error = action.payload as string;
       })
+
+      // Casos para deletePatient
+      .addCase(deletePatient.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
       .addCase(deletePatient.fulfilled, (state, action) => {
+        state.loading = false;
         state.list = state.list.filter((p) => p.id !== action.payload);
+      })
+      .addCase(deletePatient.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message || 'Error al eliminar paciente';
       });
   },
 });

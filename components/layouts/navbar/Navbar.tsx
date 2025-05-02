@@ -1,4 +1,6 @@
-import { NavbarClient } from '@/components';
+import { NavbarClient, CurrentPath } from '@/components';
+import { Campana, Avatar, FlechaBaja } from '@/public';
+import Image from 'next/image';
 
 export default function Navbar() {
   return (
@@ -6,14 +8,22 @@ export default function Navbar() {
       {/* Mobile: ícono hamburguesa + menú */}
       <NavbarClient />
 
-      {/* Desktop: título */}
-      <h1 className="hidden text-xl font-semibold lg:block"></h1>
+      {/* Desktop: ruta */}
+      <h1 className="hidden text-sm leading-tight font-normal text-gray-500 lg:block">
+        <CurrentPath />
+      </h1>
 
       {/* Íconos comunes */}
       <div className="flex items-center gap-4">
-        <span>🔔</span>
-        <span>👤</span>
-        <span>↓</span>
+        <span>
+          <Image src={Campana} alt="Campana" className="object-contain" />
+        </span>
+        <span>
+          <Image src={Avatar} alt="Avatar" className="object-contain" />
+        </span>
+        <span>
+          <Image src={FlechaBaja} alt="Flecha Baja" className="object-contain" />
+        </span>
       </div>
     </header>
   );
