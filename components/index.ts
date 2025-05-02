@@ -9,6 +9,7 @@ export { default as DashboardLinks } from './layouts/DashboardLinks';
 export { default as Navbar } from './layouts/navbar/Navbar';
 export { default as Sidebar } from './layouts/sidebar/Sidebar';
 export { default as NavbarClient } from './layouts/navbar/NavbarClient';
+export { default as CurrentPath } from './layouts/CurrentPath';
 
 // Cards
 export { default as ButtonCards } from './Cards/ButtonCards/ButtonCards';
