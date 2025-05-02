@@ -1,18 +1,41 @@
 'use client';
 
-import React, { useState } from 'react';
-import Button from '@/components/ui/Button';
+import React from 'react';
 import Link from 'next/link';
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
+
+import { useLogin } from '@/hooks/useLogin';
+import Button from '@/components/ui/Button';
 
 export default function LoginPage() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const { login, loading, error } = useLogin();
 
-  const handleLogin = (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log('Login con:', { email, password });
-    alert('Login simulado. Revisar consola.');
-  };
+  const initialValues = { email: '', password: '' };
+
+  const validationSchema = Yup.object({
+    email: Yup.string()
+      .required('El correo electrónico es obligatorio')
+      .email('Debe ser un correo electrónico válido')
+      .max(254, 'El correo no puede tener más de 254 caracteres'),
+    password: Yup.string()
+      .required('La contraseña es obligatoria')
+      .min(8, 'La contraseña debe tener al menos 8 caracteres')
+      .max(64, 'La contraseña no puede tener más de 64 caracteres')
+      .matches(/[a-z]/, 'Debe contener al menos una letra minúscula')
+      .matches(/[A-Z]/, 'Debe contener al menos una letra mayúscula')
+      .matches(/\d/, 'Debe contener al menos un número')
+      .matches(/[@$!%*?&]/, 'Debe contener al menos un carácter especial (@$!%*?&)'),
+  });
+
+  const formik = useFormik({
+    initialValues,
+    validationSchema,
+    onSubmit: async (values) => {
+      const { email, password } = values;
+      await login(email, password);
+    },
+  });
 
   return (
     <div className="flex min-h-screen w-full flex-col">
@@ -35,33 +58,44 @@ export default function LoginPage() {
             </p>
             <p className="mt-16 mb-5 text-base font-normal text-black">*Datos Requeridos</p>
 
-            <form onSubmit={handleLogin} className="space-y-4">
+            <form onSubmit={formik.handleSubmit} className="space-y-4">
               <div>
-                <label className="block font-['Inter'] text-base text-black">
+                <label htmlFor="email" className="block font-['Inter'] text-base text-black">
                   Correo electrónico o usuario <span className="text-gray-400">*</span>
                 </label>
                 <input
-                  type="email"
+                  name="email"
+                  id="email"
                   placeholder="Ingrese su correo o usuario"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="mt-1 h-12 w-full rounded-lg border border-gray-300 bg-gray-50 px-4 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+                  value={formik.values.email}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
                   required
+                  className="mt-1 h-12 w-full rounded-lg border border-gray-300 bg-gray-50 px-4 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
                 />
+                {formik.touched.email && formik.errors.email && (
+                  <p className="mt-1 text-sm text-red-500">{formik.errors.email}</p>
+                )}
               </div>
 
               <div>
-                <label className="block font-['Inter'] text-base text-black">
+                <label htmlFor="password" className="block font-['Inter'] text-base text-black">
                   Contraseña <span className="text-gray-400">*</span>
                 </label>
                 <input
                   type="password"
+                  name="password"
+                  id="password"
                   placeholder="Ingrese su contraseña"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className="mt-1 h-12 w-full rounded-lg border border-gray-300 bg-gray-50 px-4 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+                  value={formik.values.password}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
                   required
+                  className="mt-1 h-12 w-full rounded-lg border border-gray-300 bg-gray-50 px-4 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
                 />
+                {formik.touched.password && formik.errors.password && (
+                  <p className="mt-1 text-sm text-red-500">{formik.errors.password}</p>
+                )}
               </div>
 
               <div className="text-right">
@@ -70,7 +104,11 @@ export default function LoginPage() {
                 </a>
               </div>
 
-              <Button type="submit">Ingresar</Button>
+              <Button type="submit" disabled={loading}>
+                {loading ? 'Cargando...' : 'Ingresar'}
+              </Button>
+
+              {error && <p className="text-red-500">{error}</p>}
 
               <div className="mt-4 flex justify-center font-['Inter'] text-sm text-black">
                 ¿No tiene cuenta?{' '}
