@@ -21,8 +21,8 @@ export default function InputField({
 }: InputFieldProps) {
   return (
     <div>
-      <label htmlFor={id} className="block text-base text-black">
-        {label} {required && <span className="text-gray-400">*</span>}
+      <label htmlFor={id} className="block text-base font-medium text-black">
+        {label} {required && <span>*</span>}
       </label>
       <input
         id={id}
@@ -32,7 +32,7 @@ export default function InputField({
         onChange={onChange}
         placeholder={placeholder}
         required={required}
-        className="mt-1 h-12 w-full rounded-lg border border-gray-300 bg-gray-50 px-4 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+        className="mt-1 h-12 w-full rounded-xl border border-gray-400 bg-gray-50 px-4 placeholder:text-white focus:ring-2 focus:ring-indigo-500 focus:outline-none lg:placeholder:text-gray-600"
       />
     </div>
   );
