@@ -1,17 +1,19 @@
 'use client';
 
 import React, { useState } from 'react';
-import Button from '@/components/ui/Button';
 import Link from 'next/link';
+
+import { useLogin } from '@/hooks/useLogin';
+import Button from '@/components/ui/Button';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const { login, loading, error } = useLogin();
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Login con:', { email, password });
-    alert('Login simulado. Revisar consola.');
+    await login(email, password);
   };
 
   return (
@@ -70,7 +72,11 @@ export default function LoginPage() {
                 </a>
               </div>
 
-              <Button type="submit">Ingresar</Button>
+              <Button type="submit" disabled={loading}>
+                {loading ? 'Cargando...' : 'Ingresar'}
+              </Button>
+
+              {error && <p className="text-red-500">{error}</p>}
 
               <div className="mt-4 flex justify-center font-['Inter'] text-sm text-black">
                 ¿No tiene cuenta?{' '}
