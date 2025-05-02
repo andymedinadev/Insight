@@ -3,7 +3,7 @@ import React from 'react';
 
 export default function Terms() {
   return (
-    <div className="pr-6 pl-8">
+    <div className="pl-8 pr-6">
       <h3 className="mb-6 text-2xl font-bold text-gray-900">Términos y Condiciones de Uso</h3>
 
       <p className="mb-10 text-sm leading-relaxed text-black">
