@@ -1,6 +1,8 @@
 'use client';
 
+import { useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 
@@ -9,7 +11,12 @@ import { useSignup } from '@/hooks/useSignup';
 import { SignupFormData } from '@/types';
 
 export default function SignupPage() {
+  const router = useRouter();
   const { signup, loading, error } = useSignup();
+
+  const [redirecting, setRedirecting] = useState(false);
+
+  const isLoading = loading || redirecting;
 
   const initialValues = {
     name: '',
@@ -63,8 +70,13 @@ export default function SignupPage() {
   const formik = useFormik({
     initialValues,
     validationSchema,
-    onSubmit: async (values: SignupFormData) => {
-      await signup(values);
+    onSubmit: async (formData: SignupFormData) => {
+      const successSignup = await signup(formData);
+
+      if (successSignup) {
+        setRedirecting(true);
+        router.push('/dashboard/home');
+      }
     },
   });
 
@@ -172,8 +184,8 @@ export default function SignupPage() {
               <p className="mt-1 text-sm text-red-500">{formik.errors.repeatPassword}</p>
             )}
 
-            <Button type="submit" disabled={loading} className="mt-4 lg:mt-8">
-              {loading ? 'Cargando...' : 'Crear cuenta'}
+            <Button type="submit" disabled={isLoading} className="mt-4 lg:mt-8">
+              {isLoading ? 'Cargando...' : 'Crear cuenta'}
             </Button>
 
             {error && <p className="text-red-500">{error}</p>}

@@ -1,7 +1,8 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 
@@ -9,7 +10,12 @@ import { useLogin } from '@/hooks/useLogin';
 import Button from '@/components/ui/Button';
 
 export default function LoginPage() {
+  const router = useRouter();
   const { login, loading, error } = useLogin();
+
+  const [redirecting, setRedirecting] = useState(false);
+
+  const isLoading = loading || redirecting;
 
   const initialValues = { email: '', password: '' };
 
@@ -31,9 +37,13 @@ export default function LoginPage() {
   const formik = useFormik({
     initialValues,
     validationSchema,
-    onSubmit: async (values) => {
-      const { email, password } = values;
-      await login(email, password);
+    onSubmit: async ({ email, password }) => {
+      const successLogin = await login(email, password);
+
+      if (successLogin) {
+        setRedirecting(true);
+        router.push('/dashboard/home');
+      }
     },
   });
 
@@ -104,8 +114,8 @@ export default function LoginPage() {
                 </a>
               </div>
 
-              <Button type="submit" disabled={loading}>
-                {loading ? 'Cargando...' : 'Ingresar'}
+              <Button type="submit" disabled={isLoading}>
+                {isLoading ? 'Cargando...' : 'Ingresar'}
               </Button>
 
               {error && <p className="text-red-500">{error}</p>}

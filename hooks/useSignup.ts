@@ -11,7 +11,7 @@ export function useSignup() {
   const [error, setError] = useState<string | null>(null);
   const { login } = useLogin();
 
-  const signup = async (formData: SignupFormData) => {
+  const signup = async (formData: SignupFormData): Promise<boolean> => {
     setLoading(true);
     setError(null);
 
@@ -35,11 +35,14 @@ export function useSignup() {
 
       // Si el registro funcionó, inicio sesión
       if (data.id) {
-        login(signupPayload.email, signupPayload.password);
+        await login(signupPayload.email, signupPayload.password);
       }
+
+      return true;
     } catch (err) {
       console.error(err);
       setError(JSON.stringify(err));
+      return false;
     } finally {
       setLoading(false);
     }
