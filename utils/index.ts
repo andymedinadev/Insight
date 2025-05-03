@@ -3,3 +3,4 @@
 
 // Cards
 export { default as cardData } from './Data/cardData';
+export { transformFormDataToSignupPayload } from './transformSignupData';
