@@ -1,7 +1,7 @@
 'use client';
 import React from 'react';
 import Button from '@/components/ui/Button';
-import { createPatient } from '@/store/slices/patientSlice';
+import { createPatient } from '@/store/thunks';
 import { AppDispatch } from '@/store';
 import { useDispatch } from 'react-redux';
 import { TypeNewPatient } from '@/types';
