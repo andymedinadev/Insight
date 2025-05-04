@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState, AppDispatch } from '@/store';
-import { fetchPatients, deletePatient } from '@/store/slices/patientSlice';
+import { fetchPatients, deletePatient } from '@/store/thunks';
 
 interface Props {
   variant?: 'home' | 'list';

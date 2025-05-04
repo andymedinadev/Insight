@@ -1,6 +1,6 @@
 'use client';
 import { TypeNewPatient } from '@/types';
-import { createPatient } from '@/store/slices/patientSlice';
+import { createPatient } from '@/store/thunks';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '@/store';
 import { useRouter } from 'next/navigation';
