@@ -1,6 +1,4 @@
-import { NavbarClient, CurrentPath } from '@/components';
-import { Campana, Avatar, FlechaBaja } from '@/public';
-import Image from 'next/image';
+import { CurrentPath, NavbarButtons, NavbarClient } from '@/components';
 
 export default function Navbar() {
   return (
@@ -14,17 +12,7 @@ export default function Navbar() {
       </h1>
 
       {/* Íconos comunes */}
-      <div className="flex items-center gap-4">
-        <span>
-          <Image src={Campana} alt="Campana" className="object-contain" />
-        </span>
-        <span>
-          <Image src={Avatar} alt="Avatar" className="object-contain" />
-        </span>
-        <span>
-          <Image src={FlechaBaja} alt="Flecha Baja" className="object-contain" />
-        </span>
-      </div>
+      <NavbarButtons />
     </header>
   );
 }

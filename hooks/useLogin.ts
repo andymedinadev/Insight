@@ -33,7 +33,7 @@ export function useLogin() {
       const token = data.token;
 
       dispatch(setToken(token));
-      localStorage.setItem('token', token);
+      sessionStorage.setItem('token', token);
 
       return true;
     } catch (err) {

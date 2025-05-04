@@ -5,7 +5,7 @@ interface AuthState {
 }
 
 const initialState: AuthState = {
-  token: null,
+  token: typeof window !== 'undefined' ? sessionStorage.getItem('token') : null,
 };
 
 export const authSlice = createSlice({
