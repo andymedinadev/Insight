@@ -45,6 +45,7 @@ const validationSchema = Yup.object({
     .matches(/^[0-9+]+$/, 'El número solo puede contener dígitos y el símbolo +')
     .required('El número es obligatorio'),
   admissionDate: Yup.string().required('La fecha de ingreso es obligatoria'),
+  modality: Yup.string().required('La modalidad de atención es obligatoria'),
 });
 
 export default function FormPatient() {
@@ -353,6 +354,9 @@ export default function FormPatient() {
               </label>
             ))}
           </div>
+          {formik.touched.modality && formik.errors.modality && (
+            <p className="mt-1 text-sm text-red-500">{formik.errors.modality}</p>
+          )}
         </div>
 
         <div className="flex flex-col">
