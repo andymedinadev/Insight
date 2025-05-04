@@ -2,6 +2,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { Patient } from '@/types';
 import { TypeNewPatient } from '@/types';
+import type { RootState } from '../index';
 
 interface PatientState {
   list: Patient[];
@@ -17,13 +18,16 @@ const initialState: PatientState = {
 
 export const fetchPatients = createAsyncThunk<Patient[], void, { rejectValue: string }>(
   'patients/fetchPatients',
-  async (_, { rejectWithValue }) => {
+  async (_, thunkApi) => {
+    const state = thunkApi.getState() as RootState;
+    const token = state.auth.token;
+
     try {
       const response = await fetch(
         'https://proyecto-foo-production.up.railway.app/api/Patient/pacientes',
         {
           headers: {
-            Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjEwIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZSI6IlRFU1RUT0RBWSIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL2VtYWlsYWRkcmVzcyI6InVzZXIyMjJAZXhhbXBsZS5jb20iLCJleHAiOjE3NDYzMzAzMjMsImlzcyI6InlvdXJJc3N1ZXIiLCJhdWQiOiJ5b3VyQXVkaWVuY2UifQ._2p2eVimkxZp8gHTGYVUWtSRw2uVl_TivdS4-GiavKE`,
+            Authorization: `Bearer ${token}`,
           },
         }
       );
@@ -39,7 +43,7 @@ export const fetchPatients = createAsyncThunk<Patient[], void, { rejectValue: st
       return data;
     } catch (error: unknown) {
       const message = error instanceof Error ? error.message : 'Error desconocido';
-      return rejectWithValue(message);
+      return thunkApi.rejectWithValue(message);
     }
   }
 );
@@ -47,14 +51,17 @@ export const fetchPatients = createAsyncThunk<Patient[], void, { rejectValue: st
 // borro
 export const deletePatient = createAsyncThunk<number, number, { rejectValue: string }>(
   'patients/deletePatient',
-  async (id, { rejectWithValue }) => {
+  async (id, thunkApi) => {
+    const state = thunkApi.getState() as RootState;
+    const token = state.auth.token;
+
     try {
       const response = await fetch(
         `https://proyecto-foo-production.up.railway.app/api/Patient/${id}`,
         {
           method: 'DELETE',
           headers: {
-            Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjEwIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZSI6IlRFU1RUT0RBWSIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL2VtYWlsYWRkcmVzcyI6InVzZXIyMjJAZXhhbXBsZS5jb20iLCJleHAiOjE3NDYzMzAzMjMsImlzcyI6InlvdXJJc3N1ZXIiLCJhdWQiOiJ5b3VyQXVkaWVuY2UifQ._2p2eVimkxZp8gHTGYVUWtSRw2uVl_TivdS4-GiavKE`,
+            Authorization: `Bearer ${token}`,
           },
         }
       );
@@ -67,7 +74,7 @@ export const deletePatient = createAsyncThunk<number, number, { rejectValue: str
       return id;
     } catch (error: unknown) {
       const message = error instanceof Error ? error.message : 'Error desconocido';
-      return rejectWithValue(message);
+      return thunkApi.rejectWithValue(message);
     }
   }
 );
@@ -75,14 +82,17 @@ export const deletePatient = createAsyncThunk<number, number, { rejectValue: str
 //Crear paciente
 export const createPatient = createAsyncThunk<Patient, TypeNewPatient, { rejectValue: string }>(
   'patients/createPatient',
-  async (newPatient, { rejectWithValue }) => {
+  async (newPatient, thunkApi) => {
+    const state = thunkApi.getState() as RootState;
+    const token = state.auth.token;
+
     try {
       console.log(newPatient);
       const response = await fetch('https://proyecto-foo-production.up.railway.app/api/Patient', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjEwIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZSI6IlRFU1RUT0RBWSIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL2VtYWlsYWRkcmVzcyI6InVzZXIyMjJAZXhhbXBsZS5jb20iLCJleHAiOjE3NDYzMzAzMjMsImlzcyI6InlvdXJJc3N1ZXIiLCJhdWQiOiJ5b3VyQXVkaWVuY2UifQ._2p2eVimkxZp8gHTGYVUWtSRw2uVl_TivdS4-GiavKE`,
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(newPatient),
       });
@@ -96,7 +106,7 @@ export const createPatient = createAsyncThunk<Patient, TypeNewPatient, { rejectV
       return data;
     } catch (error: unknown) {
       const message = error instanceof Error ? error.message : 'Error desconocido';
-      return rejectWithValue(message);
+      return thunkApi.rejectWithValue(message);
     }
   }
 );
