@@ -1,33 +1,41 @@
 'use client';
 import React from 'react';
 import Button from '@/components/ui/Button';
+import { createPatient } from '@/store/slices/patientSlice';
+import { AppDispatch } from '@/store';
+import { useDispatch } from 'react-redux';
 import { TypeNewPatient } from '@/types';
+import { useRouter } from 'next/navigation';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 
 const validationSchema = Yup.object({
   name: Yup.string().required('El nombre es obligatorio'),
-  lastname: Yup.string().required('El apellido es obligatorio'),
+  surname: Yup.string().required('El apellido es obligatorio'),
   birthdate: Yup.date()
     .max(new Date(), 'La fecha de nacimiento no puede ser futura')
     .required('La fecha de nacimiento es obligatoria'),
-  gender: Yup.string().required('El género es obligatorio'),
+  sex: Yup.string().required('El género es obligatorio'),
   email: Yup.string().email('Email inválido').required('El email es obligatorio'),
   phone: Yup.string()
     .matches(/^[0-9+]+$/, 'El número solo puede contener dígitos y el símbolo +')
     .required('El número es obligatorio'),
-  date: Yup.string().required('La fecha de ingreso es obligatoria'),
+  admissionDate: Yup.string().required('La fecha de ingreso es obligatoria'),
 });
 
 export default function NewPatient() {
+  const dispatch = useDispatch<AppDispatch>();
+  const router = useRouter();
+
   const initialValues: TypeNewPatient = {
+    id: 0,
     name: '',
-    lastname: '',
+    surname: '',
     birthdate: '',
-    gender: '',
+    sex: '',
     email: '',
     phone: '',
-    date: '',
+    admissionDate: '',
     reason: '',
     symptoms: '',
     events: '',
@@ -39,7 +47,7 @@ export default function NewPatient() {
     evolution: '',
     meetingTime: '',
     frequency: '',
-    careModality: '',
+    modality: '',
     time: '',
     contact: '',
   };
@@ -47,8 +55,34 @@ export default function NewPatient() {
   const formik = useFormik<TypeNewPatient>({
     initialValues,
     validationSchema,
-    onSubmit: (values) => {
+    onSubmit: async (values) => {
       console.log('Datos del formulario:', values);
+      // Aquí modifico el objeto de acuerdo con el back actual
+      const newPatient = {
+        name: values.name,
+        surname: values.surname,
+        birthdate: values.birthdate,
+        identification: 12345678,
+        sex: values.sex,
+        modality: values.modality,
+        email: values.email,
+        phone: values.phone,
+        diagnosis: values.diagnosis,
+        institution: 'Clínica Central',
+      };
+      console.log(newPatient);
+
+      try {
+        const resultAction = await dispatch(createPatient(newPatient));
+
+        if (createPatient.fulfilled.match(resultAction)) {
+          router.push('/dashboard/patientlist');
+        } else {
+          console.error('Error al crear el paciente:', resultAction);
+        }
+      } catch (error) {
+        console.error('Error inesperado:', error);
+      }
     },
   });
 
@@ -82,14 +116,14 @@ export default function NewPatient() {
           <div className="flex flex-col">
             <label className="mb-1">Apellido/s *</label>
             <input
-              name="lastname"
-              value={formik.values.lastname}
+              name="surname"
+              value={formik.values.surname}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               className="h-[48px] w-full rounded-lg border border-[#000D4D73] bg-white px-3"
             />
-            {formik.touched.lastname && formik.errors.lastname && (
-              <p className="mt-1 text-sm text-red-500">{formik.errors.lastname}</p>
+            {formik.touched.surname && formik.errors.surname && (
+              <p className="mt-1 text-sm text-red-500">{formik.errors.surname}</p>
             )}
           </div>
 
@@ -120,9 +154,9 @@ export default function NewPatient() {
                 >
                   <input
                     type="radio"
-                    name="gender"
-                    value={option.toLowerCase()}
-                    checked={formik.values.gender === option.toLowerCase()}
+                    name="sex"
+                    value={option.charAt(0)}
+                    checked={formik.values.sex === option.charAt(0)}
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                     className="h-5 w-5 border border-[#000D4D73] accent-indigo-600"
@@ -131,8 +165,8 @@ export default function NewPatient() {
                 </label>
               ))}
             </div>
-            {formik.touched.gender && formik.errors.gender && (
-              <p className="mt-1 text-sm text-red-500">{formik.errors.gender}</p>
+            {formik.touched.sex && formik.errors.sex && (
+              <p className="mt-1 text-sm text-red-500">{formik.errors.sex}</p>
             )}
           </div>
 
@@ -170,15 +204,15 @@ export default function NewPatient() {
             <label className="mb-1">Fecha de ingreso *</label>
             <span className="mb-1 text-sm text-gray-500">(dd/mm/yyyy)</span>
             <input
-              name="date"
+              name="admissionDate"
               type="date"
-              value={formik.values.date}
+              value={formik.values.admissionDate}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               className="h-[48px] w-full rounded-lg border border-[#000D4D73] bg-white px-3"
             />
-            {formik.touched.date && formik.errors.date && (
-              <p className="mt-1 text-sm text-red-500">{formik.errors.date}</p>
+            {formik.touched.admissionDate && formik.errors.admissionDate && (
+              <p className="mt-1 text-sm text-red-500">{formik.errors.admissionDate}</p>
             )}
           </div>
           <br />
@@ -316,9 +350,9 @@ export default function NewPatient() {
                 >
                   <input
                     type="radio"
-                    name="careModality"
+                    name="modality"
                     value={option}
-                    checked={formik.values.careModality === option}
+                    checked={formik.values.modality === option}
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                     className="h-5 w-5 border border-[#000D4D73] accent-indigo-600"

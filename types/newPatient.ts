@@ -1,11 +1,12 @@
 export default interface NewPatient {
+  id?: number;
   name: string;
-  lastname: string;
+  surname: string;
   birthdate: string;
-  gender: string;
+  sex: string;
   email: string;
   phone: string;
-  date: string;
+  admissionDate?: string;
 
   // Motivo de consulta
   reason?: string;
@@ -23,7 +24,7 @@ export default interface NewPatient {
   // Organización y seguimiento
   meetingTime?: string;
   frequency?: string;
-  careModality?: string;
+  modality?: string;
   time?: string;
   contact?: string;
 }
