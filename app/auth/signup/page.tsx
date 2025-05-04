@@ -42,6 +42,7 @@ export default function SignupPage() {
 
     phone: Yup.string()
       .required('El teléfono es obligatorio')
+      .min(7, 'El teléfono debe tener al menos 7 caracteres')
       .matches(
         /^\+?\d{7,15}$/,
         'El teléfono debe contener solo números y puede incluir un "+" al inicio'
