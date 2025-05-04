@@ -2,14 +2,13 @@
 
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { useRouter } from 'next/navigation';
+
 import { setToken } from '@/store/slices/authSlice';
 
 export function useLogin() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const dispatch = useDispatch();
-  const router = useRouter();
 
   const login = async (email: string, password: string) => {
     setLoading(true);
@@ -36,10 +35,11 @@ export function useLogin() {
       dispatch(setToken(token));
       localStorage.setItem('token', token);
 
-      router.push('/dashboard/home');
+      return true;
     } catch (err) {
       console.error(err);
       setError(JSON.stringify(err));
+      return false;
     } finally {
       setLoading(false);
     }
