@@ -7,8 +7,9 @@ import { usePatientById } from '@/hooks/usePatientById';
 import { transformPatientProfileData, backendResponse } from '@/utils/transformPatientProfileData';
 
 export function PatientProfileInfo() {
-  const { error, loading, patient } = usePatientById();
+  const { error, loading, patient, initialized } = usePatientById();
 
+  if (!initialized) return <p>Cargando...</p>;
   if (loading) return <p>Cargando paciente...</p>;
   if (error) return <p>Error: {error}</p>;
   if (!patient) return <p>No se encontró el paciente.</p>;

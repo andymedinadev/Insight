@@ -8,6 +8,7 @@ interface PatientState {
   selected: Patient | null;
   loading: boolean;
   error: string | null;
+  initialized: boolean;
 }
 
 const initialState: PatientState = {
@@ -15,6 +16,7 @@ const initialState: PatientState = {
   selected: null,
   loading: false,
   error: null,
+  initialized: false,
 };
 
 const patientSlice = createSlice({
@@ -69,10 +71,12 @@ const patientSlice = createSlice({
       .addCase(fetchPatientById.fulfilled, (state, action) => {
         state.selected = action.payload;
         state.loading = false;
+        state.initialized = true;
       })
       .addCase(fetchPatientById.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload || 'Error desconocido';
+        state.initialized = true;
       });
   },
 });

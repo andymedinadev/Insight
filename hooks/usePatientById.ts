@@ -12,6 +12,7 @@ export const usePatientById = () => {
   const patient = useSelector((state: RootState) => state.patients.selected);
   const loading = useSelector((state: RootState) => state.patients.loading);
   const error = useSelector((state: RootState) => state.patients.error);
+  const initialized = useSelector((state: RootState) => state.patients.initialized);
 
   useEffect(() => {
     if (id) {
@@ -19,5 +20,5 @@ export const usePatientById = () => {
     }
   }, [id, dispatch]);
 
-  return { patient, loading, error };
+  return { patient, loading, error, initialized };
 };
