@@ -90,9 +90,11 @@ export default function FormPatient() {
     <div className="mx-auto max-w-xl p-8">
       <form onSubmit={formik.handleSubmit} className="flex flex-col gap-y-6">
         {/* Datos personales */}
-        <h2 className="text-[20px] leading-[28px] font-semibold">Datos personales</h2>
+        <h2 className="text-[18px] leading-[26px] font-semibold sm:text-[22px] sm:leading-[28px]">
+          Datos personales
+        </h2>
 
-        <p className="text-[14px] leading-[20px] font-semibold">*Datos requeridos</p>
+        <p className="text-[12px] sm:text-[14px] sm:leading-[16px]">*Datos requeridos</p>
 
         <div className="flex flex-col">
           <label className="mb-1">Nombre/s *</label>
@@ -213,7 +215,9 @@ export default function FormPatient() {
         <br />
 
         {/* Motivo de consulta */}
-        <h2 className="text-[20px] leading-[28px] font-semibold">Motivo de consulta</h2>
+        <h2 className="text-[18px] leading-[26px] font-semibold sm:text-[22px] sm:leading-[28px]">
+          Motivo de consulta
+        </h2>
 
         <div className="flex flex-col">
           <label className="mb-1">Motivo principal de consulta</label>
@@ -261,7 +265,9 @@ export default function FormPatient() {
         <br />
 
         {/* Historia clínica */}
-        <h2 className="text-[20px] leading-[28px] font-semibold">Historia clínica</h2>
+        <h2 className="text-[18px] leading-[26px] font-semibold sm:text-[22px] sm:leading-[28px]">
+          Historia clínica
+        </h2>
 
         <div className="flex flex-col">
           <label className="mb-1">Observaciones del profesional</label>
@@ -320,7 +326,9 @@ export default function FormPatient() {
         <br />
 
         {/* Organización y seguimineto */}
-        <h2 className="text-[20px] leading-[28px] font-semibold">Organización y seguimineto</h2>
+        <h2 className="text-[18px] leading-[26px] font-semibold sm:text-[22px] sm:leading-[28px]">
+          Organización y seguimineto
+        </h2>
 
         <div className="flex flex-col">
           <label className="mb-1">Día y horario de la sesión</label>
