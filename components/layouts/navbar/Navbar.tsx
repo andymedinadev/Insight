@@ -1,11 +1,18 @@
+import { CurrentPath, NavbarButtons, NavbarClient } from '@/components';
+
 export default function Navbar() {
   return (
-    <header className="h-16 w-full bg-white border-b shadow flex items-center justify-between px-6">
-      <h1 className="text-xl font-semibold"></h1>
-      <div className="flex items-center gap-4">
-        <span>🔔</span>
-        <span>👤</span>
-      </div>
+    <header className="flex h-14 items-center justify-between border-b bg-white px-4 shadow lg:h-16 lg:px-6">
+      {/* Mobile: ícono hamburguesa + menú */}
+      <NavbarClient />
+
+      {/* Desktop: ruta */}
+      <h1 className="hidden text-sm leading-tight font-normal text-gray-500 lg:block">
+        <CurrentPath />
+      </h1>
+
+      {/* Íconos comunes */}
+      <NavbarButtons />
     </header>
   );
 }

@@ -1,85 +1,137 @@
-"use client";
+'use client';
 
-import React, { useState } from "react";
-import Button from "@/components/ui/Button";
+import React, { useState } from 'react';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
+
+import { useLogin } from '@/hooks/useLogin';
+import Button from '@/components/ui/Button';
 
 export default function LoginPage() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const router = useRouter();
+  const { login, loading, error } = useLogin();
 
-  const handleLogin = (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log("Login con:", { email, password });
-    alert("Login simulado. Revisar consola.");
-  };
+  const [redirecting, setRedirecting] = useState(false);
+
+  const isLoading = loading || redirecting;
+
+  const initialValues = { email: '', password: '' };
+
+  const validationSchema = Yup.object({
+    email: Yup.string()
+      .required('El correo electrónico es obligatorio')
+      .email('Debe ser un correo electrónico válido')
+      .max(254, 'El correo no puede tener más de 254 caracteres'),
+    password: Yup.string()
+      .required('La contraseña es obligatoria')
+      .min(8, 'La contraseña debe tener al menos 8 caracteres')
+      .max(64, 'La contraseña no puede tener más de 64 caracteres')
+      .matches(/[a-z]/, 'Debe contener al menos una letra minúscula')
+      .matches(/[A-Z]/, 'Debe contener al menos una letra mayúscula')
+      .matches(/\d/, 'Debe contener al menos un número')
+      .matches(/[@$!%*?&]/, 'Debe contener al menos un carácter especial (@$!%*?&)'),
+  });
+
+  const formik = useFormik({
+    initialValues,
+    validationSchema,
+    onSubmit: async ({ email, password }) => {
+      const successLogin = await login(email, password);
+
+      if (successLogin) {
+        setRedirecting(true);
+        router.push('/dashboard/home');
+      }
+    },
+  });
 
   return (
-    <div className="w-screen h-screen flex items-center justify-center bg-white">
-      <div className="grid grid-cols-1 md:grid-cols-2 w-full h-full ml-36">
-        <div className="bg-white p-10 flex flex-col justify-center w-full h-full"> {/* Formulario de inicio de sesión */}
-          <h2 className="text-3xl font-medium font-['Inter'] text-black ">
-            Comience su jornada
-          </h2>
-          <h3 className="text-2xl font-medium font-['Inter'] text-black mb-2 mt-16">
-            Inicie sesión
-          </h3>
-          <p className="text-base font-normal text-black tracking-wide leading-tight font-['Inter'] max-w-md mt-7">
-            Acceda a su cuenta para continuar acompañando a sus pacientes de manera segura y eficiente.
-          </p>
+    <div className="flex min-h-screen w-full flex-col">
+      {/* Texto "INSIGHT" solo visible en móvil */}
+      <div className="mt-8 block text-center font-['Inter'] text-2xl font-semibold text-black md:hidden">
+        INSIGHT
+      </div>
+      {/* Contenido principal con grid */}
+      <div className="grid h-full w-full grid-cols-1 md:h-screen md:grid-cols-2">
+        {/* Columna del formulario */}
+        <div className="flex h-full items-center justify-center bg-white p-6 sm:p-10">
+          <div className="w-full max-w-md">
+            <h2 className="font-['Inter'] text-3xl font-medium text-black">Comience su jornada</h2>
+            <h3 className="mt-16 mb-2 font-['Inter'] text-2xl font-medium text-black">
+              Inicie sesión
+            </h3>
+            <p className="mt-7 font-['Inter'] text-base leading-tight font-normal tracking-wide text-black">
+              Acceda a su cuenta para continuar acompañando a sus pacientes de manera segura y
+              eficiente.
+            </p>
+            <p className="mt-16 mb-5 text-base font-normal text-black">*Datos Requeridos</p>
 
-          <p className="text-base font-normal text-black mb-5 mt-16">
-            *Datos Requeridos
-          </p>
+            <form onSubmit={formik.handleSubmit} className="space-y-4">
+              <div>
+                <label htmlFor="email" className="block font-['Inter'] text-base text-black">
+                  Correo electrónico o usuario <span className="text-gray-400">*</span>
+                </label>
+                <input
+                  name="email"
+                  id="email"
+                  placeholder="Ingrese su correo o usuario"
+                  value={formik.values.email}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  required
+                  className="mt-1 h-12 w-full rounded-lg border border-gray-300 bg-gray-50 px-4 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+                />
+                {formik.touched.email && formik.errors.email && (
+                  <p className="mt-1 text-sm text-red-500">{formik.errors.email}</p>
+                )}
+              </div>
 
-          <form onSubmit={handleLogin} className="space-y-4 w-96 max-w-full">
-            <div>
-              <label className="block text-base font-['Inter'] text-black">
-                Correo electrónico o usuario <span className="text-gray-400">*</span>
-              </label>
-              <input
-                type="email"
-                placeholder="Ingrese su correo o usuario"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="mt-1 w-full h-12 px-4 rounded-lg border border-gray-300 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                required
-              />
-            </div>
+              <div>
+                <label htmlFor="password" className="block font-['Inter'] text-base text-black">
+                  Contraseña <span className="text-gray-400">*</span>
+                </label>
+                <input
+                  type="password"
+                  name="password"
+                  id="password"
+                  placeholder="Ingrese su contraseña"
+                  value={formik.values.password}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  required
+                  className="mt-1 h-12 w-full rounded-lg border border-gray-300 bg-gray-50 px-4 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+                />
+                {formik.touched.password && formik.errors.password && (
+                  <p className="mt-1 text-sm text-red-500">{formik.errors.password}</p>
+                )}
+              </div>
 
-            <div>
-              <label className="block text-base font-['Inter'] text-black">
-                Contraseña <span className="text-gray-400">*</span>
-              </label>
-              <input
-                type="password"
-                placeholder="Ingrese su contraseña"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="mt-1 w-full h-12 px-4 rounded-lg border border-gray-300 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                required
-              />
-            </div>
+              <div className="text-right">
+                <a href="#" className="font-['Inter'] text-sm font-bold text-black underline">
+                  ¿Olvidó su contraseña?
+                </a>
+              </div>
 
-            <div className="text-right">
-              <a href="#" className="text-sm font-bold underline text-black font-['Inter']">
-                ¿Olvidó su contraseña?
-              </a>
-            </div>
-
-            <Button type="submit">
-               Ingresar
+              <Button type="submit" disabled={isLoading}>
+                {isLoading ? 'Cargando...' : 'Ingresar'}
               </Button>
 
-            <div className="flex justify-center mt-4 text-sm text-black font-['Inter']">
-              ¿No tiene cuenta?{" "}
-              <a href="#" className="ml-1 font-bold underline">
-                Registrarse
-              </a>
-            </div>
-          </form>
+              {error && <p className="text-red-500">{error}</p>}
+
+              <div className="mt-4 flex justify-center font-['Inter'] text-sm text-black">
+                ¿No tiene cuenta?{' '}
+                <Link href="signup" className="ml-1 font-bold underline">
+                  Registrarse
+                </Link>
+              </div>
+            </form>
+          </div>
         </div>
 
-        <div className="hidden md:block bg-zinc-300 w-full h-full"></div>
+        {/* Columna decorativa derecha */}
+        <div className="hidden h-full max-h-screen w-full overflow-x-hidden bg-zinc-300 md:block" />
       </div>
     </div>
   );
