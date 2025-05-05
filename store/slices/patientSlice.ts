@@ -1,6 +1,12 @@
 // slices/patientSlice.ts
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { createPatient, deletePatient, fetchPatients, fetchPatientById } from '@/store/thunks';
+import { createSlice , PayloadAction} from '@reduxjs/toolkit';
+import {
+  createPatient,
+  deletePatient,
+  fetchPatients,
+  fetchPatientById,
+  updatePatient,
+} from '@/store/thunks';
 import type { Patient } from '@/types';
 
 interface PatientState {
@@ -84,6 +90,18 @@ export const patientSlice = createSlice({
         state.loading = false;
         state.error = action.payload || 'Error desconocido';
         state.initialized = true;
+      })
+      // UPDATE
+      .addCase(updatePatient.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(updatePatient.fulfilled, (state) => {
+        state.loading = false;
+      })
+      .addCase(updatePatient.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message || 'Error desconocido';
       });
   },
 });
