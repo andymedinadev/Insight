@@ -20,5 +20,5 @@ export const usePatientById = () => {
     }
   }, [id, dispatch]);
 
-  return { patient, loading, error, initialized };
+  return { patient, loading, error, initialized, id };
 };
