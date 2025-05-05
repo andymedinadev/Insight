@@ -2,8 +2,9 @@
 
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { RootState, AppDispatch } from '@/store';
+import { AppDispatch } from '@/store';
 import { fetchPatients, deletePatient } from '@/store/thunks';
+import { selectFilteredPatients } from '@/store/selectors/patientSelectors';
 
 import { useRouter } from 'next/navigation';
 
@@ -13,7 +14,7 @@ interface Props {
 
 export default function PatientList({ variant = 'home' }: Props) {
   const dispatch = useDispatch<AppDispatch>();
-  const { list: patients } = useSelector((state: RootState) => state.patients);
+  const patients = useSelector(selectFilteredPatients);
   const [openMenuId, setOpenMenuId] = useState<string | null>(null);
 
   useEffect(() => {

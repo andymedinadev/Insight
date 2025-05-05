@@ -1,8 +1,7 @@
 // types/components.ts
 export default interface ButtonCardsProps {
-    href: string;
-    icon: React.ReactNode;
-    title: string;
-    description: string;
-  }
-  
+  href: string;
+  icon: string;
+  title: string;
+  description: string;
+}
