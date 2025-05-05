@@ -1,16 +1,18 @@
 // slices/patientSlice.ts
 import { createSlice } from '@reduxjs/toolkit';
-import { createPatient, deletePatient, fetchPatients } from '@/store/thunks';
+import { createPatient, deletePatient, fetchPatients, fetchPatientById } from '@/store/thunks';
 import type { Patient } from '@/types';
 
 interface PatientState {
   list: Patient[];
+  selected: Patient | null;
   loading: boolean;
   error: string | null;
 }
 
 const initialState: PatientState = {
   list: [],
+  selected: null,
   loading: false,
   error: null,
 };
@@ -58,6 +60,19 @@ const patientSlice = createSlice({
       .addCase(createPatient.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload || 'Error al crear paciente';
+      })
+
+      .addCase(fetchPatientById.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchPatientById.fulfilled, (state, action) => {
+        state.selected = action.payload;
+        state.loading = false;
+      })
+      .addCase(fetchPatientById.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload || 'Error desconocido';
       });
   },
 });
