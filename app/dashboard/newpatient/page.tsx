@@ -4,7 +4,7 @@ import { FormPatient } from '@/components';
 export default function NewPatient() {
   return (
     <div>
-      <h1 className="mt-8 mb-8 ml-10 text-[26px] leading-[26px] font-semibold">
+      <h1 className="mt-8 mb-0 ml-8 text-[20px] font-semibold sm:mb-8 sm:ml-10 sm:text-[26px] sm:leading-[26px]">
         Formulario paciente nuevo
       </h1>
 
