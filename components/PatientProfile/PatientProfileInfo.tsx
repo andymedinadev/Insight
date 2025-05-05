@@ -1,8 +1,20 @@
+'use client';
+
 import Image from 'next/image';
 
 import { PatientProfilePic } from '@/public';
+import { usePatientById } from '@/hooks/usePatientById';
+import { transformPatientProfileData, backendResponse } from '@/utils/transformPatientProfileData';
 
 export function PatientProfileInfo() {
+  const { error, loading, patient } = usePatientById();
+
+  if (loading) return <p>Cargando paciente...</p>;
+  if (error) return <p>Error: {error}</p>;
+  if (!patient) return <p>No se encontró el paciente.</p>;
+
+  const patientProfileData = transformPatientProfileData(patient as unknown as backendResponse);
+
   return (
     <div className="border-b border-gray-200 px-6">
       {/* Personal Data Section */}
@@ -19,6 +31,7 @@ export function PatientProfileInfo() {
               alt="Foto de perfil"
               width={128}
               height={128}
+              priority
               className="h-full w-full object-cover"
             />
           </div>
@@ -36,37 +49,37 @@ export function PatientProfileInfo() {
             <div>
               <div className="mb-2 flex gap-2">
                 <span className="font-medium lg:font-semibold">Apellido y nombre:</span>
-                <p>Juan Paredes</p>
+                <p>{patientProfileData.fullName}</p>
               </div>
               <div className="mb-2 flex gap-2">
                 <span className="font-medium">Edad:</span>
-                <p>32 años</p>
+                <p>{patientProfileData.age} años</p>
               </div>
               <div className="mb-2 flex gap-2">
                 <span className="font-medium">Fecha de nacimiento:</span>
-                <p>10 de Octubre de 1992</p>
+                <p>{patientProfileData.birthdate}</p>
               </div>
               <div className="mb-2 flex gap-2">
                 <span className="font-medium">Sexo:</span>
-                <p>Masculino</p>
+                <p>{patientProfileData.sex}</p>
               </div>
             </div>
             <div>
               <div className="mb-2 flex gap-2">
                 <span className="font-medium">Email:</span>
-                <p>juan.paredes123@gmail.com</p>
+                <p>{patientProfileData.email}</p>
               </div>
               <div className="mb-2 flex gap-2">
                 <span className="font-medium">Número Móvil:</span>
-                <p>+52 55 1234 5678</p>
+                <p>{patientProfileData.phone}</p>
               </div>
               <div className="mb-2 flex gap-2">
                 <span className="font-medium">Modalidad de sesión:</span>
-                <p>Presencial</p>
+                <p>{patientProfileData.modality}</p>
               </div>
               <div className="mb-2 flex gap-2">
                 <span className="font-medium">Fecha de ingreso:</span>
-                <p>22/02/2019</p>
+                <p>{patientProfileData.admissionDate}</p>
               </div>
             </div>
           </div>
