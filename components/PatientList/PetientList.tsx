@@ -5,6 +5,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { RootState, AppDispatch } from '@/store';
 import { fetchPatients, deletePatient } from '@/store/thunks';
 
+import { useRouter } from 'next/navigation';
+
 interface Props {
   variant?: 'home' | 'list';
 }
@@ -141,6 +143,11 @@ export default function PatientList({ variant = 'home' }: Props) {
   const patientsForMobile = patients.slice(0, mobileVisibleCount);
   const patientsForDesktop = patients.slice((desktopPage - 1) * 8, desktopPage * 8);
 
+  const router = useRouter();
+  const handleRedirect = (id: number) => {
+    router.push(`/dashboard/patientprofile/${id}`);
+  };
+
   return (
     <>
       <div className="overflow-x-auto">
@@ -159,7 +166,12 @@ export default function PatientList({ variant = 'home' }: Props) {
             {(variant === 'list' && isMobile ? patientsForMobile : patientsForDesktop).map(
               (patient) => (
                 <tr key={patient.id} className="relative border-b">
-                  <td className="px-4 py-3">{patient.name}</td>
+                  <td
+                    className="px-4 py-3 hover:cursor-pointer"
+                    onClick={() => handleRedirect(patient.id)}
+                  >
+                    {patient.name}
+                  </td>
                   <td className="hidden px-4 py-3 lg:table-cell">{patient.email}</td>
                   <td className="px-4 py-3">{patient.lastSession}</td>
                   <td className="hidden px-4 py-3 lg:table-cell">{patient.category}</td>
@@ -179,7 +191,10 @@ export default function PatientList({ variant = 'home' }: Props) {
                       <div className="absolute right-0 z-10 mt-2 w-40 rounded-md border border-gray-200 bg-white shadow-md">
                         <ul className="py-1 text-sm text-gray-700">
                           <li>
-                            <button className="w-full px-4 py-2 text-left hover:bg-gray-100">
+                            <button
+                              onClick={() => handleRedirect(patient.id)}
+                              className="w-full px-4 py-2 text-left hover:cursor-pointer hover:bg-gray-100"
+                            >
                               Ver detalles
                             </button>
                           </li>

@@ -25,3 +25,8 @@ export { default as AddPatientButton } from './AddPatientButton/AddPatientButton
 
 // NewPatient
 export { default as FormPatient } from './FormPatient/FormPatient';
+
+// PatientProfile
+export { PatientProfileHeader } from './PatientProfile/PatientProfileHeader';
+export { PatientProfileInfo } from './PatientProfile/PatientProfileInfo';
+export { PatientProfileLorem } from './PatientProfile/PatientProfileLorem';

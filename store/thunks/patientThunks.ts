@@ -96,3 +96,34 @@ export const createPatient = createAsyncThunk<Patient, TypeNewPatient, { rejectV
     }
   }
 );
+
+// Traer un paciente
+export const fetchPatientById = createAsyncThunk<Patient, string, { rejectValue: string }>(
+  'pacientes/fetchPatientById',
+  async (id: string, thunkApi) => {
+    const state = thunkApi.getState() as RootState;
+    const token = state.auth.token;
+
+    try {
+      const response = await fetch(
+        `https://proyecto-foo-production.up.railway.app/api/Patient/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(`Error HTTP ${response.status}: ${errorText}`);
+      }
+
+      const data = await response.json();
+      return data;
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : 'Error desconocido';
+      return thunkApi.rejectWithValue(message);
+    }
+  }
+);
