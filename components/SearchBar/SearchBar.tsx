@@ -1,11 +1,23 @@
+// SearchBar.tsx
+'use client';
+
+import { useDispatch } from 'react-redux';
+import { setSearchTerm } from '@/store/actions/patientActions';
+import { AppDispatch } from '@/store';
+
 export default function SearchBar() {
+  const dispatch = useDispatch<AppDispatch>();
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    dispatch(setSearchTerm(e.target.value));
+  };
+
   return (
-    <div className="ml-2 flex w-full lg:w-2xs">
-      <input
-        type="text"
-        placeholder="Buscar paciente..."
-        className="w-full rounded-md border border-gray-300 px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
-      />
-    </div>
+    <input
+      type="text"
+      placeholder="Buscar paciente"
+      onChange={handleChange}
+      className="rounded border px-3 py-1 text-sm text-black shadow"
+    />
   );
 }
