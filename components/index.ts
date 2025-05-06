@@ -30,3 +30,7 @@ export { default as FormPatient } from './FormPatient/FormPatient';
 export { PatientProfileHeader } from './PatientProfile/PatientProfileHeader';
 export { PatientProfileInfo } from './PatientProfile/PatientProfileInfo';
 export { PatientProfileLorem } from './PatientProfile/PatientProfileLorem';
+
+// MedicalHistory
+export { default as MedicalHistoryHeader } from './MedicalHistory/MedicalHistoryHeader';
+export { default as MedicalHistoryList } from './MedicalHistory/MedicalHistoryList';
