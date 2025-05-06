@@ -4,4 +4,5 @@
 // Cards
 export { default as cardData } from './Data/cardData';
 export { mapPatientProfileToUpdatePayload } from './mapPatientProfileToUpdatePayload';
+export { transformPatientProfileData } from './transformPatientProfileData';
 export { transformFormDataToSignupPayload } from './transformSignupData';

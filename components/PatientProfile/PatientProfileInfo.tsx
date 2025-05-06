@@ -3,10 +3,9 @@
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
 
-import { usePatientById } from '@/hooks/usePatientById';
+import { usePatientById, useUpdatePatient } from '@/hooks';
 import { PatientProfilePic } from '@/public';
-import { transformPatientProfileData } from '@/utils/transformPatientProfileData';
-import { useUpdatePatient } from '@/hooks/useUpdatePatient';
+import { transformPatientProfileData } from '@/utils';
 import type { PatientProfileData } from '@/types';
 
 export function PatientProfileInfo() {

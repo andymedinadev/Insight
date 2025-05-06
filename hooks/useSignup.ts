@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 
-import { useLogin } from './useLogin';
+import { useLogin } from '@/hooks';
 import { transformFormDataToSignupPayload } from '@/utils';
 import { RegisterResponse, SignupFormData } from '@/types';
 

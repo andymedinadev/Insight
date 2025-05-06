@@ -1,16 +1,4 @@
-import { Patient } from '@/types';
-
-// Esto es lo que tengo que devolver según diseño
-export interface PatientProfileData {
-  fullName: string;
-  age: number;
-  birthdate: string;
-  sex: 'Masculino' | 'Femenino' | 'Otros';
-  email: string;
-  phone: string;
-  modality: string;
-  admissionDate: string;
-}
+import { Patient, PatientProfileData } from '@/types';
 
 function formatBirthdate(dateString: string): string {
   const date = new Date(dateString);

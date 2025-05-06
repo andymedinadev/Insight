@@ -7,7 +7,7 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 
 import { Button, InputField } from '@/components';
-import { useSignup } from '@/hooks/useSignup';
+import { useSignup } from '@/hooks';
 import { SignupFormData } from '@/types';
 
 export default function SignupPage() {
