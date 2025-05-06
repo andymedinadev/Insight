@@ -1,14 +1,17 @@
 'use client';
 
 import Image from 'next/image';
-
 import { PatientProfilePic } from '@/public';
 import { usePatientById } from '@/hooks/usePatientById';
+import { transformPatientProfileData } from '@/utils/transformPatientProfileData';
 
 export function PatientProfileInfo() {
   const { patient } = usePatientById();
 
   if (!patient) return <p>No se encontró el paciente.</p>;
+
+  const { fullName, age, birthdate, sex, email, phone, modality, admissionDate } =
+    transformPatientProfileData(patient);
 
   return (
     <div className="border-b border-gray-200 px-6">
@@ -41,45 +44,39 @@ export function PatientProfileInfo() {
           <div className="grid grid-cols-1 gap-x-12 gap-y-2 md:grid-cols-2">
             <div>
               <div className="mb-2 flex gap-2">
-                <span className="font-medium lg:font-semibold">Apellido y nombre:</span>
-                <p>{patient.name}</p>
+                <span className="font-medium">Apellido y nombre:</span>
+                <p>{fullName}</p>
               </div>
-
               <div className="mb-2 flex gap-2">
                 <span className="font-medium">Edad:</span>
-                <p>{patient.age}</p>
+                <p>{age}</p>
               </div>
-
               <div className="mb-2 flex gap-2">
                 <span className="font-medium">Fecha de nacimiento:</span>
-                <p>{patient.birthdate}</p>
+                <p>{birthdate.split('T')[0]}</p>
               </div>
-
               <div className="mb-2 flex gap-2">
                 <span className="font-medium">Sexo:</span>
-                <p>{patient.sex}</p>
+                <p>{sex ?? 'M'}</p>
               </div>
             </div>
 
             <div>
               <div className="mb-2 flex gap-2">
                 <span className="font-medium">Email:</span>
-                <p>{patient.email}</p>
+                <p>{email}</p>
               </div>
-
               <div className="mb-2 flex gap-2">
                 <span className="font-medium">Número Móvil:</span>
-                <p>{patient.phone}</p>
+                <p>{phone}</p>
               </div>
-
               <div className="mb-2 flex gap-2">
                 <span className="font-medium">Modalidad de sesión:</span>
-                <p>{patient.modality}</p>
+                <p>{modality}</p>
               </div>
-
               <div className="mb-2 flex gap-2">
                 <span className="font-medium">Fecha de ingreso:</span>
-                <p>{patient.admissionDate}</p>
+                <p>{admissionDate}</p>
               </div>
             </div>
           </div>
