@@ -1,7 +1,1 @@
-export {
-  createPatient,
-  deletePatient,
-  fetchPatients,
-  fetchPatientById,
-  updatePatient,
-} from './patientThunks';
+export { createPatient, deletePatient, fetchPatients, updatePatient } from './patientThunks';

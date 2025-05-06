@@ -5,13 +5,13 @@ import Image from 'next/image';
 
 import { usePatientById } from '@/hooks/usePatientById';
 import { PatientProfilePic } from '@/public';
-import {
-  transformPatientProfileData,
-  type PatientProfileData,
-} from '@/utils/transformPatientProfileData';
+import { transformPatientProfileData } from '@/utils/transformPatientProfileData';
+import { useUpdatePatient } from '@/hooks/useUpdatePatient';
+import type { PatientProfileData } from '@/types';
 
 export function PatientProfileInfo() {
   const { patient } = usePatientById();
+  const { updatePatientData } = useUpdatePatient();
 
   const [isEditing, setIsEditing] = useState(false);
   const [editableData, setEditableData] = useState<PatientProfileData | null>(null);
@@ -42,9 +42,12 @@ export function PatientProfileInfo() {
   const handleSave = () => {
     if (!editableData) return;
 
-    console.log('Datos guardados:', editableData);
-
     // TODO: Enviar editableData al backend
+    if (patient) {
+      const id = Number(patient.id);
+
+      updatePatientData(id, editableData);
+    }
 
     setOriginalData(editableData);
     setIsEditing(false);

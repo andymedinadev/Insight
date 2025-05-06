@@ -1,12 +1,6 @@
 // slices/patientSlice.ts
 import { createSlice } from '@reduxjs/toolkit';
-import {
-  createPatient,
-  deletePatient,
-  fetchPatients,
-  fetchPatientById,
-  updatePatient,
-} from '@/store/thunks';
+import { createPatient, deletePatient, fetchPatients, updatePatient } from '@/store/thunks';
 import type { Patient } from '@/types';
 
 interface PatientState {
@@ -31,6 +25,7 @@ const patientSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
+      // TRAER TODOS LOS PACIENTES
       .addCase(fetchPatients.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -44,6 +39,7 @@ const patientSlice = createSlice({
         state.error = action.payload || 'Error al obtener pacientes';
       })
 
+      // ELIMINAR UN PACIENTE
       .addCase(deletePatient.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -57,6 +53,7 @@ const patientSlice = createSlice({
         state.error = action.payload || 'Error al eliminar paciente';
       })
 
+      // CREAR UN PACIENTE
       .addCase(createPatient.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -70,27 +67,16 @@ const patientSlice = createSlice({
         state.error = action.payload || 'Error al crear paciente';
       })
 
-      .addCase(fetchPatientById.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(fetchPatientById.fulfilled, (state, action) => {
-        state.selected = action.payload;
-        state.loading = false;
-        state.initialized = true;
-      })
-      .addCase(fetchPatientById.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload || 'Error desconocido';
-        state.initialized = true;
-      })
-      // UPDATE
+      // ACTUALIZAR UN PACIENTE
       .addCase(updatePatient.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
-      .addCase(updatePatient.fulfilled, (state) => {
-        state.loading = false;
+      .addCase(updatePatient.fulfilled, (state, action) => {
+        const index = state.list.findIndex((p) => p.id === action.payload.id);
+        if (index !== -1) {
+          state.list[index] = action.payload;
+        }
       })
       .addCase(updatePatient.rejected, (state, action) => {
         state.loading = false;
