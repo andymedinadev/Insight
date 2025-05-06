@@ -1,7 +1,7 @@
 import { Patient } from '@/types';
 
 // Esto es lo que tengo que devolver según diseño
-interface PatientProfileData {
+export interface PatientProfileData {
   fullName: string;
   age: number;
   birthdate: string;

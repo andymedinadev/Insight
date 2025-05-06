@@ -1,17 +1,56 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import Image from 'next/image';
-import { PatientProfilePic } from '@/public';
+
 import { usePatientById } from '@/hooks/usePatientById';
-import { transformPatientProfileData } from '@/utils/transformPatientProfileData';
+import { PatientProfilePic } from '@/public';
+import {
+  transformPatientProfileData,
+  type PatientProfileData,
+} from '@/utils/transformPatientProfileData';
 
 export function PatientProfileInfo() {
   const { patient } = usePatientById();
 
-  if (!patient) return <p>No se encontró el paciente.</p>;
+  const [isEditing, setIsEditing] = useState(false);
+  const [editableData, setEditableData] = useState<PatientProfileData | null>(null);
+  const [originalData, setOriginalData] = useState<PatientProfileData | null>(null);
 
-  const { fullName, age, birthdate, sex, email, phone, modality, admissionDate } =
-    transformPatientProfileData(patient);
+  useEffect(() => {
+    if (patient) {
+      const transformed = transformPatientProfileData(patient);
+      setEditableData(transformed);
+      setOriginalData(transformed);
+    }
+  }, [patient]);
+
+  const handleChange = (field: keyof PatientProfileData, value: string) => {
+    if (!editableData) return;
+    setEditableData({ ...editableData, [field]: value });
+  };
+
+  const toggleEdit = () => {
+    if (!isEditing && editableData) {
+      setOriginalData(editableData);
+    } else if (originalData) {
+      setEditableData(originalData);
+    }
+    setIsEditing(!isEditing);
+  };
+
+  const handleSave = () => {
+    if (!editableData) return;
+
+    console.log('Datos guardados:', editableData);
+
+    // TODO: Enviar editableData al backend
+
+    setOriginalData(editableData);
+    setIsEditing(false);
+  };
+
+  if (!patient || !editableData) return <p>No se encontró el paciente.</p>;
 
   return (
     <div className="border-b border-gray-200 px-6">
@@ -36,53 +75,148 @@ export function PatientProfileInfo() {
         <div className="flex-grow lg:pl-10">
           <div className="hidden lg:mb-6 lg:flex lg:items-baseline lg:gap-4">
             <h2 className="text-2xl font-bold">Datos personales</h2>
-            <button className="font-bold text-gray-600 underline hover:cursor-pointer">
-              Editar
+            <button
+              onClick={() => toggleEdit()}
+              className="font-bold text-gray-600 underline hover:cursor-pointer"
+            >
+              {isEditing ? 'Cancelar' : 'Editar'}
             </button>
+            {isEditing && (
+              <button
+                onClick={handleSave}
+                className="ml-4 font-bold text-blue-600 underline hover:cursor-pointer"
+              >
+                Guardar
+              </button>
+            )}
           </div>
 
           <div className="grid grid-cols-1 gap-x-12 gap-y-2 md:grid-cols-2">
             <div>
               <div className="mb-2 flex gap-2">
                 <span className="font-medium">Apellido y nombre:</span>
-                <p>{fullName}</p>
+                {isEditing ? (
+                  <input
+                    type="text"
+                    value={editableData.fullName ?? ''}
+                    onChange={(e) => handleChange('fullName', e.target.value)}
+                    className="rounded border px-2 py-1"
+                  />
+                ) : (
+                  <p>{editableData.fullName}</p>
+                )}
               </div>
               <div className="mb-2 flex gap-2">
                 <span className="font-medium">Edad:</span>
-                <p>{age}</p>
+                {isEditing ? (
+                  <input
+                    type="text"
+                    value={editableData.age ?? ''}
+                    onChange={(e) => handleChange('age', e.target.value)}
+                    className="rounded border px-2 py-1"
+                  />
+                ) : (
+                  <p>{editableData.age}</p>
+                )}
               </div>
               <div className="mb-2 flex gap-2">
                 <span className="font-medium">Fecha de nacimiento:</span>
-                <p>{birthdate.split('T')[0]}</p>
+                {isEditing ? (
+                  <input
+                    type="text"
+                    value={editableData.birthdate ?? ''}
+                    onChange={(e) => handleChange('birthdate', e.target.value)}
+                    className="rounded border px-2 py-1"
+                  />
+                ) : (
+                  <p>{editableData.birthdate}</p>
+                )}
               </div>
               <div className="mb-2 flex gap-2">
                 <span className="font-medium">Sexo:</span>
-                <p>{sex ?? 'M'}</p>
+                {isEditing ? (
+                  <input
+                    type="text"
+                    value={editableData.sex ?? ''}
+                    onChange={(e) => handleChange('sex', e.target.value)}
+                    className="rounded border px-2 py-1"
+                  />
+                ) : (
+                  <p>{editableData.sex}</p>
+                )}
               </div>
             </div>
 
             <div>
               <div className="mb-2 flex gap-2">
                 <span className="font-medium">Email:</span>
-                <p>{email}</p>
+                {isEditing ? (
+                  <input
+                    type="text"
+                    value={editableData.email ?? ''}
+                    onChange={(e) => handleChange('email', e.target.value)}
+                    className="rounded border px-2 py-1"
+                  />
+                ) : (
+                  <p>{editableData.email}</p>
+                )}
               </div>
               <div className="mb-2 flex gap-2">
                 <span className="font-medium">Número Móvil:</span>
-                <p>{phone}</p>
+                {isEditing ? (
+                  <input
+                    type="text"
+                    value={editableData.phone ?? ''}
+                    onChange={(e) => handleChange('phone', e.target.value)}
+                    className="rounded border px-2 py-1"
+                  />
+                ) : (
+                  <p>{editableData.phone}</p>
+                )}
               </div>
               <div className="mb-2 flex gap-2">
                 <span className="font-medium">Modalidad de sesión:</span>
-                <p>{modality}</p>
+                {isEditing ? (
+                  <input
+                    type="text"
+                    value={editableData.modality ?? ''}
+                    onChange={(e) => handleChange('modality', e.target.value)}
+                    className="rounded border px-2 py-1"
+                  />
+                ) : (
+                  <p>{editableData.modality}</p>
+                )}
               </div>
               <div className="mb-2 flex gap-2">
                 <span className="font-medium">Fecha de ingreso:</span>
-                <p>{admissionDate}</p>
+                {isEditing ? (
+                  <input
+                    type="text"
+                    value={editableData.admissionDate ?? ''}
+                    onChange={(e) => handleChange('admissionDate', e.target.value)}
+                    className="rounded border px-2 py-1"
+                  />
+                ) : (
+                  <p>{editableData.admissionDate}</p>
+                )}
               </div>
             </div>
           </div>
 
-          <button className="rounded-md bg-gray-300 py-4 text-lg font-semibold transition-colors hover:cursor-pointer hover:bg-gray-400 lg:hidden">
-            Editar Datos
+          {isEditing && (
+            <button
+              onClick={handleSave}
+              className="rounded-md bg-gray-300 py-4 text-lg font-semibold transition-colors hover:cursor-pointer hover:bg-gray-400 lg:hidden"
+            >
+              Guardar
+            </button>
+          )}
+
+          <button
+            onClick={() => toggleEdit()}
+            className="rounded-md bg-gray-300 py-4 text-lg font-semibold transition-colors hover:cursor-pointer hover:bg-gray-400 lg:hidden"
+          >
+            {isEditing ? 'Cancelar' : 'Editar Datos'}
           </button>
         </div>
       </div>
