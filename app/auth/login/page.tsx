@@ -2,11 +2,12 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 
-import { useLogin } from '@/hooks';
+import { useLogin } from '@/hooks/useLogin';
 import Button from '@/components/ui/Button';
 
 export default function LoginPage() {
@@ -50,9 +51,16 @@ export default function LoginPage() {
   return (
     <div className="flex min-h-screen w-full flex-col">
       {/* Texto "INSIGHT" solo visible en móvil */}
-      <div className="mt-8 block text-center font-['Inter'] text-2xl font-semibold text-black md:hidden">
-        INSIGHT
+      <div className="mt-8 flex w-full justify-center md:hidden">
+        <Image
+          src="/icons/Logo.svg"
+          alt="Logo"
+          width={128}
+          height={40}
+          className="object-contain"
+        />
       </div>
+
       {/* Contenido principal con grid */}
       <div className="grid h-full w-full grid-cols-1 md:h-screen md:grid-cols-2">
         {/* Columna del formulario */}
@@ -109,20 +117,20 @@ export default function LoginPage() {
               </div>
 
               <div className="text-right">
-                <a href="#" className="font-['Inter'] text-sm font-bold text-black underline">
+                <a href="#" className="font-['Inter'] text-sm font-bold text-[#0655D5] underline">
                   ¿Olvidó su contraseña?
                 </a>
               </div>
 
               <Button type="submit" disabled={isLoading}>
-                {isLoading ? 'Cargando...' : 'Ingresar'}
+                {isLoading ? 'Cargando...' : 'Iniciar Sesión'}
               </Button>
 
               {error && <p className="text-red-500">{error}</p>}
 
               <div className="mt-4 flex justify-center font-['Inter'] text-sm text-black">
                 ¿No tiene cuenta?{' '}
-                <Link href="signup" className="ml-1 font-bold underline">
+                <Link href="signup" className="ml-1 font-bold text-[#0655D5] underline">
                   Registrarse
                 </Link>
               </div>
@@ -131,7 +139,9 @@ export default function LoginPage() {
         </div>
 
         {/* Columna decorativa derecha */}
-        <div className="hidden h-full max-h-screen w-full overflow-x-hidden bg-zinc-300 md:block" />
+        <div className="relative hidden h-full w-full overflow-hidden md:block">
+          <Image src="/login.jpg" alt="Imagen decorativa" fill className="object-cover" priority />
+        </div>
       </div>
     </div>
   );
