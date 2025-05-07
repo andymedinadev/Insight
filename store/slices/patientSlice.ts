@@ -1,10 +1,11 @@
 // slices/patientSlice.ts
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { createPatient, deletePatient, fetchPatients, updatePatient } from '@/store/thunks';
 import type { Patient } from '@/types';
 
 interface PatientState {
   list: Patient[];
+  searchTerm: string;
   selected: Patient | null;
   loading: boolean;
   error: string | null;
@@ -13,16 +14,21 @@ interface PatientState {
 
 const initialState: PatientState = {
   list: [],
+  searchTerm: '',
   selected: null,
   loading: false,
   error: null,
   initialized: false,
 };
 
-const patientSlice = createSlice({
+export const patientSlice = createSlice({
   name: 'patients',
   initialState,
-  reducers: {},
+  reducers: {
+    setSearchTerm(state, action: PayloadAction<string>) {
+      state.searchTerm = action.payload.toLowerCase(); // normalizamos
+    },
+  },
   extraReducers: (builder) => {
     builder
       // TRAER TODOS LOS PACIENTES
@@ -32,6 +38,7 @@ const patientSlice = createSlice({
       })
       .addCase(fetchPatients.fulfilled, (state, action) => {
         state.loading = false;
+        state.error = null;
         state.list = action.payload;
       })
       .addCase(fetchPatients.rejected, (state, action) => {

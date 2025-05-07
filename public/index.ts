@@ -1,6 +1,11 @@
 // Importaciones barril
 // EJEMPLO: export { default as ImagenHero } from "./ImagenHero.png";
 
+// Exportaciones de iconos y logos
+export { default as Logo } from './icons/Logo.svg';
+export { default as User } from './icons/User.svg';
+export { default as Calendar } from './icons/Calendar.svg';
+
 //Exportaciones sidebar
 export { default as Home } from './icons/Home.svg';
 export { default as Listado } from './icons/Listado.svg';

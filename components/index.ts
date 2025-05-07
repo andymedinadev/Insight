@@ -23,7 +23,14 @@ export { default as PatientList } from './PatientList/PetientList';
 export { default as SeeMoreButton } from './SeeMoreButton/SeeMoreButton';
 export { default as AddPatientButton } from './AddPatientButton/AddPatientButton';
 
+// NewPatient
+export { default as FormPatient } from './FormPatient/FormPatient';
+
 // PatientProfile
 export { PatientProfileHeader } from './PatientProfile/PatientProfileHeader';
 export { PatientProfileInfo } from './PatientProfile/PatientProfileInfo';
 export { PatientProfileLorem } from './PatientProfile/PatientProfileLorem';
+
+// MedicalHistory
+export { default as MedicalHistoryHeader } from './MedicalHistory/MedicalHistoryHeader';
+export { default as MedicalHistoryList } from './MedicalHistory/MedicalHistoryList';
