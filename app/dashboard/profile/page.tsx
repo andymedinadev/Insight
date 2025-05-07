@@ -1,4 +1,7 @@
 import React from 'react';
+import Image from 'next/image';
+import { Avatar } from '@/public';
+
 export default function ProfilePage() {
   return (
     <div className="flex h-screen bg-gray-50">
@@ -9,11 +12,14 @@ export default function ProfilePage() {
         <div className="flex flex-wrap gap-16">
           {/* Foto */}
           <div className="flex flex-col items-center">
-            <img
-              src="/profile.jpg"
+            <Image
+              src={Avatar}
               alt="Foto de perfil"
-              className="mb-4 h-32 w-32 rounded-full object-cover"
+              className="mb-4 rounded-full object-cover"
+              width={192}
+              height={192}
             />
+
             <button className="rounded bg-gray-100 px-4 py-1 text-sm hover:bg-gray-200">
               Editar foto de perfil
             </button>
