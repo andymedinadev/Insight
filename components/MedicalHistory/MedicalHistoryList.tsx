@@ -1,5 +1,6 @@
 'use client';
-import { Note } from '@/types';
+import { Note, Material } from '@/types';
+import { useSearchParams } from 'next/navigation';
 import { useState } from 'react';
 
 const notes: Note[] = [
@@ -110,6 +111,114 @@ const notes: Note[] = [
   },
 ];
 
+const materials: Material[] = [
+  {
+    id: 15,
+    date: '20/03/2025',
+    title: 'Material N° 15',
+    content:
+      'Lorem ipsum dolor sit amet, consec tetur adipiscing elit. Etiam finibus blan dit euismod.',
+  },
+  {
+    id: 14,
+    date: '20/03/2025',
+    title: 'Material N° 14',
+    content:
+      'Lorem ipsum dolor sit amet, consec tetur adipiscing elit. Etiam finibus blan dit euismod.',
+  },
+  {
+    id: 13,
+    date: '20/03/2025',
+    title: 'Material N° 13',
+    content:
+      'Lorem ipsum dolor sit amet, consec tetur adipiscing elit. Etiam finibus blan dit euismod.',
+  },
+  {
+    id: 12,
+    date: '20/03/2025',
+    title: 'Material N° 12',
+    content:
+      'Lorem ipsum dolor sit amet, consec tetur adipiscing elit. Etiam finibus blan dit euismod.',
+  },
+  {
+    id: 11,
+    date: '20/03/2025',
+    title: 'Material N° 11',
+    content:
+      'Lorem ipsum dolor sit amet, consec tetur adipiscing elit. Etiam finibus blan dit euismod.',
+  },
+  {
+    id: 10,
+    date: '20/03/2025',
+    title: 'Material N° 10',
+    content:
+      'Lorem ipsum dolor sit amet, consec tetur adipiscing elit. Etiam finibus blan dit euismod.',
+  },
+  {
+    id: 9,
+    date: '20/03/2025',
+    title: 'Material N° 9',
+    content:
+      'Lorem ipsum dolor sit amet, consec tetur adipiscing elit. Etiam finibus blan dit euismod.',
+  },
+  {
+    id: 8,
+    date: '20/03/2025',
+    title: 'Material N° 8',
+    content:
+      'Lorem ipsum dolor sit amet, consec tetur adipiscing elit. Etiam finibus blan dit euismod.',
+  },
+  {
+    id: 7,
+    date: '20/03/2025',
+    title: 'Material N° 7',
+    content:
+      'Lorem ipsum dolor sit amet, consec tetur adipiscing elit. Etiam finibus blan dit euismod.',
+  },
+  {
+    id: 6,
+    date: '20/03/2025',
+    title: 'Material N° 6',
+    content:
+      'Lorem ipsum dolor sit amet, consec tetur adipiscing elit. Etiam finibus blan dit euismod.',
+  },
+  {
+    id: 5,
+    date: '20/03/2025',
+    title: 'Material N° 5',
+    content:
+      'Lorem ipsum dolor sit amet, consec tetur adipiscing elit. Etiam finibus blan dit euismod.',
+  },
+  {
+    id: 4,
+    date: '20/03/2025',
+    title: 'Material N° 4',
+    content:
+      'Lorem ipsum dolor sit amet, consec tetur adipiscing elit. Etiam finibus blan dit euismod.',
+  },
+  {
+    id: 3,
+    date: '20/03/2025',
+    title: 'Material N° 3',
+    content:
+      'Lorem ipsum dolor sit amet, consec tetur adipiscing elit. Etiam finibus blan dit euismod.',
+  },
+  {
+    id: 2,
+    date: '20/03/2025',
+    title: 'Material N° 2',
+    content:
+      'Lorem ipsum dolor sit amet, consec tetur adipiscing elit. Etiam finibus blan dit euismod.',
+  },
+  {
+    id: 1,
+    date: '20/03/2025',
+    title: 'Material N° 1',
+    content:
+      'Lorem ipsum dolor sit amet, consec tetur adipiscing elit. Etiam finibus blan dit euismod.',
+  },
+];
+
 const itemsPerPage = 4;
 
 function getPaginationRange(current: number, total: number): (number | string)[] {
@@ -128,23 +237,44 @@ function getPaginationRange(current: number, total: number): (number | string)[]
 }
 
 export default function MedicalHistoryList() {
+  const searchParams = useSearchParams();
+  const from = searchParams.get('from');
+  const isMaterial = from === 'material';
+
   const [currentPage, setCurrentPage] = useState(1);
 
-  const totalPages = Math.ceil(notes.length / itemsPerPage);
+  const totalPages = isMaterial
+    ? Math.ceil(materials.length / itemsPerPage)
+    : Math.ceil(notes.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const paginatedNotes = notes.slice(startIndex, startIndex + itemsPerPage);
+  const paginatedMaterials = materials.slice(startIndex, startIndex + itemsPerPage);
 
   return (
     <div className="p-6">
       {/* Lista de notas */}
       <div className="space-y-4">
-        {paginatedNotes.map((note) => (
-          <div key={note.id} className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
-            <p className="text-sm font-semibold text-gray-500">{note.date}</p>
-            <h2 className="text-lg font-bold text-gray-800">{note.title}</h2>
-            <p className="text-gray-500">{note.content}</p>
-          </div>
-        ))}
+        {isMaterial
+          ? paginatedMaterials.map((material) => (
+              <div
+                key={material.id}
+                className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm"
+              >
+                <p className="text-sm font-semibold text-gray-500">{material.date}</p>
+                <h2 className="text-lg font-bold text-gray-800">{material.title}</h2>
+                <p className="text-gray-500">{material.content}</p>
+              </div>
+            ))
+          : paginatedNotes.map((note) => (
+              <div
+                key={note.id}
+                className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm"
+              >
+                <p className="text-sm font-semibold text-gray-500">{note.date}</p>
+                <h2 className="text-lg font-bold text-gray-800">{note.title}</h2>
+                <p className="text-gray-500">{note.content}</p>
+              </div>
+            ))}
       </div>
 
       {/* Paginación */}
