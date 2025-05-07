@@ -1,27 +1,4 @@
-// Esto es lo que me llega de backend
-export interface backendResponse {
-  id?: number;
-  name: string;
-  surname: string;
-  birthdate: string;
-  sex: 'M' | 'F' | 'O';
-  email: string;
-  phone: string;
-  modality?: string;
-  admissionDate?: string;
-}
-
-// Esto es lo que tengo que devolver según diseño
-interface PatientProfileData {
-  fullName: string;
-  age: number;
-  birthdate: string;
-  sex: 'Masculino' | 'Femenino' | 'Otros';
-  email: string;
-  phone: string;
-  modality: string;
-  admissionDate: string;
-}
+import { Patient, PatientProfileData } from '@/types';
 
 function formatBirthdate(dateString: string): string {
   const date = new Date(dateString);
@@ -71,15 +48,17 @@ function obtenerGenero(genero: 'M' | 'F' | 'O'): 'Masculino' | 'Femenino' | 'Otr
   return mapa[genero];
 }
 
-export function transformPatientProfileData(backendResponse: backendResponse): PatientProfileData {
-  return {
-    fullName: `${backendResponse.name} ${backendResponse.surname}`,
-    age: calcularEdad(backendResponse.birthdate),
-    birthdate: formatBirthdate(backendResponse.birthdate),
-    sex: obtenerGenero(backendResponse.sex),
-    email: backendResponse.email,
-    phone: backendResponse.phone,
-    modality: backendResponse.modality ?? 'Presencial',
-    admissionDate: backendResponse.admissionDate ?? mockAdmissionDate(),
+export function transformPatientProfileData(patient: Patient) {
+  const PatientProfileData: PatientProfileData = {
+    fullName: `${patient.name} ${patient.surname}`,
+    age: patient.age ?? calcularEdad(patient.birthdate),
+    birthdate: formatBirthdate(patient.birthdate),
+    sex: obtenerGenero(patient.sex as 'M' | 'F' | 'O'),
+    email: patient.email ?? 'Sin email',
+    phone: patient.phone ?? 'Sin número',
+    modality: patient.modality ?? 'Presencial',
+    admissionDate: patient.admissionDate ?? mockAdmissionDate(),
   };
+
+  return PatientProfileData;
 }

@@ -1,6 +1,6 @@
 // slices/patientSlice.ts
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { createPatient, deletePatient, fetchPatients, fetchPatientById } from '@/store/thunks';
+import { createPatient, deletePatient, fetchPatients, updatePatient } from '@/store/thunks';
 import type { Patient } from '@/types';
 
 interface PatientState {
@@ -31,6 +31,7 @@ export const patientSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+      // TRAER TODOS LOS PACIENTES
       .addCase(fetchPatients.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -45,6 +46,7 @@ export const patientSlice = createSlice({
         state.error = action.payload || 'Error al obtener pacientes';
       })
 
+      // ELIMINAR UN PACIENTE
       .addCase(deletePatient.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -58,6 +60,7 @@ export const patientSlice = createSlice({
         state.error = action.payload || 'Error al eliminar paciente';
       })
 
+      // CREAR UN PACIENTE
       .addCase(createPatient.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -71,23 +74,22 @@ export const patientSlice = createSlice({
         state.error = action.payload || 'Error al crear paciente';
       })
 
-      .addCase(fetchPatientById.pending, (state) => {
+      // ACTUALIZAR UN PACIENTE
+      .addCase(updatePatient.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
-      .addCase(fetchPatientById.fulfilled, (state, action) => {
-        state.selected = action.payload;
-        state.loading = false;
-        state.initialized = true;
+      .addCase(updatePatient.fulfilled, (state, action) => {
+        const index = state.list.findIndex((p) => p.id === action.payload.id);
+        if (index !== -1) {
+          state.list[index] = action.payload;
+        }
       })
-      .addCase(fetchPatientById.rejected, (state, action) => {
+      .addCase(updatePatient.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.payload || 'Error desconocido';
-        state.initialized = true;
+        state.error = action.error.message || 'Error desconocido';
       });
   },
 });
-
-
 
 export default patientSlice.reducer;

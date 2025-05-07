@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 
-import { useLogout } from '@/hooks/useLogout';
+import { useLogout } from '@/hooks';
 import { Campana, Avatar, FlechaBaja } from '@/public';
 
 export default function NavbarButtons() {

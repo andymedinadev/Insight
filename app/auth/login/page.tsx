@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 
-import { useLogin } from '@/hooks/useLogin';
+import { useLogin } from '@/hooks';
 import Button from '@/components/ui/Button';
 
 export default function LoginPage() {
