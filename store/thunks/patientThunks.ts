@@ -11,7 +11,7 @@ export const fetchPatients = createAsyncThunk<Patient[], void, { rejectValue: st
 
     try {
       const response = await fetch(
-        'https://proyecto-foo-production.up.railway.app/api/Patient/pacientes',
+        'https://brave-generosity-production.up.railway.app/api/Patient/pacientes',
         {
           headers: {
             Authorization: `Bearer ${token}`,

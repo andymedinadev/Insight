@@ -15,7 +15,7 @@ export function useLogin() {
     setError(null);
 
     try {
-      const res = await fetch('https://proyecto-foo-production.up.railway.app/api/Auth/login', {
+      const res = await fetch('https://brave-generosity-production.up.railway.app/api/Auth/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
