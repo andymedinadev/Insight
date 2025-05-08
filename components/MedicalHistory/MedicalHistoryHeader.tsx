@@ -16,7 +16,9 @@ export default function MedicalHistoryHeader() {
 
       <div className="flex items-center gap-2">
         <SearchBar />
-        <FilterButton />
+        <FilterButton>
+          <div>Aca va tu drop</div>
+        </FilterButton>
       </div>
     </div>
   );

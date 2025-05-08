@@ -23,7 +23,7 @@ function mockAdmissionDate(): string {
   return `${dayStr}/${monthStr}/${year}`;
 }
 
-function calcularEdad(fechaNacimiento: string): number {
+export function calcularEdad(fechaNacimiento: string): number {
   const nacimiento = new Date(fechaNacimiento);
   if (isNaN(nacimiento.getTime())) return 32;
 
