@@ -17,5 +17,7 @@ export { default as Soporte } from './icons/Soporte.svg';
 export { default as Avatar } from './icons/Avatar.png';
 export { default as Campana } from './icons/Campana.svg';
 export { default as FlechaBaja } from './icons/FlechaBaja.svg';
+export { default as UserNav } from './icons/UserNav.svg';
+export { default as Logout } from './icons/Logout.svg';
 
 export { default as PatientProfilePic } from './patientProfilePic.png';
