@@ -18,13 +18,16 @@ export function useSignup() {
     const signupPayload = transformFormDataToSignupPayload(formData);
 
     try {
-      const res = await fetch('https://proyecto-foo-production.up.railway.app/api/User/register', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(signupPayload),
-      });
+      const res = await fetch(
+        'https://brave-generosity-production.up.railway.app/api/User/register',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(signupPayload),
+        }
+      );
 
       if (!res.ok) {
         const data = await res.json();

@@ -11,14 +11,17 @@ export const updateProfile = createAsyncThunk<
   const token = state.auth.token;
 
   try {
-    const response = await fetch('https://proyecto-foo-production.up.railway.app/api/User/update', {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify(updatedData),
-    });
+    const response = await fetch(
+      'https://brave-generosity-production.up.railway.app/api/User/update',
+      {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(updatedData),
+      }
+    );
 
     if (!response.ok) {
       const errorText = await response.text();
