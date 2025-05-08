@@ -13,3 +13,5 @@ export type { Note } from './note';
 export type { Patient } from './patient';
 export type { PatientProfileData } from './patientProfileData';
 export type { UpdatePatientPayload } from './updatePatientPayload';
+
+export type { DropdownFilterProps } from './Filters/DropdownFilterProps';

@@ -22,6 +22,7 @@ export { default as FilterButton } from './FilterButton/FilterButton';
 export { default as PatientList } from './PatientList/PetientList';
 export { default as SeeMoreButton } from './SeeMoreButton/SeeMoreButton';
 export { default as AddPatientButton } from './AddPatientButton/AddPatientButton';
+export { default as ArchivedLink } from './ArchivedLink/ArchivedLink';
 
 // NewPatient
 export { default as FormPatient } from './FormPatient/FormPatient';
@@ -37,3 +38,6 @@ export { default as MedicalHistoryList } from './MedicalHistory/MedicalHistoryLi
 
 // Pagination
 export { default as Pagination } from './Pagination/Pagination';
+
+//Filtros
+export { default as PatientFilterDropdown } from './FilterButton/PatientFilterDropdown';
