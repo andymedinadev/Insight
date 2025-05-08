@@ -10,6 +10,11 @@ interface PatientState {
   loading: boolean;
   error: string | null;
   initialized: boolean;
+  filters: {
+    rangoEtario: string[];
+    genero: string[];
+    modalidad: string[];
+  };
 }
 
 const initialState: PatientState = {
@@ -19,6 +24,11 @@ const initialState: PatientState = {
   loading: false,
   error: null,
   initialized: false,
+  filters: {
+    modalidad: [],
+    genero: [],
+    rangoEtario: []
+  }
 };
 
 export const patientSlice = createSlice({
@@ -27,6 +37,15 @@ export const patientSlice = createSlice({
   reducers: {
     setSearchTerm(state, action: PayloadAction<string>) {
       state.searchTerm = action.payload.toLowerCase(); // normalizamos
+    },
+    setFilterRangoEtario(state, action: PayloadAction<string[]>) {
+      state.filters.rangoEtario = action.payload;
+    },
+    setFilterGenero(state, action: PayloadAction<string[]>) {
+      state.filters.genero = action.payload;
+    },
+    setFilterModalidad(state, action: PayloadAction<string[]>) {
+      state.filters.modalidad = action.payload;
     },
   },
   extraReducers: (builder) => {

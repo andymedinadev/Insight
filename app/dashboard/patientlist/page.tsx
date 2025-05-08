@@ -5,9 +5,11 @@ export default function PatientList() {
   return (
     <div>
       <div>
-        <h1 className="mt-8 mb-10 ml-2.5 text-xl font-semibold text-black lg:mt-12 lg:ml-14 lg:text-2xl lg:font-bold">
-          Listado de pacientes
-        </h1>
+        <div className="mt-3.5 mb-9 ml-5 lg:mt-9 lg:ml-8">
+          <h1 className="text-3xl leading-10 font-semibold text-black lg:leading-[48px]">
+            Listado de pacientes
+          </h1>
+        </div>
       </div>
       <div>
         <CompletedList variant="list" />

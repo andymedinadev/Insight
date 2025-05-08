@@ -21,3 +21,12 @@ export { default as UserNav } from './icons/UserNav.svg';
 export { default as Logout } from './icons/Logout.svg';
 
 export { default as PatientProfilePic } from './patientProfilePic.png';
+
+//exportaciones de iconos de botones
+export { default as UserplusButton } from './icons/UserplusButton.svg';
+
+//exportaciones de iconos de inputs
+export { default as Search } from './icons/Search.svg';
+
+//exportaciones de iconos de filtros
+export { default as iconofilter } from './icons/iconofilter.svg';

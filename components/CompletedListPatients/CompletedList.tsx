@@ -4,6 +4,8 @@ import {
   PatientList,
   SeeMoreButton,
   AddPatientButton,
+  ArchivedLink,
+  PatientFilterDropdown,
 } from '@/components';
 
 interface Props {
@@ -23,11 +25,21 @@ export default function CompletedList({ variant = 'home' }: Props) {
               </p>
             </div>
           )}
-          <div className="flex w-full flex-row items-center justify-between gap-2">
-            <div className="hidden lg:block">{variant === 'list' && <AddPatientButton />}</div>
-            <div className="flex flex-row">
+          <div className="flex w-full flex-col items-center justify-between gap-2 lg:flex-row">
+            <div className="flex w-full flex-col items-center gap-2 lg:flex-row lg:justify-start">
+              {variant === 'list' && (
+                <>
+                  <AddPatientButton />
+                  <ArchivedLink />
+                </>
+              )}
+            </div>
+
+            <div className="flex flex-row items-center">
               <SearchBar />
-              <FilterButton />
+              <FilterButton>
+                <PatientFilterDropdown />
+              </FilterButton>
             </div>
           </div>
         </div>

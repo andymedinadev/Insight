@@ -4,6 +4,8 @@
 import { useDispatch } from 'react-redux';
 import { setSearchTerm } from '@/store/actions/patientActions';
 import { AppDispatch } from '@/store';
+import Image from 'next/image';
+import { Search } from '@/public';
 
 export default function SearchBar() {
   const dispatch = useDispatch<AppDispatch>();
@@ -13,11 +15,20 @@ export default function SearchBar() {
   };
 
   return (
-    <input
-      type="text"
-      placeholder="Buscar paciente"
-      onChange={handleChange}
-      className="rounded border px-3 py-1 text-sm text-black shadow"
-    />
+    <div className="flex flex-row items-center rounded-lg border border-[#001F5273] lg:h-12 lg:w-80">
+      <Image
+        src={Search}
+        alt="Buscar paciente"
+        width={24}
+        height={24}
+        className="lg:mr-2 lg:ml-4"
+      />
+      <input
+        type="text"
+        placeholder="Buscar paciente"
+        onChange={handleChange}
+        className="lg:24px text-gray-400 placeholder-gray-400 focus:outline-none lg:w-3xs"
+      />
+    </div>
   );
 }
