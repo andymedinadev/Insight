@@ -1,6 +1,9 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { selectCurrentPage, selectTotalPages } from '@/store/selectors/paginationSelectors';
 import { setCurrentPage } from '@/store/slices/paginationSlice';
+import Image from 'next/image';
+import Left from '../../public/icons/Left.svg';
+import Right from '../../public/icons/Right.svg';
 import PaginationProps from '@/types/paginationProps';
 
 function getPaginationRange(current: number, total: number): (number | string)[] {
@@ -33,7 +36,7 @@ export default function Pagination({ itemsPerPage, totalItems }: PaginationProps
           disabled={currentPage === 1}
           className="flex h-10 w-[94px] items-center justify-center gap-2 rounded-lg border-white pr-1 text-sm leading-tight font-normal text-gray-600 hover:bg-gray-100 disabled:opacity-50"
         >
-          ← Anterior
+          <Image src={Left} alt="Anterior" width={18} height={18} /> Anterior
         </button>
 
         {getPaginationRange(currentPage, totalPages).map((page, idx) =>
@@ -64,7 +67,7 @@ export default function Pagination({ itemsPerPage, totalItems }: PaginationProps
           disabled={currentPage === totalPages}
           className="flex h-10 w-[94px] items-center justify-center gap-2 rounded-lg border-white pr-1 text-sm leading-tight font-normal text-gray-600 hover:bg-gray-100 disabled:opacity-50"
         >
-          Siguiente →
+          Siguiente <Image src={Right} alt="Anterior" width={18} height={18} />
         </button>
       </div>
 

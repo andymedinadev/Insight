@@ -2,6 +2,41 @@ import { Note } from '@/types';
 
 export const mockNotes: Note[] = [
   {
+    id: 20,
+    date: '20/03/2025',
+    title: 'Nota N° 20',
+    content:
+      'Lorem ipsum dolor sit amet, consec tetur adipiscing elit. Etiam finibus blan dit euismod.',
+  },
+  {
+    id: 19,
+    date: '20/03/2025',
+    title: 'Nota N° 19',
+    content:
+      'Lorem ipsum dolor sit amet, consec tetur adipiscing elit. Etiam finibus blan dit euismod.',
+  },
+  {
+    id: 18,
+    date: '20/03/2025',
+    title: 'Nota N° 18',
+    content:
+      'Lorem ipsum dolor sit amet, consec tetur adipiscing elit. Etiam finibus blan dit euismod.',
+  },
+  {
+    id: 17,
+    date: '20/03/2025',
+    title: 'Nota N° 17',
+    content:
+      'Lorem ipsum dolor sit amet, consec tetur adipiscing elit. Etiam finibus blan dit euismod.',
+  },
+  {
+    id: 16,
+    date: '20/03/2025',
+    title: 'Nota N° 16',
+    content:
+      'Lorem ipsum dolor sit amet, consec tetur adipiscing elit. Etiam finibus blan dit euismod.',
+  },
+  {
     id: 15,
     date: '20/03/2025',
     title: 'Nota N° 15',
