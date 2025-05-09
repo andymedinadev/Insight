@@ -1,6 +1,7 @@
 'use client';
 
 import Image from 'next/image';
+import Link from 'next/link';
 import { forwardRef } from 'react';
 import { UserNav, Logout } from '@/public';
 
@@ -27,14 +28,15 @@ const DropdownUserMenu = forwardRef<HTMLDivElement, DropdownUserMenuProps>(({ on
         <div className="cursor-pointer">
           <div className="flex flex-row px-4 py-3">
             <Image src={UserNav} alt="Icon" width={24} height={24} className="mr-2 inline-block" />
-
-            <p className="text[#000F27E5] text-base leading-normal font-normal">Ir a perfil</p>
+            <Link href="/dashboard/profile">
+              <p className="text[#000F27E5] text-base leading-normal font-normal">Ir a perfil</p>
+            </Link>
           </div>
         </div>
         <hr />
         <div className="mb-5 flex flex-row px-4 py-2">
           <Image src={Logout} alt="Icon" width={24} height={24} className="mr-2 inline-block" />
-          <button onClick={onLogout} className="">
+          <button onClick={onLogout} className="cursor-pointer">
             Cerrar sesión
           </button>
         </div>
