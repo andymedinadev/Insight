@@ -1,37 +1,30 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import type { RootState } from '../index';
-import type { UpdateProfilePayload, User } from '@/types/Profile/profileTypes';
+import type { User } from '@/types/Profile/profileTypes';
 
-export const updateProfile = createAsyncThunk<
-  User, // tipo que regresa
-  UpdateProfilePayload, // tipo del argumento
-  { state: RootState; rejectValue: string }
->('profile/updateProfile', async (updatedData, thunkApi) => {
-  const state = thunkApi.getState();
-  const token = state.auth.token;
+export const getProfile = createAsyncThunk<User, void, { state: RootState; rejectValue: string }>(
+  'profile/getProfile',
+  async (_, thunkApi) => {
+    const token = thunkApi.getState().auth.token;
+    try {
+      const res = await fetch('https://brave-generosity-production.up.railway.app/api/User/me', {
+        method: 'GET',
+        headers: { Authorization: `Bearer ${token}` },
+      });
 
-  try {
-    const response = await fetch(
-      'https://brave-generosity-production.up.railway.app/api/User/update',
-      {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(updatedData),
+      if (!res.ok) {
+        const errorData = await res.json();
+        throw new Error(errorData.message || 'Error al obtener perfil');
       }
-    );
 
-    if (!response.ok) {
-      const errorText = await response.text();
-      throw new Error(`Error al actualizar perfil: ${errorText}`);
+      const data = await res.json();
+      return data as User;
+    } catch (error: unknown) {
+      let message = 'Error desconocido al obtener perfil';
+      if (error instanceof Error) {
+        message = error.message;
+      }
+      return thunkApi.rejectWithValue(message);
     }
-
-    const data = await response.json();
-    return data;
-  } catch (error: unknown) {
-    const message = error instanceof Error ? error.message : 'Error desconocido';
-    return thunkApi.rejectWithValue(message);
   }
-});
+);

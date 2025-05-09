@@ -1,6 +1,6 @@
 // hooks/useUpdateProfile.ts
 import { useDispatch } from 'react-redux';
-import { updateProfile } from '@/store/thunks/profileThunk';
+import { updateProfile } from '@/store/thunks/updateThunk';
 import { AppDispatch } from '@/store';
 import { UpdateProfilePayload } from '@/types/Profile/profileTypes';
 
@@ -11,5 +11,5 @@ export const useUpdateProfile = () => {
     dispatch(updateProfile(formData));
   };
 
-  return updateProfileAction;
+  return { updateProfileAction };
 };

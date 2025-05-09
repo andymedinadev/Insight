@@ -21,6 +21,7 @@ export { default as UserNav } from './icons/UserNav.svg';
 export { default as Logout } from './icons/Logout.svg';
 
 export { default as PatientProfilePic } from './patientProfilePic.png';
+export { default as BackgroundSignup } from './bg-signup.jpg';
 
 //exportaciones de iconos de botones
 export { default as UserplusButton } from './icons/UserplusButton.svg';

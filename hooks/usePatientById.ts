@@ -4,10 +4,11 @@ import { useParams } from 'next/navigation';
 import type { RootState } from '@/store';
 
 export const usePatientById = () => {
-  const { id } = useParams<{ id: string }>();
-  const { list: patientList } = useSelector((state: RootState) => state.patients);
+  const params = useParams<{ id: string }>();
+  const id = Number(params?.id);
+  const patientList = useSelector((state: RootState) => state.patients.list);
 
-  const patient = patientList.find((p) => p.id === Number(id));
+  const patient = isNaN(id) ? null : (patientList.find((p) => p.id === id) ?? null);
 
-  return { patient, id: Number(id) };
+  return { patient, id };
 };
