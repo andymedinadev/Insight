@@ -24,9 +24,15 @@ export { default as PatientProfilePic } from './patientProfilePic.png';
 
 //exportaciones de iconos de botones
 export { default as UserplusButton } from './icons/UserplusButton.svg';
+export { default as puntosFiltros } from './icons/puntosFiltros.svg';
+export { default as flechaAbajoLista } from './icons/flechaAbajoLista.svg';
+export { default as flechaArribaLista } from './icons/flechaArribaLista.svg';
 
 //exportaciones de iconos de inputs
 export { default as Search } from './icons/Search.svg';
 
 //exportaciones de iconos de filtros
 export { default as iconofilter } from './icons/iconofilter.svg';
+export { default as CheckFiltroOff } from './icons/CheckFiltroOff.svg';
+export { default as CheckFiltroOn } from './icons/CheckFiltroOn.svg';
+export { default as X } from './icons/X.svg';

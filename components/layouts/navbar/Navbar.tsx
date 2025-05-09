@@ -2,7 +2,7 @@ import { CurrentPath, NavbarButtons, NavbarClient } from '@/components';
 
 export default function Navbar() {
   return (
-    <header className="flex h-14 items-center justify-between border-b bg-white px-4 shadow lg:h-16 lg:px-6">
+    <header className="flex h-14 items-center justify-between border-b border-[#E6E8F0] bg-white px-4 shadow lg:h-16 lg:px-6">
       {/* Mobile: ícono hamburguesa + menú */}
       <NavbarClient />
 

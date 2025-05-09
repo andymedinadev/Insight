@@ -5,8 +5,10 @@ import { useSelector, useDispatch } from 'react-redux';
 import { AppDispatch } from '@/store';
 import { fetchPatients, deletePatient } from '@/store/thunks';
 import { selectFilteredPatients } from '@/store/selectors/patientSelectors';
+import { flechaAbajoLista, flechaArribaLista, puntosFiltros } from '@/public';
 
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 
 interface Props {
   variant?: 'home' | 'list';
@@ -16,6 +18,40 @@ export default function PatientList({ variant = 'home' }: Props) {
   const dispatch = useDispatch<AppDispatch>();
   const patients = useSelector(selectFilteredPatients);
   const [openMenuId, setOpenMenuId] = useState<string | null>(null);
+  const [isListVisible, setIsListVisible] = useState(true); // Nuevo estado para manejar la visibilidad
+
+  const avatars = [
+    'https://randomuser.me/api/portraits/men/11.jpg',
+    'https://randomuser.me/api/portraits/women/21.jpg',
+    'https://randomuser.me/api/portraits/men/31.jpg',
+    'https://randomuser.me/api/portraits/women/41.jpg',
+    'https://randomuser.me/api/portraits/men/51.jpg',
+    'https://randomuser.me/api/portraits/women/61.jpg',
+    'https://randomuser.me/api/portraits/men/71.jpg',
+    'https://randomuser.me/api/portraits/women/81.jpg',
+    'https://randomuser.me/api/portraits/men/91.jpg',
+    'https://randomuser.me/api/portraits/women/12.jpg',
+    'https://randomuser.me/api/portraits/men/22.jpg',
+    'https://randomuser.me/api/portraits/women/32.jpg',
+    'https://randomuser.me/api/portraits/men/42.jpg',
+    'https://randomuser.me/api/portraits/women/52.jpg',
+    'https://randomuser.me/api/portraits/men/62.jpg',
+    'https://randomuser.me/api/portraits/women/72.jpg',
+    'https://randomuser.me/api/portraits/men/82.jpg',
+    'https://randomuser.me/api/portraits/women/92.jpg',
+    'https://randomuser.me/api/portraits/men/13.jpg',
+    'https://randomuser.me/api/portraits/women/23.jpg',
+    'https://randomuser.me/api/portraits/men/33.jpg',
+    'https://randomuser.me/api/portraits/women/43.jpg',
+    'https://randomuser.me/api/portraits/men/53.jpg',
+    'https://randomuser.me/api/portraits/women/63.jpg',
+    'https://randomuser.me/api/portraits/men/73.jpg',
+    'https://randomuser.me/api/portraits/women/83.jpg',
+    'https://randomuser.me/api/portraits/men/93.jpg',
+    'https://randomuser.me/api/portraits/women/14.jpg',
+    'https://randomuser.me/api/portraits/men/24.jpg',
+    'https://randomuser.me/api/portraits/women/34.jpg',
+  ];
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -32,35 +68,29 @@ export default function PatientList({ variant = 'home' }: Props) {
   useEffect(() => {
     dispatch(fetchPatients());
   }, [dispatch]);
-  // Estado para detectar el tamaño de la ventana y definir si es Desktop o Mobile
+
   const [isMobile, setIsMobile] = useState<boolean>(false);
 
-  // Establecemos los estados solo después de que se haya montado el componente en el cliente
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth <= 1024); // 1024px es el umbral para Mobile
     };
 
-    // Establecemos el tamaño inicial al montar
     handleResize();
 
-    // Añadimos un event listener para ajustar cuando el tamaño cambie
     window.addEventListener('resize', handleResize);
 
-    // Limpiamos el event listener al desmontar
     return () => {
       window.removeEventListener('resize', handleResize);
     };
   }, []);
 
-  // **Mobile**: Estados para manejar "Ver más"
   const [mobileVisibleCount, setMobileVisibleCount] = useState(4);
 
   const loadMoreMobile = () => {
-    setMobileVisibleCount((prev) => prev + 4); // Aumentamos la cantidad de pacientes en 4
+    setMobileVisibleCount((prev) => prev + 4);
   };
 
-  // **Desktop**: Paginación independiente
   const [desktopPage, setDesktopPage] = useState(1);
   const desktopTotalPages = Math.ceil(patients.length / 8);
 
@@ -153,78 +183,109 @@ export default function PatientList({ variant = 'home' }: Props) {
     <>
       <div className="overflow-x-auto">
         <table className="w-screen text-left text-sm text-gray-600 lg:w-full">
-          <thead className="bg-gray-100 text-gray-700 uppercase">
+          <thead className="bg-[#F2F6FD] text-base leading-normal font-semibold text-black uppercase">
             <tr>
               <th className="px-4 py-3">Nombre</th>
               <th className="hidden px-4 py-3 lg:table-cell">Email</th>
               <th className="px-4 py-3">Últ. sesión</th>
               <th className="hidden px-4 py-3 lg:table-cell">Categoría</th>
               <th className="px-4 py-3">Acción</th>
+              <th
+                className="cursor-pointer px-4 py-3"
+                onClick={() => setIsListVisible(!isListVisible)}
+              >
+                <Image
+                  src={isListVisible ? flechaAbajoLista : flechaArribaLista}
+                  alt="puntos de filtro"
+                  width={22}
+                  height={22}
+                />
+              </th>
             </tr>
           </thead>
-          <tbody className="bg-white">
+          <tbody className="bg-white text-base leading-normal font-normal text-black">
             {/* Mostrar pacientes dependiendo de la vista */}
-            {(variant === 'list' && isMobile ? patientsForMobile : patientsForDesktop).map(
-              (patient) => (
-                <tr key={patient.id} className="relative border-b">
-                  <td
-                    className="px-4 py-3 hover:cursor-pointer"
-                    onClick={() => handleRedirect(patient.id)}
-                  >
-                    {patient.name}
-                  </td>
-                  <td className="hidden px-4 py-3 lg:table-cell">{patient.email}</td>
-                  <td className="px-4 py-3">{patient.lastSession}</td>
-                  <td className="hidden px-4 py-3 lg:table-cell">{patient.category}</td>
-                  <td className="px-4 py-3">
-                    <button
-                      className="text-xl"
-                      onClick={() =>
-                        setOpenMenuId((prev) =>
-                          prev === String(patient.id) ? null : String(patient.id)
-                        )
-                      }
+            {isListVisible ? (
+              (variant === 'list' && isMobile ? patientsForMobile : patientsForDesktop).map(
+                (patient, index) => (
+                  <tr key={patient.id} className="relative border-b border-[#CDDDF7]">
+                    <td
+                      className="px-4 py-3 hover:cursor-pointer"
+                      onClick={() => handleRedirect(patient.id)}
                     >
-                      ...
-                    </button>
-
-                    {openMenuId === String(patient.id) && (
-                      <div className="absolute right-0 z-10 mt-2 w-40 rounded-md border border-gray-200 bg-white shadow-md">
-                        <ul className="py-1 text-sm text-gray-700">
-                          <li>
-                            <button
-                              onClick={() => handleRedirect(patient.id)}
-                              className="w-full px-4 py-2 text-left hover:cursor-pointer hover:bg-gray-100"
-                            >
-                              Ver detalles
-                            </button>
-                          </li>
-                          <li>
-                            <button className="w-full px-4 py-2 text-left hover:bg-gray-100">
-                              Editar
-                            </button>
-                          </li>
-                          <li>
-                            <button
-                              className="w-full px-4 py-2 text-left text-red-600 hover:bg-gray-100"
-                              onClick={() => dispatch(deletePatient(patient.id))}
-                            >
-                              Eliminar
-                            </button>
-                          </li>
-                        </ul>
+                      <div className="flex flex-row items-center gap-2">
+                        <div>
+                          <Image
+                            src={avatars[index % avatars.length]}
+                            alt="avatar"
+                            width={32}
+                            height={32}
+                            className="h-8 w-8 rounded-full object-cover"
+                          />
+                        </div>
+                        <div>{patient.name}</div>
                       </div>
-                    )}
-                  </td>
-                </tr>
+                    </td>
+                    <td className="hidden px-4 py-3 lg:table-cell">{patient.email}</td>
+                    <td className="px-4 py-3">{patient.lastSession}</td>
+                    <td className="hidden px-4 py-3 lg:table-cell">{patient.category}</td>
+                    <td className="relative px-8 py-3">
+                      <button
+                        onClick={() =>
+                          setOpenMenuId((prev) =>
+                            prev === String(patient.id) ? null : String(patient.id)
+                          )
+                        }
+                      >
+                        <Image src={puntosFiltros} alt="puntos de filtro" width={22} height={22} />
+                      </button>
+
+                      {openMenuId === String(patient.id) && (
+                        <div className="absolute right-0 z-10 mt-2 w-40 rounded-md border border-gray-200 bg-white shadow-md">
+                          <ul className="py-1 text-sm text-gray-700">
+                            <li>
+                              <button
+                                onClick={() => handleRedirect(patient.id)}
+                                className="w-full px-4 py-2 text-left hover:cursor-pointer hover:bg-gray-100"
+                              >
+                                Ver detalles
+                              </button>
+                            </li>
+                            <li>
+                              <button className="w-full px-4 py-2 text-left hover:bg-gray-100">
+                                Editar
+                              </button>
+                            </li>
+                            <li>
+                              <button
+                                className="w-full px-4 py-2 text-left text-red-600 hover:bg-gray-100"
+                                onClick={() => dispatch(deletePatient(patient.id))}
+                              >
+                                Eliminar
+                              </button>
+                            </li>
+                          </ul>
+                        </div>
+                      )}
+                    </td>
+                  </tr>
+                )
               )
+            ) : (
+              <tr>
+                <td>asdasdasdasdasd</td>
+                <td>asdasdasdasdasd</td>
+                <td>asdasdasdasdasd</td>
+                <td>asdasdasdasdasd</td>
+                <td>asdasdasdasdasd</td>
+              </tr>
             )}
           </tbody>
         </table>
       </div>
 
       {/* **Vista Mobile**: Mostrar botón "Ver más" si estamos en la vista mobile */}
-      {variant === 'list' && isMobile && (
+      {variant === 'list' && isMobile && isListVisible && (
         <div className="mt-4 flex justify-center lg:hidden">
           <button onClick={loadMoreMobile} className="text-base font-medium text-black underline">
             Ver más
@@ -233,7 +294,7 @@ export default function PatientList({ variant = 'home' }: Props) {
       )}
 
       {/* **Vista Desktop**: Mostrar paginado si estamos en la vista desktop */}
-      {variant === 'list' && !isMobile && renderPaginationDesktop()}
+      {variant === 'list' && !isMobile && isListVisible && renderPaginationDesktop()}
     </>
   );
 }
