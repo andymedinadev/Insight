@@ -2,7 +2,8 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { Home, Perfil, Listado, Paciente, Soporte } from '@/public'; // Asegurate que exportás bien los paths
+import { usePathname } from 'next/navigation';
+import { Home, Perfil, Listado, Paciente, Soporte } from '@/public';
 
 const links = [
   { href: '/dashboard/home', label: 'Inicio', icon: Home },
@@ -13,20 +14,26 @@ const links = [
 ];
 
 export default function DashboardLinks() {
+  const pathname = usePathname();
+
   return (
     <>
-      {links.map(({ href, label, icon }) => (
-        <Link key={href} href={href} className="flex items-center hover:underline lg:mb-6">
-          <Image
-            src={icon}
-            alt={label}
-            width={20}
-            height={20}
-            className="mr-3 ml-6 object-contain"
-          />
-          <span>{label}</span>
-        </Link>
-      ))}
+      {links.map(({ href, label, icon }) => {
+        const isActive = pathname === href;
+
+        return (
+          <Link
+            key={href}
+            href={href}
+            className={`flex items-center text-base leading-normal font-normal lg:mb-2 lg:py-2 lg:text-[#000F27E5] ${
+              isActive ? 'border-l-4 border-[#0655D5] bg-[#F5F7FA] pl-[22px]' : 'pl-6'
+            }`}
+          >
+            <Image src={icon} alt={label} width={20} height={20} className="mr-3 object-contain" />
+            <span>{label}</span>
+          </Link>
+        );
+      })}
     </>
   );
 }

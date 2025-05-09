@@ -25,7 +25,7 @@ export default function CompletedList({ variant = 'home' }: Props) {
               </p>
             </div>
           )}
-          <div className="flex w-full flex-col items-center justify-between gap-2 lg:flex-row">
+          <div className="flex w-full flex-col items-center justify-between gap-2 lg:mb-1.5 lg:flex-row">
             <div className="flex w-full flex-col items-center gap-2 lg:flex-row lg:justify-start">
               {variant === 'list' && (
                 <>
