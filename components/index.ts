@@ -35,6 +35,7 @@ export { PatientProfileLorem } from './PatientProfile/PatientProfileLorem';
 // MedicalHistory
 export { default as MedicalHistoryHeader } from './MedicalHistory/MedicalHistoryHeader';
 export { default as MedicalHistoryList } from './MedicalHistory/MedicalHistoryList';
+export { default as MedicalHistoryNew } from './MedicalHistory/MedicalHistoryNew';
 
 // Pagination
 export { default as Pagination } from './Pagination/Pagination';

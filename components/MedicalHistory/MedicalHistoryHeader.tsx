@@ -3,15 +3,22 @@ import FilterButton from '../FilterButton/FilterButton';
 import SearchBar from '../SearchBar/SearchBar';
 import { useSearchParams } from 'next/navigation';
 
-export default function MedicalHistoryHeader() {
+type Props = {
+  onAddNewNote: () => void;
+};
+
+export default function MedicalHistoryHeader({ onAddNewNote }: Props) {
   const searchParams = useSearchParams();
   const from = searchParams.get('from');
   const isMaterial = from === 'material';
 
   return (
     <div className="flex items-center justify-between px-10 pt-10">
-      <button className="inline-flex h-12 items-center justify-center gap-2 rounded-lg border border-[#0655D5CC] bg-white/0 px-4 text-center font-sans text-base leading-normal font-semibold text-[#0655D5] shadow-[0px_4px_8px_-2px_rgba(0,0,0,0.04),0px_2px_4px_-2px_rgba(0,0,0,0.08)]">
-        {isMaterial ? 'Agregar nuevo material' : 'Agregar nueva nota'}
+      <button
+        onClick={onAddNewNote}
+        className="inline-flex h-12 items-center justify-center gap-2 rounded-lg border border-[#0655D5CC] bg-white/0 px-4 text-center font-sans text-base leading-normal font-semibold text-[#0655D5] shadow-[0px_4px_8px_-2px_rgba(0,0,0,0.04),0px_2px_4px_-2px_rgba(0,0,0,0.08)]"
+      >
+        {isMaterial ? '+ Agregar nuevo material' : '+ Agregar nueva nota'}
       </button>
 
       <div className="flex items-center gap-2">

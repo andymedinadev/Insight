@@ -1,11 +1,14 @@
 'use client';
-import { MedicalHistoryHeader, MedicalHistoryList } from '@/components';
+import { useState } from 'react';
+import { MedicalHistoryHeader, MedicalHistoryList, MedicalHistoryNew } from '@/components';
 import { useSearchParams } from 'next/navigation';
 
 export default function MedicalHistory() {
   const searchParams = useSearchParams();
   const from = searchParams.get('from');
   const isMaterial = from === 'material';
+
+  const [showNewNote, setShowNewNote] = useState(false);
 
   return (
     <div>
@@ -14,11 +17,19 @@ export default function MedicalHistory() {
           {isMaterial ? 'Material para el paciente' : 'Gestionar notas'}
         </h1>
       </div>
-      <div>
-        <MedicalHistoryHeader />
 
-        <MedicalHistoryList />
-      </div>
+      {!showNewNote && (
+        <div>
+          <MedicalHistoryHeader onAddNewNote={() => setShowNewNote(true)} />
+          <MedicalHistoryList />
+        </div>
+      )}
+
+      {showNewNote && (
+        <div>
+          <MedicalHistoryNew onSaved={() => setShowNewNote(false)} />
+        </div>
+      )}
     </div>
   );
 }
