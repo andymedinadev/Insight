@@ -67,7 +67,7 @@ export default function Pagination({ itemsPerPage, totalItems }: PaginationProps
           disabled={currentPage === totalPages}
           className="flex h-10 w-[94px] items-center justify-center gap-2 rounded-lg border-white pr-1 text-sm leading-tight font-normal text-gray-600 hover:bg-gray-100 disabled:opacity-50"
         >
-          Siguiente <Image src={Right} alt="Anterior" width={18} height={18} />
+          Siguiente <Image src={Right} alt="Siguiente" width={18} height={18} />
         </button>
       </div>
 
