@@ -1,10 +1,12 @@
 // slices/patientSlice.ts
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { createPatient, deletePatient, fetchPatients, updatePatient } from '@/store/thunks';
+import { mockMaterials, mockNotes } from '@/mocks';
 import type { Patient } from '@/types';
 
 interface PatientState {
-  list: Patient[];
+  raw: Patient[]; // Pacientes originales recibidos
+  list: Patient[]; // Pacientes transformados con mocks
   searchTerm: string;
   selected: Patient | null;
   loading: boolean;
@@ -18,6 +20,7 @@ interface PatientState {
 }
 
 const initialState: PatientState = {
+  raw: [],
   list: [],
   searchTerm: '',
   selected: null,
@@ -27,9 +30,15 @@ const initialState: PatientState = {
   filters: {
     modalidad: [],
     genero: [],
-    rangoEtario: []
-  }
+    rangoEtario: [],
+  },
 };
+
+const addMockData = (paciente: Patient): Patient => ({
+  ...paciente,
+  notes: mockNotes,
+  materials: mockMaterials,
+});
 
 export const patientSlice = createSlice({
   name: 'patients',
@@ -58,7 +67,8 @@ export const patientSlice = createSlice({
       .addCase(fetchPatients.fulfilled, (state, action) => {
         state.loading = false;
         state.error = null;
-        state.list = action.payload;
+        state.raw = action.payload;
+        state.list = action.payload.map(addMockData);
       })
       .addCase(fetchPatients.rejected, (state, action) => {
         state.loading = false;
