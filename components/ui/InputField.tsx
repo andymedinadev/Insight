@@ -23,8 +23,16 @@ export default function InputField({
 }: InputFieldProps) {
   return (
     <div>
-      <label htmlFor={id} className="block text-base font-medium text-black">
-        {label} {required && <span>*</span>}
+      <label
+        htmlFor={id}
+        className="justify-start font-['Roboto'] text-base leading-normal font-normal text-black/90"
+      >
+        {label}{' '}
+        {required && (
+          <span className="justify-start font-['Roboto'] text-base leading-normal font-normal text-black/60">
+            *
+          </span>
+        )}
       </label>
       <input
         id={id}
