@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { AppDispatch } from '@/store';
+import { AppDispatch, RootState } from '@/store';
 import { fetchPatients, deletePatient } from '@/store/thunks';
 import { selectFilteredPatients } from '@/store/selectors/patientSelectors';
 import { flechaAbajoLista, flechaArribaLista, puntosFiltros } from '@/public';
@@ -16,6 +16,7 @@ interface Props {
 
 export default function PatientList({ variant = 'home' }: Props) {
   const dispatch = useDispatch<AppDispatch>();
+  const initialized = useSelector((state: RootState) => state.patients.initialized);
   const patients = useSelector(selectFilteredPatients);
   const [openMenuId, setOpenMenuId] = useState<string | null>(null);
   const [isListVisible, setIsListVisible] = useState(true); // Nuevo estado para manejar la visibilidad
@@ -66,8 +67,10 @@ export default function PatientList({ variant = 'home' }: Props) {
 
   // Al montar, hacemos fetch
   useEffect(() => {
-    dispatch(fetchPatients());
-  }, [dispatch]);
+    if (!initialized) {
+      dispatch(fetchPatients());
+    }
+  }, [dispatch, initialized]);
 
   const [isMobile, setIsMobile] = useState<boolean>(false);
 

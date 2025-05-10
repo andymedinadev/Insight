@@ -1,7 +1,7 @@
 // slices/patientSlice.ts
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { createPatient, deletePatient, fetchPatients, updatePatient } from '@/store/thunks';
-import { mockMaterials, mockNotes } from '@/mocks';
+import { mockMaterials, mockNotes, mockPatients } from '@/mocks';
 import type { Material, Note, Patient } from '@/types';
 
 interface PatientState {
@@ -89,10 +89,14 @@ export const patientSlice = createSlice({
         state.error = null;
         state.raw = action.payload;
         state.list = action.payload.map(addMockData);
+        state.initialized = true;
       })
       .addCase(fetchPatients.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.payload || 'Error al obtener pacientes';
+        state.error = action.payload || 'Error al obtener pacientes. Usando datos mock.';
+        state.raw = mockPatients;
+        state.list = mockPatients.map(addMockData);
+        state.initialized = true;
       })
 
       // ELIMINAR UN PACIENTE
