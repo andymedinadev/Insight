@@ -4,13 +4,17 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectCurrentPage } from '@/store/selectors/paginationSelectors';
 import { setTotalPages } from '@/store/slices/paginationSlice';
-import Pagination from '../Pagination/Pagination';
-
 import { usePatientById } from '@/hooks';
+import { Note } from '@/types';
+import Pagination from '../Pagination/Pagination';
 
 const itemsPerPage = 5;
 
-export default function MedicalHistoryList() {
+interface Props {
+  onSelectedNote: (note: Note) => void;
+}
+
+export default function MedicalHistoryList({ onSelectedNote }: Props) {
   const searchParams = useSearchParams();
   const isMaterial = searchParams.get('from') === 'material';
 
@@ -44,7 +48,11 @@ export default function MedicalHistoryList() {
       {/* Lista de notas o materiales */}
       <div className="space-y-4">
         {paginatedData.map((item) => (
-          <div key={item.id} className="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
+          <div
+            key={item.id}
+            onClick={() => onSelectedNote(item)}
+            className="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm"
+          >
             <p className="text-sm font-semibold text-gray-500">{item.date}</p>
             <h2 className="text-lg font-bold text-gray-800">{item.title}</h2>
             <p className="text-gray-500">{item.content}</p>
