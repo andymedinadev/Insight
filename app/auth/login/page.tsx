@@ -8,7 +8,9 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 
 import { useLogin } from '@/hooks/useLogin';
-import Button from '@/components/ui/Button';
+
+import { BackgroundLogin, Logo as InsightLogo } from '@/public';
+import { InputField } from '@/components';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -51,86 +53,103 @@ export default function LoginPage() {
   return (
     <div className="flex min-h-screen w-full flex-col">
       {/* Texto "INSIGHT" solo visible en móvil */}
-      <div className="mt-8 flex w-full justify-center md:hidden">
+      <div className="mt-9 flex w-full justify-center px-3 py-5 md:hidden">
         <Image
-          src="/icons/Logo.svg"
-          alt="Logo"
-          width={128}
-          height={40}
+          src={InsightLogo}
+          alt="InsightLogo"
+          width={110}
+          height={34}
           className="object-contain"
         />
       </div>
 
       {/* Contenido principal con grid */}
-      <div className="grid h-full w-full grid-cols-1 md:h-screen md:grid-cols-2">
+      <div className="mt-12 grid h-full w-full grid-cols-1 px-6 md:h-screen md:grid-cols-2 lg:mt-0">
         {/* Columna del formulario */}
-        <div className="flex h-full items-center justify-center bg-white p-6 sm:p-10">
-          <div className="w-full max-w-md">
-            <h2 className="font-['Inter'] text-3xl font-medium text-black">Comience su jornada</h2>
-            <h3 className="mt-16 mb-2 font-['Inter'] text-2xl font-medium text-black">
+        <div className="flex h-full items-center justify-center bg-white lg:m-auto lg:block lg:w-[470px] 2xl:pt-20">
+          <div>
+            <div className="mt-16 hidden py-7 lg:block">
+              {/* LOGO */}
+              <Image
+                src={InsightLogo}
+                alt="InsightLogo"
+                width={150}
+                height={34}
+                className="object-contain"
+              />
+            </div>
+            {/* Formulario */}
+            <h2 className="justify-start font-['Roboto'] text-2xl font-bold text-black lg:mt-5 lg:text-3xl lg:leading-[48px] lg:font-semibold">
+              Comience su jornada
+            </h2>
+
+            <h3 className="mt-8 justify-start font-['Roboto'] text-xl font-semibold text-black lg:mt-12 lg:text-3xl lg:leading-10 lg:font-normal">
               Inicie sesión
             </h3>
-            <p className="mt-7 font-['Inter'] text-base leading-tight font-normal tracking-wide text-black">
+            <p className="mt-3 w-[350px] justify-start font-['Roboto'] text-base leading-tight font-normal text-black lg:w-[445px] lg:text-lg">
               Acceda a su cuenta para continuar acompañando a sus pacientes de manera segura y
               eficiente.
             </p>
-            <p className="mt-16 mb-5 text-base font-normal text-black">*Datos Requeridos</p>
+            <div className="mt-10 justify-start lg:mt-14">
+              <span className="font-['Roboto'] text-sm leading-tight font-normal text-red-600 lg:text-base lg:leading-normal">
+                *
+              </span>
+              <span className="font-['Roboto'] text-sm leading-tight font-normal text-black lg:text-base lg:leading-normal">
+                Datos Requeridos
+              </span>
+            </div>
 
-            <form onSubmit={formik.handleSubmit} className="space-y-4">
-              <div>
-                <label htmlFor="email" className="block font-['Inter'] text-base text-black">
-                  Correo electrónico o usuario <span className="text-gray-400">*</span>
-                </label>
-                <input
-                  name="email"
-                  id="email"
-                  placeholder="Ingrese su correo o usuario"
-                  value={formik.values.email}
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  required
-                  className="mt-1 h-12 w-full rounded-lg border border-gray-300 bg-gray-50 px-4 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
-                />
-                {formik.touched.email && formik.errors.email && (
-                  <p className="mt-1 text-sm text-red-500">{formik.errors.email}</p>
-                )}
-              </div>
+            <form onSubmit={formik.handleSubmit} className="mt-6 w-[350px] space-y-4 lg:w-[470px]">
+              <InputField
+                type="email"
+                label="Email"
+                required
+                id="email"
+                value={formik.values.email}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                hasError={formik.touched.email && Boolean(formik.errors.email)}
+                errorMessage={formik.touched.email ? formik.errors.email : undefined}
+              />
 
-              <div>
-                <label htmlFor="password" className="block font-['Inter'] text-base text-black">
-                  Contraseña <span className="text-gray-400">*</span>
-                </label>
-                <input
-                  type="password"
-                  name="password"
-                  id="password"
-                  placeholder="Ingrese su contraseña"
-                  value={formik.values.password}
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  required
-                  className="mt-1 h-12 w-full rounded-lg border border-gray-300 bg-gray-50 px-4 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
-                />
-                {formik.touched.password && formik.errors.password && (
-                  <p className="mt-1 text-sm text-red-500">{formik.errors.password}</p>
-                )}
-              </div>
+              <InputField
+                type="password"
+                label="Contraseña"
+                required
+                id="password"
+                value={formik.values.password}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                hasError={formik.touched.password && Boolean(formik.errors.password)}
+                errorMessage={formik.touched.password ? formik.errors.password : undefined}
+              />
 
-              <div className="text-right">
-                <a href="#" className="font-['Inter'] text-sm font-bold text-[#0655D5] underline">
+              <div className="mt-2.5 pr-4 text-right lg:-mt-2 lg:mb-0 lg:pr-0">
+                <a className="justify-start font-['Roboto'] text-sm leading-normal font-bold text-blue-700 underline">
                   ¿Olvidó su contraseña?
                 </a>
               </div>
 
-              <Button type="submit" disabled={isLoading}>
-                {isLoading ? 'Cargando...' : 'Iniciar Sesión'}
-              </Button>
+              <div className="mt-6 mb-0 inline-flex h-12 w-[350px] items-center justify-center rounded-lg bg-[#0655D5] lg:mt-8 lg:w-[470px] lg:rounded-xl">
+                <button
+                  type="submit"
+                  disabled={isLoading}
+                  className="justify-start border-none text-center font-['Roboto'] text-base leading-normal font-semibold text-white lg:text-2xl lg:leading-7"
+                >
+                  {isLoading ? 'Cargando...' : 'Iniciar Sesión'}
+                </button>
+              </div>
 
               {error && <p className="text-red-500">{error}</p>}
 
-              <div className="mt-4 flex justify-center font-['Inter'] text-sm text-black">
-                ¿No tiene cuenta?{' '}
-                <Link href="signup" className="ml-1 font-bold text-[#0655D5] underline">
+              <div className="m-auto mt-5 flex h-6 w-60 items-center justify-center gap-4">
+                <div className="justify-start font-['Roboto'] text-sm leading-tight font-semibold text-black">
+                  ¿No tiene una cuenta?
+                </div>
+                <Link
+                  href="signup"
+                  className="justify-start font-['Roboto'] text-sm leading-normal font-bold text-blue-700 underline"
+                >
                   Registrarse
                 </Link>
               </div>
@@ -139,8 +158,13 @@ export default function LoginPage() {
         </div>
 
         {/* Columna decorativa derecha */}
-        <div className="relative hidden h-full w-full overflow-hidden md:block">
-          <Image src="/login.jpg" alt="Imagen decorativa" fill className="object-cover" priority />
+        <div className="relative hidden w-1/2 overflow-hidden lg:block lg:max-h-[1024] lg:max-w-[720px] 2xl:max-h-[1080px] 2xl:max-w-[990px]">
+          <Image
+            priority
+            className="fixed h-full w-full object-fill lg:max-w-[720px] 2xl:max-w-[990px]"
+            src={BackgroundLogin}
+            alt="Login page Background"
+          />
         </div>
       </div>
     </div>
