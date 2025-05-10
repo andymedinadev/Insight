@@ -1,7 +1,13 @@
 'use client';
 import { useState } from 'react';
-import { MedicalHistoryHeader, MedicalHistoryList, MedicalHistoryNew } from '@/components';
+import {
+  MedicalHistoryHeader,
+  MedicalHistoryList,
+  MedicalHistoryNew,
+  MedicalHistoryView,
+} from '@/components';
 import { useSearchParams } from 'next/navigation';
+import { Note } from '@/types';
 
 export default function MedicalHistory() {
   const searchParams = useSearchParams();
@@ -9,6 +15,7 @@ export default function MedicalHistory() {
   const isMaterial = from === 'material';
 
   const [showNewNote, setShowNewNote] = useState(false);
+  const [selectedNote, setSelectedNote] = useState<Note | null>(null);
 
   return (
     <div>
@@ -18,16 +25,22 @@ export default function MedicalHistory() {
         </h1>
       </div>
 
-      {!showNewNote && (
+      {!showNewNote && !selectedNote && (
         <div>
           <MedicalHistoryHeader onAddNewNote={() => setShowNewNote(true)} />
-          <MedicalHistoryList />
+          <MedicalHistoryList onSelectedNote={(note) => setSelectedNote(note)} />
         </div>
       )}
 
       {showNewNote && (
         <div>
           <MedicalHistoryNew onSaved={() => setShowNewNote(false)} />
+        </div>
+      )}
+
+      {selectedNote && (
+        <div>
+          <MedicalHistoryView note={selectedNote} />
         </div>
       )}
     </div>
