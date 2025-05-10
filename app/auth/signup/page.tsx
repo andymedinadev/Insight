@@ -87,7 +87,7 @@ export default function SignupPage() {
   return (
     <div className="flex min-h-screen items-stretch justify-center bg-white 2xl:items-start">
       {/* Form */}
-      <div className="flex h-full w-full flex-col lg:h-full lg:w-1/2 lg:flex-row">
+      <div className="flex h-full w-full flex-col lg:h-full lg:w-1/2 lg:flex-row 2xl:mt-20">
         {/* Logo Mobile */}
         <div className="mt-9 mb-12 ml-32 px-3 py-5 text-center lg:hidden">
           <Image src={InsightLogo} width={110} height={34} alt="Insight Logo" />
@@ -125,11 +125,9 @@ export default function SignupPage() {
               onBlur={formik.handleBlur}
               placeholder="Ingrese sus nombre/s"
               required
+              hasError={formik.touched.name && Boolean(formik.errors.name)}
+              errorMessage={formik.touched.name ? formik.errors.name : undefined}
             />
-
-            {formik.touched.name && formik.errors.name && (
-              <p className="mt-1 text-sm text-red-500">{formik.errors.name}</p>
-            )}
 
             <InputField
               id="lastname"
@@ -139,11 +137,9 @@ export default function SignupPage() {
               onBlur={formik.handleBlur}
               placeholder="Ingrese sus apellido/s"
               required
+              hasError={formik.touched.lastname && Boolean(formik.errors.lastname)}
+              errorMessage={formik.touched.lastname ? formik.errors.lastname : undefined}
             />
-
-            {formik.touched.lastname && formik.errors.lastname && (
-              <p className="mt-1 text-sm text-red-500">{formik.errors.lastname}</p>
-            )}
 
             <InputField
               id="email"
@@ -154,11 +150,9 @@ export default function SignupPage() {
               onBlur={formik.handleBlur}
               placeholder="Ingrese su email"
               required
+              hasError={formik.touched.email && Boolean(formik.errors.email)}
+              errorMessage={formik.touched.email ? formik.errors.email : undefined}
             />
-
-            {formik.touched.email && formik.errors.email && (
-              <p className="mt-1 text-sm text-red-500">{formik.errors.email}</p>
-            )}
 
             <InputField
               id="phone"
@@ -168,11 +162,9 @@ export default function SignupPage() {
               onBlur={formik.handleBlur}
               placeholder="Ingrese su número de teléfono"
               required
+              hasError={formik.touched.phone && Boolean(formik.errors.phone)}
+              errorMessage={formik.touched.phone ? formik.errors.phone : undefined}
             />
-
-            {formik.touched.phone && formik.errors.phone && (
-              <p className="mt-1 text-sm text-red-500">{formik.errors.phone}</p>
-            )}
 
             <InputField
               id="password"
@@ -183,11 +175,9 @@ export default function SignupPage() {
               onBlur={formik.handleBlur}
               placeholder="Ingrese su contraseña"
               required
+              hasError={formik.touched.password && Boolean(formik.errors.password)}
+              errorMessage={formik.touched.password ? formik.errors.password : undefined}
             />
-
-            {formik.touched.password && formik.errors.password && (
-              <p className="mt-1 text-sm text-red-500">{formik.errors.password}</p>
-            )}
 
             <InputField
               id="repeatPassword"
@@ -198,11 +188,11 @@ export default function SignupPage() {
               onBlur={formik.handleBlur}
               placeholder="Ingrese la contraseña nuevamente"
               required
+              hasError={formik.touched.repeatPassword && Boolean(formik.errors.repeatPassword)}
+              errorMessage={
+                formik.touched.repeatPassword ? formik.errors.repeatPassword : undefined
+              }
             />
-
-            {formik.touched.repeatPassword && formik.errors.repeatPassword && (
-              <p className="mt-1 text-sm text-red-500">{formik.errors.repeatPassword}</p>
-            )}
 
             <Button type="submit" disabled={isLoading} className="mt-4 flex border-none lg:mt-4">
               <div className="inline-flex h-12 w-96 items-center justify-center rounded-lg bg-[#0655D5] lg:w-[470px] lg:rounded-xl">
