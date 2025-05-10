@@ -30,8 +30,11 @@ export default function MedicalHistoryView({ note }: Props) {
         {note?.date}
       </div>
       <div>
-        <h1 className="mb-5">Cosas importantes de la sesión</h1>
-        <p>{note?.content}</p>
+        {note.content ? (
+          <p>{note.content}</p>
+        ) : (
+          <p className="mb-5 text-center text-gray-500">(Nota vacía)</p>
+        )}
       </div>
     </div>
   );
