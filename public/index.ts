@@ -5,6 +5,9 @@
 export { default as Logo } from './icons/Logo.svg';
 export { default as User } from './icons/User.svg';
 export { default as Calendar } from './icons/Calendar.svg';
+export { default as Xerror } from './icons/Xerror.svg';
+export { default as OpenEye } from './icons/openEye.svg';
+export { default as ClosedEye } from './icons/closedEye.svg';
 
 //Exportaciones sidebar
 export { default as Home } from './icons/Home.svg';
@@ -22,6 +25,7 @@ export { default as Logout } from './icons/Logout.svg';
 
 export { default as PatientProfilePic } from './patientProfilePic.png';
 export { default as BackgroundSignup } from './bg-signup.jpg';
+export { default as BackgroundLogin } from './login.jpg';
 
 //exportaciones de iconos de botones
 export { default as UserplusButton } from './icons/UserplusButton.svg';
