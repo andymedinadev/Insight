@@ -1,4 +1,10 @@
 import { patientSlice } from '@/store/slices/patientSlice';
 
-export const { setSearchTerm, setFilterRangoEtario, setFilterGenero, setFilterModalidad } =
-  patientSlice.actions;
+export const {
+  addMaterialToPatient,
+  addNoteToPatient,
+  setFilterGenero,
+  setFilterModalidad,
+  setFilterRangoEtario,
+  setSearchTerm,
+} = patientSlice.actions;

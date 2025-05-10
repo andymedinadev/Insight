@@ -2,7 +2,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { createPatient, deletePatient, fetchPatients, updatePatient } from '@/store/thunks';
 import { mockMaterials, mockNotes } from '@/mocks';
-import type { Patient } from '@/types';
+import type { Material, Note, Patient } from '@/types';
 
 interface PatientState {
   raw: Patient[]; // Pacientes originales recibidos
@@ -55,6 +55,26 @@ export const patientSlice = createSlice({
     },
     setFilterModalidad(state, action: PayloadAction<string[]>) {
       state.filters.modalidad = action.payload;
+    },
+    addNoteToPatient(state, action: PayloadAction<{ patientId: number; note: Note }>) {
+      const { patientId, note } = action.payload;
+      const patient = state.list.find((p) => p.id === patientId);
+      if (patient) {
+        if (!patient.notes) {
+          patient.notes = [];
+        }
+        patient.notes.unshift(note);
+      }
+    },
+    addMaterialToPatient(state, action: PayloadAction<{ patientId: number; material: Material }>) {
+      const { patientId, material } = action.payload;
+      const patient = state.list.find((p) => p.id === patientId);
+      if (patient) {
+        if (!patient.materials) {
+          patient.materials = [];
+        }
+        patient.materials.unshift(material);
+      }
     },
   },
   extraReducers: (builder) => {
