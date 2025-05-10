@@ -1,8 +1,8 @@
 // slices/patientSlice.ts
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { createPatient, deletePatient, fetchPatients, updatePatient } from '@/store/thunks';
-import { mockMaterials, mockNotes } from '@/mocks';
-import type { Patient } from '@/types';
+import { mockMaterials, mockNotes, mockPatients } from '@/mocks';
+import type { Material, Note, Patient } from '@/types';
 
 interface PatientState {
   raw: Patient[]; // Pacientes originales recibidos
@@ -56,6 +56,45 @@ export const patientSlice = createSlice({
     setFilterModalidad(state, action: PayloadAction<string[]>) {
       state.filters.modalidad = action.payload;
     },
+    addNoteToPatient(state, action: PayloadAction<{ patientId: number; note: Omit<Note, 'id'> }>) {
+      const { patientId, note } = action.payload;
+
+      const patient = state.list.find((p) => p.id === patientId);
+
+      if (patient) {
+        if (!patient.notes) {
+          patient.notes = [];
+        }
+
+        const newNote: Note = {
+          ...note,
+          id: Date.now(),
+        };
+
+        patient.notes.unshift(newNote);
+      }
+    },
+    addMaterialToPatient(
+      state,
+      action: PayloadAction<{ patientId: number; material: Omit<Material, 'id'> }>
+    ) {
+      const { patientId, material } = action.payload;
+
+      const patient = state.list.find((p) => p.id === patientId);
+
+      if (patient) {
+        if (!patient.materials) {
+          patient.materials = [];
+        }
+
+        const newMaterial: Material = {
+          ...material,
+          id: Date.now(),
+        };
+
+        patient.materials.unshift(newMaterial);
+      }
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -69,10 +108,14 @@ export const patientSlice = createSlice({
         state.error = null;
         state.raw = action.payload;
         state.list = action.payload.map(addMockData);
+        state.initialized = true;
       })
       .addCase(fetchPatients.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.payload || 'Error al obtener pacientes';
+        state.error = action.payload || 'Error al obtener pacientes. Usando datos mock.';
+        state.raw = mockPatients;
+        state.list = mockPatients.map(addMockData);
+        state.initialized = true;
       })
 
       // ELIMINAR UN PACIENTE
