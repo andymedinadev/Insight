@@ -6,7 +6,7 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 
 import { usePatientById } from '@/hooks';
-import { addNoteToPatient } from '@/store/actions/patientActions';
+import { addNoteToPatient, addMaterialToPatient } from '@/store/actions/patientActions';
 import { Note /*, Material*/ } from '@/types';
 
 type Props = {
@@ -51,11 +51,12 @@ export default function MedicalHistoryNew({ onSaved }: Props) {
 
       onSaved();
 
-      // acá es cuando se guarda la nota en el store
-      dispatch(addNoteToPatient({ patientId: id, note: newNote }));
-
-      // así sería con los materiales
-      // dispatch(addMaterialToPatient({ patientId: id, material: newMaterial  }));
+      // acá es cuando se guarda la nota/material en el store
+      if (isMaterial) {
+        dispatch(addMaterialToPatient({ patientId: id, material: newNote }));
+      } else {
+        dispatch(addNoteToPatient({ patientId: id, note: newNote }));
+      }
 
       // try {
       //   const resultAction = await dispatch(createPatient(newPatient));
