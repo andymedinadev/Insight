@@ -56,24 +56,43 @@ export const patientSlice = createSlice({
     setFilterModalidad(state, action: PayloadAction<string[]>) {
       state.filters.modalidad = action.payload;
     },
-    addNoteToPatient(state, action: PayloadAction<{ patientId: number; note: Note }>) {
+    addNoteToPatient(state, action: PayloadAction<{ patientId: number; note: Omit<Note, 'id'> }>) {
       const { patientId, note } = action.payload;
+
       const patient = state.list.find((p) => p.id === patientId);
+
       if (patient) {
         if (!patient.notes) {
           patient.notes = [];
         }
-        patient.notes.unshift(note);
+
+        const newNote: Note = {
+          ...note,
+          id: Date.now(),
+        };
+
+        patient.notes.unshift(newNote);
       }
     },
-    addMaterialToPatient(state, action: PayloadAction<{ patientId: number; material: Material }>) {
+    addMaterialToPatient(
+      state,
+      action: PayloadAction<{ patientId: number; material: Omit<Material, 'id'> }>
+    ) {
       const { patientId, material } = action.payload;
+
       const patient = state.list.find((p) => p.id === patientId);
+
       if (patient) {
         if (!patient.materials) {
           patient.materials = [];
         }
-        patient.materials.unshift(material);
+
+        const newMaterial: Material = {
+          ...material,
+          id: Date.now(),
+        };
+
+        patient.materials.unshift(newMaterial);
       }
     },
   },

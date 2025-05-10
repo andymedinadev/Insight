@@ -42,10 +42,9 @@ export default function MedicalHistoryNew({ onSaved }: Props) {
     onSubmit: async (values) => {
       console.log('Datos del formulario de notas:', values);
 
-      const newNote: Note = {
+      const newNote: Omit<Note, 'id'> = {
         content: values.content,
         date: values.date,
-        id: 500,
         title: values.title,
       };
       console.log(newNote);
