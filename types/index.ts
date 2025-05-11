@@ -8,6 +8,13 @@ export type { SignupPayload } from './Signup/signupPayload';
 export type { RegisterResponse } from './Signup/registerResponse';
 
 export type { FrequentQuestion } from './frequentQuestion';
+export type {
+  DuracionSesion,
+  HardcodedPatient,
+  ModalityType,
+  RangoEtario,
+  SexType,
+} from './hardcodedPatient';
 export type { Material } from './material';
 export type { Note } from './note';
 export type { Patient } from './patient';
