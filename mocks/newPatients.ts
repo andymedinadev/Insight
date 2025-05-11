@@ -1,6 +1,6 @@
-import { TypeNewPatient } from '@/types';
+import { NewPatient } from '@/types';
 
-export const mockNewPatients: TypeNewPatient[] = [
+export const mockNewPatients: NewPatient[] = [
   {
     name: 'María',
     surname: 'González',

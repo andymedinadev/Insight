@@ -1,5 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import type { Patient, TypeNewPatient, UpdatePatientPayload } from '@/types';
+import type { Patient, NewPatient, UpdatePatientPayload } from '@/types';
 import type { RootState } from '../index';
 
 // Traer todos los pacientes
@@ -67,7 +67,7 @@ export const deletePatient = createAsyncThunk<number, number, { rejectValue: str
 );
 
 // Crear un paciente
-export const createPatient = createAsyncThunk<Patient, TypeNewPatient, { rejectValue: string }>(
+export const createPatient = createAsyncThunk<Patient, NewPatient, { rejectValue: string }>(
   'patients/createPatient',
   async (newPatient, thunkApi) => {
     const state = thunkApi.getState() as RootState;
