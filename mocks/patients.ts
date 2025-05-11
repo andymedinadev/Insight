@@ -17,6 +17,7 @@ export const mockPatients: Patient[] = [
     age: 39,
     lastSession: '02/10/2022',
     category: 'Adulto',
+    filed: false,
   },
   {
     id: 2,
@@ -34,6 +35,7 @@ export const mockPatients: Patient[] = [
     age: 34,
     lastSession: '02/10/2022',
     category: 'Adulto',
+    filed: true,
   },
   {
     id: 3,
@@ -51,6 +53,7 @@ export const mockPatients: Patient[] = [
     age: 42,
     lastSession: '02/10/2022',
     category: 'Adulto',
+    filed: true,
   },
   {
     id: 4,
@@ -68,6 +71,7 @@ export const mockPatients: Patient[] = [
     age: 30,
     lastSession: '02/10/2022',
     category: 'Adulto',
+    filed: true,
   },
   {
     id: 5,
@@ -85,6 +89,7 @@ export const mockPatients: Patient[] = [
     age: 37,
     lastSession: '02/10/2022',
     category: 'Adulto',
+    filed: false,
   },
   {
     id: 6,
@@ -102,6 +107,7 @@ export const mockPatients: Patient[] = [
     age: 32,
     lastSession: '02/10/2022',
     category: 'Adulto',
+    filed: false,
   },
   {
     id: 7,
@@ -119,6 +125,7 @@ export const mockPatients: Patient[] = [
     age: 44,
     lastSession: '02/10/2022',
     category: 'Adulto',
+    filed: false,
   },
   {
     id: 8,
@@ -136,6 +143,7 @@ export const mockPatients: Patient[] = [
     age: 30,
     lastSession: '02/10/2022',
     category: 'Adulto',
+    filed: false,
   },
   {
     id: 9,
@@ -153,6 +161,7 @@ export const mockPatients: Patient[] = [
     age: 41,
     lastSession: '02/10/2022',
     category: 'Adulto',
+    filed: false,
   },
   {
     id: 10,
@@ -170,6 +179,7 @@ export const mockPatients: Patient[] = [
     age: 33,
     lastSession: '02/10/2022',
     category: 'Adulto',
+    filed: false,
   },
   {
     id: 11,
@@ -187,6 +197,7 @@ export const mockPatients: Patient[] = [
     age: 37,
     lastSession: '02/10/2022',
     category: 'Adulto',
+    filed: false,
   },
   {
     id: 12,
@@ -204,6 +215,7 @@ export const mockPatients: Patient[] = [
     age: 31,
     lastSession: '02/10/2022',
     category: 'Adulto',
+    filed: false,
   },
   {
     id: 13,
@@ -221,6 +233,7 @@ export const mockPatients: Patient[] = [
     age: 38,
     lastSession: '02/10/2022',
     category: 'Adulto',
+    filed: false,
   },
   {
     id: 14,
@@ -238,6 +251,7 @@ export const mockPatients: Patient[] = [
     age: 28,
     lastSession: '02/10/2022',
     category: 'Adulto',
+    filed: false,
   },
   {
     id: 15,
@@ -255,5 +269,6 @@ export const mockPatients: Patient[] = [
     age: 40,
     lastSession: '02/10/2022',
     category: 'Adulto',
+    filed: false,
   },
 ];

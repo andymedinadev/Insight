@@ -19,4 +19,5 @@ export interface Patient {
   category?: string;
   notes?: Note[];
   materials?: Material[];
+  filed?: boolean;
 }

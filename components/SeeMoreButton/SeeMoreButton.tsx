@@ -3,9 +3,9 @@ import React from 'react';
 
 export default function SeeMoreButton() {
   return (
-    <div className="flex items-center justify-center text-center">
+    <div className="mb-2.5 flex items-center justify-center text-center">
       <Link href="/dashboard/patientlist">
-        <p className="text-base leading-loose font-medium text-black underline">Ver más</p>
+        <p className="text-sm leading-tight font-semibold text-black underline">Ver más</p>
       </Link>
     </div>
   );

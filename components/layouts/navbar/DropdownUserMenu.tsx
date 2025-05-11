@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { forwardRef } from 'react';
-import { UserNav, Logout } from '@/public';
+import { UserNav, Logout, Avatar } from '@/public';
 
 type DropdownUserMenuProps = {
   popupRef: React.RefObject<HTMLDivElement>;
@@ -14,17 +14,18 @@ const DropdownUserMenu = forwardRef<HTMLDivElement, DropdownUserMenuProps>(({ on
   return (
     <div
       ref={ref}
-      className="absolute right-10 z-10 mt-5 h-56 w-2xs rounded-md border border-gray-200 bg-white shadow-md"
+      className="absolute right-10 z-10 mt-5 h-56 w-2xs rounded-md border border-[#E6E8F0] bg-white shadow-md"
     >
       <div className="flex h-full flex-col justify-between">
         <div className="mt-5 flex items-center px-4 py-2">
-          <div className="outline-Stroke-Weak/10 relative mr-3 h-12 w-12 rounded-[48px] outline-1 outline-offset-[-1px]" />
+          {/*<div className="outline-Stroke-Weak/10 relative mr-3 h-12 w-12 rounded-[48px] outline-1 outline-offset-[-1px]" /> */}
+          <Image src={Avatar} alt="Icon" width={48} height={48} className="mr-2 inline-block" />
           <div>
             <p className="text-base leading-normal font-normal">María José</p>
             <p className="text-sm leading-tight font-normal">mariajohaynes@gmail.com</p>
           </div>
         </div>
-        <hr />
+        <hr className="border-[#E6E8F0]" />
         <div className="cursor-pointer">
           <div className="flex flex-row px-4 py-3">
             <Image src={UserNav} alt="Icon" width={24} height={24} className="mr-2 inline-block" />
@@ -33,7 +34,7 @@ const DropdownUserMenu = forwardRef<HTMLDivElement, DropdownUserMenuProps>(({ on
             </Link>
           </div>
         </div>
-        <hr />
+        <hr className="border-[#E6E8F0]" />
         <div className="mb-5 flex flex-row px-4 py-2">
           <Image src={Logout} alt="Icon" width={24} height={24} className="mr-2 inline-block" />
           <button onClick={onLogout} className="cursor-pointer">
