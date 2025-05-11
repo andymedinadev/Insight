@@ -4,8 +4,10 @@ import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { AppDispatch, RootState } from '@/store';
 import { fetchPatients, deletePatient } from '@/store/thunks';
-import { selectFilteredPatients } from '@/store/selectors/patientSelectors';
+// import { selectFilteredPatients } from '@/store/selectors/patientSelectors';
 import { flechaAbajoLista, flechaArribaLista, puntosFiltros } from '@/public';
+
+import { newSelectFilteredPatients } from '@/store/selectors/patientSelectors';
 
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
@@ -17,7 +19,8 @@ interface Props {
 export default function PatientList({ variant = 'home' }: Props) {
   const dispatch = useDispatch<AppDispatch>();
   const initialized = useSelector((state: RootState) => state.patients.initialized);
-  const patients = useSelector(selectFilteredPatients);
+  // const patients = useSelector(selectFilteredPatients);
+  const patients = useSelector(newSelectFilteredPatients);
   const [openMenuId, setOpenMenuId] = useState<string | null>(null);
   const [isListVisible, setIsListVisible] = useState(true); // Nuevo estado para manejar la visibilidad
 
@@ -232,7 +235,8 @@ export default function PatientList({ variant = 'home' }: Props) {
                     </td>
                     <td className="hidden px-4 py-3 lg:table-cell">{patient.email}</td>
                     <td className="px-4 py-3">{patient.lastSession}</td>
-                    <td className="hidden px-4 py-3 lg:table-cell">{patient.category}</td>
+                    {/* <td className="hidden px-4 py-3 lg:table-cell">{patient.category}</td> */}
+                    <td className="hidden px-4 py-3 lg:table-cell">{patient.rangoEtario}</td>
                     <td className="relative px-8 py-3">
                       <button
                         onClick={() =>

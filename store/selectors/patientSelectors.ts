@@ -1,6 +1,7 @@
 // selectors/patientSelectors.ts
+import { createSelector } from '@reduxjs/toolkit';
 import { RootState } from '@/store';
-import { Patient } from '@/types';
+import { HardcodedPatient, Patient } from '@/types';
 import { matchesRangoEtario } from '@/utils/filterHelpers';
 
 export const selectFilteredPatients = (state: RootState): Patient[] => {
@@ -21,3 +22,32 @@ export const selectFilteredPatients = (state: RootState): Patient[] => {
     return matchesTerm && matchesModalidad && matchesGenero && matchesEdad;
   });
 };
+
+// NUEVO SELECTOR PARA PODER FILTRAR EL NUEVO TIPO
+
+// DATOS DEL STORE PARA EL SELECTOR COMBINADO
+const selectNewListDemo = (state: RootState) => state.patients.newListDemo;
+const selectSearchTerm = (state: RootState) => state.patients.searchTerm.toLowerCase();
+const selectModalidad = (state: RootState) => state.patients.filters.modalidad;
+const selectGenero = (state: RootState) => state.patients.filters.genero;
+const selectRangoEtario = (state: RootState) => state.patients.filters.rangoEtario;
+
+// SELECTOR COMBINADO MEMOIZABLE
+export const newSelectFilteredPatients = createSelector(
+  [selectNewListDemo, selectSearchTerm, selectModalidad, selectGenero, selectRangoEtario],
+  (patients, term, modalidad, genero, rangoEtario): HardcodedPatient[] => {
+    return patients.filter((patient: HardcodedPatient) => {
+      const matchesTerm = term === '' || patient.name.toLowerCase().includes(term);
+
+      const modalidadPaciente = patient.seguimiento?.modalidad;
+      const matchesModalidad =
+        modalidad.length === 0 || (modalidadPaciente && modalidad.includes(modalidadPaciente));
+
+      const matchesGenero = genero.length === 0 || genero.includes(patient.sex);
+
+      const matchesEdad = matchesRangoEtario(patient.birthdate, rangoEtario);
+
+      return matchesTerm && matchesModalidad && matchesGenero && matchesEdad;
+    });
+  }
+);
