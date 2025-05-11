@@ -15,14 +15,8 @@ export default function SearchBar() {
   };
 
   return (
-    <div className="flex flex-row items-center rounded-lg border border-[#001F5273] lg:h-12 lg:w-80">
-      <Image
-        src={Search}
-        alt="Buscar paciente"
-        width={24}
-        height={24}
-        className="lg:mr-2 lg:ml-4"
-      />
+    <div className="flex h-12 w-72 flex-row items-center rounded-lg border border-[#001F5273] lg:h-12 lg:w-80">
+      <Image src={Search} alt="Buscar paciente" width={24} height={24} className="mr-2 ml-4" />
       <input
         type="text"
         placeholder="Buscar paciente"

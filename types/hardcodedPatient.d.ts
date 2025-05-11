@@ -52,4 +52,5 @@ export interface HardcodedPatient {
     frecuencia?: string;
     medioContactoPreferido?: string;
   };
+  filed: boolean;
 }

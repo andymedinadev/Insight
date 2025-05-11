@@ -81,7 +81,7 @@ export default function PatientFilterDropdown({ onClose }: Props) {
 
   return (
     <div className="flex flex-col py-1 text-sm text-gray-700">
-      <div className="flex flex-row items-center justify-between lg:mt-6 lg:mb-6 lg:ml-6">
+      <div className="mt-6 mb-6 ml-6 flex flex-row items-center justify-between">
         <h1 className="text-xl font-semibold text-black">Filtros</h1>
         <Image
           src={X}
@@ -125,7 +125,7 @@ export default function PatientFilterDropdown({ onClose }: Props) {
       <div className="flex flex-row items-center justify-between">
         <button
           onClick={handleApplyFilters}
-          className="mb-12 ml-5.5 inline-flex h-12 w-36 cursor-pointer items-center justify-center rounded-lg bg-[#0655D5] text-base leading-normal font-semibold text-white shadow-[0px_2px_4px_-2px_rgba(0,0,0,0.08)]"
+          className="mr-2 mb-12 ml-5.5 inline-flex h-12 w-36 cursor-pointer items-center justify-center rounded-lg bg-[#0655D5] text-base leading-normal font-semibold text-white shadow-[0px_2px_4px_-2px_rgba(0,0,0,0.08)] lg:mr-0"
         >
           Aplicar filtros
         </button>

@@ -44,6 +44,7 @@ export const mockHardcodedPatients: HardcodedPatient[] = [
       frecuencia: 'Semanal',
       medioContactoPreferido: 'WhatsApp',
     },
+    filed: false,
   },
   {
     id: 2,
@@ -82,6 +83,7 @@ export const mockHardcodedPatients: HardcodedPatient[] = [
       frecuencia: 'Semanal',
       medioContactoPreferido: 'Email',
     },
+    filed: false,
   },
   {
     id: 3,
@@ -120,6 +122,7 @@ export const mockHardcodedPatients: HardcodedPatient[] = [
       frecuencia: 'Quincenal',
       medioContactoPreferido: 'WhatsApp',
     },
+    filed: true,
   },
   {
     id: 4,
@@ -158,6 +161,7 @@ export const mockHardcodedPatients: HardcodedPatient[] = [
       frecuencia: 'Semanal',
       medioContactoPreferido: 'Teléfono (madre)',
     },
+    filed: false,
   },
   {
     id: 5,
@@ -196,6 +200,7 @@ export const mockHardcodedPatients: HardcodedPatient[] = [
       frecuencia: 'Semanal',
       medioContactoPreferido: 'Teléfono (padre)',
     },
+    filed: false,
   },
   {
     id: 6,
@@ -234,6 +239,7 @@ export const mockHardcodedPatients: HardcodedPatient[] = [
       frecuencia: 'Semanal',
       medioContactoPreferido: 'WhatsApp',
     },
+    filed: true,
   },
   {
     id: 7,
@@ -275,6 +281,7 @@ export const mockHardcodedPatients: HardcodedPatient[] = [
       frecuencia: 'Semanal',
       medioContactoPreferido: 'WhatsApp',
     },
+    filed: false,
   },
   {
     id: 8,
@@ -313,6 +320,7 @@ export const mockHardcodedPatients: HardcodedPatient[] = [
       frecuencia: 'Semanal',
       medioContactoPreferido: 'WhatsApp',
     },
+    filed: true,
   },
   {
     id: 9,
@@ -351,6 +359,7 @@ export const mockHardcodedPatients: HardcodedPatient[] = [
       frecuencia: 'Semanal',
       medioContactoPreferido: 'Teléfono',
     },
+    filed: false,
   },
   {
     id: 10,
@@ -389,6 +398,7 @@ export const mockHardcodedPatients: HardcodedPatient[] = [
       frecuencia: 'Semanal',
       medioContactoPreferido: 'Teléfono',
     },
+    filed: true,
   },
   {
     id: 11,
@@ -427,6 +437,7 @@ export const mockHardcodedPatients: HardcodedPatient[] = [
       frecuencia: 'Semanal',
       medioContactoPreferido: 'WhatsApp',
     },
+    filed: false,
   },
   {
     id: 12,
@@ -466,6 +477,7 @@ export const mockHardcodedPatients: HardcodedPatient[] = [
       frecuencia: 'Quincenal',
       medioContactoPreferido: 'WhatsApp',
     },
+    filed: false,
   },
   {
     id: 13,
@@ -505,6 +517,7 @@ export const mockHardcodedPatients: HardcodedPatient[] = [
       frecuencia: 'Semanal',
       medioContactoPreferido: 'WhatsApp',
     },
+    filed: false,
   },
   {
     id: 14,
@@ -544,6 +557,7 @@ export const mockHardcodedPatients: HardcodedPatient[] = [
       frecuencia: 'Semanal',
       medioContactoPreferido: 'WhatsApp',
     },
+    filed: false,
   },
   {
     id: 15,
@@ -583,5 +597,6 @@ export const mockHardcodedPatients: HardcodedPatient[] = [
       frecuencia: 'Semanal',
       medioContactoPreferido: 'Teléfono (madre)',
     },
+    filed: false,
   },
 ];

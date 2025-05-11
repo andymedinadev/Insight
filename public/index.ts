@@ -22,6 +22,9 @@ export { default as Campana } from './icons/Campana.svg';
 export { default as FlechaBaja } from './icons/FlechaBaja.svg';
 export { default as UserNav } from './icons/UserNav.svg';
 export { default as Logout } from './icons/Logout.svg';
+export { default as MenuMobileNavbar } from './icons/MenuMobileNavbar.svg';
+export { default as IconExistNavMenu } from './icons/IconExistNavMenu.svg';
+export { default as CalendarSidebar } from './icons/CalendarSidebar.svg';
 
 export { default as PatientProfilePic } from './patientProfilePic.png';
 export { default as BackgroundSignup } from './bg-signup.jpg';
@@ -32,6 +35,8 @@ export { default as UserplusButton } from './icons/UserplusButton.svg';
 export { default as puntosFiltros } from './icons/puntosFiltros.svg';
 export { default as flechaAbajoLista } from './icons/flechaAbajoLista.svg';
 export { default as flechaArribaLista } from './icons/flechaArribaLista.svg';
+export { default as Edit } from './icons/Edit.svg';
+export { default as Archive } from './icons/Archive.svg';
 
 //exportaciones de iconos de inputs
 export { default as Search } from './icons/Search.svg';

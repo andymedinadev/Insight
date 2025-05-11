@@ -8,8 +8,8 @@ import { fetchPatients, deletePatient } from '@/store/thunks';
 import { flechaAbajoLista, flechaArribaLista, puntosFiltros, Archive, Edit } from '@/public';
 import { usePathname } from 'next/navigation';
 import { newSelectFilteredPatients } from '@/store/selectors/patientSelectors';
-import Left from '../../public/icons/Left.svg';
-import Right from '../../public/icons/Right.svg';
+import Left from '../../../public/icons/Left.svg';
+import Right from '../../../public/icons/Right.svg';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 
@@ -17,7 +17,7 @@ interface Props {
   variant?: 'home' | 'list';
 }
 
-export default function PatientList({ variant = 'home' }: Props) {
+export default function PatientListArchived({ variant = 'home' }: Props) {
   const dispatch = useDispatch<AppDispatch>();
   const initialized = useSelector((state: RootState) => state.patients.initialized);
   // const patients = useSelector(selectFilteredPatients);
@@ -101,8 +101,14 @@ export default function PatientList({ variant = 'home' }: Props) {
     setMobileVisibleCount((prev) => prev + 4);
   };
 
+  // **Generamos los pacientes visibles para mobile y desktop**
+  const filteredPatients = patients.filter((p) => p.filed === true);
+
   const [desktopPage, setDesktopPage] = useState(1);
-  const desktopTotalPages = Math.ceil(patients.length / 8);
+  const desktopTotalPages = Math.ceil(filteredPatients.length / 8);
+
+  const patientsForMobile = filteredPatients.slice(0, mobileVisibleCount);
+  const patientsForDesktop = filteredPatients.slice((desktopPage - 1) * 8, desktopPage * 8);
 
   function getPaginationRange(current: number, total: number): (number | string)[] {
     const delta = 1;
@@ -126,7 +132,7 @@ export default function PatientList({ variant = 'home' }: Props) {
     return (
       <div className="mt-4 hidden items-center justify-center lg:flex">
         <div className="flex w-full flex-row items-center justify-between space-x-1">
-          <div className="mb-6 ml-24 flex flex-row gap-x-5">
+          <div className="ml-24 flex flex-row gap-x-5">
             <button
               onClick={() => setDesktopPage(Math.max(desktopPage - 1, 1))}
               disabled={desktopPage === 1}
@@ -167,19 +173,15 @@ export default function PatientList({ variant = 'home' }: Props) {
             </button>
           </div>
         </div>
-        <div className="mt-[-1.5rem] mr-24">
+        <div className="mr-24">
           <p className="h-[20px] w-[156px] text-center text-sm leading-tight font-normal text-gray-600">
-            Mostrando {startIndex + 1} - {Math.min(startIndex + 8, patients.length)} de{' '}
-            {patients.length}
+            Mostrando {startIndex + 1} - {Math.min(startIndex + 8, filteredPatients.length)} de{' '}
+            {filteredPatients.length}
           </p>
         </div>
       </div>
     );
   };
-
-  // **Generamos los pacientes visibles para mobile y desktop**
-  const patientsForMobile = patients.slice(0, mobileVisibleCount);
-  const patientsForDesktop = patients.slice((desktopPage - 1) * 8, desktopPage * 8);
 
   const router = useRouter();
   const handleRedirect = (id: number) => {
@@ -194,7 +196,7 @@ export default function PatientList({ variant = 'home' }: Props) {
             <tr>
               <th className="px-4 py-3">Nombre del paciente</th>
               <th className="hidden px-4 py-3 lg:table-cell">Fecha del turno</th>
-              <th className="px-4 py-3">Fecha ultima sesión </th>
+              <th className="px-4 py-3">Fecha ultima sesión</th>
               <th className="hidden px-4 py-3 lg:table-cell">Categoría</th>
               <th className="px-4 py-3">Acciones</th>
               {!isDashboardHome && (

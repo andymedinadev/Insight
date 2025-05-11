@@ -1,10 +1,9 @@
 import {
+  SeeMoreButton,
+  GoBackArchived,
+  PatientListArchived,
   SearchBar,
   FilterButton,
-  PatientList,
-  SeeMoreButton,
-  AddPatientButton,
-  ArchivedLink,
   PatientFilterDropdown,
 } from '@/components';
 
@@ -12,7 +11,7 @@ interface Props {
   variant?: 'home' | 'list';
 }
 
-export default function CompletedList({ variant = 'home' }: Props) {
+export default function CompletedListArchived({ variant = 'home' }: Props) {
   return (
     <div className="space-y-4">
       {(variant === 'home' || variant === 'list') && (
@@ -29,27 +28,24 @@ export default function CompletedList({ variant = 'home' }: Props) {
           )}
           <div className="flex w-full flex-col items-center justify-between gap-2 lg:mb-1.5 lg:flex-row">
             <div className="flex w-full flex-col items-center gap-2 lg:flex-row lg:justify-start">
-              {variant === 'list' && (
-                <>
-                  <AddPatientButton />
-                  <ArchivedLink />
-                </>
-              )}
+              <GoBackArchived />
             </div>
-
-            {variant === 'list' && (
-              <div className="flex flex-row items-center">
-                <SearchBar />
-                <FilterButton>
-                  <PatientFilterDropdown />
-                </FilterButton>
-              </div>
-            )}
           </div>
+          {variant === 'list' && (
+            <div className="flex flex-row items-center">
+              <div className="ml-4">
+                <SearchBar />
+              </div>
+
+              <FilterButton>
+                <PatientFilterDropdown />
+              </FilterButton>
+            </div>
+          )}
         </div>
       )}
 
-      <PatientList variant={variant} />
+      <PatientListArchived variant={variant} />
 
       {variant === 'home' ? <SeeMoreButton /> : null}
     </div>

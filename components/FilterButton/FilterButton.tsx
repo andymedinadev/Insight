@@ -22,7 +22,7 @@ export default function FilterButton({ children }: Props) {
       </button>
 
       {open && (
-        <div className="absolute right-0 z-10 mt-1.5 w-40 rounded-md border border-gray-200 bg-white shadow-lg lg:h-auto lg:w-96">
+        <div className="absolute right-0 z-10 mt-1.5 w-80 rounded-md border border-gray-200 bg-white shadow-lg lg:h-auto lg:w-96">
           {isValidElement(children) ? cloneElement(children, { onClose }) : children}
         </div>
       )}

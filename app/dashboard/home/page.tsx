@@ -6,11 +6,14 @@ import React from 'react';
 export default function Home() {
   return (
     <div className="flex h-screen w-full flex-col items-center bg-white lg:flex lg:items-start">
-      <div className="ml-5 lg:ml-10 lg:items-start">
-        <h1 className="mt-8 mb-5 text-xl font-bold text-black lg:mt-10 lg:mb-2.5 lg:text-3xl lg:font-semibold">
+      <div className="lg:ml-10 lg:items-start">
+        <h1 className="mt-1.5 mb-1.5 text-3xl leading-10 font-semibold text-black lg:mt-10 lg:mb-2.5 lg:text-3xl lg:leading-[48px] lg:font-semibold">
           Hola, Maria
         </h1>
-        <p className="mb-9 text-base font-normal text-black lg:mb-10">
+        <p className="mb-5 block text-sm leading-normal font-normal text-black lg:mb-10 lg:hidden lg:text-base">
+          Bienvenida, aquí encontrarás tu lista de pacientes, y <br /> mucho más!
+        </p>
+        <p className="mb-5 hidden text-sm leading-normal font-normal text-black lg:mb-10 lg:block lg:text-base">
           Bienvenida, aquí encontrarás tu lista de pacientes, y mucho más!
         </p>
       </div>
@@ -25,13 +28,14 @@ export default function Home() {
           />
         ))}
       </div>
-      <div className="ml-5 lg:hidden">
-        <h1 className="mt-12 mb-9 text-lg font-semibold text-black">Próximos pacientes</h1>
-        <p className="mb-8 text-base font-normal text-black">
-          Aquí se visualizan los pacientes agendados del día x
+      <div className="ml-[-2rem] lg:hidden">
+        <h1 className="mt-6 mb-1.5 text-3xl leading-10 font-semibold text-black">
+          Próximos pacientes
+        </h1>
+        <p className="mb-2 text-sm leading-normal font-normal text-black">
+          Aquí visualizaras los pacientes del dia de hoy
         </p>
       </div>
-      <hr className="hidden lg:mb-10 lg:block lg:w-full lg:border-t lg:border-black" />
 
       <div className="lg:w-full">
         <CompletedList variant="home" />
