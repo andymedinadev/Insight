@@ -4,6 +4,7 @@ export const {
   addMaterialToPatient,
   addNoteToPatient,
   addToNewListDemo,
+  editNewTypePatient,
   setFilterGenero,
   setFilterModalidad,
   setFilterRangoEtario,
