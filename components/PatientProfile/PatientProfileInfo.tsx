@@ -114,6 +114,7 @@ export function PatientProfileInfo() {
               height={128}
               priority
               className="h-full w-full object-cover"
+              unoptimized
             />
           </div>
           <div className="px-4 py-2">
