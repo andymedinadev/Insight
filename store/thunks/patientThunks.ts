@@ -140,6 +140,4 @@ export const updatePatient = createAsyncThunk<
     const message = error instanceof Error ? error.message : 'Error desconocido';
     return thunkApi.rejectWithValue(message);
   }
-
-
 });

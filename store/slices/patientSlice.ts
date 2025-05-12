@@ -12,7 +12,6 @@ import {
 } from '@/mocks';
 import type { HardcodedPatient, Material, Note, Patient } from '@/types';
 
-
 interface PatientState {
   raw: Patient[]; // Pacientes originales recibidos
   list: Patient[]; // Pacientes transformados con mocks

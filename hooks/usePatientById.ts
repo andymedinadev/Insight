@@ -10,7 +10,5 @@ export const usePatientById = () => {
 
   const patient = isNaN(id) ? null : (patientList.find((p) => p.id === id) ?? null);
 
-
   return { patient, id };
-
 };
