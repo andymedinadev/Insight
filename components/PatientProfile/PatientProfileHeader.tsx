@@ -15,20 +15,24 @@ export function PatientProfileHeader() {
   };
 
   return (
-    <div className="border-b border-gray-200 p-4 lg:border-none">
+    <div className="mb-6 border-b border-gray-200 px-5 pt-3.5 md:overflow-x-hidden lg:border-none">
       {/* Header */}
-      <h1 className="my-4 text-3xl font-semibold lg:pl-4 lg:font-bold">Perfil del paciente</h1>
+      <h1 className="mt-4 mb-3.5 font-['Roboto'] text-3xl leading-10 font-semibold text-black lg:mx-8 lg:mb-0 lg:font-bold">
+        Perfil del paciente
+      </h1>
       {/* Botones */}
-      <div className="my-4 flex flex-col gap-4 py-2 lg:flex-row lg:justify-end lg:gap-10">
+      <div className="mx-auto mt-3.5 flex w-[352px] flex-col items-center gap-2 pb-2 lg:mx-8 lg:mt-8 lg:w-full lg:flex-row lg:gap-8">
         <button
           onClick={() => {
             if (patient?.id !== undefined) {
               handleRedirect(patient?.id, 'material');
             }
           }}
-          className="rounded-md bg-gray-300 py-4 text-lg font-semibold transition-colors hover:cursor-pointer hover:bg-gray-400 lg:px-10"
+          className="h-12 w-[352px] rounded-lg border border-[#0655D5] bg-white/0 outline-1 outline-offset-[-1px] outline-[#0655D5]/80 lg:w-[205px]"
         >
-          Material para el paciente
+          <p className="justify-start text-center font-['Roboto'] text-base leading-normal font-semibold text-[#0655D5]">
+            Material para el paciente
+          </p>
         </button>
         <button
           onClick={() => {
@@ -36,9 +40,11 @@ export function PatientProfileHeader() {
               handleRedirect(patient?.id, 'notes');
             }
           }}
-          className="rounded-md bg-gray-300 py-4 text-lg font-semibold transition-colors hover:cursor-pointer hover:bg-gray-400 lg:px-10"
+          className="h-12 w-[352px] rounded-lg border border-[#0655D5] bg-white/0 outline-1 outline-offset-[-1px] outline-[#0655D5]/80 lg:w-[205px]"
         >
-          Gestionar notas
+          <p className="justify-start text-center font-['Roboto'] text-base leading-normal font-semibold text-[#0655D5]">
+            Gestionar notas
+          </p>
         </button>
       </div>
     </div>

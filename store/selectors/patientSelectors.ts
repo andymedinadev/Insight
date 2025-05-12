@@ -43,7 +43,8 @@ export const newSelectFilteredPatients = createSelector(
       const matchesModalidad =
         modalidad.length === 0 || (modalidadPaciente && modalidad.includes(modalidadPaciente));
 
-      const matchesGenero = genero.length === 0 || genero.includes(patient.sex);
+      const matchesGenero =
+        genero.length === 0 || (patient.sex !== undefined && genero.includes(patient.sex));
 
       const matchesEdad = matchesRangoEtario(patient.birthdate, rangoEtario);
 

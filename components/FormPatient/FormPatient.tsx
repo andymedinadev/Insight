@@ -1,14 +1,15 @@
 'use client';
-import { NewPatient } from '@/types';
-// import { createPatient } from '@/store/thunks';
-// import { useDispatch } from 'react-redux';
-// import { AppDispatch } from '@/store';
-// import { useRouter } from 'next/navigation';
-import Button from '@/components/ui/Button';
-import InputField from '@/components/ui/InputField';
-import { ValidationError } from '../ui/ValidationError';
+
+import { useDispatch } from 'react-redux';
+import { useRouter } from 'next/navigation';
 import { useFormik } from 'formik';
-import * as Yup from 'yup';
+
+import { Button, InputField, ValidationError } from '@/components';
+import { AppDispatch } from '@/store';
+import { addToNewListDemo } from '@/store/actions/patientActions';
+import { newPatientFormValidationSchema } from '@/schemas';
+import { buildNewPatient, newPatientToHardcoded } from '@/utils';
+import { NewPatient } from '@/types';
 
 const initialValues: NewPatient = {
   id: 0,
@@ -18,7 +19,7 @@ const initialValues: NewPatient = {
   nationality: '',
   typeOfIdentification: '',
   identification: '',
-  sex: '',
+  sex: undefined,
   email: '',
   phone: '',
   admissionDate: '',
@@ -37,82 +38,32 @@ const initialValues: NewPatient = {
   },
   seguimiento: {
     diaYHorario: '',
-    modalidad: '',
-    duracionSesion: '',
+    modalidad: undefined,
+    duracionSesion: undefined,
     frecuencia: '',
     medioContactoPreferido: '',
   },
 };
 
-const validationSchema = Yup.object({
-  name: Yup.string().required('El nombre es obligatorio'),
-  surname: Yup.string().required('El apellido es obligatorio'),
-  birthdate: Yup.date()
-    .max(new Date(), 'La fecha de nacimiento no puede ser futura')
-    .required('La fecha de nacimiento es obligatoria'),
-  nationality: Yup.string().required('La nacionalidad es obligatoria'),
-  typeOfIdentification: Yup.string().required('El tipo de documento es obligatorio'),
-  identification: Yup.string().required('El número de documento es obligatorio'),
-  sex: Yup.string().required('El género es obligatorio'),
-  email: Yup.string().email('Email inválido').required('El email es obligatorio'),
-  phone: Yup.string()
-    .matches(/^[0-9+]+$/, 'El número solo puede contener dígitos y el símbolo +')
-    .required('El número móvil es obligatorio'),
-  admissionDate: Yup.string().required('La fecha de ingreso es obligatoria'),
-});
-
 export default function FormPatient() {
-  // const dispatch = useDispatch<AppDispatch>();
-  // const router = useRouter();
+  const dispatch = useDispatch<AppDispatch>();
+  const router = useRouter();
 
   const formik = useFormik<NewPatient>({
     initialValues,
-    validationSchema,
-    onSubmit: async (values) => {
-      console.log('Datos del formulario:', values);
-      const newPatient = {
-        id: 0,
-        name: values.name,
-        surname: values.surname,
-        birthdate: values.birthdate,
-        nationality: values.nationality,
-        typeOfIdentification: values.typeOfIdentification,
-        identification: values.identification,
-        sex: values.sex,
-        email: values.email,
-        phone: values.phone,
-        admissionDate: values.admissionDate,
-        //Motivos de consulta
-        motivoPrincipal: values.motivosConsulta?.motivoPrincipal,
-        sintomasActuales: values.motivosConsulta?.sintomasActuales,
-        eventosRecientesRelevantes: values.motivosConsulta?.eventosRecientesRelevantes,
-        diagnosticoPrevio: values.motivosConsulta?.diagnosticoPrevio,
-        //Historia clínica
-        observaciones: values.historiaClinica?.observaciones,
-        frasesRecurrentes: values.historiaClinica?.frasesRecurrentes,
-        actosFallidos: values.historiaClinica?.actosFallidos,
-        derivacionesRealizadas: values.historiaClinica?.derivacionesRealizadas,
-        evolucionPaciente: values.historiaClinica?.evolucionPaciente,
-        //Seguimiento
-        diaYHorario: values.seguimiento?.diaYHorario,
-        modalidad: values.seguimiento?.modalidad,
-        duracionSesion: values.seguimiento?.duracionSesion,
-        frecuencia: values.seguimiento?.frecuencia,
-        medioContactoPreferido: values.seguimiento?.medioContactoPreferido,
-      };
-      console.log(newPatient);
+    validationSchema: newPatientFormValidationSchema,
+    onSubmit: (values) => {
+      // con los datos del input creo un nuevo paciente
+      const newPatient = buildNewPatient(values);
 
-      // try {
-      //   const resultAction = await dispatch(createPatient(newPatient));
+      // los transformo en algo que el store entienda
+      const formattedPatient = newPatientToHardcoded(newPatient);
 
-      //   if (createPatient.fulfilled.match(resultAction)) {
-      //     router.push('/dashboard/patientlist');
-      //   } else {
-      //     console.error('Error al crear el paciente:', resultAction);
-      //   }
-      // } catch (error) {
-      //   console.error('Error inesperado:', error);
-      // }
+      // y los guardo en el store
+      dispatch(addToNewListDemo(formattedPatient));
+
+      // redirecciono
+      router.push('/dashboard/patientlist');
     },
   });
 

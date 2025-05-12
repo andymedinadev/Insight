@@ -1,3 +1,4 @@
+import { calcularEdad } from '@/utils';
 import { Patient, PatientProfileData } from '@/types';
 
 function formatBirthdate(dateString: string): string {
@@ -21,21 +22,6 @@ function mockAdmissionDate(): string {
   const dayStr = String(fakeDate.getDate()).padStart(2, '0');
   const monthStr = String(fakeDate.getMonth() + 1).padStart(2, '0');
   return `${dayStr}/${monthStr}/${year}`;
-}
-
-export function calcularEdad(fechaNacimiento: string): number {
-  const nacimiento = new Date(fechaNacimiento);
-  if (isNaN(nacimiento.getTime())) return 32;
-
-  const hoy = new Date();
-  let edad = hoy.getFullYear() - nacimiento.getFullYear();
-  const mesDiferencia = hoy.getMonth() - nacimiento.getMonth();
-
-  if (mesDiferencia < 0 || (mesDiferencia === 0 && hoy.getDate() < nacimiento.getDate())) {
-    edad--;
-  }
-
-  return edad;
 }
 
 function obtenerGenero(genero: 'M' | 'F' | 'O'): 'Masculino' | 'Femenino' | 'Otros' {

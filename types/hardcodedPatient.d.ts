@@ -1,10 +1,10 @@
 import { Note, Material } from '@/types';
 
-export type ModalityType = 'Presencial' | 'Virtual' | 'Híbrido';
+export type ModalityType = 'Presencial' | 'Virtual' | 'Híbrido' | undefined;
 
 export type RangoEtario = 'Niño' | 'Adolescente' | 'Adulto';
 
-export type DuracionSesion = '30 min' | '45 min' | '50 min' | '60 min';
+export type DuracionSesion = '30 min' | '45 min' | '50 min' | '60 min' | undefined;
 
 export type SexType =
   | 'Masculino'
@@ -13,7 +13,8 @@ export type SexType =
   | 'No binario'
   | 'Bigénero'
   | 'Intersexual'
-  | 'Otro';
+  | 'Otro'
+  | undefined;
 
 export interface HardcodedPatient {
   id: number;
