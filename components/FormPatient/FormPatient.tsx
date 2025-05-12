@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import { useRouter } from 'next/navigation';
 import { useFormik } from 'formik';
 
-import { Button, InputField, ValidationError } from '@/components';
+import { InputField, ValidationError } from '@/components';
 import { AppDispatch } from '@/store';
 import { addToNewListDemo } from '@/store/actions/patientActions';
 import { newPatientFormValidationSchema } from '@/schemas';
@@ -443,7 +443,14 @@ export default function FormPatient() {
           />
         </div>
 
-        <Button type="submit">Crear paciente</Button>
+        <div className="mb-12 inline-flex h-12 items-center justify-center self-stretch rounded-lg bg-[#0655D5]">
+          <button
+            type="submit"
+            className="cursor-pointer justify-start text-center font-['Roboto'] text-base leading-normal font-semibold text-white"
+          >
+            Crear paciente
+          </button>
+        </div>
       </form>
     </div>
   );
