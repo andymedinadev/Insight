@@ -1,13 +1,15 @@
+'use client';
+
 import { useDispatch } from 'react-redux';
+import { useRouter } from 'next/navigation';
 import { useFormik } from 'formik';
-import * as Yup from 'yup';
 
 import { Button, InputField, ValidationError } from '@/components';
 import { AppDispatch } from '@/store';
 import { addToNewListDemo } from '@/store/actions/patientActions';
+import { newPatientFormValidationSchema } from '@/schemas';
 import { buildNewPatient, newPatientToHardcoded } from '@/utils';
 import { NewPatient } from '@/types';
-import { useRouter } from 'next/navigation';
 
 const initialValues: NewPatient = {
   id: 0,
@@ -43,46 +45,13 @@ const initialValues: NewPatient = {
   },
 };
 
-const validationSchema = Yup.object({
-  name: Yup.string()
-    .required('El nombre es obligatorio')
-    .matches(/^[A-Za-zÁÉÍÓÚÑáéíóúñ\s'-]+$/, 'El nombre solo puede contener letras')
-    .min(2, 'El nombre debe tener al menos 2 caracteres')
-    .max(50, 'El nombre no puede tener más de 50 caracteres'),
-  surname: Yup.string()
-    .required('El apellido es obligatorio')
-    .matches(/^[A-Za-zÁÉÍÓÚÑáéíóúñ\s'-]+$/, 'El apellido solo puede contener letras')
-    .min(2, 'El apellido debe tener al menos 2 caracteres')
-    .max(50, 'El apellido no puede tener más de 50 caracteres'),
-  birthdate: Yup.date()
-    .max(new Date(), 'La fecha de nacimiento no puede ser futura')
-    .required('La fecha de nacimiento es obligatoria'),
-  nationality: Yup.string().required('La nacionalidad es obligatoria'),
-  typeOfIdentification: Yup.string().required('El tipo de documento es obligatorio'),
-  identification: Yup.number().required('El número de documento es obligatorio'),
-  sex: Yup.string().required('El género es obligatorio'),
-  email: Yup.string()
-    .required('El correo electrónico es obligatorio')
-    .email('Debe ser un correo electrónico válido')
-    .max(254, 'El correo no puede tener más de 254 caracteres'),
-  phone: Yup.string()
-    .required('El número móvil es obligatorio')
-    .min(7, 'El número móvil debe tener al menos 7 caracteres')
-    .matches(
-      /^\+?\d{7,15}$/,
-      'El número móvil debe contener solo números y puede incluir un "+" al inicio'
-    )
-    .max(15, 'El número móvil no puede tener más de 15 dígitos'),
-  admissionDate: Yup.string().required('La fecha de ingreso es obligatoria'),
-});
-
 export default function FormPatient() {
   const dispatch = useDispatch<AppDispatch>();
   const router = useRouter();
 
   const formik = useFormik<NewPatient>({
     initialValues,
-    validationSchema,
+    validationSchema: newPatientFormValidationSchema,
     onSubmit: (values) => {
       // con los datos del input creo un nuevo paciente
       const newPatient = buildNewPatient(values);

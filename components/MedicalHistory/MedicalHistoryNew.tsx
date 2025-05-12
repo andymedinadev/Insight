@@ -3,9 +3,9 @@
 import { useSearchParams } from 'next/navigation';
 import { useDispatch } from 'react-redux';
 import { useFormik } from 'formik';
-import * as Yup from 'yup';
 
 import { usePatientById } from '@/hooks';
+import { medicalHistoryValidationSchema } from '@/schemas';
 import { addNoteToPatient, addMaterialToPatient } from '@/store/actions/patientActions';
 import { Note /*, Material*/ } from '@/types';
 
@@ -20,13 +20,6 @@ const initialValues: Note = {
   content: '',
 };
 
-const validationSchema = Yup.object({
-  title: Yup.string().required('El nombre es obligatorio'),
-  date: Yup.date()
-    .max(new Date(), 'La fecha de la sesión no puede ser futura')
-    .required('La fecha de la sesión es obligatoria'),
-});
-
 export default function MedicalHistoryNew({ onSaved }: Props) {
   const searchParams = useSearchParams();
   const from = searchParams.get('from');
@@ -38,7 +31,7 @@ export default function MedicalHistoryNew({ onSaved }: Props) {
 
   const formik = useFormik<Note>({
     initialValues,
-    validationSchema,
+    validationSchema: medicalHistoryValidationSchema,
     onSubmit: async (values) => {
       console.log('Datos del formulario de notas:', values);
 
