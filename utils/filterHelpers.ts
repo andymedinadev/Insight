@@ -1,4 +1,4 @@
-import { calcularEdad } from '@/utils/transformPatientProfileData';
+import { calcularEdad } from '@/utils';
 
 export function matchesRangoEtario(birthdate: string, rangoEtario: string[]): boolean {
   if (rangoEtario.length === 0) return true;
