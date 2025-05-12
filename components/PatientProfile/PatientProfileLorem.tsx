@@ -4,22 +4,24 @@ import { useState } from 'react';
 import Image from 'next/image';
 
 import { FlechaBaja } from '@/public';
+import { useNewPatientById } from '@/hooks';
 
 export function PatientProfileLorem() {
   const [openSection, setOpenSection] = useState<string | null>(null);
+  const { patient } = useNewPatientById();
 
   const toggleSection = (section: string) => {
-    if (openSection === section) {
-      setOpenSection(null);
-    } else {
-      setOpenSection(section);
-    }
+    setOpenSection((prev) => (prev === section ? null : section));
   };
+
+  if (!patient) {
+    return null;
+  }
+
   return (
     <div>
-      {/* Collapsible Sections as Accordions */}
+      {/* Motivo de consulta */}
       <div className="border-b border-gray-200">
-        {/* Motivo de consulta */}
         <button
           onClick={() => toggleSection('motivo')}
           className="flex w-full items-center justify-between p-6 transition-colors hover:cursor-pointer hover:bg-gray-50"
@@ -42,15 +44,13 @@ export function PatientProfileLorem() {
                 Motivo principal de consulta
               </h3>
               <p className="text-base text-[#59616f] lg:text-lg">
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Maxime iste ipsa explicabo
-                ipsum debitis nam perferendis velit, ad atque esse?
+                {patient.motivosConsulta?.motivoPrincipal || '(vacío)'}
               </p>
             </div>
             <div className="mb-2">
               <h3 className="font-semibold text-[#59616F] lg:text-lg">Síntomas actuales</h3>
               <p className="text-base text-[#59616f] lg:text-lg">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab, aliquam nam! Deleniti
-                adipisci, autem perspiciatis vitae voluptate molestias tempore dolorem.
+                {patient.motivosConsulta?.sintomasActuales || '(vacío)'}
               </p>
             </div>
             <div className="mb-2">
@@ -58,15 +58,13 @@ export function PatientProfileLorem() {
                 Eventos recientes relevantes
               </h3>
               <p className="text-base text-[#59616f] lg:text-lg">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Modi dignissimos maxime
-                eligendi quo illum id, commodi libero. Neque, ducimus ipsa.
+                {patient.motivosConsulta?.eventosRecientesRelevantes || '(vacío)'}
               </p>
             </div>
             <div className="mb-2">
               <h3 className="font-semibold text-[#59616F] lg:text-lg">Diagnóstico previo</h3>
               <p className="text-base text-[#59616f] lg:text-lg">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Nulla ab laborum inventore
-                et a iste qui itaque sunt expedita cumque!
+                {patient.motivosConsulta?.diagnosticoPrevio || '(vacío)'}
               </p>
             </div>
           </div>
@@ -95,8 +93,7 @@ export function PatientProfileLorem() {
             <div className="mb-2">
               <h3 className="font-semibold text-[#59616F] lg:text-lg">Observaciones</h3>
               <p className="text-base text-[#59616f] lg:text-lg">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Recusandae vero voluptatum
-                laboriosam dolorem totam, assumenda magni at enim inventore illo?
+                {patient.historiaClinica?.observaciones || '(vacío)'}
               </p>
             </div>
             <div className="mb-2">
@@ -104,8 +101,7 @@ export function PatientProfileLorem() {
                 Frases recurrentes / palabras clave
               </h3>
               <p className="text-base text-[#59616f] lg:text-lg">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique consectetur
-                aliquam praesentium, numquam accusamus quis nisi adipisci vitae obcaecati illum.
+                {patient.historiaClinica?.frasesRecurrentes || '(vacío)'}
               </p>
             </div>
             <div className="mb-2">
@@ -113,8 +109,7 @@ export function PatientProfileLorem() {
                 Actos fallidos / asociaciones llamativas
               </h3>
               <p className="text-base text-[#59616f] lg:text-lg">
-                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dicta corporis velit
-                dignissimos est praesentium omnis ullam amet rerum repellat libero.
+                {patient.historiaClinica?.actosFallidos || '(vacío)'}
               </p>
             </div>
             <div className="mb-2">
@@ -122,15 +117,13 @@ export function PatientProfileLorem() {
                 Interconsultas / derivaciones realizadas
               </h3>
               <p className="text-base text-[#59616f] lg:text-lg">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Est, placeat. Iure fuga
-                voluptatibus fugiat ipsa quos reiciendis neque nam possimus?
+                {patient.historiaClinica?.derivacionesRealizadas || '(vacío)'}
               </p>
             </div>
             <div className="mb-2">
               <h3 className="font-semibold text-[#59616F] lg:text-lg">Evolución del paciente</h3>
               <p className="text-base text-[#59616f] lg:text-lg">
-                Lorem ipsum dolor, sit amet consectetur adipisicing elit. A fugiat at earum maxime
-                obcaecati doloremque sunt adipisci aspernatur enim eveniet?
+                {patient.historiaClinica?.evolucionPaciente || '(vacío)'}
               </p>
             </div>
           </div>
@@ -161,28 +154,40 @@ export function PatientProfileLorem() {
                 Día y horario de la sesión
               </h3>
               <p className="text-base text-[#59616f] lg:text-lg">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto, at.
+                {patient.seguimiento?.diaYHorario || '(vacío)'}
               </p>
             </div>
             <div className="mb-2">
               <h3 className="font-semibold text-[#59616F] lg:text-lg">Modalidad de atención</h3>
-              <p className="text-base text-[#59616f] lg:text-lg">Presencial</p>
+              <p className="text-base text-[#59616f] lg:text-lg">
+                {' '}
+                {patient.seguimiento?.modalidad || '(vacío)'}
+              </p>
             </div>
             <div className="mb-2">
               <h3 className="font-semibold text-[#59616F] lg:text-lg">
                 Duración aproximada de la sesión
               </h3>
-              <p className="text-base text-[#59616f] lg:text-lg">30 min</p>
+              <p className="text-base text-[#59616f] lg:text-lg">
+                {' '}
+                {patient.seguimiento?.duracionSesion || '(vacío)'}
+              </p>
             </div>
             <div className="mb-2">
               <h3 className="font-semibold text-[#59616F] lg:text-lg">Frecuencia de la sesión</h3>
-              <p className="text-base text-[#59616f] lg:text-lg">Semanal</p>
+              <p className="text-base text-[#59616f] lg:text-lg">
+                {' '}
+                {patient.seguimiento?.frecuencia || '(vacío)'}
+              </p>
             </div>
             <div className="mb-2">
               <h3 className="font-semibold text-[#59616F] lg:text-lg">
                 Medio de contacto preferido
               </h3>
-              <p className="text-base text-[#59616f] lg:text-lg">Whatsapp</p>
+              <p className="text-base text-[#59616f] lg:text-lg">
+                {' '}
+                {patient.seguimiento?.medioContactoPreferido || '(vacío)'}
+              </p>
             </div>
           </div>
         )}

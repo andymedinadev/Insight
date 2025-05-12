@@ -76,6 +76,18 @@ export const patientSlice = createSlice({
     addToNewListDemo: (state, action: PayloadAction<HardcodedPatient>) => {
       state.newListDemo.unshift(action.payload);
     },
+    editNewTypePatient(
+      state,
+      action: PayloadAction<{ patientId: number; data: Partial<HardcodedPatient> }>
+    ) {
+      const { patientId, data } = action.payload;
+
+      const patient = state.newListDemo.find((p) => p.id === patientId);
+
+      if (patient) {
+        Object.assign(patient, data);
+      }
+    },
     addNoteToPatient(state, action: PayloadAction<{ patientId: number; note: Omit<Note, 'id'> }>) {
       const { patientId, note } = action.payload;
 

@@ -1,17 +1,18 @@
 'use client';
 
-import { useDispatch } from 'react-redux';
 import { useRouter } from 'next/navigation';
+import { useDispatch } from 'react-redux';
 import { useFormik } from 'formik';
 
 import { InputField, ValidationError } from '@/components';
 import { AppDispatch } from '@/store';
-import { addToNewListDemo } from '@/store/actions/patientActions';
+import { editNewTypePatient } from '@/store/actions/patientActions';
+import { useNewPatientById } from '@/hooks';
+import { buildEditPatient, hardcodedToEditPatient, newPatientToHardcoded } from '@/utils';
 import { newPatientFormValidationSchema } from '@/schemas';
-import { buildNewPatient, newPatientToHardcoded } from '@/utils';
-import { NewPatient } from '@/types';
+import { EditPatient } from '@/types';
 
-const initialValues: NewPatient = {
+const defaultInitialValues: EditPatient = {
   id: 0,
   name: '',
   surname: '',
@@ -45,39 +46,51 @@ const initialValues: NewPatient = {
   },
 };
 
-export default function FormPatient() {
+export function EditPatientForm() {
   const dispatch = useDispatch<AppDispatch>();
+  const { id, patient } = useNewPatientById();
   const router = useRouter();
 
-  const formik = useFormik<NewPatient>({
+  const initialValues: EditPatient = patient
+    ? hardcodedToEditPatient(patient)
+    : defaultInitialValues;
+
+  const formik = useFormik<EditPatient>({
+    enableReinitialize: true,
     initialValues,
     validationSchema: newPatientFormValidationSchema,
     onSubmit: (values) => {
-      // con los datos del input creo un nuevo paciente
-      const newPatient = buildNewPatient(values);
+      const editedPatient = buildEditPatient(values, id);
 
-      // los transformo en algo que el store entienda
-      const formattedPatient = newPatientToHardcoded(newPatient);
+      const formattedPatient = newPatientToHardcoded(editedPatient);
 
-      // y los guardo en el store
-      dispatch(addToNewListDemo(formattedPatient));
+      dispatch(editNewTypePatient({ patientId: id, data: formattedPatient }));
 
-      // redirecciono
       router.push('/dashboard/patientlist');
     },
   });
 
   return (
-    <div className="mx-auto max-w-xl p-8">
-      <form onSubmit={formik.handleSubmit} className="flex flex-col gap-y-6">
-        {/* Datos personales */}
-        <h2 className="text-[18px] leading-[26px] font-semibold sm:text-[22px] sm:leading-[28px]">
-          Datos personales
-        </h2>
+    <div className="mt-2.5 max-w-xl flex-col lg:mx-auto lg:mt-6 lg:flex lg:w-1/3">
+      {/* Datos personales */}
+      <h2 className="ml-7 justify-start self-stretch font-['Roboto'] text-xl leading-loose font-semibold text-black lg:ml-0 lg:text-2xl">
+        Datos personales
+      </h2>
 
-        <p className="text-[12px] sm:text-[14px] sm:leading-[16px]">*Datos requeridos</p>
+      <div className="mt-6 ml-7 justify-start self-stretch lg:ml-0">
+        <span className="font-['Roboto'] text-xs leading-tight font-semibold text-[#C73A3A] lg:text-base">
+          *
+        </span>
+        <span className="font-['Roboto'] text-xs leading-tight font-semibold text-black lg:text-base">
+          Datos Requeridos
+        </span>
+      </div>
 
-        <div className="flex flex-col">
+      <form
+        onSubmit={formik.handleSubmit}
+        className="mx-auto flex w-[350px] flex-col gap-6 lg:w-full"
+      >
+        <div className="mt-7">
           <InputField
             id="name"
             label="Nombre/s"
@@ -244,10 +257,9 @@ export default function FormPatient() {
             errorMessage={formik.touched.admissionDate ? formik.errors.admissionDate : undefined}
           />
         </div>
-        <br />
 
         {/* Motivo de consulta */}
-        <h2 className="text-[18px] leading-[26px] font-semibold sm:text-[22px] sm:leading-[28px]">
+        <h2 className="justify-start self-stretch font-['Roboto'] text-xl leading-loose font-semibold text-black">
           Motivo de consulta
         </h2>
 
@@ -294,10 +306,9 @@ export default function FormPatient() {
             className="h-[100px] w-full rounded-lg border border-[#000D4D73] bg-white px-3"
           />
         </div>
-        <br />
 
         {/* Historia clínica */}
-        <h2 className="text-[18px] leading-[26px] font-semibold sm:text-[22px] sm:leading-[28px]">
+        <h2 className="justify-start self-stretch font-['Roboto'] text-xl leading-loose font-semibold text-black">
           Historia clínica
         </h2>
 
@@ -355,10 +366,9 @@ export default function FormPatient() {
             className="h-[100px] w-full rounded-lg border border-[#000D4D73] bg-white px-3"
           />
         </div>
-        <br />
 
         {/* Organización y seguimineto */}
-        <h2 className="text-[18px] leading-[26px] font-semibold sm:text-[22px] sm:leading-[28px]">
+        <h2 className="justify-start self-stretch font-['Roboto'] text-xl leading-loose font-semibold text-black">
           Organización y seguimineto
         </h2>
 
@@ -448,7 +458,7 @@ export default function FormPatient() {
             type="submit"
             className="cursor-pointer justify-start text-center font-['Roboto'] text-base leading-normal font-semibold text-white"
           >
-            Crear paciente
+            Guardar cambios
           </button>
         </div>
       </form>
