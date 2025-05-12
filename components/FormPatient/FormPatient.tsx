@@ -5,6 +5,8 @@ import { NewPatient } from '@/types';
 // import { AppDispatch } from '@/store';
 // import { useRouter } from 'next/navigation';
 import Button from '@/components/ui/Button';
+import InputField from '@/components/ui/InputField';
+import { ValidationError } from '../ui/ValidationError';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 
@@ -125,94 +127,98 @@ export default function FormPatient() {
         <p className="text-[12px] sm:text-[14px] sm:leading-[16px]">*Datos requeridos</p>
 
         <div className="flex flex-col">
-          <label className="mb-1">Nombre/s *</label>
-          <input
-            name="name"
+          <InputField
+            id="name"
+            label="Nombre/s"
             value={formik.values.name}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            className="h-[48px] w-full rounded-lg border border-[#000D4D73] bg-white px-3"
+            placeholder="Ingrese sus nombre/s"
+            required
+            hasError={formik.touched.name && Boolean(formik.errors.name)}
+            errorMessage={formik.touched.name ? formik.errors.name : undefined}
           />
-          {formik.touched.name && formik.errors.name && (
-            <p className="mt-1 text-sm text-red-500">{formik.errors.name}</p>
-          )}
         </div>
 
         <div className="flex flex-col">
-          <label className="mb-1">Apellido/s *</label>
-          <input
-            name="surname"
+          <InputField
+            id="surname"
+            label="Apellido/s"
             value={formik.values.surname}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            className="h-[48px] w-full rounded-lg border border-[#000D4D73] bg-white px-3"
+            placeholder="Ingrese sus apellido/s"
+            required
+            hasError={formik.touched.surname && Boolean(formik.errors.surname)}
+            errorMessage={formik.touched.surname ? formik.errors.surname : undefined}
           />
-          {formik.touched.surname && formik.errors.surname && (
-            <p className="mt-1 text-sm text-red-500">{formik.errors.surname}</p>
-          )}
         </div>
 
         <div className="flex flex-col">
-          <label className="mb-1">Fecha de nacimineto *</label>
-          <span className="mb-1 text-sm text-gray-500">(dd/mm/yyyy)</span>
-          <input
-            name="birthdate"
+          <InputField
+            id="birthdate"
+            label="Fecha de nacimineto"
             type="date"
-            max={new Date().toISOString().split('T')[0]}
             value={formik.values.birthdate}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            className="h-[48px] w-full rounded-lg border border-[#000D4D73] bg-white px-3"
+            placeholder="Ingrese su fecha de nacimiento"
+            required
+            hasError={formik.touched.birthdate && Boolean(formik.errors.birthdate)}
+            errorMessage={formik.touched.birthdate ? formik.errors.birthdate : undefined}
           />
-          {formik.touched.birthdate && formik.errors.birthdate && (
-            <p className="mt-1 text-sm text-red-500">{formik.errors.birthdate}</p>
-          )}
         </div>
 
         <div className="flex flex-col">
-          <label className="mb-1">Nacionalidad *</label>
-          <input
-            name="nationality"
+          <InputField
+            id="nationality"
+            label="Nacionalidad"
             value={formik.values.nationality}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            className="h-[48px] w-full rounded-lg border border-[#000D4D73] bg-white px-3"
+            placeholder="Ingrese su nacionalidad"
+            required
+            hasError={formik.touched.nationality && Boolean(formik.errors.nationality)}
+            errorMessage={formik.touched.nationality ? formik.errors.nationality : undefined}
           />
-          {formik.touched.nationality && formik.errors.nationality && (
-            <p className="mt-1 text-sm text-red-500">{formik.errors.nationality}</p>
-          )}
         </div>
 
         <div className="flex flex-col">
-          <label className="mb-1">Tipo de documento *</label>
-          <input
-            name="typeOfIdentification"
+          <InputField
+            id="typeOfIdentification"
+            label="Tipo de documento"
             value={formik.values.typeOfIdentification}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            className="h-[48px] w-full rounded-lg border border-[#000D4D73] bg-white px-3"
+            placeholder="Ingrese el tipo de documento"
+            required
+            hasError={
+              formik.touched.typeOfIdentification && Boolean(formik.errors.typeOfIdentification)
+            }
+            errorMessage={
+              formik.touched.typeOfIdentification ? formik.errors.typeOfIdentification : undefined
+            }
           />
-          {formik.touched.typeOfIdentification && formik.errors.typeOfIdentification && (
-            <p className="mt-1 text-sm text-red-500">{formik.errors.typeOfIdentification}</p>
-          )}
         </div>
 
         <div className="flex flex-col">
-          <label className="mb-1">Número de documento *</label>
-          <input
-            name="identification"
+          <InputField
+            id="identification"
+            label="Número de documento"
             value={formik.values.identification}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            className="h-[48px] w-full rounded-lg border border-[#000D4D73] bg-white px-3"
+            placeholder="Ingrese el número de documento"
+            required
+            hasError={formik.touched.identification && Boolean(formik.errors.identification)}
+            errorMessage={formik.touched.identification ? formik.errors.identification : undefined}
           />
-          {formik.touched.identification && formik.errors.identification && (
-            <p className="mt-1 text-sm text-red-500">{formik.errors.identification}</p>
-          )}
         </div>
 
         <div className="flex flex-col">
-          <label className="mb-2 text-base font-medium text-gray-900">Sexo *</label>
+          <label className="mb-2 text-base font-medium text-gray-900">
+            Sexo <span className="text-red-600">*</span>
+          </label>
           <div className="flex flex-col gap-y-2">
             {[
               'Femenino',
@@ -230,8 +236,8 @@ export default function FormPatient() {
                 <input
                   type="radio"
                   name="sex"
-                  value={option.charAt(0)}
-                  checked={formik.values.sex === option.charAt(0)}
+                  value={option}
+                  checked={formik.values.sex === option}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                   className="h-5 w-5 border border-[#000D4D73] accent-indigo-600"
@@ -240,55 +246,52 @@ export default function FormPatient() {
               </label>
             ))}
           </div>
-          {formik.touched.sex && formik.errors.sex && (
-            <p className="mt-1 text-sm text-red-500">{formik.errors.sex}</p>
-          )}
+          {formik.errors.sex ? <ValidationError label={formik.errors.sex} /> : null}
         </div>
 
         <div className="flex flex-col">
-          <label className="mb-1">Email *</label>
-          <input
-            name="email"
+          <InputField
+            id="email"
+            label="Email"
             type="email"
             value={formik.values.email}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            className="h-[48px] w-full rounded-lg border border-[#000D4D73] bg-white px-3"
+            placeholder="Ingrese su Email"
+            required
+            hasError={formik.touched.email && Boolean(formik.errors.email)}
+            errorMessage={formik.touched.email ? formik.errors.email : undefined}
           />
-          {formik.touched.email && formik.errors.email && (
-            <p className="mt-1 text-sm text-red-500">{formik.errors.email}</p>
-          )}
         </div>
 
         <div className="flex flex-col">
-          <label className="mb-1">Numero de celular *</label>
-          <input
-            name="phone"
+          <InputField
+            id="phone"
+            label="Número de celular"
             type="tel"
             value={formik.values.phone}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            className="h-[48px] w-full rounded-lg border border-[#000D4D73] bg-white px-3"
+            placeholder="Ingrese su número de celular"
+            required
+            hasError={formik.touched.phone && Boolean(formik.errors.phone)}
+            errorMessage={formik.touched.phone ? formik.errors.phone : undefined}
           />
-          {formik.touched.phone && formik.errors.phone && (
-            <p className="mt-1 text-sm text-red-500">{formik.errors.phone}</p>
-          )}
         </div>
 
         <div className="flex flex-col">
-          <label className="mb-1">Fecha de ingreso *</label>
-          <span className="mb-1 text-sm text-gray-500">(dd/mm/yyyy)</span>
-          <input
-            name="admissionDate"
+          <InputField
+            id="admissionDate"
+            label="Fecha de ingreso"
             type="date"
             value={formik.values.admissionDate}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            className="h-[48px] w-full rounded-lg border border-[#000D4D73] bg-white px-3"
+            placeholder="Ingrese la fecha de ingreso"
+            required
+            hasError={formik.touched.admissionDate && Boolean(formik.errors.admissionDate)}
+            errorMessage={formik.touched.admissionDate ? formik.errors.admissionDate : undefined}
           />
-          {formik.touched.admissionDate && formik.errors.admissionDate && (
-            <p className="mt-1 text-sm text-red-500">{formik.errors.admissionDate}</p>
-          )}
         </div>
         <br />
 
