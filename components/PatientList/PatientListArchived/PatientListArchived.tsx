@@ -195,7 +195,7 @@ export default function PatientListArchived({ variant = 'home' }: Props) {
           <thead className="bg-[#F2F6FD] text-base leading-normal font-semibold text-black">
             <tr>
               <th className="px-4 py-3">Nombre del paciente</th>
-              <th className="hidden px-4 py-3 lg:table-cell">Fecha del turno</th>
+              <th className="hidden px-4 py-3 lg:table-cell">Email</th>
               <th className="px-4 py-3">Fecha ultima sesión</th>
               <th className="hidden px-4 py-3 lg:table-cell">Categoría</th>
               <th className="px-4 py-3">Acciones</th>
