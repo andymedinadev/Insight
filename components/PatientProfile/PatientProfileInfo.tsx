@@ -2,6 +2,7 @@
 
 // import { useEffect, useState } from 'react';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 
 // import { usePatientById, useUpdatePatient } from '@/hooks';
 import { useNewPatientById } from '@/hooks';
@@ -16,6 +17,7 @@ function obtenerElementoAleatorio(array: string[]) {
 }
 
 export function PatientProfileInfo() {
+  const router = useRouter();
   // SE CAYÓ BACKEND , TOCA MOCKEAR
   const { patient } = useNewPatientById();
   // const patient = mockPatients[0];
@@ -81,7 +83,16 @@ export function PatientProfileInfo() {
   // };
 
   // if (!patient || !editableData) return <p>No se encontró el paciente.</p>;
-  if (!patient) return <p>No se encontró el paciente.</p>;
+  if (!patient)
+    return (
+      <div className="mt-20 text-center">
+        <p className="text-3xl">No se encontró el paciente.</p>
+      </div>
+    );
+
+  const handleEditClick = () => {
+    router.push(`/dashboard/patientprofile/${patient.id}/edit`);
+  };
 
   return (
     <div className="border-b border-gray-200 px-6 md:overflow-x-hidden">
@@ -154,7 +165,7 @@ export function PatientProfileInfo() {
             </span>
             <div className="mt-2 flex justify-center lg:hidden">
               <button
-                onClick={() => console.log('Redireccionando a edit')}
+                onClick={handleEditClick}
                 className="rounded-lg px-4 py-2 text-sm font-semibold text-[#0655D5] underline"
               >
                 Editar perfil del paciente
