@@ -1,5 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
+
 import type { Patient, NewPatient, UpdatePatientPayload } from '@/types';
+
 import type { RootState } from '../index';
 
 // Traer todos los pacientes
@@ -138,4 +140,6 @@ export const updatePatient = createAsyncThunk<
     const message = error instanceof Error ? error.message : 'Error desconocido';
     return thunkApi.rejectWithValue(message);
   }
+
+
 });

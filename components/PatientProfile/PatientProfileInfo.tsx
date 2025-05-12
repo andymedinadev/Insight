@@ -2,6 +2,7 @@
 
 // import { useEffect, useState } from 'react';
 import Image from 'next/image';
+
 import { useRouter } from 'next/navigation';
 
 // import { usePatientById, useUpdatePatient } from '@/hooks';
@@ -68,6 +69,7 @@ export function PatientProfileInfo() {
   //   setIsEditing(!isEditing);
   // };
 
+
   // const handleSave = () => {
   //   if (!editableData) return;
 
@@ -95,6 +97,7 @@ export function PatientProfileInfo() {
   };
 
   return (
+
     <div className="border-b border-gray-200 px-6 md:overflow-x-hidden">
       <div className="flex flex-col items-center md:flex-row lg:mb-20">
         {/* MOBILE ONLY */}
@@ -107,6 +110,7 @@ export function PatientProfileInfo() {
         <div className="mt-6 flex flex-col items-center lg:-mt-4 lg:mr-2.5 lg:ml-14 lg:pl-20">
           {/* Picture */}
           <div className="h-24 w-24 overflow-hidden rounded-full bg-gray-200 lg:h-32 lg:w-32">
+
             <Image
               src={obtenerElementoAleatorio(avatars)}
               alt="Foto de perfil"
@@ -122,6 +126,7 @@ export function PatientProfileInfo() {
             </a>
           </div>
         </div>
+
 
         <div>
           {/* DESKTOP ONLY */}
@@ -173,6 +178,7 @@ export function PatientProfileInfo() {
             </div>
           </div>
         </div>
+
       </div>
     </div>
   );

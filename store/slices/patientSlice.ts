@@ -1,4 +1,5 @@
 // slices/patientSlice.ts
+
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { createPatient, deletePatient, fetchPatients, updatePatient } from '@/store/thunks';
 import {
@@ -10,6 +11,7 @@ import {
   mockHardcodedNotes,
 } from '@/mocks';
 import type { HardcodedPatient, Material, Note, Patient } from '@/types';
+
 
 interface PatientState {
   raw: Patient[]; // Pacientes originales recibidos
@@ -192,6 +194,7 @@ export const patientSlice = createSlice({
       })
       .addCase(updatePatient.rejected, (state, action) => {
         state.loading = false;
+
         state.error = action.error.message || 'Error desconocido';
       });
   },
