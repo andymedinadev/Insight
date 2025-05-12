@@ -76,6 +76,13 @@ export const patientSlice = createSlice({
     addToNewListDemo: (state, action: PayloadAction<HardcodedPatient>) => {
       state.newListDemo.unshift(action.payload);
     },
+    toggleFiled(state, action: PayloadAction<number>) {
+      const id = action.payload;
+      const paciente = state.newListDemo.find((p) => p.id === id);
+      if (paciente) {
+        paciente.filed = !paciente.filed;
+      }
+    },
     editNewTypePatient(
       state,
       action: PayloadAction<{ patientId: number; data: Partial<HardcodedPatient> }>
