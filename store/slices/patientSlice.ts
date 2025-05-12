@@ -1,14 +1,7 @@
 // slices/patientSlice.ts
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { createPatient, deletePatient, fetchPatients, updatePatient } from '@/store/thunks';
-import {
-  mockMaterials,
-  mockNotes,
-  mockPatients,
-  mockHardcodedPatients,
-  mockHardcodedMaterials,
-  mockHardcodedNotes,
-} from '@/mocks';
+import { mockMaterials, mockNotes, mockPatients, mockHardcodedPatients } from '@/mocks';
 import type { HardcodedPatient, Material, Note, Patient } from '@/types';
 
 interface PatientState {
@@ -53,8 +46,8 @@ const addMockData = (paciente: Patient): Patient => ({
 // Toma un PACIENTE MOCK y le llena las notas y materiales con mocks
 const addHardcodedDemoData = (paciente: HardcodedPatient): HardcodedPatient => ({
   ...paciente,
-  notes: mockHardcodedNotes,
-  materials: mockHardcodedMaterials,
+  notes: mockNotes,
+  materials: mockMaterials,
 });
 
 export const patientSlice = createSlice({
