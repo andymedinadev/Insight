@@ -1,4 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
+import { BACKEND_BASE_URL } from '@/config';
 import type { Patient, NewPatient, UpdatePatientPayload } from '@/types';
 import type { RootState } from '../index';
 
@@ -10,14 +11,11 @@ export const fetchPatients = createAsyncThunk<Patient[], void, { rejectValue: st
     const token = state.auth.token;
 
     try {
-      const response = await fetch(
-        'https://brave-generosity-production.up.railway.app/api/Patient/pacientes',
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const response = await fetch(`${BACKEND_BASE_URL}/api/Patient/pacientes`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
       console.log('Respuesta recibida:', response);
 
@@ -43,15 +41,12 @@ export const deletePatient = createAsyncThunk<number, number, { rejectValue: str
     const token = state.auth.token;
 
     try {
-      const response = await fetch(
-        `https://proyecto-foo-production.up.railway.app/api/Patient/${id}`,
-        {
-          method: 'DELETE',
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const response = await fetch(`${BACKEND_BASE_URL}/api/Patient/${id}`, {
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
       if (!response.ok) {
         const errorText = await response.text();
@@ -75,7 +70,7 @@ export const createPatient = createAsyncThunk<Patient, NewPatient, { rejectValue
 
     try {
       console.log(newPatient);
-      const response = await fetch('https://proyecto-foo-production.up.railway.app/api/Patient', {
+      const response = await fetch(`${BACKEND_BASE_URL}/api/Patient`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -116,17 +111,14 @@ export const updatePatient = createAsyncThunk<
   const patientUpdatedLocally = { ...currentPatient, ...updatedPatient };
 
   try {
-    const response = await fetch(
-      `https://proyecto-foo-production.up.railway.app/api/Patient/${id}`,
-      {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(updatedPatient),
-      }
-    );
+    const response = await fetch(`${BACKEND_BASE_URL}/api/Patient/${id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(updatedPatient),
+    });
 
     if (!response.ok) {
       const errorText = await response.text();
