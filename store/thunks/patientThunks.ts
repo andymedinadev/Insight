@@ -11,15 +11,14 @@ export const fetchPatients = createAsyncThunk<Patient[], void, { rejectValue: st
     const state = thunkApi.getState() as RootState;
     const token = state.auth.token;
 
+    const BACKEND_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
+
     try {
-      const response = await fetch(
-        'https://brave-generosity-production.up.railway.app/api/Patient/pacientes',
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const response = await fetch(`${BACKEND_BASE_URL}/api/Patient/pacientes`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
       console.log('Respuesta recibida:', response);
 

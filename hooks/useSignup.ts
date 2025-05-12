@@ -11,6 +11,8 @@ export function useSignup() {
   const [error, setError] = useState<string | null>(null);
   const { login } = useLogin();
 
+  const BACKEND_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
+
   const signup = async (formData: SignupFormData): Promise<boolean> => {
     setLoading(true);
     setError(null);
@@ -18,16 +20,13 @@ export function useSignup() {
     const signupPayload = transformFormDataToSignupPayload(formData);
 
     try {
-      const res = await fetch(
-        'https://brave-generosity-production.up.railway.app/api/User/register',
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(signupPayload),
-        }
-      );
+      const res = await fetch(`${BACKEND_BASE_URL}/api/User/register`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(signupPayload),
+      });
 
       if (!res.ok) {
         const data = await res.json();

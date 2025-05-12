@@ -5,9 +5,11 @@ import type { User } from '@/types/Profile/profileTypes';
 export const getProfile = createAsyncThunk<User, void, { state: RootState; rejectValue: string }>(
   'profile/getProfile',
   async (_, thunkApi) => {
+    const BACKEND_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
+
     const token = thunkApi.getState().auth.token;
     try {
-      const res = await fetch('https://brave-generosity-production.up.railway.app/api/User/me', {
+      const res = await fetch(`${BACKEND_BASE_URL}/api/User/me`, {
         method: 'GET',
         headers: { Authorization: `Bearer ${token}` },
       });

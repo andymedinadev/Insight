@@ -10,12 +10,14 @@ export function useLogin() {
   const [error, setError] = useState<string | null>(null);
   const dispatch = useDispatch();
 
+  const BACKEND_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
+
   const login = async (email: string, password: string) => {
     setLoading(true);
     setError(null);
 
     try {
-      const res = await fetch('https://brave-generosity-production.up.railway.app/api/Auth/login', {
+      const res = await fetch(`${BACKEND_BASE_URL}/api/Auth/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
