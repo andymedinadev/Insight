@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { AppDispatch, RootState } from '@/store';
-import { fetchPatients, deletePatient } from '@/store/thunks';
+import { fetchPatients } from '@/store/thunks';
 // import { selectFilteredPatients } from '@/store/selectors/patientSelectors';
 import { flechaAbajoLista, flechaArribaLista, puntosFiltros, Archive, Edit } from '@/public';
 import { usePathname } from 'next/navigation';
@@ -12,6 +12,7 @@ import Left from '../../public/icons/Left.svg';
 import Right from '../../public/icons/Right.svg';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
+import { toggleFiled } from '@/store/actions/patientActions';
 
 interface Props {
   variant?: 'home' | 'list';
@@ -21,7 +22,9 @@ export default function PatientList({ variant = 'home' }: Props) {
   const dispatch = useDispatch<AppDispatch>();
   const initialized = useSelector((state: RootState) => state.patients.initialized);
   // const patients = useSelector(selectFilteredPatients);
-  const patients = useSelector(newSelectFilteredPatients);
+  // mostrar solo pacientes no archivados
+  const allPatients = useSelector(newSelectFilteredPatients);
+  const patients = allPatients.filter((p) => !p.filed);
   const [openMenuId, setOpenMenuId] = useState<string | null>(null);
   const [isListVisible, setIsListVisible] = useState(true); // Nuevo estado para manejar la visibilidad
 
@@ -198,10 +201,7 @@ export default function PatientList({ variant = 'home' }: Props) {
               <th className="hidden px-4 py-3 lg:table-cell">Categoría</th>
               <th className="px-4 py-3">Acciones</th>
               {!isDashboardHome && (
-                <th
-                  className="cursor-pointer px-4 py-3"
-                  onClick={() => setIsListVisible(!isListVisible)}
-                >
+                <th className="px-4 py-3" onClick={() => setIsListVisible(!isListVisible)}>
                   <Image
                     src={isListVisible ? flechaAbajoLista : flechaArribaLista}
                     alt="puntos de filtro"
@@ -242,6 +242,7 @@ export default function PatientList({ variant = 'home' }: Props) {
                     <td className="hidden px-4 py-3 lg:table-cell">{patient.rangoEtario}</td>
                     <td className="relative px-5 py-3">
                       <button
+                        className="cursor-pointer"
                         onClick={() =>
                           setOpenMenuId((prev) =>
                             prev === String(patient.id) ? null : String(patient.id)
@@ -255,11 +256,16 @@ export default function PatientList({ variant = 'home' }: Props) {
                         <div className="absolute right-10 z-10 mt-3 w-2xs rounded-md border border-gray-200 bg-white shadow-md lg:right-32">
                           <ul className="py-1 text-xl font-normal text-[#000F27E5]">
                             <li>
-                              <button className="mt-2.5 mb-6 flex w-full flex-row text-left hover:bg-gray-100">
+                              <button
+                                className="mt-2.5 mb-6 flex w-full cursor-pointer flex-row text-left hover:bg-gray-100"
+                                onClick={() =>
+                                  router.push(`/dashboard/patientprofile/${patient.id}/edit`)
+                                }
+                              >
                                 <div>
                                   <Image
                                     src={Edit}
-                                    alt="archivar"
+                                    alt="editar"
                                     width={22}
                                     height={22}
                                     className="mr-5 ml-8 inline-block"
@@ -270,8 +276,8 @@ export default function PatientList({ variant = 'home' }: Props) {
                             </li>
                             <li>
                               <button
-                                className="mt-2.5 mb-2.5 flex w-full flex-row text-left hover:bg-gray-100"
-                                onClick={() => dispatch(deletePatient(patient.id))}
+                                className="mt-2.5 mb-2.5 flex w-full cursor-pointer flex-row text-left hover:bg-gray-100"
+                                onClick={() => dispatch(toggleFiled(patient.id))}
                               >
                                 <div>
                                   <Image

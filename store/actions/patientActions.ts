@@ -9,4 +9,5 @@ export const {
   setFilterModalidad,
   setFilterRangoEtario,
   setSearchTerm,
+  toggleFiled,
 } = patientSlice.actions;
