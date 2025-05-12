@@ -73,6 +73,9 @@ export const patientSlice = createSlice({
     setFilterModalidad(state, action: PayloadAction<string[]>) {
       state.filters.modalidad = action.payload;
     },
+    addToNewListDemo: (state, action: PayloadAction<HardcodedPatient>) => {
+      state.newListDemo.unshift(action.payload);
+    },
     addNoteToPatient(state, action: PayloadAction<{ patientId: number; note: Omit<Note, 'id'> }>) {
       const { patientId, note } = action.payload;
 
