@@ -1,16 +1,4 @@
-export type ModalityType = 'Presencial' | 'Virtual' | 'Híbrido' | '';
-
-export type DuracionSesion = '30 min' | '45 min' | '50 min' | '60 min' | '';
-
-export type SexType =
-  | 'Masculino'
-  | 'Femenino'
-  | 'Transgénero'
-  | 'No binario'
-  | 'Bigénero'
-  | 'Intersexual'
-  | 'Otro'
-  | '';
+import { ModalityType, DuracionSesion, SexType } from '@/types';
 
 export interface NewPatient {
   id: number;
