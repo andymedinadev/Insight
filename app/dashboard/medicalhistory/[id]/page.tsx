@@ -19,8 +19,8 @@ export default function MedicalHistory() {
 
   return (
     <div>
-      <div>
-        <h1 className="mt-9 ml-10 justify-start font-sans text-3xl leading-[48px] font-semibold text-black">
+      <div className="px-4 pt-9 sm:px-6 md:px-10">
+        <h1 className="font-sans text-2xl leading-[48px] font-semibold text-black sm:text-2xl md:text-2xl lg:text-3xl">
           {isMaterial ? 'Material para el paciente' : 'Gestionar notas'}
         </h1>
       </div>

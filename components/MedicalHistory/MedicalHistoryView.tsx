@@ -8,17 +8,17 @@ interface Props {
 
 export default function MedicalHistoryView({ note }: Props) {
   return (
-    <div className="px-10 pt-10">
-      <div className="flex items-center justify-between">
-        <h1 className="font-['Roboto'] text-3xl leading-10 font-semibold text-black">
+    <div className="px-4 pt-6 md:px-10 md:pt-10">
+      <div className="flex justify-between md:flex-row md:items-center md:justify-between">
+        <h1 className="mb-2 font-['Roboto'] text-2xl font-semibold text-black md:mb-0 md:text-3xl">
           {note?.title}
         </h1>
 
-        <div className="flex items-center space-x-5">
-          <button className="font-['Roboto'] text-base leading-normal font-semibold text-[#0655D5] underline">
+        <div className="flex space-x-4 md:items-center md:space-x-5">
+          <button className="font-['Roboto'] text-sm font-semibold text-[#0655D5] underline md:text-base">
             Editar
           </button>
-          <button className="font-['Roboto'] text-base leading-normal font-semibold text-[#0655D5] underline">
+          <button className="font-['Roboto'] text-sm font-semibold text-[#0655D5] underline md:text-base">
             Borrar
           </button>
           <button>
@@ -26,12 +26,14 @@ export default function MedicalHistoryView({ note }: Props) {
           </button>
         </div>
       </div>
-      <div className="mb-5 h-7 w-24 font-['Roboto'] text-base leading-normal font-normal text-[#000C21]">
+      <div className="mb-3 h-6 w-fit font-['Roboto'] text-sm text-[#000C21] md:mb-5 md:h-7 md:text-base">
         {note?.date}
       </div>
       <div>
         {note.content ? (
-          <p>{note.content}</p>
+          <p className="text-sm leading-relaxed whitespace-pre-line text-black md:text-base">
+            {note.content}
+          </p>
         ) : (
           <p className="mb-5 text-center text-gray-500">(Nota vacía)</p>
         )}
