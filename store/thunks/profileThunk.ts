@@ -1,4 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
+import { BACKEND_BASE_URL } from '@/config';
 import type { RootState } from '../index';
 import type { User } from '@/types/Profile/profileTypes';
 
@@ -7,7 +8,7 @@ export const getProfile = createAsyncThunk<User, void, { state: RootState; rejec
   async (_, thunkApi) => {
     const token = thunkApi.getState().auth.token;
     try {
-      const res = await fetch('https://brave-generosity-production.up.railway.app/api/User/me', {
+      const res = await fetch(`${BACKEND_BASE_URL}/api/User/me`, {
         method: 'GET',
         headers: { Authorization: `Bearer ${token}` },
       });

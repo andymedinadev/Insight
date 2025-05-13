@@ -5,12 +5,11 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useFormik } from 'formik';
-import * as Yup from 'yup';
 
 import { useLogin } from '@/hooks/useLogin';
-
-import { BackgroundLogin, Logo as InsightLogo } from '@/public';
 import { InputField } from '@/components';
+import { loginValidationSchema } from '@/schemas';
+import { BackgroundLogin, Logo as InsightLogo } from '@/public';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -22,24 +21,9 @@ export default function LoginPage() {
 
   const initialValues = { email: '', password: '' };
 
-  const validationSchema = Yup.object({
-    email: Yup.string()
-      .required('El correo electrónico es obligatorio')
-      .email('Debe ser un correo electrónico válido')
-      .max(254, 'El correo no puede tener más de 254 caracteres'),
-    password: Yup.string()
-      .required('La contraseña es obligatoria')
-      .min(8, 'La contraseña debe tener al menos 8 caracteres')
-      .max(64, 'La contraseña no puede tener más de 64 caracteres')
-      .matches(/[a-z]/, 'Debe contener al menos una letra minúscula')
-      .matches(/[A-Z]/, 'Debe contener al menos una letra mayúscula')
-      .matches(/\d/, 'Debe contener al menos un número')
-      .matches(/[@$!%*?&]/, 'Debe contener al menos un carácter especial (@$!%*?&)'),
-  });
-
   const formik = useFormik({
     initialValues,
-    validationSchema,
+    validationSchema: loginValidationSchema,
     onSubmit: async ({ email, password }) => {
       const successLogin = await login(email, password);
 

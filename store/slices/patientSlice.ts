@@ -1,19 +1,12 @@
 // slices/patientSlice.ts
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { createPatient, deletePatient, fetchPatients, updatePatient } from '@/store/thunks';
-import {
-  mockMaterials,
-  mockNotes,
-  mockPatients,
-  mockHardcodedPatients,
-  mockHardcodedMaterials,
-  mockHardcodedNotes,
-} from '@/mocks';
+import { mockMaterials, mockNotes, mockPatients, mockHardcodedPatients } from '@/mocks';
 import type { HardcodedPatient, Material, Note, Patient } from '@/types';
 
 interface PatientState {
-  raw: Patient[]; // Pacientes originales recibidos
-  list: Patient[]; // Pacientes transformados con mocks
+  raw: Patient[]; // Pacientes recibidos de backend
+  list: Patient[]; // Pacientes recibidos y adaptados
   newListDemo: HardcodedPatient[]; // Pacientes full hardcodeados
   searchTerm: string;
   selected: Patient | null;
@@ -43,18 +36,18 @@ const initialState: PatientState = {
   },
 };
 
-// Esta función, toma un paciente y le llena las notas y materiales con mocks
+// Toma un PACIENTE DE BACKEND y le llena las notas y materiales con mocks
 const addMockData = (paciente: Patient): Patient => ({
   ...paciente,
   notes: mockNotes,
   materials: mockMaterials,
 });
 
-// Esta función, toma un paciente y le llena las notas y materiales con mocks
+// Toma un PACIENTE MOCK y le llena las notas y materiales con mocks
 const addHardcodedDemoData = (paciente: HardcodedPatient): HardcodedPatient => ({
   ...paciente,
-  notes: mockHardcodedNotes,
-  materials: mockHardcodedMaterials,
+  notes: mockNotes,
+  materials: mockMaterials,
 });
 
 export const patientSlice = createSlice({
@@ -72,6 +65,28 @@ export const patientSlice = createSlice({
     },
     setFilterModalidad(state, action: PayloadAction<string[]>) {
       state.filters.modalidad = action.payload;
+    },
+    addToNewListDemo: (state, action: PayloadAction<HardcodedPatient>) => {
+      state.newListDemo.unshift(action.payload);
+    },
+    toggleFiled(state, action: PayloadAction<number>) {
+      const id = action.payload;
+      const paciente = state.newListDemo.find((p) => p.id === id);
+      if (paciente) {
+        paciente.filed = !paciente.filed;
+      }
+    },
+    editNewTypePatient(
+      state,
+      action: PayloadAction<{ patientId: number; data: Partial<HardcodedPatient> }>
+    ) {
+      const { patientId, data } = action.payload;
+
+      const patient = state.newListDemo.find((p) => p.id === patientId);
+
+      if (patient) {
+        Object.assign(patient, data);
+      }
     },
     addNoteToPatient(state, action: PayloadAction<{ patientId: number; note: Omit<Note, 'id'> }>) {
       const { patientId, note } = action.payload;
@@ -125,6 +140,8 @@ export const patientSlice = createSlice({
         state.error = null;
         state.raw = action.payload;
         state.list = action.payload.map(addMockData);
+        // FUNCIONE O NO BACKEND, ESTA PROPIEDAD DEL ESTADO CONTIENE PACIENTES MOCKS
+        state.newListDemo = mockHardcodedPatients.map(addHardcodedDemoData);
         state.initialized = true;
       })
       .addCase(fetchPatients.rejected, (state, action) => {
@@ -132,6 +149,7 @@ export const patientSlice = createSlice({
         state.error = action.payload || 'Error al obtener pacientes. Usando datos mock.';
         state.raw = mockPatients;
         state.list = mockPatients.map(addMockData);
+        // FUNCIONE O NO BACKEND, ESTA PROPIEDAD DEL ESTADO CONTIENE PACIENTES MOCKS
         state.newListDemo = mockHardcodedPatients.map(addHardcodedDemoData);
         state.initialized = true;
       })

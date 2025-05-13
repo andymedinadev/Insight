@@ -32,6 +32,7 @@ export { default as PatientListArchived } from './PatientList/PatientListArchive
 export { default as FormPatient } from './FormPatient/FormPatient';
 
 // PatientProfile
+export { EditPatientForm } from './EditPatientForm/EditPatientForm';
 export { PatientProfileHeader } from './PatientProfile/PatientProfileHeader';
 export { PatientProfileInfo } from './PatientProfile/PatientProfileInfo';
 export { PatientProfileLorem } from './PatientProfile/PatientProfileLorem';

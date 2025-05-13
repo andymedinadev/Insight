@@ -3,9 +3,9 @@
 import { useSearchParams } from 'next/navigation';
 import { useDispatch } from 'react-redux';
 import { useFormik } from 'formik';
-import * as Yup from 'yup';
 
 import { usePatientById } from '@/hooks';
+import { medicalHistoryValidationSchema } from '@/schemas';
 import { addNoteToPatient, addMaterialToPatient } from '@/store/actions/patientActions';
 import { Note /*, Material*/ } from '@/types';
 
@@ -20,13 +20,6 @@ const initialValues: Note = {
   content: '',
 };
 
-const validationSchema = Yup.object({
-  title: Yup.string().required('El nombre es obligatorio'),
-  date: Yup.date()
-    .max(new Date(), 'La fecha de la sesión no puede ser futura')
-    .required('La fecha de la sesión es obligatoria'),
-});
-
 export default function MedicalHistoryNew({ onSaved }: Props) {
   const searchParams = useSearchParams();
   const from = searchParams.get('from');
@@ -38,7 +31,7 @@ export default function MedicalHistoryNew({ onSaved }: Props) {
 
   const formik = useFormik<Note>({
     initialValues,
-    validationSchema,
+    validationSchema: medicalHistoryValidationSchema,
     onSubmit: async (values) => {
       console.log('Datos del formulario de notas:', values);
 
@@ -73,8 +66,8 @@ export default function MedicalHistoryNew({ onSaved }: Props) {
   });
 
   return (
-    <div className="ml-2 max-w-xl p-8">
-      <form onSubmit={formik.handleSubmit} className="space-y-6">
+    <div className="ml-2 max-w-xl p-4 sm:p-6 md:p-8">
+      <form onSubmit={formik.handleSubmit} className="space-y-4 sm:space-y-5 md:space-y-6">
         <div className="flex flex-col space-y-1">
           <label className="text-Text-Strong/90 justify-start font-['Roboto'] text-base leading-normal font-normal">
             {isMaterial ? 'Nombre del material *' : 'Nombre de la nota *'}
@@ -119,14 +112,14 @@ export default function MedicalHistoryNew({ onSaved }: Props) {
             value={formik.values.content}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            className="h-96 w-[851px] rounded-lg border border-[#000D4D73] bg-white px-3"
+            className="h-46 w-full rounded-lg border border-[#000D4D73] bg-white px-3 lg:h-96 lg:w-[851px]"
           ></textarea>
         </div>
 
         <div>
           <button
             type="submit"
-            className="flex h-12 w-28 items-center justify-center rounded-lg bg-[#0655D5] font-['Roboto'] text-base leading-normal font-semibold text-white shadow-[0px_4px_8px_-2px_rgba(0,0,0,0.04),_0px_2px_4px_-2px_rgba(0,0,0,0.08)]"
+            className="flex h-12 w-full items-center justify-center rounded-lg bg-[#0655D5] font-['Roboto'] text-base leading-normal font-semibold text-white shadow-[0px_4px_8px_-2px_rgba(0,0,0,0.04),_0px_2px_4px_-2px_rgba(0,0,0,0.08)] md:w-28"
           >
             Guardar
           </button>

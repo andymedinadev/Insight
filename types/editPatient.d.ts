@@ -1,6 +1,6 @@
 import { ModalityType, DuracionSesion, SexType } from '@/types';
 
-export interface NewPatient {
+export interface EditPatient {
   id: number;
   name: string;
   surname: string;

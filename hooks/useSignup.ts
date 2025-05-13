@@ -4,6 +4,7 @@ import { useState } from 'react';
 
 import { useLogin } from '@/hooks';
 import { transformFormDataToSignupPayload } from '@/utils';
+import { BACKEND_BASE_URL } from '@/config';
 import { RegisterResponse, SignupFormData } from '@/types';
 
 export function useSignup() {
@@ -18,16 +19,13 @@ export function useSignup() {
     const signupPayload = transformFormDataToSignupPayload(formData);
 
     try {
-      const res = await fetch(
-        'https://brave-generosity-production.up.railway.app/api/User/register',
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(signupPayload),
-        }
-      );
+      const res = await fetch(`${BACKEND_BASE_URL}/api/User/register`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(signupPayload),
+      });
 
       if (!res.ok) {
         const data = await res.json();

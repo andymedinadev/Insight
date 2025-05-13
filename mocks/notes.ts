@@ -4,141 +4,137 @@ export const mockNotes: Note[] = [
   {
     id: 20,
     date: '20/03/2025',
-    title: 'Nota N° 20',
-    content:
-      'Lorem ipsum dolor sit amet, consec tetur adipiscing elit. Etiam finibus blan dit euismod.',
+    title: 'Cierre de ciclo',
+    content: 'Se finaliza etapa exploratoria y se plantea iniciar trabajo con técnicas cognitivas.',
   },
   {
     id: 19,
-    date: '20/03/2025',
-    title: 'Nota N° 19',
+    date: '08/03/2025',
+    title: 'Primer logro concreto',
     content:
-      'Lorem ipsum dolor sit amet, consec tetur adipiscing elit. Etiam finibus blan dit euismod.',
+      'El paciente logró implementar una rutina de respiración diaria. Reporta mayor tranquilidad.',
   },
   {
     id: 18,
-    date: '20/03/2025',
-    title: 'Nota N° 18',
+    date: '28/02/2025',
+    title: 'Resistencia al cambio',
     content:
-      'Lorem ipsum dolor sit amet, consec tetur adipiscing elit. Etiam finibus blan dit euismod.',
+      'Se observan resistencias frente a nuevos hábitos propuestos. Trabajar la autocompasión.',
   },
   {
     id: 17,
-    date: '20/03/2025',
-    title: 'Nota N° 17',
+    date: '17/02/2025',
+    title: 'Avance en identificación de emociones',
     content:
-      'Lorem ipsum dolor sit amet, consec tetur adipiscing elit. Etiam finibus blan dit euismod.',
+      'El paciente logra reconocer con mayor claridad sus emociones básicas y sus detonantes.',
   },
   {
     id: 16,
-    date: '20/03/2025',
-    title: 'Nota N° 16',
+    date: '02/02/2025',
+    title: 'Inicio de nueva metodología',
     content:
-      'Lorem ipsum dolor sit amet, consec tetur adipiscing elit. Etiam finibus blan dit euismod.',
+      'Se establece un vínculo inicial positivo. Se sugiere trabajar en la gestión emocional.',
   },
   {
     id: 15,
     date: '20/03/2025',
-    title: 'Nota N° 15',
-    content:
-      'Lorem ipsum dolor sit amet, consec tetur adipiscing elit. Etiam finibus blan dit euismod.',
+    title: 'Cierre de ciclo',
+    content: 'Se finaliza etapa exploratoria y se plantea iniciar trabajo con técnicas cognitivas.',
   },
   {
     id: 14,
-    date: '20/03/2025',
-    title: 'Nota N° 14',
+    date: '08/03/2025',
+    title: 'Primer logro concreto',
     content:
-      'Lorem ipsum dolor sit amet, consec tetur adipiscing elit. Etiam finibus blan dit euismod.',
+      'El paciente logró implementar una rutina de respiración diaria. Reporta mayor tranquilidad.',
   },
   {
     id: 13,
-    date: '20/03/2025',
-    title: 'Nota N° 13',
+    date: '28/02/2025',
+    title: 'Resistencia al cambio',
     content:
-      'Lorem ipsum dolor sit amet, consec tetur adipiscing elit. Etiam finibus blan dit euismod.',
+      'Se observan resistencias frente a nuevos hábitos propuestos. Trabajar la autocompasión.',
   },
   {
     id: 12,
-    date: '20/03/2025',
-    title: 'Nota N° 12',
+    date: '17/02/2025',
+    title: 'Avance en identificación de emociones',
     content:
-      'Lorem ipsum dolor sit amet, consec tetur adipiscing elit. Etiam finibus blan dit euismod.',
+      'El paciente logra reconocer con mayor claridad sus emociones básicas y sus detonantes.',
   },
   {
     id: 11,
-    date: '20/03/2025',
-    title: 'Nota N° 11',
+    date: '02/02/2025',
+    title: 'Inicio de nueva metodología',
     content:
-      'Lorem ipsum dolor sit amet, consec tetur adipiscing elit. Etiam finibus blan dit euismod.',
+      'Se establece un vínculo inicial positivo. Se sugiere trabajar en la gestión emocional.',
   },
   {
     id: 10,
     date: '20/03/2025',
-    title: 'Nota N° 10',
-    content:
-      'Lorem ipsum dolor sit amet, consec tetur adipiscing elit. Etiam finibus blan dit euismod.',
+    title: 'Cierre de ciclo',
+    content: 'Se finaliza etapa exploratoria y se plantea iniciar trabajo con técnicas cognitivas.',
   },
   {
     id: 9,
-    date: '20/03/2025',
-    title: 'Nota N° 9',
+    date: '08/03/2025',
+    title: 'Primer logro concreto',
     content:
-      'Lorem ipsum dolor sit amet, consec tetur adipiscing elit. Etiam finibus blan dit euismod.',
+      'El paciente logró implementar una rutina de respiración diaria. Reporta mayor tranquilidad.',
   },
   {
     id: 8,
-    date: '20/03/2025',
-    title: 'Nota N° 8',
+    date: '28/02/2025',
+    title: 'Resistencia al cambio',
     content:
-      'Lorem ipsum dolor sit amet, consec tetur adipiscing elit. Etiam finibus blan dit euismod.',
+      'Se observan resistencias frente a nuevos hábitos propuestos. Trabajar la autocompasión.',
   },
   {
     id: 7,
-    date: '20/03/2025',
-    title: 'Nota N° 7',
+    date: '17/02/2025',
+    title: 'Avance en identificación de emociones',
     content:
-      'Lorem ipsum dolor sit amet, consec tetur adipiscing elit. Etiam finibus blan dit euismod.',
+      'El paciente logra reconocer con mayor claridad sus emociones básicas y sus detonantes.',
   },
   {
     id: 6,
-    date: '20/03/2025',
-    title: 'Nota N° 6',
+    date: '02/02/2025',
+    title: 'Inicio de nueva metodología',
     content:
-      'Lorem ipsum dolor sit amet, consec tetur adipiscing elit. Etiam finibus blan dit euismod.',
+      'Se establece un vínculo inicial positivo. Se sugiere trabajar en la gestión emocional.',
   },
   {
     id: 5,
     date: '20/03/2025',
-    title: 'Nota N° 5',
-    content:
-      'Lorem ipsum dolor sit amet, consec tetur adipiscing elit. Etiam finibus blan dit euismod.',
+    title: 'Cierre de ciclo',
+    content: 'Se finaliza etapa exploratoria y se plantea iniciar trabajo con técnicas cognitivas.',
   },
   {
     id: 4,
-    date: '20/03/2025',
-    title: 'Nota N° 4',
+    date: '08/03/2025',
+    title: 'Primer logro concreto',
     content:
-      'Lorem ipsum dolor sit amet, consec tetur adipiscing elit. Etiam finibus blan dit euismod.',
+      'El paciente logró implementar una rutina de respiración diaria. Reporta mayor tranquilidad.',
   },
   {
     id: 3,
-    date: '20/03/2025',
-    title: 'Nota N° 3',
+    date: '28/02/2025',
+    title: 'Resistencia al cambio',
     content:
-      'Lorem ipsum dolor sit amet, consec tetur adipiscing elit. Etiam finibus blan dit euismod.',
+      'Se observan resistencias frente a nuevos hábitos propuestos. Trabajar la autocompasión.',
   },
   {
     id: 2,
-    date: '20/03/2025',
-    title: 'Nota N° 2',
+    date: '17/02/2025',
+    title: 'Avance en identificación de emociones',
     content:
-      'Lorem ipsum dolor sit amet, consec tetur adipiscing elit. Etiam finibus blan dit euismod.',
+      'El paciente logra reconocer con mayor claridad sus emociones básicas y sus detonantes.',
   },
   {
     id: 1,
-    date: '20/03/2025',
-    title: 'Nota N° 1',
+    date: '02/02/2025',
+    title: 'Inicio de nueva metodología',
     content:
-      'Lorem ipsum dolor sit amet, consec tetur adipiscing elit. Etiam finibus blan dit euismod.',
+      'Se establece un vínculo inicial positivo. Se sugiere trabajar en la gestión emocional.',
   },
 ];
