@@ -15,11 +15,8 @@ export const signupValidationSchema = Yup.object({
 
   phone: Yup.string()
     .required('El teléfono es obligatorio')
-    .min(7, 'El teléfono debe tener al menos 7 caracteres')
-    .matches(
-      /^\+?\d{7,15}$/,
-      'El teléfono debe contener solo números y puede incluir un "+" al inicio'
-    )
+    .matches(/^\d+$/, 'El teléfono debe contener solo números')
+    .min(7, 'El teléfono debe tener al menos 7 dígitos')
     .max(15, 'El teléfono no puede tener más de 15 dígitos'),
 
   email: Yup.string()
