@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectCurrentPage } from '@/store/selectors/paginationSelectors';
 import { setTotalPages } from '@/store/slices/paginationSlice';
-import { usePatientById } from '@/hooks';
+import { useNewPatientById } from '@/hooks';
 import { Note } from '@/types';
 import Pagination from '../Pagination/Pagination';
 
@@ -18,7 +18,7 @@ export default function MedicalHistoryList({ onSelectedNote }: Props) {
   const searchParams = useSearchParams();
   const isMaterial = searchParams.get('from') === 'material';
 
-  const { patient } = usePatientById();
+  const { patient } = useNewPatientById();
   const dispatch = useDispatch();
   const currentPage = useSelector(selectCurrentPage);
 

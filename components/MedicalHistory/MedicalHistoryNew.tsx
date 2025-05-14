@@ -4,7 +4,7 @@ import { useSearchParams } from 'next/navigation';
 import { useDispatch } from 'react-redux';
 import { useFormik } from 'formik';
 
-import { usePatientById } from '@/hooks';
+import { useNewPatientById } from '@/hooks';
 import { medicalHistoryValidationSchema } from '@/schemas';
 import { addNoteToPatient, addMaterialToPatient } from '@/store/actions/patientActions';
 import { Note /*, Material*/ } from '@/types';
@@ -27,7 +27,7 @@ export default function MedicalHistoryNew({ onSaved }: Props) {
 
   // necesarios para guardar materiales/notas
   const dispatch = useDispatch();
-  const { id } = usePatientById();
+  const { id } = useNewPatientById();
 
   const formik = useFormik<Note>({
     initialValues,
