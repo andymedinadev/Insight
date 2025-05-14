@@ -7,7 +7,7 @@ import { useConfirmCode } from '@/hooks/useConfirmCode';
 import { SuccessConfirm } from '@/components';
 import { Logo as InsightLogo, BackgroundSignup } from '@/public';
 
-export function ConfirmAccount() {
+function ConfirmAccount() {
   const [confirmed, setConfirmed] = useState(false);
 
   const { code, isComplete, isLoading, handleChange, handleSubmit } = useConfirmCode(() =>
