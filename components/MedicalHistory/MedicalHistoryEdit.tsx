@@ -6,7 +6,7 @@ import { useFormik } from 'formik';
 import { InputField } from '@/components';
 import { useNewPatientById } from '@/hooks';
 import { medicalHistoryValidationSchema } from '@/schemas';
-import { editMaterialOfPatient, editNoteOfPatient } from '@/store/actions/patientActions';
+import { editMaterialOfPatient, editNoteOfPatient } from '@/store/slices/patientSlice';
 import { Note /*, Material*/ } from '@/types';
 
 type Props = {

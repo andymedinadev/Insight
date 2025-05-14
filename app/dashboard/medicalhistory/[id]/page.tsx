@@ -10,7 +10,7 @@ import {
 import { useSearchParams } from 'next/navigation';
 import { Note } from '@/types';
 import { useDispatch } from 'react-redux';
-import { deleteMaterialOfPatient, deleteNoteOfPatient } from '@/store/actions/patientActions';
+import { deleteMaterialOfPatient, deleteNoteOfPatient } from '@/store/slices/patientSlice';
 import { useNewPatientById } from '@/hooks';
 
 export default function MedicalHistory() {

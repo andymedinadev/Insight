@@ -239,4 +239,20 @@ export const patientSlice = createSlice({
   },
 });
 
+export const {
+  addMaterialToPatient,
+  addNoteToPatient,
+  addToNewListDemo,
+  deleteMaterialOfPatient,
+  deleteNoteOfPatient,
+  editMaterialOfPatient,
+  editNewTypePatient,
+  editNoteOfPatient,
+  setFilterGenero,
+  setFilterModalidad,
+  setFilterRangoEtario,
+  setSearchTerm,
+  toggleFiled,
+} = patientSlice.actions;
+
 export default patientSlice.reducer;

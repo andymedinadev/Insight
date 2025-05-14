@@ -2,7 +2,7 @@
 'use client';
 
 import { useDispatch } from 'react-redux';
-import { setSearchTerm } from '@/store/actions/patientActions';
+import { setSearchTerm } from '@/store/slices/patientSlice';
 import { AppDispatch } from '@/store';
 import Image from 'next/image';
 import { Search } from '@/public';

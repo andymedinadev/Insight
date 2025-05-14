@@ -6,7 +6,7 @@ import { useFormik } from 'formik';
 
 import { InputField, ValidationError } from '@/components';
 import { AppDispatch } from '@/store';
-import { editNewTypePatient } from '@/store/actions/patientActions';
+import { editNewTypePatient } from '@/store/slices/patientSlice';
 import { useNewPatientById } from '@/hooks';
 import { buildEditPatient, hardcodedToEditPatient, newPatientToHardcoded } from '@/utils';
 import { newPatientFormValidationSchema } from '@/schemas';

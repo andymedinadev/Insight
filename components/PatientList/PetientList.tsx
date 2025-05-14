@@ -12,7 +12,7 @@ import Left from '../../public/icons/Left.svg';
 import Right from '../../public/icons/Right.svg';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
-import { toggleFiled } from '@/store/actions/patientActions';
+import { toggleFiled } from '@/store/slices/patientSlice';
 
 interface Props {
   variant?: 'home' | 'list';
