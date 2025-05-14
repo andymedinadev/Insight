@@ -37,7 +37,7 @@ export default function LoginPage() {
   return (
     <div className="flex min-h-screen w-full flex-col">
       {/* Texto "INSIGHT" solo visible en móvil */}
-      <div className="mt-9 flex w-full justify-center px-3 py-5 md:hidden">
+      <div className="mt-9 mb-[68px] flex w-full justify-center px-3 py-5 md:hidden">
         <Image
           src={InsightLogo}
           alt="InsightLogo"
@@ -48,7 +48,7 @@ export default function LoginPage() {
       </div>
 
       {/* Contenido principal con grid */}
-      <div className="mt-12 grid h-full w-full grid-cols-1 px-6 md:h-screen md:grid-cols-2 lg:mt-0">
+      <div className="grid h-full w-full grid-cols-1 px-6 md:h-screen md:grid-cols-2">
         {/* Columna del formulario */}
         <div className="flex h-full items-center justify-center bg-white lg:m-auto lg:block lg:w-[470px] 2xl:pt-20">
           <div>
@@ -79,6 +79,7 @@ export default function LoginPage() {
                 *
               </span>
               <span className="font-['Roboto'] text-sm leading-tight font-normal text-black lg:text-base lg:leading-normal">
+                {' '}
                 Datos Requeridos
               </span>
             </div>
@@ -118,7 +119,7 @@ export default function LoginPage() {
                 <button
                   type="submit"
                   disabled={isLoading}
-                  className="justify-start border-none text-center font-['Roboto'] text-base leading-normal font-semibold text-white lg:text-2xl lg:leading-7"
+                  className={`justify-start border-none text-center font-['Roboto'] text-base leading-normal font-semibold text-white lg:text-2xl lg:leading-7 ${isLoading ? 'cursor-not-allowed' : 'cursor-pointer'} `}
                 >
                   {isLoading ? 'Cargando...' : 'Iniciar Sesión'}
                 </button>
