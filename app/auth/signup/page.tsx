@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useFormik } from 'formik';
 
-import { Button, InputField } from '@/components';
+import { InputField } from '@/components';
 import { useSignup } from '@/hooks';
 import { signupValidationSchema } from '@/schemas';
 import { SignupFormData } from '@/types';
@@ -38,43 +38,50 @@ export default function SignupPage() {
 
       if (successSignup) {
         setRedirecting(true);
-        router.push('/dashboard/home');
+        router.push('/auth/confirm-account');
       }
     },
   });
 
   return (
-    <div className="flex min-h-screen items-stretch justify-center bg-white 2xl:items-start">
-      {/* Form */}
+    <div className="flex min-h-screen items-stretch justify-center overflow-hidden bg-white 2xl:items-start">
+      {/* Form Section */}
       <div className="flex h-full w-full flex-col lg:h-full lg:w-1/2 lg:flex-row 2xl:mt-20">
         {/* Logo Mobile */}
         <div className="mt-9 mb-12 ml-32 px-3 py-5 text-center lg:hidden">
           <Image src={InsightLogo} width={110} height={34} alt="Insight Logo" />
         </div>
         {/* Page */}
-        <div className="flex h-full w-full flex-col justify-center bg-white p-5 pt-0 lg:mt-10 lg:ml-24 2xl:pl-40">
+        <div className="flex h-full w-full flex-col justify-center bg-white p-5 pt-0 pb-10 lg:mt-10 lg:ml-24 2xl:pl-40">
+          {/* Encabezado */}
           <div className="justify-start font-['Roboto'] text-2xl font-bold text-black lg:flex lg:items-start lg:justify-between lg:text-3xl lg:leading-[48px] lg:font-semibold">
             <h2>Bienvenido/a</h2>
             <Image
-              className="-mt-6 -mr-2 hidden px-4 py-7 lg:block"
+              className="ml-2 hidden object-cover lg:block"
               src={InsightLogo}
               width={150}
               height={47}
               alt="Insight Logo"
             />
           </div>
-          <div className="mt-6 justify-start font-['Roboto'] text-xl font-semibold text-black lg:mt-0 lg:text-3xl lg:leading-10 lg:font-normal">
+
+          <div className="mt-6 justify-start font-['Roboto'] text-xl font-semibold text-black lg:mt-6 lg:text-3xl lg:leading-10 lg:font-normal">
             <h3>Regístrese</h3>
           </div>
+
           <div className="mt-2.5 w-[350px] justify-start font-['Roboto'] text-base leading-tight font-normal text-black lg:mt-5 lg:w-[448px] lg:text-lg">
             <p>
               Desde aquí podrá gestionar sus pacientes, registrar observaciones y brindar un
               seguimiento personalizado y organizado.
             </p>
           </div>
+
           <div className="mt-11 mb-5 justify-start font-['Roboto'] text-base leading-tight font-normal text-black lg:mt-6 lg:leading-normal">
-            <p>*Datos Requeridos</p>
+            <span className="text-red-600">*</span>
+            <span> Datos Requeridos</span>
           </div>
+
+          {/* Formulario */}
           <form onSubmit={formik.handleSubmit} className="w-96 max-w-full space-y-4 lg:w-[470px]">
             <InputField
               id="name"
@@ -153,17 +160,15 @@ export default function SignupPage() {
               }
             />
 
-            <Button type="submit" disabled={isLoading} className="mt-4 flex border-none lg:mt-4">
-              <div className="inline-flex h-12 w-96 items-center justify-center rounded-lg bg-[#0655D5] lg:w-[470px] lg:rounded-xl">
-                <div className="flex items-center justify-center gap-1 self-stretch rounded-lg px-4 lg:rounded-xl lg:px-6">
-                  <div className="flex items-center justify-center gap-2 px-1">
-                    <div className="justify-start text-center font-['Roboto'] text-base leading-normal font-semibold text-[#FFF] lg:my-2.5 lg:text-2xl lg:leading-7">
-                      {isLoading ? 'Cargando...' : 'Registrarse'}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </Button>
+            <button
+              type="submit"
+              disabled={isLoading}
+              className={`mt-4 flex h-12 w-[350px] items-center justify-center rounded-lg border-none bg-[#0655D5] lg:mt-9 lg:w-[470px] lg:rounded-xl ${isLoading ? 'cursor-not-allowed' : 'cursor-pointer'} `}
+            >
+              <p className="justify-start text-center font-['Roboto'] text-base leading-normal font-semibold text-[#FFF] lg:my-2.5 lg:text-2xl lg:leading-7">
+                {isLoading ? 'Cargando...' : 'Registrarse'}
+              </p>
+            </button>
 
             {error && <p className="text-red-500">{error}</p>}
 
@@ -173,7 +178,7 @@ export default function SignupPage() {
               </div>
               <Link
                 className="ml-5 justify-start font-['Roboto'] text-sm leading-normal font-bold text-blue-700 underline"
-                href={'/auth/login'}
+                href="/auth/login"
               >
                 Iniciar sesión
               </Link>
@@ -182,6 +187,7 @@ export default function SignupPage() {
         </div>
       </div>
 
+      {/* Background Image */}
       {/* Background */}
       <div className="relative hidden w-1/2 overflow-hidden lg:block lg:max-h-[1024] lg:max-w-[720px] 2xl:max-h-[1080px] 2xl:max-w-[990px]">
         <Image

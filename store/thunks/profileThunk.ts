@@ -1,4 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
+import { BACKEND_BASE_URL } from '@/config';
 import type { RootState } from '../index';
 import type { User } from '@/types/Profile/profileTypes';
 

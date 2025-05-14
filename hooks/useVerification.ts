@@ -5,35 +5,34 @@ import { useDispatch } from 'react-redux';
 
 import { setToken } from '@/store/slices/authSlice';
 import { BACKEND_BASE_URL } from '@/config';
+import { VerifyPayload, VerifyResponse } from '@/types';
 
-export function useLogin() {
+export function useVerification() {
+  const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const dispatch = useDispatch();
 
-  const BACKEND_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
-
-  const login = async (email: string, password: string) => {
+  const verify = async (data: VerifyPayload): Promise<boolean> => {
     setLoading(true);
     setError(null);
 
     try {
-      const res = await fetch(`${BACKEND_BASE_URL}/api/Auth/login`, {
+      const res = await fetch(`${BACKEND_BASE_URL}/api/User/verify-registration`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify(data),
       });
 
+      const responseBody: VerifyResponse = await res.json();
+
       if (!res.ok) {
-        const data = await res.json();
-        throw new Error(data.message || 'Error al iniciar sesión');
+        throw new Error(responseBody.message || 'Error al verificar');
       }
 
-      // Obtengo el token y lo guardo
-      const data = await res.json();
-      const token = data.token;
+      // Si la verificaión funcionó seteo token
+      const token = responseBody.token;
 
       dispatch(setToken(token));
       sessionStorage.setItem('token', token);
@@ -48,5 +47,5 @@ export function useLogin() {
     }
   };
 
-  return { login, loading, error };
+  return { verify, loading, error };
 }

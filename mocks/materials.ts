@@ -4,141 +4,125 @@ export const mockMaterials: Material[] = [
   {
     id: 20,
     date: '20/03/2025',
-    title: 'Material N° 20',
+    title: 'Guía para establecer límites sanos',
     content:
-      'Lorem ipsum dolor sit amet, consec tetur adipiscing elit. Etiam finibus blan dit euismod.',
+      'Material práctico con ejemplos para practicar asertividad en relaciones interpersonales.',
   },
   {
     id: 19,
-    date: '20/03/2025',
-    title: 'Material N° 19',
-    content:
-      'Lorem ipsum dolor sit amet, consec tetur adipiscing elit. Etiam finibus blan dit euismod.',
+    date: '08/03/2025',
+    title: 'Lectura sobre pensamientos automáticos',
+    content: 'Artículo corto: "Cómo identificar distorsiones cognitivas comunes".',
   },
   {
     id: 18,
-    date: '20/03/2025',
-    title: 'Material N° 18',
-    content:
-      'Lorem ipsum dolor sit amet, consec tetur adipiscing elit. Etiam finibus blan dit euismod.',
+    date: '28/02/2025',
+    title: 'Podcast sobre autoestima',
+    content: 'Episodio recomendado: "Reconstruyendo la relación con uno mismo" (duración 15min).',
   },
   {
     id: 17,
-    date: '20/03/2025',
-    title: 'Material N° 17',
-    content:
-      'Lorem ipsum dolor sit amet, consec tetur adipiscing elit. Etiam finibus blan dit euismod.',
+    date: '17/02/2025',
+    title: 'Registro de emociones diario',
+    content: 'Hoja para completar diariamente identificando emoción, situación y reacción.',
   },
   {
     id: 16,
-    date: '20/03/2025',
-    title: 'Material N° 16',
-    content:
-      'Lorem ipsum dolor sit amet, consec tetur adipiscing elit. Etiam finibus blan dit euismod.',
+    date: '02/02/2025',
+    title: 'Ejercicio de respiración consciente',
+    content: 'Instrucciones para realizar respiración 4-7-8, útil para regular ansiedad.',
   },
   {
     id: 15,
     date: '20/03/2025',
-    title: 'Material N° 15',
+    title: 'Guía para establecer límites sanos',
     content:
-      'Lorem ipsum dolor sit amet, consec tetur adipiscing elit. Etiam finibus blan dit euismod.',
+      'Material práctico con ejemplos para practicar asertividad en relaciones interpersonales.',
   },
   {
     id: 14,
-    date: '20/03/2025',
-    title: 'Material N° 14',
-    content:
-      'Lorem ipsum dolor sit amet, consec tetur adipiscing elit. Etiam finibus blan dit euismod.',
+    date: '08/03/2025',
+    title: 'Lectura sobre pensamientos automáticos',
+    content: 'Artículo corto: "Cómo identificar distorsiones cognitivas comunes".',
   },
   {
     id: 13,
-    date: '20/03/2025',
-    title: 'Material N° 13',
-    content:
-      'Lorem ipsum dolor sit amet, consec tetur adipiscing elit. Etiam finibus blan dit euismod.',
+    date: '28/02/2025',
+    title: 'Podcast sobre autoestima',
+    content: 'Episodio recomendado: "Reconstruyendo la relación con uno mismo" (duración 15min).',
   },
   {
     id: 12,
-    date: '20/03/2025',
-    title: 'Material N° 12',
-    content:
-      'Lorem ipsum dolor sit amet, consec tetur adipiscing elit. Etiam finibus blan dit euismod.',
+    date: '17/02/2025',
+    title: 'Registro de emociones diario',
+    content: 'Hoja para completar diariamente identificando emoción, situación y reacción.',
   },
   {
     id: 11,
-    date: '20/03/2025',
-    title: 'Material N° 11',
-    content:
-      'Lorem ipsum dolor sit amet, consec tetur adipiscing elit. Etiam finibus blan dit euismod.',
+    date: '02/02/2025',
+    title: 'Ejercicio de respiración consciente',
+    content: 'Instrucciones para realizar respiración 4-7-8, útil para regular ansiedad.',
   },
   {
     id: 10,
     date: '20/03/2025',
-    title: 'Material N° 10',
+    title: 'Guía para establecer límites sanos',
     content:
-      'Lorem ipsum dolor sit amet, consec tetur adipiscing elit. Etiam finibus blan dit euismod.',
+      'Material práctico con ejemplos para practicar asertividad en relaciones interpersonales.',
   },
   {
     id: 9,
-    date: '20/03/2025',
-    title: 'Material N° 9',
-    content:
-      'Lorem ipsum dolor sit amet, consec tetur adipiscing elit. Etiam finibus blan dit euismod.',
+    date: '08/03/2025',
+    title: 'Lectura sobre pensamientos automáticos',
+    content: 'Artículo corto: "Cómo identificar distorsiones cognitivas comunes".',
   },
   {
     id: 8,
-    date: '20/03/2025',
-    title: 'Material N° 8',
-    content:
-      'Lorem ipsum dolor sit amet, consec tetur adipiscing elit. Etiam finibus blan dit euismod.',
+    date: '28/02/2025',
+    title: 'Podcast sobre autoestima',
+    content: 'Episodio recomendado: "Reconstruyendo la relación con uno mismo" (duración 15min).',
   },
   {
     id: 7,
-    date: '20/03/2025',
-    title: 'Material N° 7',
-    content:
-      'Lorem ipsum dolor sit amet, consec tetur adipiscing elit. Etiam finibus blan dit euismod.',
+    date: '17/02/2025',
+    title: 'Registro de emociones diario',
+    content: 'Hoja para completar diariamente identificando emoción, situación y reacción.',
   },
   {
     id: 6,
-    date: '20/03/2025',
-    title: 'Material N° 6',
-    content:
-      'Lorem ipsum dolor sit amet, consec tetur adipiscing elit. Etiam finibus blan dit euismod.',
+    date: '02/02/2025',
+    title: 'Ejercicio de respiración consciente',
+    content: 'Instrucciones para realizar respiración 4-7-8, útil para regular ansiedad.',
   },
   {
     id: 5,
     date: '20/03/2025',
-    title: 'Material N° 5',
+    title: 'Guía para establecer límites sanos',
     content:
-      'Lorem ipsum dolor sit amet, consec tetur adipiscing elit. Etiam finibus blan dit euismod.',
+      'Material práctico con ejemplos para practicar asertividad en relaciones interpersonales.',
   },
   {
     id: 4,
-    date: '20/03/2025',
-    title: 'Material N° 4',
-    content:
-      'Lorem ipsum dolor sit amet, consec tetur adipiscing elit. Etiam finibus blan dit euismod.',
+    date: '08/03/2025',
+    title: 'Lectura sobre pensamientos automáticos',
+    content: 'Artículo corto: "Cómo identificar distorsiones cognitivas comunes".',
   },
   {
     id: 3,
-    date: '20/03/2025',
-    title: 'Material N° 3',
-    content:
-      'Lorem ipsum dolor sit amet, consec tetur adipiscing elit. Etiam finibus blan dit euismod.',
+    date: '28/02/2025',
+    title: 'Podcast sobre autoestima',
+    content: 'Episodio recomendado: "Reconstruyendo la relación con uno mismo" (duración 15min).',
   },
   {
     id: 2,
-    date: '20/03/2025',
-    title: 'Material N° 2',
-    content:
-      'Lorem ipsum dolor sit amet, consec tetur adipiscing elit. Etiam finibus blan dit euismod.',
+    date: '17/02/2025',
+    title: 'Registro de emociones diario',
+    content: 'Hoja para completar diariamente identificando emoción, situación y reacción.',
   },
   {
     id: 1,
-    date: '20/03/2025',
-    title: 'Material N° 1',
-    content:
-      'Lorem ipsum dolor sit amet, consec tetur adipiscing elit. Etiam finibus blan dit euismod.',
+    date: '02/02/2025',
+    title: 'Ejercicio de respiración consciente',
+    content: 'Instrucciones para realizar respiración 4-7-8, útil para regular ansiedad.',
   },
 ];

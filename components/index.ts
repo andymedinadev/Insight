@@ -48,3 +48,6 @@ export { default as Pagination } from './Pagination/Pagination';
 
 //Filtros
 export { default as PatientFilterDropdown } from './FilterButton/PatientFilterDropdown';
+
+// Confirmar registro
+export { SuccessConfirm } from './SuccessConfirm/SuccessConfirm';

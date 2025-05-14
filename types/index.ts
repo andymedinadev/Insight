@@ -6,7 +6,8 @@ export type { EditPatient } from './editPatient';
 export type { NewPatient } from './newPatient';
 export type { SignupFormData } from './Signup/signupFormData';
 export type { SignupPayload } from './Signup/signupPayload';
-export type { RegisterResponse } from './Signup/registerResponse';
+export type { VerifyPayload } from './Signup/verifyPayload';
+export type { VerifyResponse } from './Signup/verifyResponse';
 
 export type { FrequentQuestion } from './frequentQuestion';
 export type {

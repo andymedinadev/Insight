@@ -2,14 +2,13 @@
 
 import { useState } from 'react';
 
-import { useLogin } from '@/hooks';
 import { transformFormDataToSignupPayload } from '@/utils';
-import { RegisterResponse, SignupFormData } from '@/types';
+import { BACKEND_BASE_URL } from '@/config';
+import { SignupFormData } from '@/types';
 
 export function useSignup() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const { login } = useLogin();
 
   const BACKEND_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
@@ -29,16 +28,12 @@ export function useSignup() {
       });
 
       if (!res.ok) {
-        const data = await res.json();
-        throw new Error(data.message || 'Error al registrarse');
+        const responseBody = await res.json();
+        throw new Error(responseBody.message || 'Error al registrarse');
       }
 
-      const data: RegisterResponse = await res.json();
-
-      // Si el registro funcionó, inicio sesión
-      if (data.id) {
-        await login(signupPayload.email, signupPayload.password);
-      }
+      // Si el registro funcionó guardo el email temporalmente para verificar cuenta
+      sessionStorage.setItem('signupEmail', signupPayload.email);
 
       return true;
     } catch (err) {
