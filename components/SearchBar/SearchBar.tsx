@@ -8,7 +8,11 @@ import { AppDispatch } from '@/store';
 import Image from 'next/image';
 import { Search } from '@/public';
 
-export default function SearchBar() {
+interface SearchBarProps {
+  placeholder?: string;
+}
+
+export default function SearchBar({ placeholder = 'Buscar paciente' }: SearchBarProps) {
   const dispatch = useDispatch<AppDispatch>();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -27,7 +31,7 @@ export default function SearchBar() {
       <Image src={Search} alt="Buscar paciente" width={24} height={24} className="mr-2 ml-4" />
       <input
         type="text"
-        placeholder="Buscar paciente"
+        placeholder={placeholder}
         onChange={handleChange}
         className="lg:24px text-gray-400 placeholder-gray-400 focus:outline-none lg:w-3xs"
       />
