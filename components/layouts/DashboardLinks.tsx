@@ -3,13 +3,12 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
-import { Home, Listado, Paciente, Soporte, CalendarSidebar } from '@/public';
+import { Home, Listado, Paciente, Soporte } from '@/public';
 
 const links = [
   { href: '/dashboard/home', label: 'Inicio', icon: Home },
   { href: '/dashboard/patientlist', label: 'Listado de pacientes', icon: Listado },
   { href: '/dashboard/newpatient', label: 'Nuevo paciente', icon: Paciente },
-  { href: '/dashboard/calendar', label: 'Mi agenda', icon: CalendarSidebar },
   { href: '/dashboard/support', label: 'Soporte', icon: Soporte },
 ];
 

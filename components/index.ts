@@ -52,3 +52,7 @@ export { default as PatientFilterDropdown } from './FilterButton/PatientFilterDr
 
 // Confirmar registro
 export { SuccessConfirm } from './SuccessConfirm/SuccessConfirm';
+export { default as UserNamePsicologo } from './UserName/UserName';
+export { default as UserProfileView } from './FormUserEdit/UserProfileView';
+export { default as UserProfileEdit } from './FormUserEdit/UserProfileEdit';
+export { default as UserNameDrop } from './UserName/UserNameDrop';
