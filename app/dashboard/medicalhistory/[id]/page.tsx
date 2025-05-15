@@ -5,17 +5,38 @@ import {
   MedicalHistoryList,
   MedicalHistoryNew,
   MedicalHistoryView,
+  MedicalHistoryEdit,
 } from '@/components';
 import { useSearchParams } from 'next/navigation';
 import { Note } from '@/types';
+import { useDispatch } from 'react-redux';
+import { deleteMaterialOfPatient, deleteNoteOfPatient } from '@/store/slices/patientSlice';
+import { useNewPatientById } from '@/hooks';
 
 export default function MedicalHistory() {
   const searchParams = useSearchParams();
   const from = searchParams.get('from');
   const isMaterial = from === 'material';
 
+  const dispatch = useDispatch();
+  const { id } = useNewPatientById();
+
   const [showNewNote, setShowNewNote] = useState(false);
   const [selectedNote, setSelectedNote] = useState<Note | null>(null);
+  const [isEditing, setIsEditing] = useState(false);
+
+  const handleDelete = () => {
+    if (!selectedNote) return;
+
+    if (isMaterial) {
+      dispatch(deleteMaterialOfPatient({ patientId: id, materialId: selectedNote.id }));
+    } else {
+      dispatch(deleteNoteOfPatient({ patientId: id, noteId: selectedNote.id }));
+    }
+
+    setSelectedNote(null);
+    setIsEditing(false);
+  };
 
   return (
     <div>
@@ -38,9 +59,25 @@ export default function MedicalHistory() {
         </div>
       )}
 
-      {selectedNote && (
+      {selectedNote && !isEditing && (
         <div>
-          <MedicalHistoryView note={selectedNote} />
+          <MedicalHistoryView
+            note={selectedNote}
+            onEdit={() => setIsEditing(true)}
+            onDelete={handleDelete}
+          />
+        </div>
+      )}
+
+      {selectedNote && isEditing && (
+        <div>
+          <MedicalHistoryEdit
+            note={selectedNote}
+            onSaved={() => {
+              setIsEditing(false);
+              setSelectedNote(null);
+            }}
+          />
         </div>
       )}
     </div>

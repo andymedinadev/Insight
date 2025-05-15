@@ -34,7 +34,7 @@ export default function Pagination({ itemsPerPage, totalItems }: PaginationProps
         <button
           onClick={() => dispatch(setCurrentPage(Math.max(currentPage - 1, 1)))}
           disabled={currentPage === 1}
-          className="flex h-10 w-[94px] items-center justify-center gap-2 rounded-lg border-white pr-1 text-sm leading-tight font-normal text-gray-600 hover:bg-gray-100 disabled:opacity-50"
+          className="flex h-10 w-[94px] cursor-pointer items-center justify-center gap-2 rounded-lg border-white pr-1 text-sm leading-tight font-normal text-gray-600 hover:bg-gray-100 disabled:opacity-50"
         >
           <Image src={Left} alt="Anterior" width={18} height={18} /> Anterior
         </button>
@@ -51,7 +51,7 @@ export default function Pagination({ itemsPerPage, totalItems }: PaginationProps
             <button
               key={idx}
               onClick={() => dispatch(setCurrentPage(Number(page)))}
-              className={`h-10 w-10 rounded-lg border px-[10px] py-[11px] text-center text-sm leading-tight font-normal ${
+              className={`h-10 w-10 cursor-pointer rounded-lg border px-[10px] py-[11px] text-center text-sm leading-tight font-normal ${
                 currentPage === page
                   ? 'border-blue-600 text-blue-600'
                   : 'border-white text-gray-600 hover:bg-gray-100'
@@ -65,7 +65,7 @@ export default function Pagination({ itemsPerPage, totalItems }: PaginationProps
         <button
           onClick={() => dispatch(setCurrentPage(Math.min(currentPage + 1, totalPages)))}
           disabled={currentPage === totalPages}
-          className="flex h-10 w-[94px] items-center justify-center gap-2 rounded-lg border-white pr-1 text-sm leading-tight font-normal text-gray-600 hover:bg-gray-100 disabled:opacity-50"
+          className="flex h-10 w-[94px] cursor-pointer items-center justify-center gap-2 rounded-lg border-white pr-1 text-sm leading-tight font-normal text-gray-600 hover:bg-gray-100 disabled:opacity-50"
         >
           Siguiente <Image src={Right} alt="Siguiente" width={18} height={18} />
         </button>

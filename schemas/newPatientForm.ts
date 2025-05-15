@@ -20,7 +20,7 @@ export const newPatientFormValidationSchema = Yup.object({
     .min(2, 'La nacionalidad debe tener al menos 2 caracteres')
     .max(50, 'La nacionalidad no puede tener más de 50 caracteres'),
   typeOfIdentification: Yup.string().required('El tipo de documento es obligatorio'),
-  identification: Yup.number().required('El número de documento es obligatorio'),
+  identification: Yup.string().required('El número de documento es obligatorio'),
   sex: Yup.string().required('El género es obligatorio'),
   email: Yup.string()
     .required('El correo electrónico es obligatorio')

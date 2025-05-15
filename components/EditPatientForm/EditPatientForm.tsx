@@ -6,7 +6,7 @@ import { useFormik } from 'formik';
 
 import { InputField, ValidationError } from '@/components';
 import { AppDispatch } from '@/store';
-import { editNewTypePatient } from '@/store/actions/patientActions';
+import { editNewTypePatient } from '@/store/slices/patientSlice';
 import { useNewPatientById } from '@/hooks';
 import { buildEditPatient, hardcodedToEditPatient, newPatientToHardcoded } from '@/utils';
 import { newPatientFormValidationSchema } from '@/schemas';
@@ -453,14 +453,14 @@ export function EditPatientForm() {
           />
         </div>
 
-        <div className="mb-12 inline-flex h-12 items-center justify-center self-stretch rounded-lg bg-[#0655D5]">
-          <button
-            type="submit"
-            className="cursor-pointer justify-start text-center font-['Roboto'] text-base leading-normal font-semibold text-white"
-          >
+        <button
+          type="submit"
+          className="mb-12 inline-flex h-12 cursor-pointer items-center justify-center self-stretch rounded-lg bg-[#0655D5]"
+        >
+          <p className="justify-start text-center font-['Roboto'] text-base leading-normal font-semibold text-white">
             Guardar cambios
-          </button>
-        </div>
+          </p>
+        </button>
       </form>
     </div>
   );

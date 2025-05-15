@@ -12,7 +12,7 @@ import Left from '../../public/icons/Left.svg';
 import Right from '../../public/icons/Right.svg';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
-import { toggleFiled } from '@/store/actions/patientActions';
+import { toggleFiled } from '@/store/slices/patientSlice';
 
 interface Props {
   variant?: 'home' | 'list';
@@ -32,36 +32,7 @@ export default function PatientList({ variant = 'home' }: Props) {
   const isDashboardHome = pathname === '/dashboard/home';
 
   const avatars = [
-    'https://randomuser.me/api/portraits/men/11.jpg',
-    'https://randomuser.me/api/portraits/women/21.jpg',
-    'https://randomuser.me/api/portraits/men/31.jpg',
-    'https://randomuser.me/api/portraits/women/41.jpg',
-    'https://randomuser.me/api/portraits/men/51.jpg',
-    'https://randomuser.me/api/portraits/women/61.jpg',
-    'https://randomuser.me/api/portraits/men/71.jpg',
-    'https://randomuser.me/api/portraits/women/81.jpg',
-    'https://randomuser.me/api/portraits/men/91.jpg',
-    'https://randomuser.me/api/portraits/women/12.jpg',
-    'https://randomuser.me/api/portraits/men/22.jpg',
-    'https://randomuser.me/api/portraits/women/32.jpg',
-    'https://randomuser.me/api/portraits/men/42.jpg',
-    'https://randomuser.me/api/portraits/women/52.jpg',
-    'https://randomuser.me/api/portraits/men/62.jpg',
-    'https://randomuser.me/api/portraits/women/72.jpg',
-    'https://randomuser.me/api/portraits/men/82.jpg',
-    'https://randomuser.me/api/portraits/women/92.jpg',
-    'https://randomuser.me/api/portraits/men/13.jpg',
-    'https://randomuser.me/api/portraits/women/23.jpg',
-    'https://randomuser.me/api/portraits/men/33.jpg',
-    'https://randomuser.me/api/portraits/women/43.jpg',
-    'https://randomuser.me/api/portraits/men/53.jpg',
-    'https://randomuser.me/api/portraits/women/63.jpg',
-    'https://randomuser.me/api/portraits/men/73.jpg',
-    'https://randomuser.me/api/portraits/women/83.jpg',
-    'https://randomuser.me/api/portraits/men/93.jpg',
-    'https://randomuser.me/api/portraits/women/14.jpg',
-    'https://randomuser.me/api/portraits/men/24.jpg',
-    'https://randomuser.me/api/portraits/women/34.jpg',
+    'https://res.cloudinary.com/dwc1rj9tj/image/upload/v1747278017/AvatarGeneral_hq0avb.svg',
   ];
 
   useEffect(() => {
@@ -188,6 +159,14 @@ export default function PatientList({ variant = 'home' }: Props) {
   const handleRedirect = (id: number) => {
     router.push(`/dashboard/patientprofile/${id}`);
   };
+
+  const [hasMounted, setHasMounted] = useState(false);
+
+  useEffect(() => {
+    setHasMounted(true);
+  }, []);
+
+  if (!hasMounted || !initialized) return null;
 
   return (
     <>

@@ -54,6 +54,17 @@ export const patientSlice = createSlice({
   name: 'patients',
   initialState,
   reducers: {
+    setPersistedState(state, action: PayloadAction<Partial<PatientState>>) {
+      const { initialized, newListDemo } = action.payload;
+
+      if (typeof initialized === 'boolean') {
+        state.initialized = initialized;
+      }
+
+      if (Array.isArray(newListDemo)) {
+        state.newListDemo = newListDemo;
+      }
+    },
     setSearchTerm(state, action: PayloadAction<string>) {
       state.searchTerm = action.payload.toLowerCase(); // normalizamos
     },
@@ -91,7 +102,7 @@ export const patientSlice = createSlice({
     addNoteToPatient(state, action: PayloadAction<{ patientId: number; note: Omit<Note, 'id'> }>) {
       const { patientId, note } = action.payload;
 
-      const patient = state.list.find((p) => p.id === patientId);
+      const patient = state.newListDemo.find((p) => p.id === patientId);
 
       if (patient) {
         if (!patient.notes) {
@@ -112,7 +123,7 @@ export const patientSlice = createSlice({
     ) {
       const { patientId, material } = action.payload;
 
-      const patient = state.list.find((p) => p.id === patientId);
+      const patient = state.newListDemo.find((p) => p.id === patientId);
 
       if (patient) {
         if (!patient.materials) {
@@ -127,6 +138,45 @@ export const patientSlice = createSlice({
         patient.materials.unshift(newMaterial);
       }
     },
+    editNoteOfPatient(state, action: PayloadAction<{ patientId: number; note: Note }>) {
+      const { patientId, note } = action.payload;
+      const patient = state.newListDemo.find((p) => p.id === patientId);
+
+      if (patient && patient.notes) {
+        const index = patient.notes.findIndex((n) => n.id === note.id);
+        if (index !== -1) {
+          patient.notes[index] = note;
+        }
+      }
+    },
+    editMaterialOfPatient(state, action: PayloadAction<{ patientId: number; material: Material }>) {
+      const { patientId, material } = action.payload;
+      const patient = state.newListDemo.find((p) => p.id === patientId);
+
+      if (patient && patient.materials) {
+        const index = patient.materials.findIndex((m) => m.id === material.id);
+        if (index !== -1) {
+          patient.materials[index] = material;
+        }
+      }
+    },
+    deleteNoteOfPatient: (state, action: PayloadAction<{ patientId: number; noteId: number }>) => {
+      const { patientId, noteId } = action.payload;
+      const patient = state.newListDemo.find((p) => p.id === patientId);
+      if (patient) {
+        patient.notes = patient.notes.filter((note) => note.id !== noteId);
+      }
+    },
+    deleteMaterialOfPatient: (
+      state,
+      action: PayloadAction<{ patientId: number; materialId: number }>
+    ) => {
+      const { patientId, materialId } = action.payload;
+      const patient = state.newListDemo.find((p) => p.id === patientId);
+      if (patient) {
+        patient.materials = patient.materials.filter((mat) => mat.id !== materialId);
+      }
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -136,22 +186,26 @@ export const patientSlice = createSlice({
         state.error = null;
       })
       .addCase(fetchPatients.fulfilled, (state, action) => {
+        if (!state.initialized) {
+          state.raw = action.payload;
+          state.list = action.payload.map(addMockData);
+          state.newListDemo = mockHardcodedPatients.map(addHardcodedDemoData);
+          state.initialized = true;
+        }
+
         state.loading = false;
         state.error = null;
-        state.raw = action.payload;
-        state.list = action.payload.map(addMockData);
-        // FUNCIONE O NO BACKEND, ESTA PROPIEDAD DEL ESTADO CONTIENE PACIENTES MOCKS
-        state.newListDemo = mockHardcodedPatients.map(addHardcodedDemoData);
-        state.initialized = true;
       })
       .addCase(fetchPatients.rejected, (state, action) => {
+        if (!state.initialized) {
+          state.raw = mockPatients;
+          state.list = mockPatients.map(addMockData);
+          state.newListDemo = mockHardcodedPatients.map(addHardcodedDemoData);
+          state.initialized = true;
+        }
+
         state.loading = false;
         state.error = action.payload || 'Error al obtener pacientes. Usando datos mock.';
-        state.raw = mockPatients;
-        state.list = mockPatients.map(addMockData);
-        // FUNCIONE O NO BACKEND, ESTA PROPIEDAD DEL ESTADO CONTIENE PACIENTES MOCKS
-        state.newListDemo = mockHardcodedPatients.map(addHardcodedDemoData);
-        state.initialized = true;
       })
 
       // ELIMINAR UN PACIENTE
@@ -199,5 +253,22 @@ export const patientSlice = createSlice({
       });
   },
 });
+
+export const {
+  addMaterialToPatient,
+  addNoteToPatient,
+  addToNewListDemo,
+  deleteMaterialOfPatient,
+  deleteNoteOfPatient,
+  editMaterialOfPatient,
+  editNewTypePatient,
+  editNoteOfPatient,
+  setFilterGenero,
+  setFilterModalidad,
+  setFilterRangoEtario,
+  setSearchTerm,
+  setPersistedState,
+  toggleFiled,
+} = patientSlice.actions;
 
 export default patientSlice.reducer;
