@@ -1,5 +1,6 @@
 import { ButtonCards, CompletedList } from '@/components';
 import { cardData } from '@/utils';
+import { UserNamePsicologo } from '@/components';
 
 import React from 'react';
 
@@ -7,8 +8,9 @@ export default function Home() {
   return (
     <div className="flex h-screen w-full flex-col items-center bg-white lg:flex lg:items-start">
       <div className="lg:ml-10 lg:items-start">
-        <h1 className="mt-1.5 mb-1.5 text-3xl leading-10 font-semibold text-black lg:mt-10 lg:mb-2.5 lg:text-3xl lg:leading-[48px] lg:font-semibold">
-          Hola, Maria
+        <h1 className="mt-1.5 mb-1.5 flex flex-row text-3xl leading-10 font-semibold text-black lg:mt-10 lg:mb-2.5 lg:text-3xl lg:leading-[48px] lg:font-semibold">
+          <p className="mr-2">Hola</p>
+          <UserNamePsicologo />
         </h1>
         <p className="mb-5 block text-sm leading-normal font-normal text-black lg:mb-10 lg:hidden lg:text-base">
           Bienvenida, aquí encontrarás tu lista de pacientes, y <br /> mucho más!
