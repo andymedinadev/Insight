@@ -91,7 +91,7 @@ export const patientSlice = createSlice({
     addNoteToPatient(state, action: PayloadAction<{ patientId: number; note: Omit<Note, 'id'> }>) {
       const { patientId, note } = action.payload;
 
-      const patient = state.list.find((p) => p.id === patientId);
+      const patient = state.newListDemo.find((p) => p.id === patientId);
 
       if (patient) {
         if (!patient.notes) {
@@ -112,7 +112,7 @@ export const patientSlice = createSlice({
     ) {
       const { patientId, material } = action.payload;
 
-      const patient = state.list.find((p) => p.id === patientId);
+      const patient = state.newListDemo.find((p) => p.id === patientId);
 
       if (patient) {
         if (!patient.materials) {
@@ -125,6 +125,45 @@ export const patientSlice = createSlice({
         };
 
         patient.materials.unshift(newMaterial);
+      }
+    },
+    editNoteOfPatient(state, action: PayloadAction<{ patientId: number; note: Note }>) {
+      const { patientId, note } = action.payload;
+      const patient = state.newListDemo.find((p) => p.id === patientId);
+
+      if (patient && patient.notes) {
+        const index = patient.notes.findIndex((n) => n.id === note.id);
+        if (index !== -1) {
+          patient.notes[index] = note;
+        }
+      }
+    },
+    editMaterialOfPatient(state, action: PayloadAction<{ patientId: number; material: Material }>) {
+      const { patientId, material } = action.payload;
+      const patient = state.newListDemo.find((p) => p.id === patientId);
+
+      if (patient && patient.materials) {
+        const index = patient.materials.findIndex((m) => m.id === material.id);
+        if (index !== -1) {
+          patient.materials[index] = material;
+        }
+      }
+    },
+    deleteNoteOfPatient: (state, action: PayloadAction<{ patientId: number; noteId: number }>) => {
+      const { patientId, noteId } = action.payload;
+      const patient = state.newListDemo.find((p) => p.id === patientId);
+      if (patient) {
+        patient.notes = patient.notes.filter((note) => note.id !== noteId);
+      }
+    },
+    deleteMaterialOfPatient: (
+      state,
+      action: PayloadAction<{ patientId: number; materialId: number }>
+    ) => {
+      const { patientId, materialId } = action.payload;
+      const patient = state.newListDemo.find((p) => p.id === patientId);
+      if (patient) {
+        patient.materials = patient.materials.filter((mat) => mat.id !== materialId);
       }
     },
   },

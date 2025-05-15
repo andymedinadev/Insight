@@ -6,21 +6,29 @@ import { useFormik } from 'formik';
 import { InputField } from '@/components';
 import { useNewPatientById } from '@/hooks';
 import { medicalHistoryValidationSchema } from '@/schemas';
-import { addNoteToPatient, addMaterialToPatient } from '@/store/actions/patientActions';
+import { editMaterialOfPatient, editNoteOfPatient } from '@/store/actions/patientActions';
 import { Note /*, Material*/ } from '@/types';
 
 type Props = {
   onSaved: () => void;
+  note?: Note;
 };
 
-const initialValues: Note = {
-  id: 0,
-  title: '',
-  date: '',
-  content: '',
-};
+function convertToISO(dateString: string): string {
+  if (/^\d{4}-\d{2}-\d{2}$/.test(dateString)) {
+    return dateString;
+  }
 
-export default function MedicalHistoryNew({ onSaved }: Props) {
+  const [day, month, year] = dateString.split('/');
+  if (!day || !month || !year) {
+    console.warn('Formato de fecha inválido:', dateString);
+    return dateString;
+  }
+
+  return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
+}
+
+export default function MedicalHistoryEdit({ onSaved, note }: Props) {
   const searchParams = useSearchParams();
   const from = searchParams.get('from');
   const isMaterial = from === 'material';
@@ -28,13 +36,27 @@ export default function MedicalHistoryNew({ onSaved }: Props) {
   const dispatch = useDispatch();
   const { id } = useNewPatientById();
 
+  const initialValues: Note = note || {
+    id: 0,
+    title: '',
+    date: '',
+    content: '',
+  };
+
+  const formattedNote = note
+    ? {
+        ...note,
+        date: convertToISO(note.date),
+      }
+    : initialValues;
+
   const formik = useFormik<Note>({
-    initialValues,
+    enableReinitialize: true,
+    initialValues: formattedNote,
     validationSchema: medicalHistoryValidationSchema,
     onSubmit: async (values) => {
-      console.log('Datos del formulario de notas:', values);
-
-      const newNote: Omit<Note, 'id'> = {
+      const updatedNote: Note = {
+        id: values.id,
         content: values.content,
         date: values.date,
         title: values.title,
@@ -43,9 +65,9 @@ export default function MedicalHistoryNew({ onSaved }: Props) {
       onSaved();
 
       if (isMaterial) {
-        dispatch(addMaterialToPatient({ patientId: id, material: newNote }));
+        dispatch(editMaterialOfPatient({ patientId: id, material: updatedNote }));
       } else {
-        dispatch(addNoteToPatient({ patientId: id, note: newNote }));
+        dispatch(editNoteOfPatient({ patientId: id, note: updatedNote }));
       }
     },
   });
