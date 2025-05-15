@@ -77,6 +77,14 @@ export const patientSlice = createSlice({
     setFilterModalidad(state, action: PayloadAction<string[]>) {
       state.filters.modalidad = action.payload;
     },
+    resetFilters(state) {
+      state.filters = {
+        rangoEtario: [],
+        genero: [],
+        modalidad: [],
+      };
+      state.searchTerm = '';
+    },
     addToNewListDemo: (state, action: PayloadAction<HardcodedPatient>) => {
       state.newListDemo.unshift(action.payload);
     },
@@ -263,6 +271,7 @@ export const {
   editMaterialOfPatient,
   editNewTypePatient,
   editNoteOfPatient,
+  resetFilters,
   setFilterGenero,
   setFilterModalidad,
   setFilterRangoEtario,
