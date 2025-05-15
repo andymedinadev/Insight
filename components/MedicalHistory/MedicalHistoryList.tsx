@@ -46,7 +46,7 @@ export default function MedicalHistoryList({ onSelectedNote }: Props) {
   return (
     <div className="px-4 py-6 sm:px-6 md:px-10">
       {/* Lista de notas o materiales */}
-      <div className="space-y-4">
+      <div className="cursor-pointer space-y-4">
         {paginatedData.map((item) => (
           <div
             key={item.id}
