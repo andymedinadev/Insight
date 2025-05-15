@@ -3,7 +3,7 @@
 import { useSearchParams } from 'next/navigation';
 import { useDispatch } from 'react-redux';
 import { useFormik } from 'formik';
-
+import { InputField } from '@/components';
 import { useNewPatientById } from '@/hooks';
 import { medicalHistoryValidationSchema } from '@/schemas';
 import { addNoteToPatient, addMaterialToPatient } from '@/store/actions/patientActions';
@@ -54,40 +54,30 @@ export default function MedicalHistoryNew({ onSaved }: Props) {
     <div className="ml-2 max-w-xl p-4 sm:p-6 md:p-8">
       <form onSubmit={formik.handleSubmit} className="space-y-4 sm:space-y-5 md:space-y-6">
         <div className="flex flex-col space-y-1">
-          <label className="text-Text-Strong/90 justify-start font-['Roboto'] text-base leading-normal font-normal">
-            {isMaterial ? 'Nombre del material *' : 'Nombre de la nota *'}
-          </label>
-          <input
-            name="title"
+          <InputField
+            id="title"
+            label={isMaterial ? 'Nombre del material' : 'Nombre de la nota'}
             value={formik.values.title}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            className="h-[48px] w-full rounded-lg border border-[#000D4D73] bg-white px-3"
-          ></input>
-          {formik.touched.title && formik.errors.title && (
-            <p className="mt-1 text-sm text-red-500">{formik.errors.title}</p>
-          )}
+            required
+            hasError={formik.touched.title && Boolean(formik.errors.title)}
+            errorMessage={formik.touched.title ? formik.errors.title : undefined}
+          />
         </div>
 
         <div className="flex flex-col space-y-1">
-          <label className="text-Text-Strong/90 justify-start font-['Roboto'] text-base leading-normal font-normal">
-            Fecha de la sesión *
-          </label>
-          <span className="text-Text-Weak/60 justify-start self-stretch font-['Roboto'] text-sm leading-tight font-normal text-gray-500">
-            (dd/mm/yyyy)
-          </span>
-          <input
-            name="date"
+          <InputField
+            id="date"
+            label="Fecha de la sesión"
             type="date"
-            max={new Date().toISOString().split('T')[0]}
             value={formik.values.date}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            className="h-[48px] w-full rounded-lg border border-[#000D4D73] bg-white px-3"
-          ></input>
-          {formik.touched.date && formik.errors.date && (
-            <p className="mt-1 text-sm text-red-500">{formik.errors.date}</p>
-          )}
+            required
+            hasError={formik.touched.date && Boolean(formik.errors.date)}
+            errorMessage={formik.touched.date ? formik.errors.date : undefined}
+          />
         </div>
 
         <div className="flex flex-col space-y-1">
@@ -104,7 +94,7 @@ export default function MedicalHistoryNew({ onSaved }: Props) {
         <div>
           <button
             type="submit"
-            className="flex h-12 w-full items-center justify-center rounded-lg bg-[#0655D5] font-['Roboto'] text-base leading-normal font-semibold text-white shadow-[0px_4px_8px_-2px_rgba(0,0,0,0.04),_0px_2px_4px_-2px_rgba(0,0,0,0.08)] md:w-28"
+            className="flex h-12 w-full cursor-pointer items-center justify-center rounded-lg bg-[#0655D5] font-['Roboto'] text-base leading-normal font-semibold text-white shadow-[0px_4px_8px_-2px_rgba(0,0,0,0.04),_0px_2px_4px_-2px_rgba(0,0,0,0.08)] md:w-28"
           >
             Guardar
           </button>

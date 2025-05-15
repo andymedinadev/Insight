@@ -19,17 +19,17 @@ export default function MedicalHistoryView({ note, onEdit, onDelete }: Props) {
         <div className="flex space-x-4 md:items-center md:space-x-5">
           <button
             onClick={onEdit}
-            className="font-['Roboto'] text-sm font-semibold text-[#0655D5] underline md:text-base"
+            className="cursor-pointer font-['Roboto'] text-sm font-semibold text-[#0655D5] underline md:text-base"
           >
             Editar
           </button>
           <button
             onClick={onDelete}
-            className="font-['Roboto'] text-sm font-semibold text-[#0655D5] underline md:text-base"
+            className="cursor-pointer font-['Roboto'] text-sm font-semibold text-[#0655D5] underline md:text-base"
           >
             Borrar
           </button>
-          <button>
+          <button className="cursor-pointer">
             <Image src={Download} alt="Descargar" width={24} height={24} />
           </button>
         </div>
