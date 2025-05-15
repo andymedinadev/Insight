@@ -160,6 +160,14 @@ export default function PatientList({ variant = 'home' }: Props) {
     router.push(`/dashboard/patientprofile/${id}`);
   };
 
+  const [hasMounted, setHasMounted] = useState(false);
+
+  useEffect(() => {
+    setHasMounted(true);
+  }, []);
+
+  if (!hasMounted || !initialized) return null;
+
   return (
     <>
       <div className="overflow-x-auto">

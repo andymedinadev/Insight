@@ -20,7 +20,7 @@ export { default as ButtonCards } from './Cards/ButtonCards/ButtonCards';
 export { default as CompletedList } from './CompletedListPatients/CompletedList';
 export { default as SearchBar } from './SearchBar/SearchBar';
 export { default as FilterButton } from './FilterButton/FilterButton';
-export { default as PatientList } from './PatientList/PetientList';
+export { default as PatientList } from './PatientList/PatientList';
 export { default as SeeMoreButton } from './SeeMoreButton/SeeMoreButton';
 export { default as AddPatientButton } from './AddPatientButton/AddPatientButton';
 export { default as ArchivedLink } from './ArchivedLink/ArchivedLink';
