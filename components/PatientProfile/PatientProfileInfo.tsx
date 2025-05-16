@@ -1,88 +1,16 @@
 'use client';
 
-// import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 
-// import { usePatientById, useUpdatePatient } from '@/hooks';
 import { useNewPatientById } from '@/hooks';
-// import { PatientProfilePic } from '@/public';
-// import { transformPatientProfileData } from '@/utils';
-// import type { PatientProfileData } from '@/types';
-// import { mockPatients } from '@/mocks';
-
-function obtenerElementoAleatorio(array: string[]) {
-  const indiceAleatorio = Math.floor(Math.random() * array.length);
-  return array[indiceAleatorio];
-}
+import { AvatarGeneral } from '@/public';
 
 export function PatientProfileInfo() {
   const router = useRouter();
-  // SE CAYÓ BACKEND , TOCA MOCKEAR
+
   const { patient } = useNewPatientById();
-  // const patient = mockPatients[0];
 
-  const avatars = [
-    'https://randomuser.me/api/portraits/men/11.jpg',
-    'https://randomuser.me/api/portraits/women/21.jpg',
-    'https://randomuser.me/api/portraits/men/31.jpg',
-    'https://randomuser.me/api/portraits/women/61.jpg',
-    'https://randomuser.me/api/portraits/women/81.jpg',
-    'https://randomuser.me/api/portraits/women/12.jpg',
-    'https://randomuser.me/api/portraits/women/32.jpg',
-    'https://randomuser.me/api/portraits/women/43.jpg',
-    'https://randomuser.me/api/portraits/women/63.jpg',
-    'https://randomuser.me/api/portraits/men/73.jpg',
-    'https://randomuser.me/api/portraits/women/83.jpg',
-    'https://randomuser.me/api/portraits/men/93.jpg',
-    'https://randomuser.meapi/portraits/women/34.jpg',
-  ];
-
-  // const { updatePatientData } = useUpdatePatient();
-
-  // const [isEditing, setIsEditing] = useState(false);
-  // const [editableData, setEditableData] = useState<PatientProfileData | null>(null);
-  // const [patientData, setPatientData] = useState<PatientProfileData | null>(null);
-
-  // useEffect(() => {
-  //   if (patient) {
-  //     // acá se transforma el paciente que manda backend
-  //     // por el paciente que debo mostrar según diseño
-  //     const transformed = transformPatientProfileData(patient);
-
-  //     setPatientData(transformed);
-  //   }
-  // }, [patient]);
-
-  // const handleChange = (field: keyof PatientProfileData, value: string) => {
-  //   if (!editableData) return;
-  //   setEditableData({ ...editableData, [field]: value });
-  // };
-
-  // const toggleEdit = () => {
-  //   if (!isEditing && editableData) {
-  //     setOriginalData(editableData);
-  //   } else if (originalData) {
-  //     setEditableData(originalData);
-  //   }
-  //   setIsEditing(!isEditing);
-  // };
-
-  // const handleSave = () => {
-  //   if (!editableData) return;
-
-  //   // TODO: Enviar editableData al backend
-  //   if (patient) {
-  //     const id = Number(patient.id);
-
-  //     updatePatientData(id, editableData);
-  //   }
-
-  //   setOriginalData(editableData);
-  //   setIsEditing(false);
-  // };
-
-  // if (!patient || !editableData) return <p>No se encontró el paciente.</p>;
   if (!patient)
     return (
       <div className="mt-20 text-center">
@@ -108,7 +36,7 @@ export function PatientProfileInfo() {
           {/* Picture */}
           <div className="h-24 w-24 overflow-hidden rounded-full bg-gray-200 lg:h-32 lg:w-32">
             <Image
-              src={obtenerElementoAleatorio(avatars)}
+              src={AvatarGeneral}
               alt="Foto de perfil"
               width={128}
               height={128}
