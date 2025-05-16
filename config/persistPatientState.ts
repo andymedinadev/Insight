@@ -11,8 +11,14 @@ type PatientPartialState = {
 
 const actionsToPersist = [
   'setEntireState',
+  'addMaterialToPatient',
+  'addNoteToPatient',
   'addToNewListDemo',
   'editNewTypePatient',
+  'editMaterialOfPatient',
+  'editNoteOfPatient',
+  'deleteNoteOfPatient',
+  'deleteMaterialOfPatient',
   'toggleFiled',
 ];
 
