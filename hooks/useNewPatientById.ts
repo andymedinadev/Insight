@@ -8,7 +8,7 @@ export const useNewPatientById = () => {
   const id = Number(params?.id);
   const patientList = useSelector((state: RootState) => state.patients.newListDemo);
 
-  const patient = isNaN(id) ? null : (patientList.find((p) => p.id === id) ?? null);
+  const patient = Number.isNaN(id) ? null : (patientList.find((p) => p.id === id) ?? null);
 
   return { patient, id };
 };

@@ -6,9 +6,8 @@ import { useFormik } from 'formik';
 
 import { InputField, ValidationError } from '@/components';
 import { AppDispatch } from '@/store';
-import { editNewTypePatient } from '@/store/actions/patientActions';
+import { editNewTypePatient } from '@/store/slices/patientSlice';
 import { useNewPatientById } from '@/hooks';
-import { buildEditPatient, hardcodedToEditPatient, newPatientToHardcoded } from '@/utils';
 import { newPatientFormValidationSchema } from '@/schemas';
 import { EditPatient } from '@/types';
 
@@ -44,6 +43,8 @@ const defaultInitialValues: EditPatient = {
     frecuencia: '',
     medioContactoPreferido: '',
   },
+  notes: [],
+  materials: [],
 };
 
 export function EditPatientForm() {
@@ -51,20 +52,16 @@ export function EditPatientForm() {
   const { id, patient } = useNewPatientById();
   const router = useRouter();
 
-  const initialValues: EditPatient = patient
-    ? hardcodedToEditPatient(patient)
-    : defaultInitialValues;
+  const initialValues: EditPatient = patient ? patient : defaultInitialValues;
 
   const formik = useFormik<EditPatient>({
     enableReinitialize: true,
     initialValues,
     validationSchema: newPatientFormValidationSchema,
     onSubmit: (values) => {
-      const editedPatient = buildEditPatient(values, id);
+      const editedPatient = { ...patient, ...values };
 
-      const formattedPatient = newPatientToHardcoded(editedPatient);
-
-      dispatch(editNewTypePatient({ patientId: id, data: formattedPatient }));
+      dispatch(editNewTypePatient({ patientId: id, data: editedPatient }));
 
       router.push('/dashboard/patientlist');
     },
@@ -453,14 +450,14 @@ export function EditPatientForm() {
           />
         </div>
 
-        <div className="mb-12 inline-flex h-12 items-center justify-center self-stretch rounded-lg bg-[#0655D5]">
-          <button
-            type="submit"
-            className="cursor-pointer justify-start text-center font-['Roboto'] text-base leading-normal font-semibold text-white"
-          >
+        <button
+          type="submit"
+          className="mb-12 inline-flex h-12 cursor-pointer items-center justify-center self-stretch rounded-lg bg-[#0655D5]"
+        >
+          <p className="justify-start text-center font-['Roboto'] text-base leading-normal font-semibold text-white">
             Guardar cambios
-          </button>
-        </div>
+          </p>
+        </button>
       </form>
     </div>
   );

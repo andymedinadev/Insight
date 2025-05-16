@@ -13,7 +13,7 @@ import { BackgroundLogin, Logo as InsightLogo } from '@/public';
 
 export default function LoginPage() {
   const router = useRouter();
-  const { login, loading, error } = useLogin();
+  const { login, loading } = useLogin();
 
   const [redirecting, setRedirecting] = useState(false);
 
@@ -109,23 +109,17 @@ export default function LoginPage() {
                 errorMessage={formik.touched.password ? formik.errors.password : undefined}
               />
 
-              <div className="mt-2.5 pr-4 text-right lg:-mt-2 lg:mb-0 lg:pr-0">
-                <a className="justify-start font-['Roboto'] text-sm leading-normal font-bold text-blue-700 underline">
-                  ¿Olvidó su contraseña?
-                </a>
-              </div>
+              <div className="mt-2.5 h-6 pr-4 text-right lg:-mt-2 lg:mb-0 lg:h-6 lg:pr-0"></div>
 
-              <div className="mt-6 mb-0 inline-flex h-12 w-[350px] items-center justify-center rounded-lg bg-[#0655D5] lg:mt-8 lg:w-[470px] lg:rounded-xl">
-                <button
-                  type="submit"
-                  disabled={isLoading}
-                  className={`justify-start border-none text-center font-['Roboto'] text-base leading-normal font-semibold text-white lg:text-2xl lg:leading-7 ${isLoading ? 'cursor-not-allowed' : 'cursor-pointer'} `}
-                >
+              <button
+                type="submit"
+                disabled={isLoading}
+                className={`mt-6 mb-0 inline-flex h-12 w-[350px] items-center justify-center rounded-lg bg-[#0655D5] lg:mt-8 lg:w-[470px] lg:rounded-xl ${isLoading ? 'cursor-not-allowed' : 'cursor-pointer'}`}
+              >
+                <p className="justify-start border-none text-center font-['Roboto'] text-base leading-normal font-semibold text-white lg:text-2xl lg:leading-7">
                   {isLoading ? 'Cargando...' : 'Iniciar Sesión'}
-                </button>
-              </div>
-
-              {error && <p className="text-red-500">{error}</p>}
+                </p>
+              </button>
 
               <div className="m-auto mt-5 flex h-6 w-60 items-center justify-center gap-4">
                 <div className="justify-start font-['Roboto'] text-sm leading-tight font-semibold text-black">

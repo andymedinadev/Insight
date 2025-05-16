@@ -20,7 +20,7 @@ export { default as ButtonCards } from './Cards/ButtonCards/ButtonCards';
 export { default as CompletedList } from './CompletedListPatients/CompletedList';
 export { default as SearchBar } from './SearchBar/SearchBar';
 export { default as FilterButton } from './FilterButton/FilterButton';
-export { default as PatientList } from './PatientList/PetientList';
+export { default as PatientList } from './PatientList/PatientList';
 export { default as SeeMoreButton } from './SeeMoreButton/SeeMoreButton';
 export { default as AddPatientButton } from './AddPatientButton/AddPatientButton';
 export { default as ArchivedLink } from './ArchivedLink/ArchivedLink';
@@ -42,6 +42,7 @@ export { default as MedicalHistoryHeader } from './MedicalHistory/MedicalHistory
 export { default as MedicalHistoryList } from './MedicalHistory/MedicalHistoryList';
 export { default as MedicalHistoryNew } from './MedicalHistory/MedicalHistoryNew';
 export { default as MedicalHistoryView } from './MedicalHistory/MedicalHistoryView';
+export { default as MedicalHistoryEdit } from './MedicalHistory/MedicalHistoryEdit';
 
 // Pagination
 export { default as Pagination } from './Pagination/Pagination';
@@ -51,3 +52,7 @@ export { default as PatientFilterDropdown } from './FilterButton/PatientFilterDr
 
 // Confirmar registro
 export { SuccessConfirm } from './SuccessConfirm/SuccessConfirm';
+export { default as UserNamePsicologo } from './UserName/UserName';
+export { default as UserProfileView } from './FormUserEdit/UserProfileView';
+export { default as UserProfileEdit } from './FormUserEdit/UserProfileEdit';
+export { default as UserNameDrop } from './UserName/UserNameDrop';

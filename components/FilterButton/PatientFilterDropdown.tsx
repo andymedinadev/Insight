@@ -6,7 +6,7 @@ import {
   setFilterModalidad,
   setFilterGenero,
   setFilterRangoEtario,
-} from '@/store/actions/patientActions';
+} from '@/store/slices/patientSlice';
 import { RootState } from '@/store';
 import { CheckFiltroOn, CheckFiltroOff, X } from '@/public';
 

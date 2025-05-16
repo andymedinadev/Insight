@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 
 import { useLogout } from '@/hooks';
-import { Campana, Avatar, FlechaBaja } from '@/public';
+import { Campana, AvatarGeneral, FlechaBaja } from '@/public';
 import DropdownUserMenu from './DropdownUserMenu'; // Asegúrate de que el path sea correcto
 
 export default function NavbarButtons() {
@@ -43,7 +43,7 @@ export default function NavbarButtons() {
         <Image src={Campana} alt="Campana" className="object-contain" />
       </span>
       <span>
-        <Image src={Avatar} alt="Avatar" className="object-contain" />
+        <Image src={AvatarGeneral} height={32} width={32} alt="Avatar" className="object-contain" />
       </span>
       <span ref={optionsButtonRef} onClick={() => setIsOpen(!isOpen)}>
         <Image src={FlechaBaja} alt="Flecha Baja" className="object-contain hover:cursor-pointer" />

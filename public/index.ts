@@ -26,7 +26,6 @@ export { default as MenuMobileNavbar } from './icons/MenuMobileNavbar.svg';
 export { default as IconExistNavMenu } from './icons/IconExistNavMenu.svg';
 export { default as CalendarSidebar } from './icons/CalendarSidebar.svg';
 
-export { default as PatientProfilePic } from './patientProfilePic.png';
 export { default as BackgroundSignup } from './bg-signup.jpg';
 export { default as BackgroundLogin } from './login.jpg';
 
@@ -48,3 +47,6 @@ export { default as CheckFiltroOn } from './icons/CheckFiltroOn.svg';
 export { default as X } from './icons/X.svg';
 
 export { default as ValidCodeImage } from './icons/valid.svg';
+export { default as AvatarGeneral } from './AvatarGeneral.svg';
+export { default as iconEdit } from './icons/iconEdit.svg';
+export { default as IconCheck } from './icons/IconCheck.svg';

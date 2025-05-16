@@ -1,4 +1,4 @@
-import { ModalityType, DuracionSesion, SexType } from '@/types';
+import { DuracionSesion, Material, ModalityType, Note, RangoEtario, SexType } from '@/types';
 
 export interface EditPatient {
   id: number;
@@ -12,6 +12,11 @@ export interface EditPatient {
   email: string;
   phone: string;
   admissionDate: string;
+  age?: number;
+  rangoEtario?: RangoEtario;
+  lastSession?: string;
+  notes: Note[];
+  materials: Material[];
   motivosConsulta?: {
     motivoPrincipal?: string;
     sintomasActuales?: string;
@@ -32,4 +37,5 @@ export interface EditPatient {
     frecuencia?: string;
     medioContactoPreferido?: string;
   };
+  filed?: boolean;
 }
