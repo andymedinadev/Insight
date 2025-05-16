@@ -8,7 +8,6 @@ import { InputField, ValidationError } from '@/components';
 import { AppDispatch } from '@/store';
 import { editNewTypePatient } from '@/store/slices/patientSlice';
 import { useNewPatientById } from '@/hooks';
-import { buildEditPatient, hardcodedToEditPatient, newPatientToHardcoded } from '@/utils';
 import { newPatientFormValidationSchema } from '@/schemas';
 import { EditPatient } from '@/types';
 
@@ -44,6 +43,8 @@ const defaultInitialValues: EditPatient = {
     frecuencia: '',
     medioContactoPreferido: '',
   },
+  notes: [],
+  materials: [],
 };
 
 export function EditPatientForm() {
@@ -51,20 +52,16 @@ export function EditPatientForm() {
   const { id, patient } = useNewPatientById();
   const router = useRouter();
 
-  const initialValues: EditPatient = patient
-    ? hardcodedToEditPatient(patient)
-    : defaultInitialValues;
+  const initialValues: EditPatient = patient ? patient : defaultInitialValues;
 
   const formik = useFormik<EditPatient>({
     enableReinitialize: true,
     initialValues,
     validationSchema: newPatientFormValidationSchema,
     onSubmit: (values) => {
-      const editedPatient = buildEditPatient(values, id);
+      const editedPatient = { ...patient, ...values };
 
-      const formattedPatient = newPatientToHardcoded(editedPatient);
-
-      dispatch(editNewTypePatient({ patientId: id, data: formattedPatient }));
+      dispatch(editNewTypePatient({ patientId: id, data: editedPatient }));
 
       router.push('/dashboard/patientlist');
     },
