@@ -1,6 +1,6 @@
 'use client';
 import { useSearchParams } from 'next/navigation';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectCurrentPage } from '@/store/selectors/paginationSelectors';
 import { setTotalPages } from '@/store/slices/paginationSlice';
@@ -16,6 +16,7 @@ interface Props {
 }
 
 export default function MedicalHistoryList({ onSelectedNote }: Props) {
+  const [isClient, setIsClient] = useState(false);
   const searchParams = useSearchParams();
   const isMaterial = searchParams.get('from') === 'material';
 
@@ -42,6 +43,12 @@ export default function MedicalHistoryList({ onSelectedNote }: Props) {
     const total = Math.ceil(filteredData.length / itemsPerPage);
     dispatch(setTotalPages(total));
   }, [filteredData.length, dispatch]);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  if (!isClient) return null;
 
   if (data.length === 0) {
     return (
