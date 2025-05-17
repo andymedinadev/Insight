@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 
 import { setToken } from '@/store/slices/authSlice';
+import { BACKEND_BASE_URL } from '@/config';
 
 export function useLogin() {
   const [loading, setLoading] = useState(false);
@@ -15,7 +16,7 @@ export function useLogin() {
     setError(null);
 
     try {
-      const res = await fetch('https://proyecto-foo-production.up.railway.app/api/Auth/login', {
+      const res = await fetch(`${BACKEND_BASE_URL}/api/Auth/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

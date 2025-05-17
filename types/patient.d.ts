@@ -1,3 +1,6 @@
+import { Material } from './material';
+import { Note } from './note';
+
 export interface Patient {
   id: number;
   name: string;
@@ -14,4 +17,7 @@ export interface Patient {
   age?: number;
   lastSession?: string;
   category?: string;
+  notes?: Note[];
+  materials?: Material[];
+  filed?: boolean;
 }

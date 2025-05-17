@@ -3,8 +3,9 @@
 import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 
-import { useLogout } from '@/hooks/useLogout';
-import { Campana, Avatar, FlechaBaja } from '@/public';
+import { useLogout } from '@/hooks';
+import { Campana, AvatarGeneral, FlechaBaja } from '@/public';
+import DropdownUserMenu from './DropdownUserMenu'; // Asegúrate de que el path sea correcto
 
 export default function NavbarButtons() {
   const { logout } = useLogout();
@@ -29,8 +30,6 @@ export default function NavbarButtons() {
 
     if (isOpen) {
       document.addEventListener('mousedown', closeOnClickOutside);
-    } else {
-      document.removeEventListener('mousedown', closeOnClickOutside);
     }
 
     return () => {
@@ -44,26 +43,15 @@ export default function NavbarButtons() {
         <Image src={Campana} alt="Campana" className="object-contain" />
       </span>
       <span>
-        <Image src={Avatar} alt="Avatar" className="object-contain" />
+        <Image src={AvatarGeneral} height={32} width={32} alt="Avatar" className="object-contain" />
       </span>
       <span ref={optionsButtonRef} onClick={() => setIsOpen(!isOpen)}>
         <Image src={FlechaBaja} alt="Flecha Baja" className="object-contain hover:cursor-pointer" />
         {isOpen && (
-          <div
-            ref={optionsPopupRef}
-            className="absolute right-0 z-10 mt-2 w-40 rounded-md border border-gray-200 bg-white shadow-md"
-          >
-            <ul className="py-1 text-sm text-gray-700">
-              <li>
-                <button
-                  onClick={logout}
-                  className="w-full px-4 py-2 text-left text-red-600 hover:cursor-pointer hover:bg-gray-200"
-                >
-                  Cerrar sesión
-                </button>
-              </li>
-            </ul>
-          </div>
+          <DropdownUserMenu
+            popupRef={optionsPopupRef as React.RefObject<HTMLDivElement>}
+            onLogout={logout}
+          />
         )}
       </span>
     </div>

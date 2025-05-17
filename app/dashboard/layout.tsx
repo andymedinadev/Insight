@@ -1,12 +1,17 @@
 'use client';
 
 import { Provider } from 'react-redux';
+
 import { store } from '@/store';
+import { ReduxHydration } from '@/config';
 import { Navbar, Sidebar } from '@/components';
+
+// como este es el primer componente cliente, acá voy a hidratar el estado
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   return (
     <Provider store={store}>
+      <ReduxHydration />
       <div className="lg:flex lg:h-screen lg:w-screen lg:overflow-hidden">
         {/* Sidebar fija al lado izquierdo */}
         <div className="lg:fixed lg:top-0 lg:left-0 lg:z-20 lg:h-full lg:w-64">

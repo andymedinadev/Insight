@@ -1,94 +1,107 @@
 'use client';
 
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 
-import { PatientProfilePic } from '@/public';
-import { usePatientById } from '@/hooks/usePatientById';
-import { transformPatientProfileData, backendResponse } from '@/utils/transformPatientProfileData';
+import { useNewPatientById } from '@/hooks';
+import { AvatarGeneral } from '@/public';
 
 export function PatientProfileInfo() {
-  const { error, loading, patient, initialized } = usePatientById();
+  const router = useRouter();
 
-  if (!initialized) return <p>Cargando...</p>;
-  if (loading) return <p>Cargando paciente...</p>;
-  if (error) return <p>Error: {error}</p>;
-  if (!patient) return <p>No se encontró el paciente.</p>;
+  const { patient } = useNewPatientById();
 
-  const patientProfileData = transformPatientProfileData(patient as unknown as backendResponse);
+  if (!patient)
+    return (
+      <div className="mt-20 text-center">
+        <p className="text-3xl">No se encontró el paciente.</p>
+      </div>
+    );
+
+  const handleEditClick = () => {
+    router.push(`/dashboard/patientprofile/${patient.id}/edit`);
+  };
 
   return (
-    <div className="border-b border-gray-200 px-6">
-      {/* Personal Data Section */}
-      <div className="flex flex-col gap-6 md:flex-row">
-        <div className="flex flex-col items-start justify-between md:flex-row lg:hidden">
-          <h2 className="text-2xl font-semibold md:mb-0">Datos personales</h2>
+    <div className="border-b border-gray-200 px-6 md:overflow-x-hidden">
+      <div className="flex flex-col items-center md:flex-row lg:mb-20">
+        {/* MOBILE ONLY */}
+        <div className="flex flex-col justify-between md:flex-row lg:hidden">
+          <h2 className="justify-start font-['Roboto'] text-xl leading-7 font-semibold text-black">
+            Datos personales
+          </h2>
         </div>
 
-        {/* Profile Image */}
-        <div className="flex-shrink-0 lg:mt-10 lg:pl-20">
-          <div className="h-16 w-16 overflow-hidden rounded-full bg-gray-200 lg:h-32 lg:w-32">
+        <div className="mt-6 flex flex-col items-center lg:-mt-4 lg:mr-2.5 lg:ml-14 lg:pl-20">
+          {/* Picture */}
+          <div className="h-24 w-24 overflow-hidden rounded-full bg-gray-200 lg:h-32 lg:w-32">
             <Image
-              src={PatientProfilePic}
+              src={AvatarGeneral}
               alt="Foto de perfil"
               width={128}
               height={128}
               priority
               className="h-full w-full object-cover"
+              unoptimized
             />
           </div>
-        </div>
-
-        {/* Personal Information */}
-        <div className="flex-grow lg:pl-10">
-          <div className="hidden lg:mb-6 lg:flex lg:items-baseline lg:gap-4">
-            <h2 className="text-2xl font-bold">Datos personales</h2>
-            <button className="font-bold text-gray-600 underline hover:cursor-pointer">
-              Editar
-            </button>
-          </div>
-          <div className="grid grid-cols-1 gap-x-12 gap-y-2 md:grid-cols-2">
-            <div>
-              <div className="mb-2 flex gap-2">
-                <span className="font-medium lg:font-semibold">Apellido y nombre:</span>
-                <p>{patientProfileData.fullName}</p>
-              </div>
-              <div className="mb-2 flex gap-2">
-                <span className="font-medium">Edad:</span>
-                <p>{patientProfileData.age} años</p>
-              </div>
-              <div className="mb-2 flex gap-2">
-                <span className="font-medium">Fecha de nacimiento:</span>
-                <p>{patientProfileData.birthdate}</p>
-              </div>
-              <div className="mb-2 flex gap-2">
-                <span className="font-medium">Sexo:</span>
-                <p>{patientProfileData.sex}</p>
-              </div>
-            </div>
-            <div>
-              <div className="mb-2 flex gap-2">
-                <span className="font-medium">Email:</span>
-                <p>{patientProfileData.email}</p>
-              </div>
-              <div className="mb-2 flex gap-2">
-                <span className="font-medium">Número Móvil:</span>
-                <p>{patientProfileData.phone}</p>
-              </div>
-              <div className="mb-2 flex gap-2">
-                <span className="font-medium">Modalidad de sesión:</span>
-                <p>{patientProfileData.modality}</p>
-              </div>
-              <div className="mb-2 flex gap-2">
-                <span className="font-medium">Fecha de ingreso:</span>
-                <p>{patientProfileData.admissionDate}</p>
-              </div>
-            </div>
+          <div className="px-4 py-2">
+            <a className="cursor-pointer font-['Roboto'] text-sm leading-normal font-semibold text-[#0655D5] underline">
+              Cambiar foto
+            </a>
           </div>
         </div>
 
-        <button className="rounded-md bg-gray-300 py-4 text-lg font-semibold transition-colors hover:cursor-pointer hover:bg-gray-400 lg:hidden">
-          Editar Datos
-        </button>
+        <div>
+          {/* DESKTOP ONLY */}
+          <div className="hidden lg:mb-4 lg:ml-12 lg:flex lg:items-baseline lg:gap-4">
+            <h2 className="justify-start font-['Roboto'] text-2xl leading-7 font-semibold text-black">
+              Datos personales
+            </h2>
+          </div>
+
+          <div className="grid h-auto w-80 gap-3 rounded-lg lg:ml-12 lg:w-[800px] lg:grid-cols-2">
+            <span className="text-center font-['Roboto'] text-sm font-normal text-black lg:order-1 lg:col-span-1 lg:justify-start lg:text-left lg:text-base lg:leading-normal">
+              Nombre y apellido: {patient.name} {patient.surname}
+            </span>
+            <span className="text-center font-['Roboto'] text-sm font-normal text-black lg:order-3 lg:col-span-1 lg:justify-start lg:text-left lg:text-base lg:leading-normal">
+              Edad: {patient.age} años
+            </span>
+            <span className="text-center font-['Roboto'] text-sm font-normal text-black lg:order-5 lg:col-span-1 lg:justify-start lg:text-left lg:text-base lg:leading-normal">
+              Fecha de nacimiento: {patient.birthdate}
+            </span>
+            <span className="text-center font-['Roboto'] text-sm font-normal text-black lg:order-7 lg:col-span-1 lg:justify-start lg:text-left lg:text-base lg:leading-normal">
+              Nacionalidad: {patient.nationality}
+            </span>
+            <span className="text-center font-['Roboto'] text-sm font-normal text-black lg:order-9 lg:col-span-1 lg:justify-start lg:text-left lg:text-base lg:leading-normal">
+              Tipo de documento: {patient.typeOfIdentification}
+            </span>
+            {/* SEGUNDA COLUMNA */}
+            <span className="text-center font-['Roboto'] text-sm font-normal text-black lg:order-2 lg:col-span-1 lg:justify-start lg:text-left lg:text-base lg:leading-normal">
+              N° de documento: {patient.identification}
+            </span>
+            <span className="text-center font-['Roboto'] text-sm font-normal text-black lg:order-4 lg:col-span-1 lg:justify-start lg:text-left lg:text-base lg:leading-normal">
+              Sexo: {patient.sex}
+            </span>
+            <span className="text-center font-['Roboto'] text-sm font-normal text-black lg:order-6 lg:col-span-1 lg:justify-start lg:text-left lg:text-base lg:leading-normal">
+              Email: {patient.email}
+            </span>
+            <span className="text-center font-['Roboto'] text-sm font-normal text-black lg:order-8 lg:col-span-1 lg:justify-start lg:text-left lg:text-base lg:leading-normal">
+              Número móvil: {patient.phone}
+            </span>
+            <span className="text-center font-['Roboto'] text-sm font-normal text-black lg:order-10 lg:col-span-1 lg:justify-start lg:text-left lg:text-base lg:leading-normal">
+              Fecha de ingreso: {patient.admissionDate}
+            </span>
+            <div className="mt-2 flex justify-center lg:hidden">
+              <button
+                onClick={handleEditClick}
+                className="rounded-lg px-4 py-2 text-sm font-semibold text-[#0655D5] underline"
+              >
+                Editar perfil del paciente
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );

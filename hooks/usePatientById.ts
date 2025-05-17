@@ -1,24 +1,14 @@
-import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useParams } from 'next/navigation';
 
-import { fetchPatientById } from '@/store/thunks';
-import type { AppDispatch, RootState } from '@/store';
+import type { RootState } from '@/store';
 
 export const usePatientById = () => {
-  const { id } = useParams<{ id: string }>();
-  const dispatch = useDispatch<AppDispatch>();
+  const params = useParams<{ id: string }>();
+  const id = Number(params?.id);
+  const patientList = useSelector((state: RootState) => state.patients.list);
 
-  const patient = useSelector((state: RootState) => state.patients.selected);
-  const loading = useSelector((state: RootState) => state.patients.loading);
-  const error = useSelector((state: RootState) => state.patients.error);
-  const initialized = useSelector((state: RootState) => state.patients.initialized);
+  const patient = isNaN(id) ? null : (patientList.find((p) => p.id === id) ?? null);
 
-  useEffect(() => {
-    if (id) {
-      dispatch(fetchPatientById(id));
-    }
-  }, [id, dispatch]);
-
-  return { patient, loading, error, initialized };
+  return { patient, id };
 };

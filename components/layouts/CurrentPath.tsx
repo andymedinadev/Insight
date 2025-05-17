@@ -9,7 +9,7 @@ export default function CurrentPath() {
   const getLabel = (path: string) => {
     switch (path) {
       case '/dashboard/home':
-        return 'Home /';
+        return 'Inicio /';
       case '/dashboard/profile':
         return 'Home / Perfil';
       case '/dashboard/patientlist':
@@ -18,6 +18,8 @@ export default function CurrentPath() {
         return 'Home / Nuevo paciente';
       case '/dashboard/support':
         return 'Home / Soporte';
+      case '/dashboard/patientlist/archived':
+        return 'Home / Listado de pacientes / archivados';
       default:
         return '';
     }
