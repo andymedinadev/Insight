@@ -42,8 +42,7 @@ export default function Soporte() {
     <div className="flex min-h-screen flex-col bg-gray-50">
       <main className="w-full pr-6 pl-[52px]">
         {/* TÍTULO alineado más a la izquierda */}
-        <div className="mb-6">
-          <p className="mb-1 text-sm text-gray-500">Dashboard / Soporte</p>
+        <div className="mt-6 mb-6">
           <h2 className="text-2xl font-bold">Soporte</h2>
         </div>
 
