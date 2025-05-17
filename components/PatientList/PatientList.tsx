@@ -176,7 +176,7 @@ export default function PatientList({ variant = 'home' }: Props) {
             <tr>
               <th className="px-4 py-3">Nombre del paciente</th>
               <th className="hidden px-4 py-3 lg:table-cell">Email</th>
-              <th className="px-4 py-3">Fecha ultima sesión </th>
+              {/* <th className="px-4 py-3">Fecha ultima sesión </th> */}
               <th className="hidden px-4 py-3 lg:table-cell">Categoría</th>
               <th className="px-4 py-3">Acciones</th>
               {!isDashboardHome && (
@@ -216,7 +216,7 @@ export default function PatientList({ variant = 'home' }: Props) {
                       </div>
                     </td>
                     <td className="hidden px-4 py-3 lg:table-cell">{patient.email}</td>
-                    <td className="px-4 py-3">{patient.lastSession}</td>
+                    {/* <td className="px-4 py-3">{patient.lastSession}</td> */}
                     {/* <td className="hidden px-4 py-3 lg:table-cell">{patient.category}</td> */}
                     <td className="hidden px-4 py-3 lg:table-cell">{patient.rangoEtario}</td>
                     <td className="relative px-5 py-3">

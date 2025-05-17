@@ -20,10 +20,10 @@ export default function CompletedList({ variant = 'home' }: Props) {
           {variant === 'home' && (
             <div className="hidden lg:block lg:w-full">
               <h1 className="mb-2 text-3xl leading-[48px] font-semibold text-black">
-                Próximos pacientes
+                Listado de pacientes
               </h1>
               <p className="mb-8 text-base leading-normal font-normal text-black">
-                Aquí visualizaras los pacientes del dia de hoy
+                Busca rápidamente a tus pacientes activos.
               </p>
             </div>
           )}
