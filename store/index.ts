@@ -4,6 +4,7 @@ import patientReducer from './slices/patientSlice';
 import paginationReducer from './slices/paginationSlice';
 import profileReducer from './slices/profileSlice';
 import userReducer from './slices/userSlice';
+import backendPatientsReducer from './slices/backendPatientsSlice';
 import { persistPatientState } from '@/config';
 
 const preloadedPatientsState = {
@@ -45,6 +46,7 @@ export const store = configureStore({
     patients: patientReducer,
     profile: profileReducer,
     user: userReducer,
+    backendPatients: backendPatientsReducer,
   },
   preloadedState: {
     patients: preloadedPatientsState,
