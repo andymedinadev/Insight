@@ -82,7 +82,7 @@ export default function FormPatient() {
         <div className="flex flex-col">
           <InputField
             id="birthdate"
-            label="Fecha de nacimineto"
+            label="Fecha de nacimiento"
             type="date"
             value={formik.values.birthdate}
             onChange={formik.handleChange}
@@ -130,6 +130,7 @@ export default function FormPatient() {
           <InputField
             id="identification"
             label="Número de documento"
+            type="number"
             value={formik.values.identification}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}

@@ -1,4 +1,5 @@
 import { CurrentPath, NavbarButtons, NavbarClient } from '@/components';
+import { Suspense } from 'react';
 
 export default function Navbar() {
   return (
@@ -8,7 +9,9 @@ export default function Navbar() {
 
       {/* Desktop: ruta */}
       <h1 className="hidden text-sm leading-tight font-normal text-gray-500 lg:block">
-        <CurrentPath />
+        <Suspense fallback={null}>
+          <CurrentPath />
+        </Suspense>
       </h1>
 
       {/* Íconos comunes */}

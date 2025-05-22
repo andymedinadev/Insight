@@ -20,7 +20,10 @@ export const newPatientFormValidationSchema = Yup.object({
     .min(2, 'La nacionalidad debe tener al menos 2 caracteres')
     .max(50, 'La nacionalidad no puede tener más de 50 caracteres'),
   typeOfIdentification: Yup.string().required('El tipo de documento es obligatorio'),
-  identification: Yup.string().required('El número de documento es obligatorio'),
+  identification: Yup.string()
+    .required('El número de documento es obligatorio')
+    .matches(/^\d+$/, 'El número de documento solo puede contener números')
+    .max(15, 'El número de documento no puede tener más de 15 caracteres'),
   sex: Yup.string().required('El género es obligatorio'),
   email: Yup.string()
     .required('El correo electrónico es obligatorio')
@@ -34,5 +37,7 @@ export const newPatientFormValidationSchema = Yup.object({
       'El número de celular debe contener solo números y puede incluir un "+" al inicio'
     )
     .max(15, 'El número de celular no puede tener más de 15 dígitos'),
-  admissionDate: Yup.string().required('La fecha de ingreso es obligatoria'),
+  admissionDate: Yup.date()
+    .required('La fecha de ingreso es obligatoria')
+    .max(new Date(), 'La fecha de ingreso no puede ser futura'),
 });
