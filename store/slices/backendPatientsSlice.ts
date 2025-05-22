@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import {
+  createBackendPatient,
   fetchPatients,
   fetchArchivedPatients,
   fetchOnePatient,
@@ -42,6 +43,7 @@ interface BackendPatientsState {
     fetchPatients: FetchStatus;
     fetchArchived: FetchStatus;
     fetchOnePatient: FetchStatus;
+    createPatient: FetchStatus;
   };
 }
 
@@ -90,6 +92,10 @@ const initialState: BackendPatientsState = {
       loading: false,
     },
     fetchOnePatient: {
+      error: null,
+      loading: false,
+    },
+    createPatient: {
       error: null,
       loading: false,
     },
@@ -215,6 +221,20 @@ export const backendPatientsSlice = createSlice({
       .addCase(fetchOneMaterial.rejected, (state, action) => {
         state.materials.status.fetchOne.loading = false;
         state.materials.status.fetchOne.error = action.payload || 'Error al obtener el material';
+      })
+
+      // CREAR UN PACIENTE
+      .addCase(createBackendPatient.pending, (state) => {
+        state.status.createPatient.loading = true;
+        state.status.createPatient.error = null;
+      })
+      .addCase(createBackendPatient.fulfilled, (state) => {
+        state.status.createPatient.loading = false;
+        state.status.createPatient.error = null;
+      })
+      .addCase(createBackendPatient.rejected, (state, action) => {
+        state.status.createPatient.loading = false;
+        state.status.createPatient.error = action.payload ?? 'Error desconocido';
       });
   },
 });
