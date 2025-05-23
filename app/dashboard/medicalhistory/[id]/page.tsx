@@ -1,4 +1,5 @@
 'use client';
+
 import { useState } from 'react';
 import {
   MedicalHistoryHeader,
@@ -7,14 +8,17 @@ import {
   MedicalHistoryView,
   MedicalHistoryEdit,
 } from '@/components';
-import { useSearchParams } from 'next/navigation';
+import { useSearchParams, useRouter } from 'next/navigation';
 import { Note } from '@/types';
 import { useDispatch } from 'react-redux';
 import { deleteMaterialOfPatient, deleteNoteOfPatient } from '@/store/slices/patientSlice';
 import { useNewPatientById } from '@/hooks';
+import Image from 'next/image';
+import ArrowBack from '../../../../public/icons/ArrowBack.svg';
 
 export default function MedicalHistory() {
   const searchParams = useSearchParams();
+  const router = useRouter();
   const from = searchParams.get('from');
   const isMaterial = from === 'material';
 
@@ -38,17 +42,48 @@ export default function MedicalHistory() {
     setIsEditing(false);
   };
 
+  const getTitle = () => {
+    if (isMaterial) {
+      if (isEditing && !showNewNote) return 'Editar Material';
+      if (!isEditing && showNewNote) return 'Agregar nuevo material';
+      return 'Material para el paciente';
+    } else {
+      if (isEditing && !showNewNote) return 'Editar Nota';
+      if (!isEditing && showNewNote) return 'Agregar nueva nota';
+      return 'Gestionar notas';
+    }
+  };
+
   return (
     <div>
+      {selectedNote && !isEditing && (
+        <div className="px-4 pt-9 sm:px-6 md:px-10">
+          <button
+            onClick={() => {
+              setSelectedNote(null);
+              setIsEditing(false);
+            }}
+            className="font-roboto flex cursor-pointer items-center gap-2 text-[#0655D5] underline"
+          >
+            <Image src={ArrowBack} alt="Volver" width={38} height={38} />
+            Volver
+          </button>
+        </div>
+      )}
       <div className="px-4 pt-9 sm:px-6 md:px-10">
         <h1 className="font-sans text-2xl leading-[48px] font-semibold text-black sm:text-2xl md:text-2xl lg:text-3xl">
-          {isMaterial ? 'Material para el paciente' : 'Gestionar notas'}
+          {getTitle()}
         </h1>
       </div>
 
       {!showNewNote && !selectedNote && (
         <div>
-          <MedicalHistoryHeader onAddNewNote={() => setShowNewNote(true)} />
+          <MedicalHistoryHeader
+            onAddNewNote={() => {
+              setShowNewNote(true);
+              router.replace(`?from=${from}&mode=new`);
+            }}
+          />
           <MedicalHistoryList onSelectedNote={(note) => setSelectedNote(note)} />
         </div>
       )}
@@ -63,7 +98,10 @@ export default function MedicalHistory() {
         <div>
           <MedicalHistoryView
             note={selectedNote}
-            onEdit={() => setIsEditing(true)}
+            onEdit={() => {
+              setIsEditing(true);
+              router.replace(`?from=${from}&mode=edit`);
+            }}
             onDelete={handleDelete}
           />
         </div>
@@ -76,6 +114,7 @@ export default function MedicalHistory() {
             onSaved={() => {
               setIsEditing(false);
               setSelectedNote(null);
+              router.replace(`?from=${from}&mode=view`);
             }}
           />
         </div>
