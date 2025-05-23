@@ -11,6 +11,7 @@ import { Note /*, Material*/ } from '@/types';
 
 type Props = {
   onSaved: () => void;
+  goBack: () => void;
   note?: Note;
 };
 
@@ -28,7 +29,7 @@ function convertToISO(dateString: string): string {
   return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
 }
 
-export default function MedicalHistoryEdit({ onSaved, note }: Props) {
+export default function MedicalHistoryEdit({ onSaved, goBack, note }: Props) {
   const searchParams = useSearchParams();
   const from = searchParams.get('from');
   const isMaterial = from === 'material';
@@ -121,7 +122,11 @@ export default function MedicalHistoryEdit({ onSaved, note }: Props) {
             Guardar
           </button>
 
-          <button className="flex h-12 w-full cursor-pointer items-center justify-center rounded-lg font-['Roboto'] text-base leading-normal font-semibold text-[#0655D5] underline md:w-28">
+          <button
+            type="button"
+            onClick={() => goBack()}
+            className="flex h-12 w-full cursor-pointer items-center justify-center rounded-lg font-['Roboto'] text-base leading-normal font-semibold text-[#0655D5] underline md:w-28"
+          >
             Cancelar
           </button>
         </div>

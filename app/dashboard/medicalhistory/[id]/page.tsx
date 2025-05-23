@@ -70,8 +70,8 @@ export default function MedicalHistory() {
           </button>
         </div>
       )}
-      <div className="px-4 pt-9 sm:px-6 md:px-10">
-        <h1 className="font-sans text-2xl leading-[48px] font-semibold text-black sm:text-2xl md:text-2xl lg:text-3xl">
+      <div className="px-4 pt-8 sm:px-6 md:px-10">
+        <h1 className="text-2xlleading-[48px] font-sans font-semibold text-black sm:text-2xl md:text-2xl lg:text-3xl">
           {getTitle()}
         </h1>
       </div>
@@ -90,7 +90,13 @@ export default function MedicalHistory() {
 
       {showNewNote && (
         <div>
-          <MedicalHistoryNew onSaved={() => setShowNewNote(false)} />
+          <MedicalHistoryNew
+            onSaved={() => setShowNewNote(false)}
+            goBack={() => {
+              setShowNewNote(false);
+              router.replace(`?from=${from}&mode=view`);
+            }}
+          />
         </div>
       )}
 
@@ -114,6 +120,10 @@ export default function MedicalHistory() {
             onSaved={() => {
               setIsEditing(false);
               setSelectedNote(null);
+              router.replace(`?from=${from}&mode=view`);
+            }}
+            goBack={() => {
+              setIsEditing(false);
               router.replace(`?from=${from}&mode=view`);
             }}
           />
