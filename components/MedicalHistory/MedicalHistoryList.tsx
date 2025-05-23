@@ -8,6 +8,7 @@ import { useNewPatientById } from '@/hooks';
 import { Note } from '@/types';
 import { selectSearchTerm } from '@/store/selectors/patientSelectors';
 import Pagination from '../Pagination/Pagination';
+import Empty from '../MedicalHistory/Empty';
 
 const itemsPerPage = 5;
 
@@ -53,7 +54,8 @@ export default function MedicalHistoryList({ onSelectedNote }: Props) {
   if (data.length === 0) {
     return (
       <div className="flex min-h-[50vh] items-center justify-center">
-        <p className="text-lg text-gray-500">{isMaterial ? 'Sin materiales' : 'Sin notas'}</p>
+        {/* <p className="text-lg text-gray-500">{isMaterial ? 'Sin materiales' : 'Sin notas'}</p> */}
+        <Empty type={isMaterial ? 'material' : 'nota'} />
       </div>
     );
   }
