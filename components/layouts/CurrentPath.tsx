@@ -7,8 +7,8 @@ export default function CurrentPath() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const from = searchParams.get('from');
+  const mode = searchParams.get('mode');
 
-  // Array de items del breadcrumb
   const getBreadcrumbs = (path: string) => {
     if (path === '/dashboard/home') {
       return [{ label: 'Inicio', href: '/dashboard/home' }];
@@ -78,20 +78,32 @@ export default function CurrentPath() {
       ];
 
       if (from === 'notes') {
-        return [
+        const crumbs = [
           ...base,
           { label: 'Gestionar notas', href: `/dashboard/medicalhistory/${id}?from=notes` },
         ];
+        if (mode === 'edit') {
+          crumbs.push({ label: 'Editar nota', href: '#' });
+        } else if (mode === 'new') {
+          crumbs.push({ label: 'Agregar nueva nota', href: '#' });
+        }
+        return crumbs;
       }
 
       if (from === 'material') {
-        return [
+        const crumbs = [
           ...base,
           {
             label: 'Material para el paciente',
             href: `/dashboard/medicalhistory/${id}?from=material`,
           },
         ];
+        if (mode === 'edit') {
+          crumbs.push({ label: 'Editar material', href: '#' });
+        } else if (mode === 'new') {
+          crumbs.push({ label: 'Agregar nuevo material', href: '#' });
+        }
+        return crumbs;
       }
     }
 
