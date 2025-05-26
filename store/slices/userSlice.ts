@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { RootState } from '@/store';
+import { BACKEND_BASE_URL } from '@/config';
 
 interface UserState {
   data: null | {
@@ -30,7 +31,7 @@ export const fetchUser = createAsyncThunk(
 
       if (!token) throw new Error('Token no disponible');
 
-      const res = await fetch('https://proyecto-foo-production.up.railway.app/api/User/me', {
+      const res = await fetch(`${BACKEND_BASE_URL}/api/User/me`, {
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,

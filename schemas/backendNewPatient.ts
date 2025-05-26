@@ -6,6 +6,7 @@ export const initialValues: Omit<BackendNewPatient, 'birthdate' | 'sessionDay'> 
   birthdate: string;
   sessionDay: string;
 } = {
+  userId: 0,
   name: '',
   surname: '',
   birthdate: '',
