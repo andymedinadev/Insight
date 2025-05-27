@@ -10,7 +10,6 @@ export const fetchPatients = createAsyncThunk<BackendPatient[], void, { rejectVa
   async (_, thunkApi) => {
     const state = thunkApi.getState() as RootState;
     const token = state.auth.token;
-    console.log('Token usado en fetch:', token);
 
     if (!token) {
       return thunkApi.rejectWithValue('Token no disponible');

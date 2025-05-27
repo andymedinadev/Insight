@@ -4,7 +4,6 @@ import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { AppDispatch, RootState } from '@/store';
 import { fetchPatients } from '@/store/thunks';
-// import { selectFilteredPatients } from '@/store/selectors/patientSelectors';
 import { flechaAbajoLista, flechaArribaLista, puntosFiltros, Archive, Edit } from '@/public';
 import { usePathname } from 'next/navigation';
 import { newSelectFilteredPatients } from '@/store/selectors/patientSelectors';
@@ -21,10 +20,9 @@ interface Props {
 export default function PatientListArchived({ variant = 'home' }: Props) {
   const dispatch = useDispatch<AppDispatch>();
   const initialized = useSelector((state: RootState) => state.patients.initialized);
-  // const patients = useSelector(selectFilteredPatients);
   const patients = useSelector(newSelectFilteredPatients);
   const [openMenuId, setOpenMenuId] = useState<string | null>(null);
-  const [isListVisible, setIsListVisible] = useState(true); // Nuevo estado para manejar la visibilidad
+  const [isListVisible, setIsListVisible] = useState(true);
 
   const pathname = usePathname();
   const isDashboardHome = pathname === '/dashboard/home';
@@ -55,7 +53,7 @@ export default function PatientListArchived({ variant = 'home' }: Props) {
 
   useEffect(() => {
     const handleResize = () => {
-      setIsMobile(window.innerWidth <= 1024); // 1024px es el umbral para Mobile
+      setIsMobile(window.innerWidth <= 1024);
     };
 
     handleResize();
@@ -73,7 +71,6 @@ export default function PatientListArchived({ variant = 'home' }: Props) {
     setMobileVisibleCount((prev) => prev + 4);
   };
 
-  // **Generamos los pacientes visibles para mobile y desktop**
   const filteredPatients = patients.filter((p) => p.filed === true);
 
   const [desktopPage, setDesktopPage] = useState(1);
@@ -212,7 +209,7 @@ export default function PatientListArchived({ variant = 'home' }: Props) {
                     </td>
                     <td className="hidden px-4 py-3 lg:table-cell">{patient.email}</td>
                     <td className="px-4 py-3">{patient.lastSession}</td>
-                    {/* <td className="hidden px-4 py-3 lg:table-cell">{patient.category}</td> */}
+
                     <td className="hidden px-4 py-3 lg:table-cell">{patient.rangoEtario}</td>
                     <td className="relative px-5 py-3">
                       <button
@@ -262,7 +259,7 @@ export default function PatientListArchived({ variant = 'home' }: Props) {
                                     className="mr-5 ml-8 inline-block"
                                   />
                                 </div>
-                                <div>Archivar paciente</div>
+                                <div>Desarchivar paciente</div>
                               </button>
                             </li>
                           </ul>
@@ -282,7 +279,7 @@ export default function PatientListArchived({ variant = 'home' }: Props) {
                 </td>
                 <td className="hidden px-4 py-3 lg:table-cell">juan.paredes@example.com</td>
                 <td className="px-4 py-3">04/01/2025</td>
-                {/* <td className="hidden px-4 py-3 lg:table-cell">{patient.category}</td> */}
+
                 <td className="hidden px-4 py-3 lg:table-cell">Adulto</td>
                 <td className="relative px-5 py-3">
                   <button>. . . . .</button>

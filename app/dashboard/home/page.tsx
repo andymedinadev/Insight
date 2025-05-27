@@ -10,7 +10,7 @@ export default function Home() {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(fetchUser()); // ✅ esto ahora funciona bien
+    dispatch(fetchUser());
   }, [dispatch]);
   return (
     <div className="flex h-screen w-full flex-col items-center bg-white lg:flex lg:items-start">
@@ -23,7 +23,7 @@ export default function Home() {
           Bienvenido, aquí encontrarás tu lista de pacientes, y <br /> mucho más!
         </p>
         <p className="mb-5 hidden text-sm leading-normal font-normal text-black lg:mb-10 lg:block lg:text-base">
-          Bienvenido, aquí encontrarás tu lista de pacientes, y mucho más!
+          Bienvenido, aquí encontrarás tu lista de pacientes, ¡Y mucho más!{' '}
         </p>
       </div>
       <div className="flex w-full flex-col items-center gap-4 lg:mb-16 lg:ml-8 lg:flex-row lg:justify-start lg:gap-32">

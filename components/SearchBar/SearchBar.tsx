@@ -1,9 +1,8 @@
-// SearchBar.tsx
 'use client';
 
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { setSearchTerm, resetFilters } from '@/store/slices/patientSlice';
+import { setSearchTerm, resetSearchTerm } from '@/store/slices/backendPatientsSlice';
 import { AppDispatch } from '@/store';
 import Image from 'next/image';
 import { Search } from '@/public';
@@ -19,10 +18,9 @@ export default function SearchBar({ placeholder = 'Buscar paciente' }: SearchBar
     dispatch(setSearchTerm(e.target.value));
   };
 
-  // Efecto para limpiar filtros al desmontar
   useEffect(() => {
     return () => {
-      dispatch(resetFilters());
+      dispatch(resetSearchTerm());
     };
   }, [dispatch]);
 
