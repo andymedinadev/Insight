@@ -4,7 +4,6 @@ import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { AppDispatch, RootState } from '@/store';
 import { fetchPatients } from '@/store/thunks/backendPatientsThunks';
-// import { selectFilteredPatients } from '@/store/selectors/patientSelectors';
 import { flechaAbajoLista, flechaArribaLista, puntosFiltros, Archive, Edit } from '@/public';
 import { usePathname } from 'next/navigation';
 import Left from '../../public/icons/Left.svg';
