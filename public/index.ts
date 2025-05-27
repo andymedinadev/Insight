@@ -26,7 +26,6 @@ export { default as MenuMobileNavbar } from './icons/MenuMobileNavbar.svg';
 export { default as IconExistNavMenu } from './icons/IconExistNavMenu.svg';
 export { default as CalendarSidebar } from './icons/CalendarSidebar.svg';
 
-export { default as PatientProfilePic } from './patientProfilePic.png';
 export { default as BackgroundSignup } from './bg-signup.jpg';
 export { default as BackgroundLogin } from './login.jpg';
 

@@ -26,8 +26,7 @@ export const selectFilteredPatients = (state: RootState): Patient[] => {
 // NUEVO SELECTOR PARA PODER FILTRAR EL NUEVO TIPO
 
 // DATOS DEL STORE PARA EL SELECTOR COMBINADO
-const selectNewListDemo = (state: RootState) => state.patients.list;
-
+const selectNewListDemo = (state: RootState) => state.patients.newListDemo;
 export const selectSearchTerm = (state: RootState) => state.patients.searchTerm.toLowerCase();
 const selectModalidad = (state: RootState) => state.patients.filters.modalidad;
 const selectGenero = (state: RootState) => state.patients.filters.genero;

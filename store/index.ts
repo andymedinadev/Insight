@@ -51,6 +51,7 @@ export const store = configureStore({
   preloadedState: {
     patients: preloadedPatientsState,
   },
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(persistPatientState),
 });
 
 // Tipos para usar en componentes con TypeScript

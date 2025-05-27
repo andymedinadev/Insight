@@ -12,7 +12,7 @@ import Left from '../../public/icons/Left.svg';
 import Right from '../../public/icons/Right.svg';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
-import { toggleFiled } from '@/store/actions/patientActions';
+import { toggleFiled } from '@/store/slices/patientSlice';
 
 interface Props {
   variant?: 'home' | 'list';
@@ -159,6 +159,14 @@ export default function PatientList({ variant = 'home' }: Props) {
   const handleRedirect = (id: number) => {
     router.push(`/dashboard/patientprofile/${id}`);
   };
+
+  const [hasMounted, setHasMounted] = useState(false);
+
+  useEffect(() => {
+    setHasMounted(true);
+  }, []);
+
+  if (!hasMounted || !initialized) return null;
 
   return (
     <>

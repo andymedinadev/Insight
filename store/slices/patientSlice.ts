@@ -54,6 +54,17 @@ export const patientSlice = createSlice({
   name: 'patients',
   initialState,
   reducers: {
+    setPersistedState(state, action: PayloadAction<Partial<PatientState>>) {
+      const { initialized, newListDemo } = action.payload;
+
+      if (typeof initialized === 'boolean') {
+        state.initialized = initialized;
+      }
+
+      if (Array.isArray(newListDemo)) {
+        state.newListDemo = newListDemo;
+      }
+    },
     setSearchTerm(state, action: PayloadAction<string>) {
       state.searchTerm = action.payload.toLowerCase(); // normalizamos
     },
@@ -65,6 +76,14 @@ export const patientSlice = createSlice({
     },
     setFilterModalidad(state, action: PayloadAction<string[]>) {
       state.filters.modalidad = action.payload;
+    },
+    resetFilters(state) {
+      state.filters = {
+        rangoEtario: [],
+        genero: [],
+        modalidad: [],
+      };
+      state.searchTerm = '';
     },
     addToNewListDemo: (state, action: PayloadAction<HardcodedPatient>) => {
       state.newListDemo.unshift(action.payload);
@@ -175,22 +194,26 @@ export const patientSlice = createSlice({
         state.error = null;
       })
       .addCase(fetchPatients.fulfilled, (state, action) => {
+        if (!state.initialized) {
+          state.raw = action.payload;
+          state.list = action.payload.map(addMockData);
+          state.newListDemo = mockHardcodedPatients.map(addHardcodedDemoData);
+          state.initialized = true;
+        }
+
         state.loading = false;
         state.error = null;
-        state.raw = action.payload;
-        state.list = action.payload.map(addMockData);
-        // FUNCIONE O NO BACKEND, ESTA PROPIEDAD DEL ESTADO CONTIENE PACIENTES MOCKS
-        state.newListDemo = mockHardcodedPatients.map(addHardcodedDemoData);
-        state.initialized = true;
       })
       .addCase(fetchPatients.rejected, (state, action) => {
+        if (!state.initialized) {
+          state.raw = mockPatients;
+          state.list = mockPatients.map(addMockData);
+          state.newListDemo = mockHardcodedPatients.map(addHardcodedDemoData);
+          state.initialized = true;
+        }
+
         state.loading = false;
         state.error = action.payload || 'Error al obtener pacientes. Usando datos mock.';
-        state.raw = mockPatients;
-        state.list = mockPatients.map(addMockData);
-        // FUNCIONE O NO BACKEND, ESTA PROPIEDAD DEL ESTADO CONTIENE PACIENTES MOCKS
-        state.newListDemo = mockHardcodedPatients.map(addHardcodedDemoData);
-        state.initialized = true;
       })
 
       // ELIMINAR UN PACIENTE
@@ -238,5 +261,23 @@ export const patientSlice = createSlice({
       });
   },
 });
+
+export const {
+  addMaterialToPatient,
+  addNoteToPatient,
+  addToNewListDemo,
+  deleteMaterialOfPatient,
+  deleteNoteOfPatient,
+  editMaterialOfPatient,
+  editNewTypePatient,
+  editNoteOfPatient,
+  resetFilters,
+  setFilterGenero,
+  setFilterModalidad,
+  setFilterRangoEtario,
+  setSearchTerm,
+  setPersistedState,
+  toggleFiled,
+} = patientSlice.actions;
 
 export default patientSlice.reducer;

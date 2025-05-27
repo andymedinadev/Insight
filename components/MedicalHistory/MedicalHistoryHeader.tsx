@@ -1,5 +1,5 @@
 'use client';
-import FilterButton from '../FilterButton/FilterButton';
+// import FilterButton from '../FilterButton/FilterButton';
 import SearchBar from '../SearchBar/SearchBar';
 import { useSearchParams } from 'next/navigation';
 
@@ -22,10 +22,10 @@ export default function MedicalHistoryHeader({ onAddNewNote }: Props) {
       </button>
 
       <div className="flex w-full items-center gap-2 md:w-auto">
-        <SearchBar />
-        <FilterButton>
+        <SearchBar placeholder={isMaterial ? 'Buscar material' : 'Buscar nota'} />
+        {/* <FilterButton>
           <div>Aca va tu drop</div>
-        </FilterButton>
+        </FilterButton> */}
       </div>
     </div>
   );

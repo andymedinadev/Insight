@@ -407,14 +407,14 @@ export default function FormPatient() {
           />
         </div>
 
-        <div className="mb-12 inline-flex h-12 items-center justify-center self-stretch rounded-lg bg-[#0655D5]">
-          <button
-            type="submit"
-            className="cursor-pointer justify-start text-center font-['Roboto'] text-base leading-normal font-semibold text-white"
-          >
+        <button
+          type="submit"
+          className="mb-12 inline-flex h-12 cursor-pointer items-center justify-center self-stretch rounded-lg bg-[#0655D5]"
+        >
+          <p className="cursor-pointer justify-start text-center font-['Roboto'] text-base leading-normal font-semibold text-white">
             Crear paciente
-          </button>
-        </div>
+          </p>
+        </button>
       </form>
     </div>
   );

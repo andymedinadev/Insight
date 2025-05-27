@@ -6,6 +6,7 @@ import { selectCurrentPage } from '@/store/selectors/paginationSelectors';
 import { setTotalPages } from '@/store/slices/paginationSlice';
 import { useNewPatientById } from '@/hooks';
 import { Note } from '@/types';
+import { selectSearchTerm } from '@/store/selectors/patientSelectors';
 import Pagination from '../Pagination/Pagination';
 import Empty from '../MedicalHistory/Empty';
 
@@ -23,25 +24,24 @@ export default function MedicalHistoryList({ onSelectedNote }: Props) {
   const { patient } = useNewPatientById();
   const dispatch = useDispatch();
   const currentPage = useSelector(selectCurrentPage);
-
-  const fallbackItem = [
-    {
-      id: 1,
-      date: '20/03/2025',
-      title: `${isMaterial ? 'Material' : 'Nota'} N° 1`,
-      content:
-        'Lorem ipsum dolor sit amet, consec tetur adipiscing elit. Etiam finibus blan dit euismod.',
-    },
-  ];
+  const searchTerm = useSelector(selectSearchTerm);
 
   const patientData = isMaterial ? patient?.materials : patient?.notes;
-  const data = patientData ?? fallbackItem;
+  const data = patientData ?? [];
+
+  const filteredData = data.filter((item) => {
+    const lowerSearch = searchTerm.toLowerCase();
+    return (
+      item.title.toLowerCase().includes(lowerSearch) ||
+      item.content.toLowerCase().includes(lowerSearch)
+    );
+  });
 
   const startIndex = (currentPage - 1) * itemsPerPage;
-  const paginatedData = data.slice(startIndex, startIndex + itemsPerPage);
+  const paginatedData = filteredData.slice(startIndex, startIndex + itemsPerPage);
 
   useEffect(() => {
-    const total = Math.ceil(data.length / itemsPerPage);
+    const total = Math.ceil(filteredData.length / itemsPerPage);
     dispatch(setTotalPages(total));
   }, [filteredData.length, dispatch]);
 
@@ -86,7 +86,7 @@ export default function MedicalHistoryList({ onSelectedNote }: Props) {
       </div>
 
       {/* Paginación */}
-      <Pagination itemsPerPage={itemsPerPage} totalItems={data.length} />
+      <Pagination itemsPerPage={itemsPerPage} totalItems={filteredData.length} />
     </div>
   );
 }
