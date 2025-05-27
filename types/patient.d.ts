@@ -20,5 +20,4 @@ export interface Patient {
   notes?: Note[];
   materials?: Material[];
   filed?: boolean;
-  isEnable: boolean;
 }

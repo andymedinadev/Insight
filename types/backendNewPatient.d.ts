@@ -2,9 +2,10 @@ import type { SexType, ModalityType } from './index';
 
 export interface BackendNewPatient {
   // ✅ Requeridos con validaciones
+  userId: number;
   name: string; // máx 50, solo letras, espacios, tildes y ñ
   surname: string; // igual que name
-  birthdate: Date; // requerido, no puede ser en el futuro (validar en frontend)
+  birthdate: string; // requerido, no puede ser en el futuro (validar en frontend)
   nationality: string; // máx 30, solo letras y espacios
   typeOfIdentification: string; // máx 50, solo letras y espacios
   identification: string; // máx 20, solo dígitos (validar /^\d+$/)
@@ -27,7 +28,7 @@ export interface BackendNewPatient {
   patientEvolution: string | null;
 
   // Organización y seguimiento
-  sessionDay: Date | null;
+  sessionDay: string | null;
   modality: ModalityType | null;
   sessionDuration: number | null;
   sessionFrequency: string | null;

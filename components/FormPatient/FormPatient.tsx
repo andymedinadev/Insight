@@ -3,7 +3,6 @@
 import { useDispatch } from 'react-redux';
 import { useRouter } from 'next/navigation';
 import { useFormik } from 'formik';
-
 import { InputField, ValidationError } from '@/components';
 import { initialValues, backendNewPatientValidationSchema } from '@/schemas/backendNewPatient';
 import { createBackendPatient } from '@/store/thunks/backendPatientsThunks';
@@ -26,8 +25,12 @@ export default function FormPatient() {
     onSubmit: async (values) => {
       const patientToSend: BackendNewPatient = {
         ...values,
-        birthdate: new Date(values.birthdate),
-        sessionDay: values.sessionDay ? new Date(values.sessionDay) : null,
+        birthdate: new Date(values.birthdate).toISOString(),
+        sessionDay: values.sessionDay ? new Date(values.sessionDay).toISOString() : '',
+        userId: 0,
+        modality: values.modality ? values.modality : 'Presencial',
+        sessionDuration: values.sessionDuration ? values.sessionDuration : 0,
+        identification: values.identification.toString(),
       };
 
       try {

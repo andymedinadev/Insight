@@ -74,7 +74,7 @@ export default function PatientListArchived({ variant = 'home' }: Props) {
   };
 
   // **Generamos los pacientes visibles para mobile y desktop**
-  const filteredPatients = patients.filter((p) => p.isEnable === false);
+  const filteredPatients = patients.filter((p) => p.filed === true);
 
   const [desktopPage, setDesktopPage] = useState(1);
   const desktopTotalPages = Math.ceil(filteredPatients.length / 8);
