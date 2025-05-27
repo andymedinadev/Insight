@@ -49,7 +49,7 @@ const UserProfileView = () => {
         user={userProfile}
         onCancel={(wasSaved) => {
           setIsEditing(false);
-          if (wasSaved) setSaved(true); // ← activamos mensaje si fue exitoso
+          if (wasSaved) setSaved(true);
         }}
       />
     );

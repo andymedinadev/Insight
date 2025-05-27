@@ -11,6 +11,10 @@ export const fetchPatients = createAsyncThunk<BackendPatient[], void, { rejectVa
     const state = thunkApi.getState() as RootState;
     const token = state.auth.token;
 
+    if (!token) {
+      return thunkApi.rejectWithValue('Token no disponible');
+    }
+
     try {
       const response = await fetch(`${BACKEND_BASE_URL}/api/Patient/pacientes`, {
         headers: {

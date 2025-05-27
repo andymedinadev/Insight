@@ -14,7 +14,7 @@ interface UserProfile {
 
 interface Props {
   user: UserProfile;
-  onCancel: (success?: boolean) => void; // ← ahora acepta un booleano
+  onCancel: (success?: boolean) => void;
 }
 
 const profileFields = [
@@ -48,19 +48,22 @@ const UserProfileEdit = ({ user, onCancel }: Props) => {
     try {
       const [name, surname = ''] = form.nombre.trim().split(' ');
 
-      const res = await fetch('https://proyecto-foo-production.up.railway.app/api/User/me/edit', {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          name,
-          surname,
-          email: form.email,
-          title: form.titulo,
-        }),
-      });
+      const res = await fetch(
+        'https://comfortable-manifestation-production.up.railway.app/api/User/me/edit',
+        {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            name,
+            surname,
+            email: form.email,
+            title: form.titulo,
+          }),
+        }
+      );
 
       if (!res.ok) {
         const errorData = await res.json();

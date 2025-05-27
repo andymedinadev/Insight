@@ -21,7 +21,6 @@ export default function PatientFilterDropdown({ onClose }: Props) {
   const currentGenero = useSelector((state: RootState) => state.patients.filters.genero);
   const currentRangoEtario = useSelector((state: RootState) => state.patients.filters.rangoEtario);
 
-  // Estados locales para acumular cambios antes de aplicar
   const [modalidad, setModalidad] = useState<string[]>(currentModalidad);
   const [genero, setGenero] = useState<string[]>(currentGenero);
   const [rangoEtario, setRangoEtario] = useState<string[]>(currentRangoEtario);
@@ -66,7 +65,7 @@ export default function PatientFilterDropdown({ onClose }: Props) {
     dispatch(setFilterModalidad(modalidad));
     dispatch(setFilterGenero(genero));
     dispatch(setFilterRangoEtario(rangoEtario));
-    onClose?.(); // Cerrar dropdown
+    onClose?.();
   };
 
   const handleClearFilters = () => {
@@ -76,7 +75,7 @@ export default function PatientFilterDropdown({ onClose }: Props) {
     dispatch(setFilterModalidad([]));
     dispatch(setFilterGenero([]));
     dispatch(setFilterRangoEtario([]));
-    onClose?.(); // Cerrar dropdown
+    onClose?.();
   };
 
   return (

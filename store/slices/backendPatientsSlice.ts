@@ -20,6 +20,7 @@ interface BackendPatientsState {
   patients: BackendPatient[];
   archivedPatients: BackendPatient[];
   selectedPatient: BackendPatient | null;
+  searchTerm: string;
 
   notes: {
     all: BackendNote[];
@@ -51,6 +52,7 @@ const initialState: BackendPatientsState = {
   patients: [],
   archivedPatients: [],
   selectedPatient: null,
+  searchTerm: '',
 
   notes: {
     all: [],
@@ -117,6 +119,12 @@ export const backendPatientsSlice = createSlice({
     clearSelectedMaterial(state) {
       state.materials.selected = null;
       state.materials.status.fetchOne = { loading: false, error: null };
+    },
+    setSearchTerm(state, action) {
+      state.searchTerm = action.payload;
+    },
+    resetSearchTerm(state) {
+      state.searchTerm = '';
     },
   },
   extraReducers: (builder) => {
@@ -242,3 +250,4 @@ export const backendPatientsSlice = createSlice({
 export const {} = backendPatientsSlice.actions;
 
 export default backendPatientsSlice.reducer;
+export const { setSearchTerm, resetSearchTerm } = backendPatientsSlice.actions;

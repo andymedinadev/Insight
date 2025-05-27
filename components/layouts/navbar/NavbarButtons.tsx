@@ -4,8 +4,8 @@ import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 
 import { useLogout } from '@/hooks';
-import { Campana, AvatarGeneral, FlechaBaja } from '@/public';
-import DropdownUserMenu from './DropdownUserMenu'; // Asegúrate de que el path sea correcto
+import { AvatarGeneral, FlechaBaja } from '@/public';
+import DropdownUserMenu from './DropdownUserMenu';
 
 export default function NavbarButtons() {
   const { logout } = useLogout();
@@ -39,9 +39,6 @@ export default function NavbarButtons() {
 
   return (
     <div className="flex items-center gap-4">
-      <span>
-        <Image src={Campana} alt="Campana" className="object-contain" />
-      </span>
       <span>
         <Image src={AvatarGeneral} height={32} width={32} alt="Avatar" className="object-contain" />
       </span>

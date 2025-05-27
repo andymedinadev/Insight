@@ -3,16 +3,15 @@
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { AppDispatch, RootState } from '@/store';
-import { fetchPatients } from '@/store/thunks';
-// import { selectFilteredPatients } from '@/store/selectors/patientSelectors';
-import { flechaAbajoLista, flechaArribaLista, puntosFiltros, Archive, Edit } from '@/public';
+import { fetchPatients } from '@/store/thunks/backendPatientsThunks';
+import { flechaAbajoLista, flechaArribaLista, puntosFiltros } from '@/public';
 import { usePathname } from 'next/navigation';
-import { newSelectFilteredPatients } from '@/store/selectors/patientSelectors';
 import Left from '../../public/icons/Left.svg';
 import Right from '../../public/icons/Right.svg';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
-import { toggleFiled } from '@/store/slices/patientSlice';
+
+import PatientOptionsMenu from './PatientListArchived/PatientOptionsMenu';
 
 interface Props {
   variant?: 'home' | 'list';
@@ -20,20 +19,38 @@ interface Props {
 
 export default function PatientList({ variant = 'home' }: Props) {
   const dispatch = useDispatch<AppDispatch>();
-  const initialized = useSelector((state: RootState) => state.patients.initialized);
-  // const patients = useSelector(selectFilteredPatients);
-  // mostrar solo pacientes no archivados
-  const allPatients = useSelector(newSelectFilteredPatients);
-  const patients = allPatients.filter((p) => !p.filed);
-  const [openMenuId, setOpenMenuId] = useState<string | null>(null);
-  const [isListVisible, setIsListVisible] = useState(true); // Nuevo estado para manejar la visibilidad
-
   const pathname = usePathname();
-  const isDashboardHome = pathname === '/dashboard/home';
+  const router = useRouter();
 
+  // Estados y selectors
+  const [openMenuId, setOpenMenuId] = useState<string | null>(null);
+  const [isListVisible, setIsListVisible] = useState(true);
+  const [isMobile, setIsMobile] = useState<boolean>(false);
+  const [mobileVisibleCount, setMobileVisibleCount] = useState(4);
+  const [desktopPage, setDesktopPage] = useState(1);
+  const [hasMounted, setHasMounted] = useState(false);
+
+  const initialized = useSelector((state: RootState) => state.patients.initialized);
+  const patients = useSelector((state: RootState) => state.backendPatients.patients) || [];
+  const loading = useSelector(
+    (state: RootState) => state.backendPatients.status.fetchPatients.loading
+  );
+  const error = useSelector((state: RootState) => state.backendPatients.status.fetchPatients.error);
+  const searchTerm = useSelector((state: RootState) =>
+    state.backendPatients.searchTerm.toLowerCase()
+  );
+  const isDashboardHome = pathname === '/dashboard/home';
+  const filteredPatients = patients.filter((patient) =>
+    patient.name.toLowerCase().includes(searchTerm)
+  );
   const avatars = [
     'https://res.cloudinary.com/dwc1rj9tj/image/upload/v1747278017/AvatarGeneral_hq0avb.svg',
   ];
+
+  // useEffects
+  useEffect(() => {
+    dispatch(fetchPatients());
+  }, [dispatch]);
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -46,37 +63,26 @@ export default function PatientList({ variant = 'home' }: Props) {
     return () => window.removeEventListener('click', handleClickOutside);
   }, []);
 
-  // Al montar, hacemos fetch
   useEffect(() => {
     if (!initialized) {
       dispatch(fetchPatients());
     }
   }, [dispatch, initialized]);
 
-  const [isMobile, setIsMobile] = useState<boolean>(false);
-
   useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth <= 1024); // 1024px es el umbral para Mobile
-    };
-
+    const handleResize = () => setIsMobile(window.innerWidth <= 1024);
     handleResize();
-
     window.addEventListener('resize', handleResize);
-
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
+    return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  const [mobileVisibleCount, setMobileVisibleCount] = useState(4);
+  useEffect(() => {
+    setHasMounted(true);
+  }, []);
 
   const loadMoreMobile = () => {
     setMobileVisibleCount((prev) => prev + 4);
   };
-
-  const [desktopPage, setDesktopPage] = useState(1);
-  const desktopTotalPages = Math.ceil(patients.length / 8);
 
   function getPaginationRange(current: number, total: number): (number | string)[] {
     const delta = 1;
@@ -96,6 +102,10 @@ export default function PatientList({ variant = 'home' }: Props) {
   const renderPaginationDesktop = () => {
     const range = getPaginationRange(desktopPage, desktopTotalPages);
     const startIndex = (desktopPage - 1) * 8;
+
+    if (!hasMounted || !initialized) return null;
+    if (loading) return <div>Cargando pacientes...</div>;
+    if (error) return <div>Error: {error}</div>;
 
     return (
       <div className="mt-4 hidden items-center justify-center lg:flex">
@@ -143,7 +153,8 @@ export default function PatientList({ variant = 'home' }: Props) {
         </div>
         <div className="mt-[-1.5rem] mr-24">
           <p className="h-[20px] w-[156px] text-center text-sm leading-tight font-normal text-gray-600">
-            Mostrando {startIndex + 1} - {Math.min(startIndex + 8, patients.length)} de{' '}
+            Mostrando {startIndex + 1} - {Math.min(startIndex + 8, filteredPatients.length)} de{' '}
+            {filteredPatients.length}
             {patients.length}
           </p>
         </div>
@@ -151,22 +162,17 @@ export default function PatientList({ variant = 'home' }: Props) {
     );
   };
 
-  // **Generamos los pacientes visibles para mobile y desktop**
-  const patientsForMobile = patients.slice(0, mobileVisibleCount);
-  const patientsForDesktop = patients.slice((desktopPage - 1) * 8, desktopPage * 8);
+  const desktopTotalPages = Math.ceil(filteredPatients.length / 8);
 
-  const router = useRouter();
+  const patientsForMobile = filteredPatients.slice(0, mobileVisibleCount);
+  const patientsForDesktop = filteredPatients.slice((desktopPage - 1) * 8, desktopPage * 8);
+
   const handleRedirect = (id: number) => {
     router.push(`/dashboard/patientprofile/${id}`);
   };
 
-  const [hasMounted, setHasMounted] = useState(false);
-
-  useEffect(() => {
-    setHasMounted(true);
-  }, []);
-
   if (!hasMounted || !initialized) return null;
+  if (loading) return <div>Cargando pacientes...</div>;
 
   return (
     <>
@@ -176,7 +182,7 @@ export default function PatientList({ variant = 'home' }: Props) {
             <tr>
               <th className="px-4 py-3">Nombre del paciente</th>
               <th className="hidden px-4 py-3 lg:table-cell">Email</th>
-              {/* <th className="px-4 py-3">Fecha ultima sesión </th> */}
+
               <th className="hidden px-4 py-3 lg:table-cell">Categoría</th>
               <th className="px-4 py-3">Acciones</th>
               {!isDashboardHome && (
@@ -192,7 +198,6 @@ export default function PatientList({ variant = 'home' }: Props) {
             </tr>
           </thead>
           <tbody className="bg-white text-base leading-normal font-normal text-black">
-            {/* Mostrar pacientes dependiendo de la vista */}
             {isListVisible ? (
               (variant === 'list' && isMobile ? patientsForMobile : patientsForDesktop).map(
                 (patient, index) => (
@@ -216,9 +221,7 @@ export default function PatientList({ variant = 'home' }: Props) {
                       </div>
                     </td>
                     <td className="hidden px-4 py-3 lg:table-cell">{patient.email}</td>
-                    {/* <td className="px-4 py-3">{patient.lastSession}</td> */}
-                    {/* <td className="hidden px-4 py-3 lg:table-cell">{patient.category}</td> */}
-                    <td className="hidden px-4 py-3 lg:table-cell">{patient.rangoEtario}</td>
+                    <td className="hidden px-4 py-3 lg:table-cell">{patient.modality}</td>
                     <td className="relative px-5 py-3">
                       <button
                         className="cursor-pointer"
@@ -232,45 +235,8 @@ export default function PatientList({ variant = 'home' }: Props) {
                       </button>
 
                       {openMenuId === String(patient.id) && (
-                        <div className="absolute right-10 z-10 mt-3 w-2xs rounded-md border border-gray-200 bg-white shadow-md lg:right-32">
-                          <ul className="py-1 text-xl font-normal text-[#000F27E5]">
-                            <li>
-                              <button
-                                className="mt-2.5 mb-6 flex w-full cursor-pointer flex-row text-left hover:bg-gray-100"
-                                onClick={() =>
-                                  router.push(`/dashboard/patientprofile/${patient.id}/edit`)
-                                }
-                              >
-                                <div>
-                                  <Image
-                                    src={Edit}
-                                    alt="editar"
-                                    width={22}
-                                    height={22}
-                                    className="mr-5 ml-8 inline-block"
-                                  />
-                                </div>
-                                <div>Editar paciente</div>
-                              </button>
-                            </li>
-                            <li>
-                              <button
-                                className="mt-2.5 mb-2.5 flex w-full cursor-pointer flex-row text-left hover:bg-gray-100"
-                                onClick={() => dispatch(toggleFiled(patient.id))}
-                              >
-                                <div>
-                                  <Image
-                                    src={Archive}
-                                    alt="archivar"
-                                    width={22}
-                                    height={22}
-                                    className="mr-5 ml-8 inline-block"
-                                  />
-                                </div>
-                                <div>Archivar paciente</div>
-                              </button>
-                            </li>
-                          </ul>
+                        <div className="relative overflow-visible">
+                          <PatientOptionsMenu patientId={String(patient.id)} />
                         </div>
                       )}
                     </td>
@@ -287,7 +253,7 @@ export default function PatientList({ variant = 'home' }: Props) {
                 </td>
                 <td className="hidden px-4 py-3 lg:table-cell">juan.paredes@example.com</td>
                 <td className="px-4 py-3">04/01/2025</td>
-                {/* <td className="hidden px-4 py-3 lg:table-cell">{patient.category}</td> */}
+
                 <td className="hidden px-4 py-3 lg:table-cell">Adulto</td>
                 <td className="relative px-5 py-3">
                   <button>. . . . .</button>

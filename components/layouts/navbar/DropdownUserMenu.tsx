@@ -19,7 +19,6 @@ const DropdownUserMenu = forwardRef<HTMLDivElement, DropdownUserMenuProps>(({ on
     >
       <div className="flex h-full flex-col justify-between">
         <div className="mt-5 flex items-center px-4 py-2">
-          {/*<div className="outline-Stroke-Weak/10 relative mr-3 h-12 w-12 rounded-[48px] outline-1 outline-offset-[-1px]" /> */}
           <Image
             src={AvatarGeneral}
             alt="Icon"

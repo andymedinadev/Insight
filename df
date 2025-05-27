@@ -1,0 +1,130 @@
+[33ma3060fa[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mdev-adrian[m[33m, [m[1;31morigin/dev-adrian[m[33m)[m Merge branch 'develop' of https://github.com/AdrianEmaST/SmartProject into dev-adrian
+[33mf1d6e36[m ADD: Flujo de psicologo, componentes con renderizado de psicologo
+[33m21b7c04[m Merge pull request #71 from AdrianEmaST/dev-alen
+[33med772a7[m Add: notes/materials styles
+[33mc9a1873[m Merge pull request #70 from AdrianEmaST/dev-alen
+[33m1b364be[m Add: edit and delete notes/materials
+[33mba1e9a9[m Merge pull request #69 from AdrianEmaST/dev-alen
+[33mb83099e[m FIX: create notes/materials
+[33m249fa7c[m Merge pull request #67 from AdrianEmaST/dev-andres
+[33m2bb9d0c[m FIX: build error con export nombrado en ruta
+[33mfaa5cb9[m Merge pull request #65 from AdrianEmaST/dev-andres
+[33meb549fd[m fix: fix some syles
+[33m5d5904c[m ADD: pantalla ConfirmAccount en ALTA y funcional
+[33m1da6040[m ADD: pantalla de SuccessConfirm + useConfirmCode hook para separar lógica
+[33ma0486c2[m fix: Adaptado useSignup para nuevo backend
+[33mfb4b5e0[m ADD: useVerification para enviar código de verificación al backend
+[33mb029bdb[m Merge pull request #63 from AdrianEmaST/dev-andres
+[33ma344baf[m Merge branch 'develop' into dev-andres
+[33me62dde4[m add: mejora mocks notas/materiales | borrado de notas/materiales no usados
+[33m8bbf6b5[m fix: fix store con nuevo entorno
+[33m161fdc7[m ADD: separar API en variable de entorno | actualizar funciones fetch
+[33md62420e[m Merge pull request #62 from AdrianEmaST/dev-alen
+[33mc488005[m Add: views notes/materials responsive
+[33m9215553[m Merge pull request #61 from AdrianEmaST/dev-andres
+[33ma11a6e8[m FIX: image paciente
+[33mf774e39[m Merge pull request #60 from AdrianEmaST/dev-andres
+[33mb102cc5[m ADD: funcionalidad archivar pacientes
+[33m3bd83a3[m Merge pull request #59 from AdrianEmaST/dev-andres
+[33m7917fae[m ADD: componente Editar Paciente + utilidades
+[33m3c82564[m add: conectar edición con store
+[33m3cc516e[m fix: botón crear paciente
+[33mef1f79f[m add: botón para editar paciente
+[33m3463204[m add: READ paciente en perfil
+[33m0511f1e[m add: hook para obtener paciente o id (nuevo tipo)
+[33mdf1a1b6[m Merge pull request #58 from AdrianEmaST/dev-andres
+[33ma82b87d[m ADD: PerfilPaciente en ALTA (mobile/desktop)
+[33mc484a0e[m Add: Ordenado de schemas de Yup
+[33mee0e0d3[m ADD: conectar creación paciente con store
+[33mbc5148c[m ADD: utility functions para creacion de paciente
+[33m8f7750a[m fix: añadido undefined a campos opcionales en tipo paciente
+[33mb9a7c67[m add: accion store para guardar paciente en memoria
+[33m3d71375[m Merge pull request #57 from AdrianEmaST/dev-alen
+[33m6ff10a0[m FIX: form inputs
+[33ma345049[m Merge pull request #56 from AdrianEmaST/dev-alen
+[33m40fe8b9[m Add: form validations
+[33m8b88802[m fix: borrar TypeNewPatient
+[33me9fa262[m Add: new patient form updated
+[33md97b339[m Merge pull request #55 from AdrianEmaST/dev-adrian
+[33m64dedc9[m Add:Muchas cosas, detallo en el merge
+[33md3a959d[m Merge pull request #54 from AdrianEmaST/dev-andres
+[33me8091be[m Add: adaptar filtros al nuevo tipo
+[33m6db165b[m add: configurar Store para manejar nuevo tipo
+[33m52f8414[m Merge pull request #53 from AdrianEmaST/dev-andres
+[33m31cf4d5[m ADD: Nuevo tipo paciente todo hardcodeado
+[33m47a6098[m Merge pull request #52 from AdrianEmaST/dev-adrian
+[33m78e2239[m ADD: unoptimized
+[33m7c32f0b[m Merge pull request #51 from AdrianEmaST/dev-adrian
+[33m2f2d573[m ADD: New image next config
+[33m4d1f0cf[m Merge pull request #50 from AdrianEmaST/dev-alen
+[33m716e3c9[m FIX: create materials
+[33m914b54b[m Merge pull request #49 from AdrianEmaST/dev-andres
+[33m520939f[m fix: bug en notas vacías
+[33m3417da6[m fix: id hardcodeado siempre igual
+[33m04ebdd0[m Merge branch 'develop' into dev-andres
+[33m4f8aee5[m Merge pull request #48 from AdrianEmaST/dev-alen
+[33ma3fd4ce[m Add: individual view of notes/materials
+[33m67b1b47[m fix: agregado dominio randomUser en next.config.ts
+[33m4537c2e[m fix: evitar fetch sobrescribía los pacientes cada vez
+[33md80fc52[m add: creación de notas/materiales en store
+[33ma28c9d3[m Merge pull request #47 from AdrianEmaST/dev-andres
+[33m0ae1744[m refactor: loginPage y signupPage en Alta (desktop+mobile)
+[33mc49fbb2[m add: InputField definitivo Alta
+[33ma85b989[m add: logos SVG + loginBg
+[33m3849e39[m Merge pull request #46 from AdrianEmaST/dev-alen
+[33m2ee7ff8[m Add: view to create notes and materials
+[33ma8a08d8[m Merge pull request #45 from AdrianEmaST/dev-adrian
+[33m761aec5[m Merge branch 'develop' of https://github.com/AdrianEmaST/SmartProject into dev-adrian
+[33m6865b85[m CHANGE: Sidebar en alta, Navbar en alta, filtros segun flujo diseño, searchbar convinada con filtros, lista de pacientes en alta, funcionalidad de ocultar lista en mobile y desktop
+[33me9e9f34[m Merge pull request #44 from AdrianEmaST/dev-andres
+[33m92f9779[m add: Notas y Materiales mock leídos desde el store de pacientes
+[33me1fbf88[m add: enlazar el texto "Ir a perfil" en el menú desplegable de usuario
+[33mfea86bb[m Merge branch 'develop' into dev-nate
+[33m75c1f5c[m Merge pull request #43 from AdrianEmaST/dev-andres
+[33m8c51fe5[m add: estilos Signup Page en Alta
+[33me1065c8[m Merge pull request #42 from AdrianEmaST/dev-alen
+[33m96533d9[m Add: styles in notes/materials view
+[33m3e3551b[m Merge branch 'develop' into dev-nate
+[33m600b4a9[m Merge pull request #41 from AdrianEmaST/dev-adrian
+[33m03917cd[m FIX: Filtros escalables/modularizados, componentes a alta | ADD: Lógica de filtrados en Redux, Componentes nuevos de listado
+[33m1f70965[m Merge branch 'develop' into dev-nate
+[33m13bb341[m feat: agregar soporte para la actualización del perfil y manejo de foto de perfil
+[33mc9540c2[m Merge pull request #40 from AdrianEmaST/dev-adrian
+[33ma9be39b[m ADD: ROBOTO FONT | Modularizacion dropdownusermenu
+[33m3b72f7a[m Merge branch 'develop' into dev-nate
+[33m2276bd5[m hotfix: solución problema con Store y cambiar link backend
+[33m4a45867[m Add: wrap logo in a link for navigation in the sidebar
+[33m90d27f6[m Merge branch 'develop' into dev-nate
+[33m9cbe14a[m Merge pull request #38 from AdrianEmaST/dev-alen
+[33mbdead49[m Add: standalone and reusable pagination component
+[33m766ee1f[m Add: implementar página de perfil con funcionalidad de actualización y manejo de estado
+[33m3a30c4b[m Add: mejorar componente de perfil con imagen de Next.js
+[33m9c21ead[m Implementacion de Login actualizado
+[33me2b7caf[m Merge pull request #37 from AdrianEmaST/dev-alen
+[33m3bc37c4[m Add: view medicalhistory reusable
+[33md13ef32[m Merge pull request #36 from AdrianEmaST/dev-andres
+[33m154aaee[m add: creado componente para poblar backend con Pacientes
+[33mc1c6960[m Merge pull request #35 from AdrianEmaST/dev-andres
+[33mc8bf3cc[m Merge branch 'develop' into dev-andres
+[33md59cf45[m format: limpieza comentarios
+[33m75adbcc[m refactor: barrel import hooks
+[33m7433022[m add: Editar en memoria y conectado al backend
+[33m7c45c43[m add: inputs editables en PatientProfileInfo
+[33m719bbcc[m Merge pull request #34 from AdrianEmaST/dev-alen
+[33m4333426[m Add: notes management structure
+[33m909c073[m fix: rehacer transformPatientData
+[33m67b3519[m fix: rehacer usePatientById de cero
+[33m785b6a3[m fix: rehacer PatientProfileInfo desde cero
+[33md0e2bbf[m Merge pull request #32 from AdrianEmaST/dev-adrian
+[33m1d93ab2[m FIX: PatientSelector
+[33md3427e3[m feat: implement patient profile editing functionality (beta)
+[33m9c480d5[m Merge pull request #30 from AdrianEmaST/dev-adrian
+[33m403bee4[m Fix: Home ADD: Serachbar, actions
+[33m4b9108c[m Merge pull request #29 from AdrianEmaST/dev-alen
+[33mcf72474[m Add: responsive form
+[33ma0de231[m Merge branch 'dev-andres' into develop
+[33m751aad8[m fix: error de asincronía en store
+[33m9a480a4[m add: conectar Perfil Paciente con Lista de Pacientes
+[33ma6df2e2[m add: custom hook para traer paciente by ID
+[33m21a6c90[m Add: thunk para traer un paciente del backend
+[
