@@ -211,7 +211,7 @@ export const fetchOneMaterial = createAsyncThunk<
 export const createBackendPatient = createAsyncThunk<
   BackendPatient,
   BackendNewPatient,
-  { rejectValue: string }
+  { rejectValue: { detail: string } }
 >('backendPatients/createBackendPatient', async (newPatient, thunkApi) => {
   const state = thunkApi.getState() as RootState;
   const token = state.auth.token;
@@ -227,14 +227,13 @@ export const createBackendPatient = createAsyncThunk<
     });
 
     if (!response.ok) {
-      const errorText = await response.text();
-      throw new Error(`Error al crear paciente: ${errorText}`);
+      const errorJson = await response.json();
+      return thunkApi.rejectWithValue(errorJson);
     }
 
     const data = await response.json();
     return data;
-  } catch (error: unknown) {
-    const message = error instanceof Error ? error.message : 'Error desconocido';
-    return thunkApi.rejectWithValue(message);
+  } catch {
+    return thunkApi.rejectWithValue({ detail: 'Error desconocido' });
   }
 });
