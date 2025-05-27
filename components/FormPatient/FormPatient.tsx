@@ -34,13 +34,28 @@ export default function FormPatient() {
       };
 
       try {
-        await dispatch(createBackendPatient(patientToSend));
-      } catch (error) {
-        console.error('Error al crear paciente:', error);
-      }
+        await dispatch(createBackendPatient(patientToSend)).unwrap();
+        router.push('/dashboard/patientlist');
+      } catch (error: unknown) {
+        if (
+          error &&
+          typeof error === 'object' &&
+          'detail' in error &&
+          typeof error.detail === 'string'
+        ) {
+          const errorMessage = (error as { detail: string }).detail;
 
-      // redirecciono
-      router.push('/dashboard/patientlist');
+          if (errorMessage.includes('identificación')) {
+            formik.setFieldError('identification', errorMessage);
+          } else if (errorMessage.includes('correo electrónico')) {
+            formik.setFieldError('email', errorMessage);
+          } else {
+            formik.setStatus({ general: errorMessage });
+          }
+        } else {
+          formik.setStatus({ general: 'Ocurrió un error inesperado' });
+        }
+      }
     },
   });
 
@@ -133,7 +148,6 @@ export default function FormPatient() {
           <InputField
             id="identification"
             label="Número de documento"
-            type="number"
             value={formik.values.identification}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}

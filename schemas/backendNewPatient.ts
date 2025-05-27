@@ -39,11 +39,13 @@ export const initialValues: Omit<BackendNewPatient, 'birthdate' | 'sessionDay'> 
 export const backendNewPatientValidationSchema = Yup.object({
   name: Yup.string()
     .required('El nombre es obligatorio')
+    .min(2, 'El nombre debe tener al menos 2 caracteres')
     .max(50, 'El nombre no puede superar los 50 caracteres')
     .matches(/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/, 'El nombre solo permite letras, espacios y tildes'),
 
   surname: Yup.string()
     .required('El apellido es obligatorio')
+    .min(2, 'El apellido debe tener al menos 2 caracteres')
     .max(50, 'El apellido no puede superar los 50 caracteres')
     .matches(/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/, 'El apellido solo permite letras, espacios y tildes'),
 
@@ -53,6 +55,7 @@ export const backendNewPatientValidationSchema = Yup.object({
 
   nationality: Yup.string()
     .required('La nacionalidad es obligatoria')
+    .min(4, 'La nacionalidad debe tener al menos 4 caracteres')
     .max(30, 'La nacionalidad no puede superar los 30 caracteres')
     .matches(/^[a-zA-Z\s]+$/, 'La nacionalidad solo permite letras y espacios'),
 
@@ -63,8 +66,9 @@ export const backendNewPatientValidationSchema = Yup.object({
 
   identification: Yup.string()
     .required('La identificación es obligatoria')
-    .max(20, 'La identificación no puede superar los 20 caracteres')
-    .matches(/^\d+$/, 'La identificación solo permite números'),
+    .matches(/^[A-Za-z0-9-]+$/, 'La identificación solo puede contener letras, números y guiones')
+    .min(9, 'La identificación debe tener al menos 9 dígitos')
+    .max(20, 'La identificación no puede superar los 20 dígitos'),
 
   sex: Yup.string().required('El sexo es obligatorio'),
 
