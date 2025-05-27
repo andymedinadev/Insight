@@ -24,3 +24,8 @@ export type { PatientProfileData } from './patientProfileData';
 export type { UpdatePatientPayload } from './updatePatientPayload';
 
 export type { DropdownFilterProps } from './Filters/DropdownFilterProps';
+
+export type { BackendMaterial } from './backendMaterial';
+export type { BackendNewPatient } from './backendNewPatient';
+export type { BackendNote } from './backendNote';
+export type { BackendPatient } from './backendPatient';

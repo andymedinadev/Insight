@@ -11,6 +11,7 @@ import { Note /*, Material*/ } from '@/types';
 
 type Props = {
   onSaved: () => void;
+  goBack: () => void;
 };
 
 const initialValues: Note = {
@@ -20,7 +21,7 @@ const initialValues: Note = {
   content: '',
 };
 
-export default function MedicalHistoryNew({ onSaved }: Props) {
+export default function MedicalHistoryNew({ onSaved, goBack }: Props) {
   const searchParams = useSearchParams();
   const from = searchParams.get('from');
   const isMaterial = from === 'material';
@@ -91,12 +92,20 @@ export default function MedicalHistoryNew({ onSaved }: Props) {
           ></textarea>
         </div>
 
-        <div>
+        <div className="flex gap-3">
           <button
             type="submit"
             className="flex h-12 w-full cursor-pointer items-center justify-center rounded-lg bg-[#0655D5] font-['Roboto'] text-base leading-normal font-semibold text-white shadow-[0px_4px_8px_-2px_rgba(0,0,0,0.04),_0px_2px_4px_-2px_rgba(0,0,0,0.08)] md:w-28"
           >
             Guardar
+          </button>
+
+          <button
+            type="button"
+            onClick={() => goBack()}
+            className="flex h-12 w-full cursor-pointer items-center justify-center rounded-lg font-['Roboto'] text-base leading-normal font-semibold text-[#0655D5] underline md:w-28"
+          >
+            Cancelar
           </button>
         </div>
       </form>

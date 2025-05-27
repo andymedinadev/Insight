@@ -74,7 +74,7 @@ export default function PatientListArchived({ variant = 'home' }: Props) {
   };
 
   // **Generamos los pacientes visibles para mobile y desktop**
-  const filteredPatients = patients.filter((p) => p.filed === true);
+  const filteredPatients = patients.filter((p) => p.isEnable === false);
 
   const [desktopPage, setDesktopPage] = useState(1);
   const desktopTotalPages = Math.ceil(filteredPatients.length / 8);
@@ -213,7 +213,7 @@ export default function PatientListArchived({ variant = 'home' }: Props) {
                     <td className="hidden px-4 py-3 lg:table-cell">{patient.email}</td>
                     <td className="px-4 py-3">{patient.lastSession}</td>
                     {/* <td className="hidden px-4 py-3 lg:table-cell">{patient.category}</td> */}
-                    <td className="hidden px-4 py-3 lg:table-cell">{patient.rangoEtario}</td>
+                    <td className="hidden px-4 py-3 lg:table-cell">{patient.category}</td>
                     <td className="relative px-5 py-3">
                       <button
                         className="cursor-pointer"

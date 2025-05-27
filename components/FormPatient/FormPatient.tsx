@@ -5,62 +5,36 @@ import { useRouter } from 'next/navigation';
 import { useFormik } from 'formik';
 
 import { InputField, ValidationError } from '@/components';
+import { initialValues, backendNewPatientValidationSchema } from '@/schemas/backendNewPatient';
+import { createBackendPatient } from '@/store/thunks/backendPatientsThunks';
 import { AppDispatch } from '@/store';
-import { addToNewListDemo } from '@/store/actions/patientActions';
-import { newPatientFormValidationSchema } from '@/schemas';
-import { buildNewPatient, newPatientToHardcoded } from '@/utils';
-import { NewPatient } from '@/types';
-
-const initialValues: NewPatient = {
-  id: 0,
-  name: '',
-  surname: '',
-  birthdate: '',
-  nationality: '',
-  typeOfIdentification: '',
-  identification: '',
-  sex: undefined,
-  email: '',
-  phone: '',
-  admissionDate: '',
-  motivosConsulta: {
-    motivoPrincipal: '',
-    sintomasActuales: '',
-    eventosRecientesRelevantes: '',
-    diagnosticoPrevio: '',
-  },
-  historiaClinica: {
-    observaciones: '',
-    frasesRecurrentes: '',
-    actosFallidos: '',
-    derivacionesRealizadas: '',
-    evolucionPaciente: '',
-  },
-  seguimiento: {
-    diaYHorario: '',
-    modalidad: undefined,
-    duracionSesion: undefined,
-    frecuencia: '',
-    medioContactoPreferido: '',
-  },
-};
+import { BackendNewPatient } from '@/types';
 
 export default function FormPatient() {
   const dispatch = useDispatch<AppDispatch>();
   const router = useRouter();
+  const sessionOptions = [
+    { label: '30 min', value: 30 },
+    { label: '45 min', value: 45 },
+    { label: '50 min', value: 50 },
+    { label: '60 min', value: 60 },
+  ];
 
-  const formik = useFormik<NewPatient>({
+  const formik = useFormik({
     initialValues,
-    validationSchema: newPatientFormValidationSchema,
-    onSubmit: (values) => {
-      // con los datos del input creo un nuevo paciente
-      const newPatient = buildNewPatient(values);
+    validationSchema: backendNewPatientValidationSchema,
+    onSubmit: async (values) => {
+      const patientToSend: BackendNewPatient = {
+        ...values,
+        birthdate: new Date(values.birthdate),
+        sessionDay: values.sessionDay ? new Date(values.sessionDay) : null,
+      };
 
-      // los transformo en algo que el store entienda
-      const formattedPatient = newPatientToHardcoded(newPatient);
-
-      // y los guardo en el store
-      dispatch(addToNewListDemo(formattedPatient));
+      try {
+        await dispatch(createBackendPatient(patientToSend));
+      } catch (error) {
+        console.error('Error al crear paciente:', error);
+      }
 
       // redirecciono
       router.push('/dashboard/patientlist');
@@ -108,7 +82,7 @@ export default function FormPatient() {
         <div className="flex flex-col">
           <InputField
             id="birthdate"
-            label="Fecha de nacimineto"
+            label="Fecha de nacimiento"
             type="date"
             value={formik.values.birthdate}
             onChange={formik.handleChange}
@@ -156,6 +130,7 @@ export default function FormPatient() {
           <InputField
             id="identification"
             label="Número de documento"
+            type="number"
             value={formik.values.identification}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
@@ -230,20 +205,6 @@ export default function FormPatient() {
           />
         </div>
 
-        <div className="flex flex-col">
-          <InputField
-            id="admissionDate"
-            label="Fecha de ingreso"
-            type="date"
-            value={formik.values.admissionDate}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            placeholder="Ingrese la fecha de ingreso"
-            required
-            hasError={formik.touched.admissionDate && Boolean(formik.errors.admissionDate)}
-            errorMessage={formik.touched.admissionDate ? formik.errors.admissionDate : undefined}
-          />
-        </div>
         <br />
 
         {/* Motivo de consulta */}
@@ -254,8 +215,8 @@ export default function FormPatient() {
         <div className="flex flex-col">
           <label className="mb-1">Motivo principal de consulta</label>
           <textarea
-            name="motivosConsulta.motivoPrincipal"
-            value={formik.values.motivosConsulta?.motivoPrincipal}
+            name="principalMotive"
+            value={formik.values.principalMotive ?? ''}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             className="h-[100px] w-full rounded-lg border border-[#000D4D73] bg-white px-3"
@@ -265,8 +226,8 @@ export default function FormPatient() {
         <div className="flex flex-col">
           <label className="mb-1">Síntomas actuales</label>
           <textarea
-            name="motivosConsulta.sintomasActuales"
-            value={formik.values.motivosConsulta?.sintomasActuales}
+            name="actualSymptoms"
+            value={formik.values.actualSymptoms ?? ''}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             className="h-[100px] w-full rounded-lg border border-[#000D4D73] bg-white px-3"
@@ -276,8 +237,8 @@ export default function FormPatient() {
         <div className="flex flex-col">
           <label className="mb-1">Eventos recientes relevantes</label>
           <textarea
-            name="motivosConsulta.eventosRecientesRelevantes"
-            value={formik.values.motivosConsulta?.eventosRecientesRelevantes}
+            name="recentEvents"
+            value={formik.values.recentEvents ?? ''}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             className="h-[100px] w-full rounded-lg border border-[#000D4D73] bg-white px-3"
@@ -287,8 +248,8 @@ export default function FormPatient() {
         <div className="flex flex-col">
           <label className="mb-1">Diagnóstico previo</label>
           <textarea
-            name="motivosConsulta.diagnosticoPrevio"
-            value={formik.values.motivosConsulta?.diagnosticoPrevio}
+            name="previousDiagnosis"
+            value={formik.values.previousDiagnosis ?? ''}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             className="h-[100px] w-full rounded-lg border border-[#000D4D73] bg-white px-3"
@@ -304,8 +265,8 @@ export default function FormPatient() {
         <div className="flex flex-col">
           <label className="mb-1">Observaciones del profesional</label>
           <textarea
-            name="historiaClinica.observaciones"
-            value={formik.values.historiaClinica?.observaciones}
+            name="profesionalObservations"
+            value={formik.values.profesionalObservations ?? ''}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             className="h-[100px] w-full rounded-lg border border-[#000D4D73] bg-white px-3"
@@ -315,8 +276,8 @@ export default function FormPatient() {
         <div className="flex flex-col">
           <label className="mb-1">Frases recurrentes / palabras clave</label>
           <textarea
-            name="historiaClinica.frasesRecurrentes"
-            value={formik.values.historiaClinica?.frasesRecurrentes}
+            name="keyWords"
+            value={formik.values.keyWords ?? ''}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             className="h-[100px] w-full rounded-lg border border-[#000D4D73] bg-white px-3"
@@ -326,8 +287,8 @@ export default function FormPatient() {
         <div className="flex flex-col">
           <label className="mb-1">Actos fallidos / asociaciones llamativas</label>
           <textarea
-            name="historiaClinica.actosFallidos"
-            value={formik.values.historiaClinica?.actosFallidos}
+            name="failedActs"
+            value={formik.values.failedActs ?? ''}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             className="h-[100px] w-full rounded-lg border border-[#000D4D73] bg-white px-3"
@@ -337,8 +298,8 @@ export default function FormPatient() {
         <div className="flex flex-col">
           <label className="mb-1">Interconsultas / derivaciones realizadas</label>
           <textarea
-            name="historiaClinica.derivacionesRealizadas"
-            value={formik.values.historiaClinica?.derivacionesRealizadas}
+            name="interconsulation"
+            value={formik.values.interconsulation ?? ''}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             className="h-[100px] w-full rounded-lg border border-[#000D4D73] bg-white px-3"
@@ -348,8 +309,8 @@ export default function FormPatient() {
         <div className="flex flex-col">
           <label className="mb-1">Evolución del paciente</label>
           <textarea
-            name="historiaClinica.evolucionPaciente"
-            value={formik.values.historiaClinica?.evolucionPaciente}
+            name="patientEvolution"
+            value={formik.values.patientEvolution ?? ''}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             className="h-[100px] w-full rounded-lg border border-[#000D4D73] bg-white px-3"
@@ -365,8 +326,8 @@ export default function FormPatient() {
         <div className="flex flex-col">
           <label className="mb-1">Día y horario de la sesión</label>
           <input
-            name="seguimiento.diaYHorario"
-            value={formik.values.seguimiento?.diaYHorario}
+            name="sessionDay"
+            value={formik.values.sessionDay}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             className="h-[48px] w-full rounded-lg border border-[#000D4D73] bg-white px-3"
@@ -383,9 +344,9 @@ export default function FormPatient() {
               >
                 <input
                   type="radio"
-                  name="seguimiento.modalidad"
+                  name="modality"
                   value={option}
-                  checked={formik.values.seguimiento?.modalidad === option}
+                  checked={formik.values.modality === option}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                   className="h-5 w-5 border border-[#000D4D73] accent-indigo-600"
@@ -401,21 +362,21 @@ export default function FormPatient() {
             Duración aproximada de la sesión
           </label>
           <div className="flex flex-col gap-y-2">
-            {['30 min', '45 min', '50 min', '60 min'].map((option) => (
+            {sessionOptions.map(({ label, value }) => (
               <label
-                key={option}
+                key={value}
                 className="flex h-[32px] w-[118px] cursor-pointer items-center gap-x-3"
               >
                 <input
                   type="radio"
-                  name="seguimiento.duracionSesion"
-                  value={option}
-                  checked={formik.values.seguimiento?.duracionSesion === option}
-                  onChange={formik.handleChange}
+                  name="sessionDuration"
+                  value={value}
+                  checked={formik.values.sessionDuration === value}
+                  onChange={(e) => formik.setFieldValue('sessionDuration', Number(e.target.value))}
                   onBlur={formik.handleBlur}
                   className="h-5 w-5 border border-[#000D4D73] accent-indigo-600"
                 />
-                <span className="text-base text-gray-900">{option}</span>
+                <span className="text-base text-gray-900">{label}</span>
               </label>
             ))}
           </div>
@@ -424,8 +385,8 @@ export default function FormPatient() {
         <div className="flex flex-col">
           <label className="mb-1">Frecuencia (semanal, mensual, etc)</label>
           <input
-            name="seguimiento.frecuencia"
-            value={formik.values.seguimiento?.frecuencia}
+            name="sessionFrequency"
+            value={formik.values.sessionFrequency ?? ''}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             className="h-[48px] w-full rounded-lg border border-[#000D4D73] bg-white px-3"
@@ -435,8 +396,8 @@ export default function FormPatient() {
         <div className="flex flex-col">
           <label className="mb-1">Medio de contacto preferido</label>
           <input
-            name="seguimiento.medioContactoPreferido"
-            value={formik.values.seguimiento?.medioContactoPreferido}
+            name="preferedContact"
+            value={formik.values.preferedContact ?? ''}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             className="h-[48px] w-full rounded-lg border border-[#000D4D73] bg-white px-3"

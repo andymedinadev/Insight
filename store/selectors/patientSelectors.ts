@@ -26,20 +26,22 @@ export const selectFilteredPatients = (state: RootState): Patient[] => {
 // NUEVO SELECTOR PARA PODER FILTRAR EL NUEVO TIPO
 
 // DATOS DEL STORE PARA EL SELECTOR COMBINADO
-const selectNewListDemo = (state: RootState) => state.patients.newListDemo;
-const selectSearchTerm = (state: RootState) => state.patients.searchTerm.toLowerCase();
+const selectNewListDemo = (state: RootState) => state.patients.list;
+
+export const selectSearchTerm = (state: RootState) => state.patients.searchTerm.toLowerCase();
 const selectModalidad = (state: RootState) => state.patients.filters.modalidad;
 const selectGenero = (state: RootState) => state.patients.filters.genero;
 const selectRangoEtario = (state: RootState) => state.patients.filters.rangoEtario;
+const selectPatientList = (state: RootState) => state.patients.list;
 
 // SELECTOR COMBINADO MEMOIZABLE
 export const newSelectFilteredPatients = createSelector(
-  [selectNewListDemo, selectSearchTerm, selectModalidad, selectGenero, selectRangoEtario],
-  (patients, term, modalidad, genero, rangoEtario): HardcodedPatient[] => {
-    return patients.filter((patient: HardcodedPatient) => {
+  [selectPatientList, selectSearchTerm, selectModalidad, selectGenero, selectRangoEtario],
+  (patients, term, modalidad, genero, rangoEtario): Patient[] => {
+    return patients.filter((patient: Patient) => {
       const matchesTerm = term === '' || patient.name.toLowerCase().includes(term);
 
-      const modalidadPaciente = patient.seguimiento?.modalidad;
+      const modalidadPaciente = patient.modality;
       const matchesModalidad =
         modalidad.length === 0 || (modalidadPaciente && modalidad.includes(modalidadPaciente));
 

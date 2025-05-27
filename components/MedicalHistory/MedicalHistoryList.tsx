@@ -1,12 +1,13 @@
 'use client';
 import { useSearchParams } from 'next/navigation';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectCurrentPage } from '@/store/selectors/paginationSelectors';
 import { setTotalPages } from '@/store/slices/paginationSlice';
 import { useNewPatientById } from '@/hooks';
 import { Note } from '@/types';
 import Pagination from '../Pagination/Pagination';
+import Empty from '../MedicalHistory/Empty';
 
 const itemsPerPage = 5;
 
@@ -15,6 +16,7 @@ interface Props {
 }
 
 export default function MedicalHistoryList({ onSelectedNote }: Props) {
+  const [isClient, setIsClient] = useState(false);
   const searchParams = useSearchParams();
   const isMaterial = searchParams.get('from') === 'material';
 
@@ -41,7 +43,30 @@ export default function MedicalHistoryList({ onSelectedNote }: Props) {
   useEffect(() => {
     const total = Math.ceil(data.length / itemsPerPage);
     dispatch(setTotalPages(total));
-  }, [data.length, dispatch]);
+  }, [filteredData.length, dispatch]);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  if (!isClient) return null;
+
+  if (data.length === 0) {
+    return (
+      <div className="flex min-h-[50vh] items-center justify-center">
+        {/* <p className="text-lg text-gray-500">{isMaterial ? 'Sin materiales' : 'Sin notas'}</p> */}
+        <Empty type={isMaterial ? 'material' : 'nota'} />
+      </div>
+    );
+  }
+
+  if (filteredData.length === 0) {
+    return (
+      <div className="flex min-h-[50vh] items-center justify-center">
+        <p className="text-lg text-gray-500">No hay resultados</p>
+      </div>
+    );
+  }
 
   return (
     <div className="px-4 py-6 sm:px-6 md:px-10">

@@ -30,7 +30,7 @@ export const fetchUser = createAsyncThunk(
 
       if (!token) throw new Error('Token no disponible');
 
-      const res = await fetch('https://proyecto-foo-production.up.railway.app/api/User/me', {
+      const res = await fetch('https://comfortable-manifestation-production.up.railway.app/api/User/me', {
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,

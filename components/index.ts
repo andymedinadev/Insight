@@ -43,6 +43,7 @@ export { default as MedicalHistoryList } from './MedicalHistory/MedicalHistoryLi
 export { default as MedicalHistoryNew } from './MedicalHistory/MedicalHistoryNew';
 export { default as MedicalHistoryView } from './MedicalHistory/MedicalHistoryView';
 export { default as MedicalHistoryEdit } from './MedicalHistory/MedicalHistoryEdit';
+export { default as Empty } from './MedicalHistory/Empty';
 
 // Pagination
 export { default as Pagination } from './Pagination/Pagination';

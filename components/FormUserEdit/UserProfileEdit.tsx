@@ -48,7 +48,7 @@ const UserProfileEdit = ({ user, onCancel }: Props) => {
     try {
       const [name, surname = ''] = form.nombre.trim().split(' ');
 
-      const res = await fetch('https://proyecto-foo-production.up.railway.app/api/User/me/edit', {
+      const res = await fetch('https://comfortable-manifestation-production.up.railway.app/api/User/me/edit', {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
