@@ -242,7 +242,11 @@ export const backendPatientsSlice = createSlice({
       })
       .addCase(createBackendPatient.rejected, (state, action) => {
         state.status.createPatient.loading = false;
-        state.status.createPatient.error = action.payload ?? 'Error desconocido';
+        if (action.payload && typeof action.payload === 'object' && 'detail' in action.payload) {
+          state.status.createPatient.error = (action.payload as { detail: string }).detail;
+        } else {
+          state.status.createPatient.error = 'Error desconocido';
+        }
       });
   },
 });
