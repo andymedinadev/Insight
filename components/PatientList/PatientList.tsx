@@ -3,11 +3,10 @@
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { AppDispatch, RootState } from '@/store';
-import { fetchPatients } from '@/store/thunks';
+import { fetchPatients } from '@/store/thunks/backendPatientsThunks';
 // import { selectFilteredPatients } from '@/store/selectors/patientSelectors';
 import { flechaAbajoLista, flechaArribaLista, puntosFiltros, Archive, Edit } from '@/public';
 import { usePathname } from 'next/navigation';
-import { newSelectFilteredPatients } from '@/store/selectors/patientSelectors';
 import Left from '../../public/icons/Left.svg';
 import Right from '../../public/icons/Right.svg';
 import { useRouter } from 'next/navigation';
@@ -20,20 +19,35 @@ interface Props {
 
 export default function PatientList({ variant = 'home' }: Props) {
   const dispatch = useDispatch<AppDispatch>();
-  const initialized = useSelector((state: RootState) => state.patients.initialized);
-  // const patients = useSelector(selectFilteredPatients);
-  // mostrar solo pacientes no archivados
-  const allPatients = useSelector(newSelectFilteredPatients);
-  const patients = allPatients.filter((p) => !p.filed);
-  const [openMenuId, setOpenMenuId] = useState<string | null>(null);
-  const [isListVisible, setIsListVisible] = useState(true); // Nuevo estado para manejar la visibilidad
-
   const pathname = usePathname();
+  const router = useRouter();
+
+  // Estados y selectors
+  const [openMenuId, setOpenMenuId] = useState<string | null>(null);
+  const [isListVisible, setIsListVisible] = useState(true);
+  const [isMobile, setIsMobile] = useState<boolean>(false);
+  const [mobileVisibleCount, setMobileVisibleCount] = useState(4);
+  const [desktopPage, setDesktopPage] = useState(1);
+  const [hasMounted, setHasMounted] = useState(false);
+
+  const initialized = useSelector((state: RootState) => state.patients.initialized);
+  const patients = useSelector((state: RootState) => state.backendPatients.patients) || [];
+  const loading = useSelector(
+    (state: RootState) => state.backendPatients.status.fetchPatients.loading
+  );
+  const error = useSelector((state: RootState) => state.backendPatients.status.fetchPatients.error);
+
   const isDashboardHome = pathname === '/dashboard/home';
+  const desktopTotalPages = Math.ceil(patients.length / 8);
 
   const avatars = [
     'https://res.cloudinary.com/dwc1rj9tj/image/upload/v1747278017/AvatarGeneral_hq0avb.svg',
   ];
+
+  // useEffects
+  useEffect(() => {
+    dispatch(fetchPatients());
+  }, [dispatch]);
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -46,37 +60,26 @@ export default function PatientList({ variant = 'home' }: Props) {
     return () => window.removeEventListener('click', handleClickOutside);
   }, []);
 
-  // Al montar, hacemos fetch
   useEffect(() => {
     if (!initialized) {
       dispatch(fetchPatients());
     }
   }, [dispatch, initialized]);
 
-  const [isMobile, setIsMobile] = useState<boolean>(false);
-
   useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth <= 1024); // 1024px es el umbral para Mobile
-    };
-
+    const handleResize = () => setIsMobile(window.innerWidth <= 1024);
     handleResize();
-
     window.addEventListener('resize', handleResize);
-
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
+    return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  const [mobileVisibleCount, setMobileVisibleCount] = useState(4);
+  useEffect(() => {
+    setHasMounted(true);
+  }, []);
 
   const loadMoreMobile = () => {
     setMobileVisibleCount((prev) => prev + 4);
   };
-
-  const [desktopPage, setDesktopPage] = useState(1);
-  const desktopTotalPages = Math.ceil(patients.length / 8);
 
   function getPaginationRange(current: number, total: number): (number | string)[] {
     const delta = 1;
@@ -96,6 +99,11 @@ export default function PatientList({ variant = 'home' }: Props) {
   const renderPaginationDesktop = () => {
     const range = getPaginationRange(desktopPage, desktopTotalPages);
     const startIndex = (desktopPage - 1) * 8;
+
+    // 💥 Colocá los returns después de todos los hooks
+    if (!hasMounted || !initialized) return null;
+    if (loading) return <div>Cargando pacientes...</div>;
+    if (error) return <div>Error: {error}</div>;
 
     return (
       <div className="mt-4 hidden items-center justify-center lg:flex">
@@ -155,18 +163,12 @@ export default function PatientList({ variant = 'home' }: Props) {
   const patientsForMobile = patients.slice(0, mobileVisibleCount);
   const patientsForDesktop = patients.slice((desktopPage - 1) * 8, desktopPage * 8);
 
-  const router = useRouter();
   const handleRedirect = (id: number) => {
     router.push(`/dashboard/patientprofile/${id}`);
   };
 
-  const [hasMounted, setHasMounted] = useState(false);
-
-  useEffect(() => {
-    setHasMounted(true);
-  }, []);
-
   if (!hasMounted || !initialized) return null;
+  if (loading) return <div>Cargando pacientes...</div>;
 
   return (
     <>
@@ -219,7 +221,7 @@ export default function PatientList({ variant = 'home' }: Props) {
                     {/* <td className="px-4 py-3">{patient.lastSession}</td> */}
                     {/* <td className="hidden px-4 py-3 lg:table-cell">{patient.category}</td> */}
                     {/* Replace 'category' with the correct property if needed */}
-                    <td className="hidden px-4 py-3 lg:table-cell">{patient.category}</td>
+                    <td className="hidden px-4 py-3 lg:table-cell">{patient.modality}</td>
                     <td className="relative px-5 py-3">
                       <button
                         className="cursor-pointer"
