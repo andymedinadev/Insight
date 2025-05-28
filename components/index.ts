@@ -63,3 +63,9 @@ export { LoginForm } from './LoginPage/LoginForm';
 export { LoginHeader } from './LoginPage/LoginHeader';
 export { LoginIllustration } from './LoginPage/LoginIllustration';
 export { LoginLogo } from './LoginPage/LoginLogo';
+
+// Signup
+export { SignupForm } from './SignupPage/SignupForm';
+export { SignupHeader } from './SignupPage/SignupHeader';
+export { SignupIllustration } from './SignupPage/SignupIllustration';
+export { SignupLogo } from './SignupPage/SignupLogo';
