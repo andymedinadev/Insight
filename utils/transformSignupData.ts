@@ -2,11 +2,11 @@ import { SignupFormData, SignupPayload } from '@/types';
 
 export function transformFormDataToSignupPayload(formData: SignupFormData): SignupPayload {
   const payload = {
-    identification: Math.floor(Math.random() * (21474836 - 10 + 1)) + 10,
-    title: null,
-    surname: formData.lastname,
     name: formData.name,
+    surname: formData.lastname,
     email: formData.email,
+    phone: formData.phone === '' ? null : formData.phone,
+    title: null,
     password: formData.password,
   };
   return payload;

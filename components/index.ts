@@ -51,9 +51,28 @@ export { default as Pagination } from './Pagination/Pagination';
 //Filtros
 export { default as PatientFilterDropdown } from './FilterButton/PatientFilterDropdown';
 
-// Confirmar registro
-export { SuccessConfirm } from './SuccessConfirm/SuccessConfirm';
 export { default as UserNamePsicologo } from './UserName/UserName';
 export { default as UserProfileView } from './FormUserEdit/UserProfileView';
 export { default as UserProfileEdit } from './FormUserEdit/UserProfileEdit';
 export { default as UserNameDrop } from './UserName/UserNameDrop';
+
+// Login
+export { LoginForm } from './LoginPage/LoginForm';
+export { LoginHeader } from './LoginPage/LoginHeader';
+export { LoginIllustration } from './LoginPage/LoginIllustration';
+export { LoginLogo } from './LoginPage/LoginLogo';
+
+// Signup
+export { SignupForm } from './SignupPage/SignupForm';
+export { SignupHeader } from './SignupPage/SignupHeader';
+export { SignupIllustration } from './SignupPage/SignupIllustration';
+export { SignupLogo } from './SignupPage/SignupLogo';
+
+// Confirm-account
+export { ConfirmCodeInput } from './ConfirmAccountPage/ConfirmCodeInput';
+export { ConfirmForm } from './ConfirmAccountPage/ConfirmForm';
+export { ConfirmHeader } from './ConfirmAccountPage/ConfirmHeader';
+export { ConfirmIllustration } from './ConfirmAccountPage/ConfirmIllustration';
+export { ConfirmLogo } from './ConfirmAccountPage/ConfirmLogo';
+export { SuccessConfirm } from './SuccessConfirm/SuccessConfirm';
+export { SuccessForm } from './SuccessConfirm/SuccessForm';
