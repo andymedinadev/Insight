@@ -50,3 +50,4 @@ export { default as ValidCodeImage } from './icons/valid.svg';
 export { default as AvatarGeneral } from './AvatarGeneral.svg';
 export { default as iconEdit } from './icons/iconEdit.svg';
 export { default as IconCheck } from './icons/IconCheck.svg';
+export { default as Info } from './icons/Info.svg';

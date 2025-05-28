@@ -12,6 +12,7 @@ import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 
 import PatientOptionsMenu from './PatientListArchived/PatientOptionsMenu';
+import Toast from './Toast';
 
 interface Props {
   variant?: 'home' | 'list';
@@ -29,6 +30,8 @@ export default function PatientList({ variant = 'home' }: Props) {
   const [mobileVisibleCount, setMobileVisibleCount] = useState(4);
   const [desktopPage, setDesktopPage] = useState(1);
   const [hasMounted, setHasMounted] = useState(false);
+  const [toastMessage, setToastMessage] = useState('');
+  const [toastType, setToastType] = useState<'success' | 'error'>('success');
 
   const initialized = useSelector((state: RootState) => state.patients.initialized);
   const patients = useSelector((state: RootState) => state.backendPatients.patients) || [];
@@ -46,6 +49,12 @@ export default function PatientList({ variant = 'home' }: Props) {
   const avatars = [
     'https://res.cloudinary.com/dwc1rj9tj/image/upload/v1747278017/AvatarGeneral_hq0avb.svg',
   ];
+  const closeMenuAndResetList = () => {
+    setOpenMenuId(null);
+  };
+  const handlePatientUpdated = () => {
+    dispatch(fetchPatients());
+  };
 
   // useEffects
   useEffect(() => {
@@ -236,7 +245,16 @@ export default function PatientList({ variant = 'home' }: Props) {
 
                       {openMenuId === String(patient.id) && (
                         <div className="relative overflow-visible">
-                          <PatientOptionsMenu patientId={String(patient.id)} />
+                          <PatientOptionsMenu
+                            patientId={String(patient.id)}
+                            isArchived={false}
+                            onClose={closeMenuAndResetList}
+                            showToast={(message, type) => {
+                              setToastMessage(message);
+                              setToastType(type);
+                            }}
+                            onPatientUpdated={handlePatientUpdated}
+                          />
                         </div>
                       )}
                     </td>
@@ -275,6 +293,9 @@ export default function PatientList({ variant = 'home' }: Props) {
 
       {/* **Vista Desktop**: Mostrar paginado si estamos en la vista desktop */}
       {variant === 'list' && !isMobile && isListVisible && renderPaginationDesktop()}
+      {toastMessage && (
+        <Toast message={toastMessage} type={toastType} onClose={() => setToastMessage('')} />
+      )}
     </>
   );
 }
