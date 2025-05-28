@@ -14,7 +14,7 @@ export default function Toast({ message, type, onClose }: Props) {
   useEffect(() => {
     const timer = setTimeout(() => {
       onClose();
-    }, 3000); // se cierra a los 3 segundos
+    }, 3000);
 
     return () => clearTimeout(timer);
   }, [onClose]);
