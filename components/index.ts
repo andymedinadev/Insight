@@ -57,3 +57,9 @@ export { default as UserNamePsicologo } from './UserName/UserName';
 export { default as UserProfileView } from './FormUserEdit/UserProfileView';
 export { default as UserProfileEdit } from './FormUserEdit/UserProfileEdit';
 export { default as UserNameDrop } from './UserName/UserNameDrop';
+
+// Login
+export { LoginForm } from './LoginPage/LoginForm';
+export { LoginHeader } from './LoginPage/LoginHeader';
+export { LoginIllustration } from './LoginPage/LoginIllustration';
+export { LoginLogo } from './LoginPage/LoginLogo';
