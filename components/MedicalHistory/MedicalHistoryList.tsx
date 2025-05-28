@@ -7,6 +7,8 @@ import { setTotalPages } from '@/store/slices/paginationSlice';
 import { useNewPatientById } from '@/hooks';
 import { Note } from '@/types';
 import { selectSearchTerm } from '@/store/selectors/patientSelectors';
+import { RootState } from '@/store';
+import { isSameWeek, subWeeks, isSameMonth, parseISO } from 'date-fns';
 import Pagination from '../Pagination/Pagination';
 import Empty from '../MedicalHistory/Empty';
 
@@ -29,12 +31,39 @@ export default function MedicalHistoryList({ onSelectedNote }: Props) {
   const patientData = isMaterial ? patient?.materials : patient?.notes;
   const data = patientData ?? [];
 
+  const currentDate = useSelector((state: RootState) => state.backendPatients.filters.creationDate);
+  const selectedDate = Array.isArray(currentDate) ? currentDate[0] : currentDate;
+  console.log(currentDate);
+
+  const filterByDate = (dateString: string) => {
+    if (!dateString) return false;
+
+    const date = parseISO(dateString);
+    const now = new Date();
+
+    switch (selectedDate) {
+      case 'Esta semana':
+        return isSameWeek(date, now, { weekStartsOn: 1 });
+      case 'Última semana':
+        const lastWeek = subWeeks(now, 1);
+        return isSameWeek(date, lastWeek, { weekStartsOn: 1 });
+      case 'Este mes':
+        return isSameMonth(date, now);
+      default:
+        return true;
+    }
+  };
+
   const filteredData = data.filter((item) => {
     const lowerSearch = searchTerm.toLowerCase();
-    return (
+
+    const matchesSearch =
       item.title.toLowerCase().includes(lowerSearch) ||
-      item.content.toLowerCase().includes(lowerSearch)
-    );
+      item.content.toLowerCase().includes(lowerSearch);
+
+    const matchesDate = filterByDate(item.date);
+
+    return matchesSearch && matchesDate;
   });
 
   const startIndex = (currentPage - 1) * itemsPerPage;
@@ -54,7 +83,6 @@ export default function MedicalHistoryList({ onSelectedNote }: Props) {
   if (data.length === 0) {
     return (
       <div className="flex min-h-[50vh] items-center justify-center">
-        {/* <p className="text-lg text-gray-500">{isMaterial ? 'Sin materiales' : 'Sin notas'}</p> */}
         <Empty type={isMaterial ? 'material' : 'nota'} />
       </div>
     );

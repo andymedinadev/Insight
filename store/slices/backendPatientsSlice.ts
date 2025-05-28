@@ -46,6 +46,10 @@ interface BackendPatientsState {
     fetchOnePatient: FetchStatus;
     createPatient: FetchStatus;
   };
+
+  filters: {
+    creationDate: string[];
+  };
 }
 
 const initialState: BackendPatientsState = {
@@ -102,6 +106,10 @@ const initialState: BackendPatientsState = {
       loading: false,
     },
   },
+
+  filters: {
+    creationDate: [],
+  },
 };
 
 export const backendPatientsSlice = createSlice({
@@ -125,6 +133,12 @@ export const backendPatientsSlice = createSlice({
     },
     resetSearchTerm(state) {
       state.searchTerm = '';
+    },
+    setCreationDateFilter(state, action) {
+      state.filters.creationDate = action.payload;
+    },
+    resetCreationDateFilter(state) {
+      state.filters.creationDate = [];
     },
   },
   extraReducers: (builder) => {
@@ -251,7 +265,7 @@ export const backendPatientsSlice = createSlice({
   },
 });
 
-export const {} = backendPatientsSlice.actions;
+export const { setCreationDateFilter, resetCreationDateFilter } = backendPatientsSlice.actions;
 
 export default backendPatientsSlice.reducer;
 export const { setSearchTerm, resetSearchTerm } = backendPatientsSlice.actions;
