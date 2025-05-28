@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 
-import { Logo as InsightLogo, BackgroundSignup, ValidCodeImage } from '@/public';
+import { Logo as InsightLogo, Background, ValidCodeImage } from '@/public';
 import { useState } from 'react';
 
 export function SuccessConfirm() {
@@ -69,7 +69,7 @@ export function SuccessConfirm() {
           <Image
             priority
             className="fixed h-full w-full object-fill lg:max-w-[720px] 2xl:max-w-[990px]"
-            src={BackgroundSignup}
+            src={Background}
             alt="Login page Background"
           />
         </div>

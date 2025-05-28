@@ -1,6 +1,6 @@
 import Image from 'next/image';
 
-import { BackgroundSignup } from '@/public';
+import { Background } from '@/public';
 
 export function ConfirmIllustration() {
   return (
@@ -8,7 +8,7 @@ export function ConfirmIllustration() {
       <Image
         priority
         className="fixed h-full w-full object-fill lg:max-w-[720px] 2xl:max-w-[990px]"
-        src={BackgroundSignup}
+        src={Background}
         alt="Confirm Account Background"
       />
     </div>

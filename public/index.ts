@@ -26,7 +26,7 @@ export { default as MenuMobileNavbar } from './icons/MenuMobileNavbar.svg';
 export { default as IconExistNavMenu } from './icons/IconExistNavMenu.svg';
 export { default as CalendarSidebar } from './icons/CalendarSidebar.svg';
 
-export { default as BackgroundSignup } from './bg-signup.jpg';
+export { default as Background } from './background.jpg';
 export { default as BackgroundLogin } from './login.jpg';
 
 //exportaciones de iconos de botones
