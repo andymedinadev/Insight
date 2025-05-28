@@ -86,7 +86,6 @@ export function SignupForm() {
         onChange={formik.handleChange}
         onBlur={formik.handleBlur}
         placeholder="Ingrese su número de teléfono"
-        required
         hasError={formik.touched.phone && Boolean(formik.errors.phone)}
         errorMessage={formik.touched.phone ? formik.errors.phone : undefined}
       />
