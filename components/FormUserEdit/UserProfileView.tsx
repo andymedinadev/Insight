@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { AppDispatch, RootState } from '@/store';
 import { fetchUser } from '@/store/slices/userSlice';
 import UserProfileEdit from './UserProfileEdit';
-import { iconEdit, IconCheck } from '@/public';
+import { iconEdit, CheckIcon } from '@/public';
 import Image from 'next/image';
 
 const UserProfileView = () => {
@@ -59,7 +59,7 @@ const UserProfileView = () => {
     <div className="flex flex-col space-y-10">
       {saved && (
         <div className="flex h-10 w-full flex-row items-center justify-center gap-x-4 bg-[#F2FCF9]">
-          <Image src={IconCheck} alt="Icono de edición" height={24} width={24} />
+          <Image src={CheckIcon} alt="Icono de edición" height={24} width={24} />
           <p className="text-2xl leading-7 font-semibold text-[#000F27E5]">
             Los cambios fueron guardados correctamente
           </p>
