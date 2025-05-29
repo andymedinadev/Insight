@@ -3,5 +3,7 @@ export { useLogin } from './useLogin';
 export { useLogout } from './useLogout';
 export { useNewPatientById } from './useNewPatientById';
 export { usePatientById } from './usePatientById';
+export { useRequestReset } from './useRequestReset';
+export { useResetPassword } from './useResetPassword';
 export { useSignup } from './useSignup';
 export { useVerification } from './useVerification';
