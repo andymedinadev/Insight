@@ -84,3 +84,9 @@ export { EmailStep } from './ForgotPassword/EmailStep';
 export { NewPasswordStep } from './ForgotPassword/NewPasswordStep';
 export { SuccessStep } from './ForgotPassword/SuccessStep';
 export { Wizard } from './ForgotPassword/Wizard';
+
+// Change-password
+export { ChangePasswordNewStep } from './ChangePassword/ChangePasswordNewStep';
+export { ChangePasswordOldStep } from './ChangePassword/ChangePasswordOldStep';
+export { ChangePasswordSuccessStep } from './ChangePassword/ChangePasswordSuccessStep';
+export { ChangePasswordWizard } from './ChangePassword/ChangePasswordWizard';

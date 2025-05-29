@@ -2,6 +2,7 @@
 // EJEMPLO: export { default as RootLayout } from "./layout";
 
 export type { default as TypesCardButtons } from './ButtonCards/components';
+export type { ChangePasswordPayload } from './ChangePassword/ChangePasswordPayload';
 export type { EditPatient } from './editPatient';
 export type { NewPatient } from './newPatient';
 export type { SignupFormData } from './Signup/signupFormData';

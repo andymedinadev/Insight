@@ -1,3 +1,4 @@
+export { useChangePassword } from './useChangePassword';
 export { useCodeInput } from './useCodeInput';
 export { useLogin } from './useLogin';
 export { useLogout } from './useLogout';
