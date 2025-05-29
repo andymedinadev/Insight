@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { AppDispatch, RootState } from '@/store';
-import { fetchArchivedPatients, fetchPatients } from '@/store/thunks/backendPatientsThunks';
+import { fetchArchivedPatients } from '@/store/thunks/backendPatientsThunks';
 import { flechaAbajoLista, flechaArribaLista, puntosFiltros } from '@/public';
 import { usePathname } from 'next/navigation';
 import Left from '../../../public/icons/Left.svg';
@@ -28,11 +28,11 @@ export default function PatientList({ variant = 'home' }: Props) {
   const [isMobile, setIsMobile] = useState<boolean>(false);
   const [mobileVisibleCount, setMobileVisibleCount] = useState(4);
   const [desktopPage, setDesktopPage] = useState(1);
-  const [hasMounted, setHasMounted] = useState(false);
   const [toastMessage, setToastMessage] = useState('');
   const [toastType, setToastType] = useState<'success' | 'error'>('success');
 
   const initialized = useSelector((state: RootState) => state.patients.initialized);
+
   const patients = useSelector((state: RootState) => state.backendPatients.archivedPatients) || [];
   const loading = useSelector(
     (state: RootState) => state.backendPatients.status.fetchPatients.loading
@@ -57,10 +57,6 @@ export default function PatientList({ variant = 'home' }: Props) {
   };
 
   useEffect(() => {
-    dispatch(fetchArchivedPatients());
-  }, [dispatch]);
-
-  useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
       if (!target.closest('td')) {
@@ -73,7 +69,7 @@ export default function PatientList({ variant = 'home' }: Props) {
 
   useEffect(() => {
     if (!initialized) {
-      dispatch(fetchPatients());
+      dispatch(fetchArchivedPatients());
     }
   }, [dispatch, initialized]);
 
@@ -82,10 +78,6 @@ export default function PatientList({ variant = 'home' }: Props) {
     handleResize();
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
-  useEffect(() => {
-    setHasMounted(true);
   }, []);
 
   const loadMoreMobile = () => {
@@ -111,7 +103,6 @@ export default function PatientList({ variant = 'home' }: Props) {
     const range = getPaginationRange(desktopPage, desktopTotalPages);
     const startIndex = (desktopPage - 1) * 8;
 
-    if (!hasMounted || !initialized) return null;
     if (loading) return <div>Cargando pacientes...</div>;
     if (error) return <div>Error: {error}</div>;
 
@@ -178,8 +169,6 @@ export default function PatientList({ variant = 'home' }: Props) {
   const handleRedirect = (id: number) => {
     router.push(`/dashboard/patientprofile/${id}`);
   };
-
-  if (!hasMounted || !initialized) return null;
   if (loading) return <div>Cargando pacientes...</div>;
 
   return (
