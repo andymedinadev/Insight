@@ -14,8 +14,8 @@ import {
 function ConfirmAccountPage() {
   const [confirmed, setConfirmed] = useState(false);
 
-  const { code, isComplete, isLoading, handleChange, handleSubmit } = useConfirmCode(() =>
-    setConfirmed(true)
+  const { code, isComplete, isLoading, handleChange, handleSubmit, handleKeyDown } = useConfirmCode(
+    () => setConfirmed(true)
   );
 
   if (confirmed) return <SuccessConfirm />;
@@ -30,6 +30,7 @@ function ConfirmAccountPage() {
             code={code}
             handleChange={handleChange}
             handleSubmit={handleSubmit}
+            handleKeyDown={handleKeyDown}
             isComplete={isComplete}
             isLoading={isLoading}
           />

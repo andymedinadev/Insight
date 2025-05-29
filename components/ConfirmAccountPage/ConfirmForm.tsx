@@ -1,11 +1,12 @@
 'use client';
 
-import { ConfirmCodeInput } from '@/components';
+import { CodeInput } from '@/components';
 
 interface ConfirmFormProps {
   code: string[];
   handleChange: (e: React.ChangeEvent<HTMLInputElement>, index: number) => void;
   handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
+  handleKeyDown: (e: React.KeyboardEvent<HTMLInputElement>, index: number) => void;
   isComplete: boolean;
   isLoading: boolean;
 }
@@ -14,12 +15,13 @@ export function ConfirmForm({
   code,
   handleChange,
   handleSubmit,
+  handleKeyDown,
   isComplete,
   isLoading,
 }: ConfirmFormProps) {
   return (
     <form className="mt-20 flex flex-col items-center" onSubmit={handleSubmit}>
-      <ConfirmCodeInput code={code} handleChange={handleChange} />
+      <CodeInput code={code} handleChange={handleChange} handleKeyDown={handleKeyDown} />
       <button
         type="submit"
         disabled={!isComplete || isLoading}

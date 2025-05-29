@@ -1,26 +1,8 @@
-import { useState } from 'react';
-
-import { useVerification } from '@/hooks/useVerification';
+import { useCodeInput, useVerification } from '@/hooks';
 
 export function useConfirmCode(onSuccess?: () => void) {
-  // Hook de bajo nivel que se comunica con backend
   const { verify, loading } = useVerification();
-
-  const [code, setCode] = useState(Array(8).fill(''));
-
-  const isComplete = code.every((char) => /^[A-Z0-9]$/.test(char));
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
-    const val = e.target.value.toUpperCase().slice(0, 1);
-    const newCode = [...code];
-    newCode[index] = val;
-    setCode(newCode);
-
-    if (val && index < 7) {
-      const next = document.getElementById(`code-${index + 1}`);
-      next?.focus();
-    }
-  };
+  const { code, isComplete, handleChange, handleKeyDown } = useCodeInput();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -46,6 +28,7 @@ export function useConfirmCode(onSuccess?: () => void) {
     isComplete,
     isLoading: loading,
     handleChange,
+    handleKeyDown,
     handleSubmit,
   };
 }

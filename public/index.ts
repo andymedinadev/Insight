@@ -45,6 +45,7 @@ export { default as iconofilter } from './icons/iconofilter.svg';
 export { default as CheckFiltroOff } from './icons/CheckFiltroOff.svg';
 export { default as CheckFiltroOn } from './icons/CheckFiltroOn.svg';
 export { default as X } from './icons/X.svg';
+export { default as ArrowBack } from './icons/ArrowBack.svg';
 
 export { default as ValidCodeImage } from './icons/valid.svg';
 export { default as AvatarGeneral } from './AvatarGeneral.svg';
