@@ -69,7 +69,7 @@ export { SignupIllustration } from './SignupPage/SignupIllustration';
 export { SignupLogo } from './SignupPage/SignupLogo';
 
 // Confirm-account
-export { ConfirmCodeInput } from './ConfirmAccountPage/ConfirmCodeInput';
+export { CodeInput } from './CodeInput/CodeInput';
 export { ConfirmForm } from './ConfirmAccountPage/ConfirmForm';
 export { ConfirmHeader } from './ConfirmAccountPage/ConfirmHeader';
 export { ConfirmIllustration } from './ConfirmAccountPage/ConfirmIllustration';

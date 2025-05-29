@@ -1,6 +1,6 @@
 'use client';
 
-import { ConfirmCodeInput } from '@/components';
+import { CodeInput } from '@/components';
 
 interface ConfirmFormProps {
   code: string[];
@@ -19,7 +19,7 @@ export function ConfirmForm({
 }: ConfirmFormProps) {
   return (
     <form className="mt-20 flex flex-col items-center" onSubmit={handleSubmit}>
-      <ConfirmCodeInput code={code} handleChange={handleChange} />
+      <CodeInput code={code} handleChange={handleChange} />
       <button
         type="submit"
         disabled={!isComplete || isLoading}

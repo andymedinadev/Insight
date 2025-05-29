@@ -1,11 +1,11 @@
 'use client';
 
-interface ConfirmCodeInputProps {
+interface CodeInputProps {
   code: string[];
   handleChange: (e: React.ChangeEvent<HTMLInputElement>, index: number) => void;
 }
 
-export function ConfirmCodeInput({ code, handleChange }: ConfirmCodeInputProps) {
+export function CodeInput({ code, handleChange }: CodeInputProps) {
   return (
     <div className="flex h-[42px] gap-[2px] lg:h-[85px] lg:w-[675px] lg:gap-[4px]">
       {code.map((char, i) => (
