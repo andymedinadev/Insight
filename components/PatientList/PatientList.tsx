@@ -29,11 +29,11 @@ export default function PatientList({ variant = 'home' }: Props) {
   const [isMobile, setIsMobile] = useState<boolean>(false);
   const [mobileVisibleCount, setMobileVisibleCount] = useState(4);
   const [desktopPage, setDesktopPage] = useState(1);
-  const [hasMounted, setHasMounted] = useState(false);
   const [toastMessage, setToastMessage] = useState('');
   const [toastType, setToastType] = useState<'success' | 'error'>('success');
 
   const initialized = useSelector((state: RootState) => state.patients.initialized);
+
   const patients = useSelector((state: RootState) => state.backendPatients.patients) || [];
   const loading = useSelector(
     (state: RootState) => state.backendPatients.status.fetchPatients.loading
@@ -49,6 +49,7 @@ export default function PatientList({ variant = 'home' }: Props) {
   const avatars = [
     'https://res.cloudinary.com/dwc1rj9tj/image/upload/v1747278017/AvatarGeneral_hq0avb.svg',
   ];
+
   const closeMenuAndResetList = () => {
     setOpenMenuId(null);
   };
@@ -57,9 +58,6 @@ export default function PatientList({ variant = 'home' }: Props) {
   };
 
   // useEffects
-  useEffect(() => {
-    dispatch(fetchPatients());
-  }, [dispatch]);
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -79,14 +77,15 @@ export default function PatientList({ variant = 'home' }: Props) {
   }, [dispatch, initialized]);
 
   useEffect(() => {
-    const handleResize = () => setIsMobile(window.innerWidth <= 1024);
+    const handleResize = () => {
+      if (typeof window !== 'undefined') {
+        setIsMobile(window.innerWidth <= 1024);
+      }
+    };
+
     handleResize();
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
-  useEffect(() => {
-    setHasMounted(true);
   }, []);
 
   const loadMoreMobile = () => {
@@ -112,7 +111,6 @@ export default function PatientList({ variant = 'home' }: Props) {
     const range = getPaginationRange(desktopPage, desktopTotalPages);
     const startIndex = (desktopPage - 1) * 8;
 
-    if (!hasMounted || !initialized) return null;
     if (loading) return <div>Cargando pacientes...</div>;
     if (error) return <div>Error: {error}</div>;
 
@@ -180,8 +178,8 @@ export default function PatientList({ variant = 'home' }: Props) {
     router.push(`/dashboard/patientprofile/${id}`);
   };
 
-  if (!hasMounted || !initialized) return null;
   if (loading) return <div>Cargando pacientes...</div>;
+  if (error) return <div>Error al cargar pacientes: {error}</div>;
 
   return (
     <>
