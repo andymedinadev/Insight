@@ -4,6 +4,7 @@
 export { default as Button } from './ui/Button';
 export { default as InputField } from './ui/InputField';
 export { ValidationError } from './ui/ValidationError';
+export { Alert } from './ui/Alert';
 
 // Layouts
 export { default as DashboardLinks } from './layouts/DashboardLinks';

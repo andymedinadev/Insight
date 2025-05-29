@@ -1,6 +1,6 @@
 'use client';
 
-import { Info } from '@/public';
+import { InfoIcon } from '@/public';
 import Image from 'next/image';
 import { useEffect } from 'react';
 
@@ -27,7 +27,7 @@ export default function Toast({ message, type, onClose }: Props) {
     >
       <div className="flex w-full flex-row items-center gap-2">
         <div>
-          <Image src={Info} alt="Informacion" height={24} width={24} />
+          <Image src={InfoIcon} alt="Informacion" height={24} width={24} />
         </div>
         <div>{message}</div>
       </div>
