@@ -4,6 +4,7 @@ export { useLogin } from './useLogin';
 export { useLogout } from './useLogout';
 export { useNewPatientById } from './useNewPatientById';
 export { usePatientById } from './usePatientById';
+export { useBackPatientById } from './useBackPatientById';
 export { useRequestReset } from './useRequestReset';
 export { useResetPassword } from './useResetPassword';
 export { useSignup } from './useSignup';

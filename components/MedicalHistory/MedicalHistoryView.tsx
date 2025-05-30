@@ -1,9 +1,9 @@
 // import Image from 'next/image';
 // import Download from '../../public/icons/Download.svg';
-import { Note } from '@/types';
+import { BackendNote } from '@/types';
 
 interface Props {
-  note: Note;
+  note: BackendNote;
   onEdit: () => void;
   onDelete: () => void;
 }
@@ -35,7 +35,7 @@ export default function MedicalHistoryView({ note, onEdit, onDelete }: Props) {
         </div>
       </div>
       <div className="mb-3 h-6 w-fit font-['Roboto'] text-sm text-[#000C21] md:mb-5 md:h-7 md:text-base">
-        {note?.date}
+        {note?.creationDate}
       </div>
       <div>
         {note.content ? (

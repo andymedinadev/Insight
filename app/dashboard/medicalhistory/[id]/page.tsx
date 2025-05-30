@@ -9,7 +9,7 @@ import {
   MedicalHistoryEdit,
 } from '@/components';
 import { useSearchParams, useRouter } from 'next/navigation';
-import { Note } from '@/types';
+import { BackendNote } from '@/types';
 import { useDispatch } from 'react-redux';
 import { deleteMaterialOfPatient, deleteNoteOfPatient } from '@/store/slices/patientSlice';
 import { useNewPatientById } from '@/hooks';
@@ -26,7 +26,7 @@ export default function MedicalHistory() {
   const { id } = useNewPatientById();
 
   const [showNewNote, setShowNewNote] = useState(false);
-  const [selectedNote, setSelectedNote] = useState<Note | null>(null);
+  const [selectedNote, setSelectedNote] = useState<BackendNote | null>(null);
   const [isEditing, setIsEditing] = useState(false);
 
   const handleDelete = () => {
