@@ -44,12 +44,7 @@ export default function NavbarButtons() {
       </span>
       <span ref={optionsButtonRef} onClick={() => setIsOpen(!isOpen)}>
         <Image src={FlechaBaja} alt="Flecha Baja" className="object-contain hover:cursor-pointer" />
-        {isOpen && (
-          <DropdownUserMenu
-            popupRef={optionsPopupRef as React.RefObject<HTMLDivElement>}
-            onLogout={logout}
-          />
-        )}
+        {isOpen && <DropdownUserMenu ref={optionsPopupRef} onLogout={logout} />}
       </span>
     </div>
   );
