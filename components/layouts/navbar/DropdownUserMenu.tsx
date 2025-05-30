@@ -2,16 +2,36 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { forwardRef } from 'react';
+import { forwardRef, useEffect } from 'react';
 import { UserNav, Logout, AvatarGeneral } from '@/public';
 import { UserNameDrop } from '@/components';
+import { useAppDispatch } from '@/hooks/useAppDispatch';
+import { useSelector } from 'react-redux';
+import { fetchUser, selectUser } from '@/store/slices/userSlice';
+import { User } from '@/types/Profile/profileTypes';
 
 type DropdownUserMenuProps = {
-  popupRef: React.RefObject<HTMLDivElement>;
   onLogout: () => void;
 };
 
 const DropdownUserMenu = forwardRef<HTMLDivElement, DropdownUserMenuProps>(({ onLogout }, ref) => {
+  const dispatch = useAppDispatch();
+  const { data, loading, error } = useSelector(selectUser) as {
+    data: User | null;
+    loading: boolean;
+    error: string | null;
+  };
+
+  useEffect(() => {
+    if (!data) {
+      dispatch(fetchUser());
+    }
+  }, [dispatch, data]);
+
+  if (loading) return <span className="h-10 w-32 text-sm text-gray-400">Cargando...</span>;
+  if (error) return <span className="text-sm text-red-500">Error</span>;
+  if (!data) return <span className="text-sm text-gray-400">Usuario</span>;
+
   return (
     <div
       ref={ref}

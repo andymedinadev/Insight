@@ -2,7 +2,8 @@
 
 export interface User {
   name: string;
-  lastName: string; // Aquí agregamos el apellido
+  lastName: string;
+  surname: string;
   email: string;
   phone: string;
   specialty: string;
