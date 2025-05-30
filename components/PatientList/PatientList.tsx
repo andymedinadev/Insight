@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { AppDispatch, RootState } from '@/store';
-import { fetchPatients } from '@/store/thunks/backendPatientsThunks';
+import { fetchPatients } from '@/store/thunks';
 import { flechaAbajoLista, flechaArribaLista, puntosFiltros } from '@/public';
 import { usePathname } from 'next/navigation';
 import Left from '../../public/icons/Left.svg';

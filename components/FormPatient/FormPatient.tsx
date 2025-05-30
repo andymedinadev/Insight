@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useFormik } from 'formik';
 import { InputField, ValidationError } from '@/components';
 import { initialValues, backendNewPatientValidationSchema } from '@/schemas/backendNewPatient';
-import { createBackendPatient } from '@/store/thunks/backendPatientsThunks';
+import { createBackendPatient } from '@/store/thunks';
 import { AppDispatch } from '@/store';
 import { BackendNewPatient } from '@/types';
 

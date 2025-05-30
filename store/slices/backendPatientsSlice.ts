@@ -8,7 +8,7 @@ import {
   fetchAllMaterials,
   fetchOneNote,
   fetchOneMaterial,
-} from '@/store/thunks/backendPatientsThunks';
+} from '@/store/thunks';
 import type { BackendPatient, BackendMaterial, BackendNote } from '@/types';
 
 type FetchStatus = {
