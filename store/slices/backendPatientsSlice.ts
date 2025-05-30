@@ -57,6 +57,9 @@ interface BackendPatientsState {
 
   filters: {
     creationDate: string[];
+    modalidad: string[];
+    genero: string[];
+    rangoEtario: string[];
   };
 }
 
@@ -127,6 +130,9 @@ const initialState: BackendPatientsState = {
 
   filters: {
     creationDate: [],
+    modalidad: [],
+    genero: [],
+    rangoEtario: [],
   },
 };
 
@@ -157,6 +163,26 @@ export const backendPatientsSlice = createSlice({
     },
     resetCreationDateFilter(state) {
       state.filters.creationDate = [];
+    },
+    setModalidadFilter(state, action) {
+      state.filters.modalidad = action.payload;
+    },
+    resetModalidadFilter(state) {
+      state.filters.modalidad = [];
+    },
+
+    setGeneroFilter(state, action) {
+      state.filters.genero = action.payload;
+    },
+    resetGeneroFilter(state) {
+      state.filters.genero = [];
+    },
+
+    setRangoEtarioFilter(state, action) {
+      state.filters.rangoEtario = action.payload;
+    },
+    resetRangoEtarioFilter(state) {
+      state.filters.rangoEtario = [];
     },
   },
   extraReducers: (builder) => {
@@ -349,7 +375,16 @@ export const backendPatientsSlice = createSlice({
   },
 });
 
-export const { setCreationDateFilter, resetCreationDateFilter } = backendPatientsSlice.actions;
+export const {
+  setCreationDateFilter,
+  resetCreationDateFilter,
+  setModalidadFilter,
+  resetModalidadFilter,
+  setGeneroFilter,
+  resetGeneroFilter,
+  setRangoEtarioFilter,
+  resetRangoEtarioFilter,
+} = backendPatientsSlice.actions;
 
 export default backendPatientsSlice.reducer;
 export const { setSearchTerm, resetSearchTerm } = backendPatientsSlice.actions;
