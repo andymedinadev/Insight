@@ -12,7 +12,7 @@ export const useBackendPatientById = () => {
 
   const dispatch = useAppDispatch();
 
-  const patient = useSelector((state: RootState) => state.backendPatients.selectedPatient);
+  const selectedPatient = useSelector((state: RootState) => state.backendPatients.selectedPatient);
 
   const loading = useSelector(
     (state: RootState) => state.backendPatients.status.fetchOnePatient.loading
@@ -27,5 +27,5 @@ export const useBackendPatientById = () => {
     }
   }, [dispatch, id]);
 
-  return { patient, id, loading, error };
+  return { patient: selectedPatient, id, loading, error };
 };

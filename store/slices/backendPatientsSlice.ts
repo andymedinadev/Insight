@@ -124,6 +124,7 @@ export const backendPatientsSlice = createSlice({
     clearSelectedPatient(state) {
       state.selectedPatient = null;
       state.status.fetchOnePatient = { loading: false, error: null };
+      state.selectedPatient = null;
     },
     clearSelectedNote(state) {
       state.notes.selected = null;
@@ -357,7 +358,12 @@ export const backendPatientsSlice = createSlice({
   },
 });
 
-export const { setCreationDateFilter, resetCreationDateFilter } = backendPatientsSlice.actions;
+export const {
+  clearSelectedPatient,
+  resetCreationDateFilter,
+  resetSearchTerm,
+  setCreationDateFilter,
+  setSearchTerm,
+} = backendPatientsSlice.actions;
 
 export default backendPatientsSlice.reducer;
-export const { setSearchTerm, resetSearchTerm } = backendPatientsSlice.actions;

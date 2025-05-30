@@ -3,12 +3,10 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 
-import { useBackendPatientById } from '@/hooks';
 import { ArrowBack } from '@/public';
+import type { BackendPatient } from '@/types';
 
-export function PatientProfileHeader() {
-  const { patient } = useBackendPatientById();
-
+export function PatientProfileHeader({ patient }: { patient: BackendPatient }) {
   const router = useRouter();
 
   const handleRedirect = (id: number, queryParam?: string) => {
@@ -18,10 +16,6 @@ export function PatientProfileHeader() {
     }
     router.push(path);
   };
-
-  if (!patient) {
-    return null;
-  }
 
   const handleEditClick = () => {
     router.push(`/dashboard/patientprofile/${patient.id}/edit`);

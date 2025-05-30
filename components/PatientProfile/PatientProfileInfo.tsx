@@ -3,20 +3,11 @@
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 
-import { useBackendPatientById } from '@/hooks';
 import { AvatarGeneral } from '@/public';
+import type { BackendPatient } from '@/types';
 
-export function PatientProfileInfo() {
+export function PatientProfileInfo({ patient }: { patient: BackendPatient }) {
   const router = useRouter();
-
-  const { patient } = useBackendPatientById();
-
-  if (!patient)
-    return (
-      <div className="mt-20 text-center">
-        <p className="text-3xl">No se encontró el paciente.</p>
-      </div>
-    );
 
   const handleEditClick = () => {
     router.push(`/dashboard/patientprofile/${patient.id}/edit`);

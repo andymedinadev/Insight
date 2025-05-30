@@ -4,19 +4,14 @@ import { useState } from 'react';
 import Image from 'next/image';
 
 import { FlechaBaja } from '@/public';
-import { useBackendPatientById } from '@/hooks';
+import type { BackendPatient } from '@/types';
 
-export function PatientProfileLorem() {
+export function PatientProfileLorem({ patient }: { patient: BackendPatient }) {
   const [openSection, setOpenSection] = useState<string | null>(null);
-  const { patient } = useBackendPatientById();
 
   const toggleSection = (section: string) => {
     setOpenSection((prev) => (prev === section ? null : section));
   };
-
-  if (!patient) {
-    return null;
-  }
 
   return (
     <div>
