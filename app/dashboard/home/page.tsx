@@ -1,17 +1,9 @@
-'use client';
 import { ButtonCards, CompletedList } from '@/components';
 import { cardData } from '@/utils';
 import { UserNamePsicologo } from '@/components';
-import { useAppDispatch } from '@/hooks/useAppDispatch';
-import { fetchUser } from '@/store/slices/userSlice';
-import React, { useEffect } from 'react';
+import React from 'react';
 
 export default function Home() {
-  const dispatch = useAppDispatch();
-
-  useEffect(() => {
-    dispatch(fetchUser());
-  }, [dispatch]);
   return (
     <div className="flex h-screen w-full flex-col items-center bg-white lg:flex lg:items-start">
       <div className="lg:ml-10 lg:items-start">
