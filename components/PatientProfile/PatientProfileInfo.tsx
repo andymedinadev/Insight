@@ -32,7 +32,7 @@ export function PatientProfileInfo() {
           </h2>
         </div>
 
-        <div className="mt-6 flex flex-col items-center lg:-mt-4 lg:mr-2.5 lg:ml-14 lg:pl-20">
+        <div className="mt-6 mb-10 flex flex-col items-center lg:-mt-4 lg:mr-2.5 lg:ml-14 lg:pl-20">
           {/* Picture */}
           <div className="h-24 w-24 overflow-hidden rounded-full bg-gray-200 lg:h-32 lg:w-32">
             <Image
@@ -44,11 +44,6 @@ export function PatientProfileInfo() {
               className="h-full w-full object-cover"
               unoptimized
             />
-          </div>
-          <div className="px-4 py-2">
-            <a className="cursor-pointer font-['Roboto'] text-sm leading-normal font-semibold text-[#0655D5] underline">
-              Cambiar foto
-            </a>
           </div>
         </div>
 
