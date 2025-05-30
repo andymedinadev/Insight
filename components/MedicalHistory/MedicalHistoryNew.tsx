@@ -1,12 +1,12 @@
 'use client';
 
 import { useSearchParams } from 'next/navigation';
-import { useDispatch } from 'react-redux';
+// import { useDispatch } from 'react-redux';
 import { useFormik } from 'formik';
 import { InputField } from '@/components';
-import { useNewPatientById } from '@/hooks';
+// import { useNewPatientById } from '@/hooks';
 import { medicalHistoryValidationSchema } from '@/schemas';
-import { addNoteToPatient, addMaterialToPatient } from '@/store/slices/patientSlice';
+// import { addNoteToPatient, addMaterialToPatient } from '@/store/slices/patientSlice';
 import { Note /*, Material*/ } from '@/types';
 
 type Props = {
@@ -26,8 +26,8 @@ export default function MedicalHistoryNew({ onSaved, goBack }: Props) {
   const from = searchParams.get('from');
   const isMaterial = from === 'material';
 
-  const dispatch = useDispatch();
-  const { id } = useNewPatientById();
+  // const dispatch = useDispatch();
+  // const { id } = useNewPatientById();
 
   const formik = useFormik<Note>({
     initialValues,
@@ -35,18 +35,18 @@ export default function MedicalHistoryNew({ onSaved, goBack }: Props) {
     onSubmit: async (values) => {
       console.log('Datos del formulario de notas:', values);
 
-      const newNote: Omit<Note, 'id'> = {
-        content: values.content,
-        date: values.date,
-        title: values.title,
-      };
+      // const newNote: Omit<Note, 'id'> = {
+      //   content: values.content,
+      //   date: values.date,
+      //   title: values.title,
+      // };
 
       onSaved();
 
       if (isMaterial) {
-        dispatch(addMaterialToPatient({ patientId: id, material: newNote }));
+        // dispatch(addMaterialToPatient({ patientId: id, material: newNote }));
       } else {
-        dispatch(addNoteToPatient({ patientId: id, note: newNote }));
+        // dispatch(addNoteToPatient({ patientId: id, note: newNote }));
       }
     },
   });

@@ -1,13 +1,13 @@
 'use client';
 import { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+// import { useDispatch, useSelector } from 'react-redux';
 import Image from 'next/image';
-import {
-  setFilterModalidad,
-  setFilterGenero,
-  setFilterRangoEtario,
-} from '@/store/slices/patientSlice';
-import { RootState } from '@/store';
+// import {
+//   setFilterModalidad,
+//   setFilterGenero,
+//   setFilterRangoEtario,
+// } from '@/store/slices/patientSlice';
+// import { RootState } from '@/store';
 import { CheckFiltroOn, CheckFiltroOff, X } from '@/public';
 
 interface Props {
@@ -15,11 +15,15 @@ interface Props {
 }
 
 export default function PatientFilterDropdown({ onClose }: Props) {
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
-  const currentModalidad = useSelector((state: RootState) => state.patients.filters.modalidad);
-  const currentGenero = useSelector((state: RootState) => state.patients.filters.genero);
-  const currentRangoEtario = useSelector((state: RootState) => state.patients.filters.rangoEtario);
+  const currentModalidad = ['DELETE'];
+  const currentGenero = ['DELETE'];
+  const currentRangoEtario = ['DELETE'];
+
+  // const currentModalidad = useSelector((state: RootState) => state.patients.filters.modalidad);
+  // const currentGenero = useSelector((state: RootState) => state.patients.filters.genero);
+  // const currentRangoEtario = useSelector((state: RootState) => state.patients.filters.rangoEtario);
 
   const [modalidad, setModalidad] = useState<string[]>(currentModalidad);
   const [genero, setGenero] = useState<string[]>(currentGenero);
@@ -62,9 +66,9 @@ export default function PatientFilterDropdown({ onClose }: Props) {
   );
 
   const handleApplyFilters = () => {
-    dispatch(setFilterModalidad(modalidad));
-    dispatch(setFilterGenero(genero));
-    dispatch(setFilterRangoEtario(rangoEtario));
+    // dispatch(setFilterModalidad(modalidad));
+    // dispatch(setFilterGenero(genero));
+    // dispatch(setFilterRangoEtario(rangoEtario));
     onClose?.();
   };
 
@@ -72,9 +76,9 @@ export default function PatientFilterDropdown({ onClose }: Props) {
     setModalidad([]);
     setGenero([]);
     setRangoEtario([]);
-    dispatch(setFilterModalidad([]));
-    dispatch(setFilterGenero([]));
-    dispatch(setFilterRangoEtario([]));
+    // dispatch(setFilterModalidad([]));
+    // dispatch(setFilterGenero([]));
+    // dispatch(setFilterRangoEtario([]));
     onClose?.();
   };
 

@@ -4,11 +4,11 @@ import { useState } from 'react';
 import Image from 'next/image';
 
 import { FlechaBaja } from '@/public';
-import { useNewPatientById } from '@/hooks';
+// import { useNewPatientById } from '@/hooks';
 
 export function PatientProfileLorem() {
   const [openSection, setOpenSection] = useState<string | null>(null);
-  const { patient } = useNewPatientById();
+  // const { patient } = useNewPatientById();
 
   const toggleSection = (section: string) => {
     setOpenSection((prev) => (prev === section ? null : section));
@@ -195,3 +195,50 @@ export function PatientProfileLorem() {
     </div>
   );
 }
+
+// BORRAR Y CORREGIR
+const patient = {
+  id: 1,
+  name: 'Juan',
+  surname: 'Paredes',
+  birthdate: '1995-04-12',
+  identification: '12345678',
+  sex: 'Masculino',
+  email: 'juan.paredes@example.com',
+  phone: '123456789',
+  admissionDate: '2019-02-22',
+  age: 30,
+  nationality: 'Mexicano',
+  typeOfIdentification: 'NIE',
+  rangoEtario: 'Adulto',
+  lastSession: '04/01/2025',
+  materials: [],
+  notes: [],
+  motivosConsulta: {
+    motivoPrincipal:
+      'Ansiedad generalizada que interfiere con el trabajo y las relaciones personales.',
+    sintomasActuales:
+      'Dificultad para dormir, pensamientos recurrentes, tensión muscular y llanto frecuente.',
+    eventosRecientesRelevantes: 'Ruptura de pareja hace dos meses y cambio de empleo reciente.',
+    diagnosticoPrevio:
+      'No cuenta con diagnóstico previo, aunque realizó terapia cognitiva brevemente en 2022.',
+  },
+  historiaClinica: {
+    observaciones:
+      'Se muestra cooperativo/a, con buen contacto con la realidad. Preocupación marcada por el futuro.',
+    frasesRecurrentes: '"No puedo con todo", "me exijo demasiado", "tengo que rendir".',
+    actosFallidos: 'Confunde constantemente fechas importantes. Asocia descanso con culpa.',
+    derivacionesRealizadas:
+      'Pendiente evaluación psiquiátrica para posible tratamiento farmacológico.',
+    evolucionPaciente:
+      'En las primeras tres sesiones mostró mayor conciencia emocional. Mejor adherencia al tratamiento.',
+  },
+  seguimiento: {
+    diaYHorario: 'Martes a las 18:30 hs',
+    modalidad: 'Presencial',
+    duracionSesion: '50 min',
+    frecuencia: 'Semanal',
+    medioContactoPreferido: 'WhatsApp',
+  },
+  filed: false,
+};
