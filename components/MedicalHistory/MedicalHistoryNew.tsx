@@ -4,21 +4,22 @@ import { useSearchParams } from 'next/navigation';
 import { useDispatch } from 'react-redux';
 import { useFormik } from 'formik';
 import { InputField } from '@/components';
-import { useNewPatientById } from '@/hooks';
+import { useBackPatientById } from '@/hooks';
 import { medicalHistoryValidationSchema } from '@/schemas';
-import { addNoteToPatient, addMaterialToPatient } from '@/store/slices/patientSlice';
-import { Note /*, Material*/ } from '@/types';
+import { createNote, createMaterial } from '@/store/thunks/backendPatientsThunks';
+import { BackendNote } from '@/types';
+import { AppDispatch } from '@/store';
 
 type Props = {
   onSaved: () => void;
   goBack: () => void;
 };
 
-const initialValues: Note = {
-  id: 0,
-  title: '',
-  date: '',
-  content: '',
+type BackendNotePayload = {
+  title: string;
+  date: string;
+  content: string;
+  patientId: number;
 };
 
 export default function MedicalHistoryNew({ onSaved, goBack }: Props) {
@@ -26,30 +27,42 @@ export default function MedicalHistoryNew({ onSaved, goBack }: Props) {
   const from = searchParams.get('from');
   const isMaterial = from === 'material';
 
-  const dispatch = useDispatch();
-  const { id } = useNewPatientById();
+  const dispatch = useDispatch<AppDispatch>();
+  const { id } = useBackPatientById();
+  console.log(id);
 
-  const formik = useFormik<Note>({
+  const initialValues: BackendNote = {
+    id: 0,
+    title: '',
+    creationDate: '',
+    content: '',
+    patientId: id,
+  };
+
+  const formik = useFormik<BackendNote>({
     initialValues,
     validationSchema: medicalHistoryValidationSchema,
     onSubmit: async (values) => {
       console.log('Datos del formulario de notas:', values);
 
-      const newNote: Omit<Note, 'id'> = {
+      const newNote: Omit<BackendNotePayload, 'id'> = {
         content: values.content,
-        date: values.date,
+        date: new Date(values.creationDate).toISOString(),
         title: values.title,
+        patientId: id,
       };
-
+      console.log(newNote);
       onSaved();
 
       if (isMaterial) {
-        dispatch(addMaterialToPatient({ patientId: id, material: newNote }));
+        await dispatch(createMaterial({ patientId: id, materialData: newNote }));
       } else {
-        dispatch(addNoteToPatient({ patientId: id, note: newNote }));
+        await dispatch(createNote({ patientId: id, noteData: newNote }));
       }
     },
   });
+
+  console.log(formik.values.creationDate);
 
   return (
     <div className="ml-2 max-w-xl p-4 sm:p-6 md:p-8">
@@ -69,15 +82,15 @@ export default function MedicalHistoryNew({ onSaved, goBack }: Props) {
 
         <div className="flex flex-col space-y-1">
           <InputField
-            id="date"
+            id="creationDate"
             label="Fecha de la sesión"
             type="date"
-            value={formik.values.date}
+            value={formik.values.creationDate}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             required
-            hasError={formik.touched.date && Boolean(formik.errors.date)}
-            errorMessage={formik.touched.date ? formik.errors.date : undefined}
+            hasError={formik.touched.creationDate && Boolean(formik.errors.creationDate)}
+            errorMessage={formik.touched.creationDate ? formik.errors.creationDate : undefined}
           />
         </div>
 

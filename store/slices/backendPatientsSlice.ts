@@ -8,6 +8,10 @@ import {
   fetchAllMaterials,
   fetchOneNote,
   fetchOneMaterial,
+  createNote,
+  createMaterial,
+  deleteNote,
+  deleteMaterial,
 } from '@/store/thunks/backendPatientsThunks';
 import type { BackendPatient, BackendMaterial, BackendNote } from '@/types';
 
@@ -28,6 +32,8 @@ interface BackendPatientsState {
     status: {
       fetchAll: FetchStatus;
       fetchOne: FetchStatus;
+      create: FetchStatus;
+      delete: FetchStatus;
     };
   };
 
@@ -37,6 +43,8 @@ interface BackendPatientsState {
     status: {
       fetchAll: FetchStatus;
       fetchOne: FetchStatus;
+      create: FetchStatus;
+      delete: FetchStatus;
     };
   };
 
@@ -70,6 +78,11 @@ const initialState: BackendPatientsState = {
         error: null,
         loading: false,
       },
+      create: {
+        error: null,
+        loading: false,
+      },
+      delete: { loading: false, error: null },
     },
   },
 
@@ -85,6 +98,11 @@ const initialState: BackendPatientsState = {
         error: null,
         loading: false,
       },
+      create: {
+        error: null,
+        loading: false,
+      },
+      delete: { loading: false, error: null },
     },
   },
 
@@ -243,6 +261,72 @@ export const backendPatientsSlice = createSlice({
       .addCase(fetchOneMaterial.rejected, (state, action) => {
         state.materials.status.fetchOne.loading = false;
         state.materials.status.fetchOne.error = action.payload || 'Error al obtener el material';
+      })
+
+      // CREAR UNA NOTA
+      .addCase(createNote.pending, (state) => {
+        if (!state.notes.status.create) {
+          state.notes.status.create = { loading: true, error: null };
+        } else {
+          state.notes.status.create.loading = true;
+          state.notes.status.create.error = null;
+        }
+      })
+      .addCase(createNote.fulfilled, (state, action) => {
+        state.notes.all.push(action.payload);
+        state.notes.status.create.loading = false;
+        state.notes.status.create.error = null;
+      })
+      .addCase(createNote.rejected, (state, action) => {
+        state.notes.status.create.loading = false;
+        state.notes.status.create.error = action.payload || 'Error al crear la nota';
+      })
+
+      // CREAR MATERIAL
+      .addCase(createMaterial.pending, (state) => {
+        if (!state.materials.status.create) {
+          state.materials.status.create = { loading: true, error: null };
+        } else {
+          state.materials.status.create.loading = true;
+          state.materials.status.create.error = null;
+        }
+      })
+      .addCase(createMaterial.fulfilled, (state, action) => {
+        state.materials.all.push(action.payload);
+        state.materials.status.create.loading = false;
+        state.materials.status.create.error = null;
+      })
+      .addCase(createMaterial.rejected, (state, action) => {
+        state.materials.status.create.loading = false;
+        state.materials.status.create.error = action.payload || 'Error al crear el material';
+      })
+
+      // ELIMINAR NOTA
+      .addCase(deleteNote.pending, (state) => {
+        state.notes.status.delete = { loading: true, error: null };
+      })
+      .addCase(deleteNote.fulfilled, (state, action) => {
+        state.notes.all = state.notes.all.filter((note) => note.id !== +action.payload);
+        state.notes.status.delete.loading = false;
+        state.notes.status.delete.error = null;
+      })
+      .addCase(deleteNote.rejected, (state, action) => {
+        state.notes.status.delete.loading = false;
+        state.notes.status.delete.error = action.payload || 'Error al eliminar la nota';
+      })
+
+      // ELIMINAR MATERIAL
+      .addCase(deleteMaterial.pending, (state) => {
+        state.materials.status.delete = { loading: true, error: null };
+      })
+      .addCase(deleteMaterial.fulfilled, (state, action) => {
+        state.materials.all = state.materials.all.filter((mat) => mat.id !== +action.payload);
+        state.materials.status.delete.loading = false;
+        state.materials.status.delete.error = null;
+      })
+      .addCase(deleteMaterial.rejected, (state, action) => {
+        state.materials.status.delete.loading = false;
+        state.materials.status.delete.error = action.payload || 'Error al eliminar el material';
       })
 
       // CREAR UN PACIENTE

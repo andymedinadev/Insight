@@ -11,8 +11,9 @@ import {
 import { useSearchParams, useRouter } from 'next/navigation';
 import { BackendNote } from '@/types';
 import { useDispatch } from 'react-redux';
-import { deleteMaterialOfPatient, deleteNoteOfPatient } from '@/store/slices/patientSlice';
-import { useNewPatientById } from '@/hooks';
+import { deleteNote, deleteMaterial } from '@/store/thunks/backendPatientsThunks';
+import { useBackPatientById } from '@/hooks';
+import { AppDispatch } from '@/store';
 import Image from 'next/image';
 import ArrowBack from '../../../../public/icons/ArrowBack.svg';
 
@@ -22,8 +23,9 @@ export default function MedicalHistory() {
   const from = searchParams.get('from');
   const isMaterial = from === 'material';
 
-  const dispatch = useDispatch();
-  const { id } = useNewPatientById();
+  const dispatch = useDispatch<AppDispatch>();
+
+  const { id } = useBackPatientById();
 
   const [showNewNote, setShowNewNote] = useState(false);
   const [selectedNote, setSelectedNote] = useState<BackendNote | null>(null);
@@ -33,9 +35,11 @@ export default function MedicalHistory() {
     if (!selectedNote) return;
 
     if (isMaterial) {
-      dispatch(deleteMaterialOfPatient({ patientId: id, materialId: selectedNote.id }));
+      dispatch(
+        deleteMaterial({ patientId: id.toString(), materialId: selectedNote.id.toString() })
+      );
     } else {
-      dispatch(deleteNoteOfPatient({ patientId: id, noteId: selectedNote.id }));
+      dispatch(deleteNote({ patientId: id.toString(), noteId: selectedNote.id.toString() }));
     }
 
     setSelectedNote(null);
