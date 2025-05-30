@@ -7,7 +7,7 @@ import { selectUser } from '@/store/slices/userSlice';
 const UserName = () => {
   const { data, loading, error } = useSelector(selectUser);
 
-  if (loading) return <span className="text-sm text-gray-400">Cargando...</span>;
+  if (loading) return <span className="text-base leading-normal font-normal">Cargando...</span>;
   if (error) return <span className="text-sm text-red-500">Error</span>;
   if (!data) return <span className="text-sm text-gray-400">Usuario</span>;
 
