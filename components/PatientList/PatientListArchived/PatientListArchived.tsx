@@ -218,7 +218,9 @@ export default function PatientList({ variant = 'home' }: Props) {
                       </div>
                     </td>
                     <td className="hidden px-4 py-3 lg:table-cell">{patient.email}</td>
-                    <td className="hidden px-4 py-3 lg:table-cell">{patient.modality}</td>
+                    <td className="hidden px-4 py-3 lg:table-cell">
+                      {patient.rangoEtario.replace('�', 'ñ')}
+                    </td>
                     <td className="relative px-5 py-3">
                       <button
                         className="cursor-pointer"

@@ -33,7 +33,6 @@ export default function PatientList({ variant = 'home' }: Props) {
   const [toastType, setToastType] = useState<'success' | 'error'>('success');
 
   const initialized = useSelector((state: RootState) => state.patients.initialized);
-
   const patients = useSelector((state: RootState) => state.backendPatients.patients) || [];
   const loading = useSelector(
     (state: RootState) => state.backendPatients.status.fetchPatients.loading
@@ -46,6 +45,7 @@ export default function PatientList({ variant = 'home' }: Props) {
   const filteredPatients = patients.filter((patient) =>
     patient.name.toLowerCase().includes(searchTerm)
   );
+
   const avatars = [
     'https://res.cloudinary.com/dwc1rj9tj/image/upload/v1747278017/AvatarGeneral_hq0avb.svg',
   ];
@@ -228,7 +228,9 @@ export default function PatientList({ variant = 'home' }: Props) {
                       </div>
                     </td>
                     <td className="hidden px-4 py-3 lg:table-cell">{patient.email}</td>
-                    <td className="hidden px-4 py-3 lg:table-cell">{patient.modality}</td>
+                    <td className="hidden px-4 py-3 lg:table-cell">
+                      {patient.rangoEtario.replace('�', 'ñ')}
+                    </td>
                     <td className="relative px-5 py-3">
                       <button
                         className="cursor-pointer"
@@ -261,7 +263,7 @@ export default function PatientList({ variant = 'home' }: Props) {
               )
             ) : (
               <tr className="bg-white text-base leading-normal font-normal text-white">
-                <td className="px-4 py-3 hover:cursor-pointer">
+                <td className="px-4 py-3">
                   <div className="flex flex-row items-center gap-2">
                     <div>IM</div>
                     <div>Juan</div>
