@@ -51,5 +51,5 @@ export { default as ValidCodeImage } from './icons/valid.svg';
 export { default as AvatarGeneral } from './AvatarGeneral.svg';
 export { default as iconEdit } from './icons/iconEdit.svg';
 export { default as CheckIcon } from './icons/check.svg';
-export { default as InfoIcon } from './icons/info.svg';
+export { default as InfoIcon } from './icons/Info.svg';
 export { default as CloseIcon } from './icons/close.svg';

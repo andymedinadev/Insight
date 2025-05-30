@@ -18,6 +18,7 @@ const initialState: ProfileState = {
   user: {
     name: '',
     lastName: '',
+    surname: '',
     email: '',
     phone: '',
     specialty: '',
