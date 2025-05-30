@@ -7,8 +7,8 @@ export const useBackPatientById = () => {
   const id = Number(params?.id);
 
   const patients = useSelector((state: RootState) => state.backendPatients.patients);
-  console.log(patients);
+  // console.log(patients);
   const patient = Number.isNaN(id) ? null : (patients.find((p) => p.id === id) ?? null);
-  console.log(patient);
+  // console.log(patient);
   return { patient, id };
 };
