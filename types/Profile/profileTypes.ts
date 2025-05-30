@@ -2,7 +2,8 @@
 
 export interface User {
   name: string;
-  lastName: string; // Aquí agregamos el apellido
+  lastName: string; 
+  surname: string;
   email: string;
   phone: string;
   specialty: string;
@@ -11,7 +12,7 @@ export interface User {
 
 export interface UpdateProfilePayload {
   name?: string;
-  lastName?: string; // Asegúrate de incluir el apellido en el Payload
+  lastName?: string; 
   email?: string;
   phone?: string;
   specialty?: string;
