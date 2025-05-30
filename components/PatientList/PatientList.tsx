@@ -70,11 +70,9 @@ export default function PatientList({ variant = 'home' }: Props) {
     return () => window.removeEventListener('click', handleClickOutside);
   }, []);
 
-  // useEffect(() => {
-  //   if (!initialized) {
-  //     dispatch(fetchPatients());
-  //   }
-  // }, [dispatch, initialized]);
+  useEffect(() => {
+    dispatch(fetchPatients());
+  }, [dispatch]);
 
   useEffect(() => {
     const handleResize = () => {

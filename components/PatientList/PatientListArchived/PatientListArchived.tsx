@@ -67,11 +67,9 @@ export default function PatientList({ variant = 'home' }: Props) {
     return () => window.removeEventListener('click', handleClickOutside);
   }, []);
 
-  // useEffect(() => {
-  //   if (!initialized) {
-  //     dispatch(fetchArchivedPatients());
-  //   }
-  // }, [dispatch, initialized]);
+  useEffect(() => {
+    dispatch(fetchArchivedPatients());
+  }, [dispatch]);
 
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth <= 1024);
