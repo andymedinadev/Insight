@@ -1,18 +1,18 @@
 'use client';
 
 import { useSearchParams } from 'next/navigation';
-import { useDispatch } from 'react-redux';
+// import { useDispatch } from 'react-redux';
 import { useFormik } from 'formik';
 import { InputField } from '@/components';
 import { useNewPatientById } from '@/hooks';
 import { medicalHistoryValidationSchema } from '@/schemas';
-import { editMaterialOfPatient, editNoteOfPatient } from '@/store/slices/patientSlice';
-import { Note /*, Material*/ } from '@/types';
+// import { editMaterialOfPatient, editNoteOfPatient } from '@/store/slices/patientSlice';
+import { BackendNote /*, Material*/ } from '@/types';
 
 type Props = {
   onSaved: () => void;
   goBack: () => void;
-  note?: Note;
+  note?: BackendNote;
 };
 
 function convertToISO(dateString: string): string {
@@ -34,41 +34,43 @@ export default function MedicalHistoryEdit({ onSaved, goBack, note }: Props) {
   const from = searchParams.get('from');
   const isMaterial = from === 'material';
 
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const { id } = useNewPatientById();
 
-  const initialValues: Note = note || {
+  const initialValues: BackendNote = note || {
     id: 0,
     title: '',
-    date: '',
+    creationDate: '',
     content: '',
+    patientId: id,
   };
 
   const formattedNote = note
     ? {
         ...note,
-        date: convertToISO(note.date),
+        date: convertToISO(note.creationDate),
       }
     : initialValues;
 
-  const formik = useFormik<Note>({
+  const formik = useFormik<BackendNote>({
     enableReinitialize: true,
     initialValues: formattedNote,
     validationSchema: medicalHistoryValidationSchema,
     onSubmit: async (values) => {
-      const updatedNote: Note = {
+      const updatedNote: BackendNote = {
         id: values.id,
         content: values.content,
-        date: values.date,
+        creationDate: values.creationDate,
         title: values.title,
+        patientId: id,
       };
-
+      console.log(updatedNote);
       onSaved();
 
       if (isMaterial) {
-        dispatch(editMaterialOfPatient({ patientId: id, material: updatedNote }));
+        // dispatch(editMaterialOfPatient({ patientId: id, material: updatedNote }));
       } else {
-        dispatch(editNoteOfPatient({ patientId: id, note: updatedNote }));
+        // dispatch(editNoteOfPatient({ patientId: id, note: updatedNote }));
       }
     },
   });
@@ -94,12 +96,12 @@ export default function MedicalHistoryEdit({ onSaved, goBack, note }: Props) {
             id="date"
             label="Fecha de la sesión"
             type="date"
-            value={formik.values.date}
+            value={formik.values.creationDate}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             required
-            hasError={formik.touched.date && Boolean(formik.errors.date)}
-            errorMessage={formik.touched.date ? formik.errors.date : undefined}
+            hasError={formik.touched.creationDate && Boolean(formik.errors.creationDate)}
+            errorMessage={formik.touched.creationDate ? formik.errors.creationDate : undefined}
           />
         </div>
 

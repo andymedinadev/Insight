@@ -4,18 +4,19 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectCurrentPage } from '@/store/selectors/paginationSelectors';
 import { setTotalPages } from '@/store/slices/paginationSlice';
-import { useNewPatientById } from '@/hooks';
-import { Note } from '@/types';
+import { useBackPatientById } from '@/hooks';
+import { BackendNote } from '@/types';
 import { selectSearchTerm } from '@/store/selectors/patientSelectors';
-import { RootState } from '@/store';
-import { isSameWeek, subWeeks, isSameMonth, parseISO } from 'date-fns';
+import { RootState, AppDispatch } from '@/store';
+import { isSameWeek, subWeeks, isSameMonth, parseISO, format } from 'date-fns';
+import { fetchAllMaterials, fetchAllNotes } from '@/store/thunks/backendPatientsThunks';
 import Pagination from '../Pagination/Pagination';
 import Empty from '../MedicalHistory/Empty';
 
 const itemsPerPage = 5;
 
 interface Props {
-  onSelectedNote: (note: Note) => void;
+  onSelectedNote: (note: BackendNote) => void;
 }
 
 export default function MedicalHistoryList({ onSelectedNote }: Props) {
@@ -23,17 +24,28 @@ export default function MedicalHistoryList({ onSelectedNote }: Props) {
   const searchParams = useSearchParams();
   const isMaterial = searchParams.get('from') === 'material';
 
-  const { patient } = useNewPatientById();
-  const dispatch = useDispatch();
+  const { id } = useBackPatientById();
+  const dispatch = useDispatch<AppDispatch>();
   const currentPage = useSelector(selectCurrentPage);
   const searchTerm = useSelector(selectSearchTerm);
 
-  const patientData = isMaterial ? patient?.materials : patient?.notes;
+  useEffect(() => {
+    if (isMaterial && id) {
+      dispatch(fetchAllMaterials(id));
+    } else if (!isMaterial && id) {
+      dispatch(fetchAllNotes(id));
+    }
+  }, [dispatch, isMaterial, id]);
+
+  const materialsData = useSelector((state: RootState) => state.backendPatients.materials.all);
+  const notesData = useSelector((state: RootState) => state.backendPatients.notes.all);
+
+  const patientData = isMaterial ? materialsData : notesData;
+
   const data = patientData ?? [];
 
   const currentDate = useSelector((state: RootState) => state.backendPatients.filters.creationDate);
   const selectedDate = Array.isArray(currentDate) ? currentDate[0] : currentDate;
-  console.log(currentDate);
 
   const filterByDate = (dateString: string) => {
     if (!dateString) return false;
@@ -61,7 +73,7 @@ export default function MedicalHistoryList({ onSelectedNote }: Props) {
       item.title.toLowerCase().includes(lowerSearch) ||
       item.content.toLowerCase().includes(lowerSearch);
 
-    const matchesDate = filterByDate(item.date);
+    const matchesDate = filterByDate(item.creationDate);
 
     return matchesSearch && matchesDate;
   });
@@ -106,7 +118,9 @@ export default function MedicalHistoryList({ onSelectedNote }: Props) {
             onClick={() => onSelectedNote(item)}
             className="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm"
           >
-            <p className="text-sm font-semibold text-gray-500">{item.date}</p>
+            <p className="text-sm font-semibold text-gray-500">
+              {format(parseISO(item.creationDate), 'dd/MM/yyyy')}
+            </p>
             <h2 className="text-lg font-bold text-gray-800">{item.title}</h2>
             <p className="text-gray-500">{item.content}</p>
           </div>
