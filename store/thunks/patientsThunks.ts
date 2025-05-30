@@ -154,7 +154,6 @@ export const deleteBackendPatient = createAsyncThunk<
 });
 
 // Editar un paciente
-
 type EditResponse = {
   patientId: number;
   success: boolean;

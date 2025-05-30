@@ -61,91 +61,47 @@ export const fetchOneNote = createAsyncThunk<
   }
 });
 
-type AddNoteInput = {
+interface CreateNotePayload {
   patientId: number;
-  note: {
+  noteData: {
     title: string;
     content: string;
     date: string;
   };
-};
+}
 
-// Crear una nota
-export const addNoteToPatient = createAsyncThunk<
-  BackendNote,
-  AddNoteInput,
-  { rejectValue: string }
->('backendPatients/addNoteToPatient', async ({ patientId, note }, thunkApi) => {
-  const state = thunkApi.getState() as RootState;
-  const token = state.auth.token;
+// Crear una nota para un paciente
+export const createNote = createAsyncThunk<BackendNote, CreateNotePayload, { rejectValue: string }>(
+  'backendPatients/createNote',
+  async ({ patientId, noteData }, thunkApi) => {
+    const state = thunkApi.getState() as RootState;
+    const token = state.auth.token;
 
-  const payload = {
-    patientId,
-    title: note.title,
-    content: note.content,
-    date: note.date,
-  };
+    try {
+      console.log('Datos enviados al backend:', noteData);
+      const response = await fetch(`${BACKEND_BASE_URL}/api/Patient/${patientId}/notes`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(noteData),
+      });
+      console.log(response);
 
-  try {
-    const response = await fetch(`${BACKEND_BASE_URL}/api/Patient/${patientId}/notes`, {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${token}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(payload),
-    });
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(`HTTP ${response.status}: ${errorText}`);
+      }
 
-    if (response.status !== 201) {
-      const errorText = await response.text();
-      throw new Error(`Error HTTP ${response.status}: ${errorText}`);
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      const message = error instanceof Error ? error.message : 'Error desconocido';
+      return thunkApi.rejectWithValue(message);
     }
-
-    const backendResponse = await response.json();
-
-    const adaptedNote: BackendNote = {
-      id: backendResponse.id,
-      patientId: backendResponse.patientId,
-      title: backendResponse.title,
-      content: backendResponse.content,
-      creationDate: backendResponse.creationDate,
-    };
-
-    return adaptedNote;
-  } catch (error) {
-    const message = error instanceof Error ? error.message : 'Error desconocido';
-    return thunkApi.rejectWithValue(message);
   }
-});
-
-// Borrar una nota
-export const deleteNoteOfPatient = createAsyncThunk<
-  { noteId: number },
-  { patientId: number; noteId: number },
-  { rejectValue: string }
->('backendPatients/deleteNoteOfPatient', async ({ patientId, noteId }, thunkApi) => {
-  const state = thunkApi.getState() as RootState;
-  const token = state.auth.token;
-
-  try {
-    const response = await fetch(`${BACKEND_BASE_URL}/api/Patient/${patientId}/notes/${noteId}`, {
-      method: 'DELETE',
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-
-    if (response.status !== 204) {
-      const errorText = await response.text();
-      throw new Error(`Error HTTP ${response.status}: ${errorText}`);
-    }
-
-    return { noteId };
-  } catch (error) {
-    const message = error instanceof Error ? error.message : 'Error desconocido';
-    return thunkApi.rejectWithValue(message);
-  }
-});
+);
 
 // Editar una nota
 export const editNoteOfPatient = createAsyncThunk<
@@ -198,3 +154,36 @@ export const editNoteOfPatient = createAsyncThunk<
     return thunkApi.rejectWithValue(message);
   }
 });
+
+export interface DeleteNotePayload {
+  patientId: string;
+  noteId: string;
+}
+
+//Eliminar nota
+export const deleteNote = createAsyncThunk<string, DeleteNotePayload, { rejectValue: string }>(
+  'backendPatients/deleteNote',
+  async ({ patientId, noteId }, thunkApi) => {
+    const state = thunkApi.getState() as RootState;
+    const token = state.auth.token;
+
+    try {
+      const response = await fetch(`${BACKEND_BASE_URL}/api/Patient/${patientId}/notes/${noteId}`, {
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(`HTTP ${response.status}: ${errorText}`);
+      }
+
+      return noteId;
+    } catch (error) {
+      const message = error instanceof Error ? error.message : 'Error desconocido';
+      return thunkApi.rejectWithValue(message);
+    }
+  }
+);
