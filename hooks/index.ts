@@ -1,3 +1,5 @@
+export { useAppDispatch } from './useAppDispatch';
+export { useBackendPatientById } from './useBackendPatientById';
 export { useChangePassword } from './useChangePassword';
 export { useCodeInput } from './useCodeInput';
 export { useLogin } from './useLogin';
