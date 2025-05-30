@@ -10,9 +10,12 @@ export {
 
 export {
   createBackendPatient,
+  deleteBackendPatient,
+  editBackendPatient,
   fetchArchivedPatients,
   fetchOnePatient,
   fetchPatients,
+  submitEditedPatient,
 } from './patientsThunks';
 
 export { updateProfile } from './updateThunk';
