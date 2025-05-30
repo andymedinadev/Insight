@@ -4,6 +4,34 @@ import type { RootState } from '../index';
 
 import type { BackendPatient, BackendMaterial, BackendNote, BackendNewPatient } from '@/types';
 
+interface CreateNotePayload {
+  patientId: number;
+  noteData: {
+    title: string;
+    content: string;
+    date: string;
+  };
+}
+
+export interface CreateMaterialPayload {
+  patientId: number;
+  materialData: {
+    title: string;
+    content: string;
+    date: string;
+  };
+}
+
+export interface DeleteNotePayload {
+  patientId: string;
+  noteId: string;
+}
+
+export interface DeleteMaterialPayload {
+  patientId: string;
+  materialId: string;
+}
+
 // Traer todos los pacientes
 export const fetchPatients = createAsyncThunk<BackendPatient[], void, { rejectValue: string }>(
   'backendPatients/fetchPatients',
@@ -205,6 +233,132 @@ export const fetchOneMaterial = createAsyncThunk<
 
     const data = await response.json();
     return data;
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'Error desconocido';
+    return thunkApi.rejectWithValue(message);
+  }
+});
+
+// Crear una nota para un paciente
+export const createNote = createAsyncThunk<BackendNote, CreateNotePayload, { rejectValue: string }>(
+  'backendPatients/createNote',
+  async ({ patientId, noteData }, thunkApi) => {
+    const state = thunkApi.getState() as RootState;
+    const token = state.auth.token;
+
+    try {
+      console.log('Datos enviados al backend:', noteData);
+      const response = await fetch(`${BACKEND_BASE_URL}/api/Patient/${patientId}/notes`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(noteData),
+      });
+      console.log(response);
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(`HTTP ${response.status}: ${errorText}`);
+      }
+
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      const message = error instanceof Error ? error.message : 'Error desconocido';
+      return thunkApi.rejectWithValue(message);
+    }
+  }
+);
+
+// Crear un material para un paciente
+export const createMaterial = createAsyncThunk<
+  BackendMaterial,
+  CreateMaterialPayload,
+  { rejectValue: string }
+>('backendPatients/createMaterial', async ({ patientId, materialData }, thunkApi) => {
+  const state = thunkApi.getState() as RootState;
+  const token = state.auth.token;
+
+  try {
+    console.log('Datos enviados al backend:', materialData);
+    const response = await fetch(`${BACKEND_BASE_URL}/api/Patient/${patientId}/materials`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(materialData),
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(`HTTP ${response.status}: ${errorText}`);
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'Error desconocido';
+    return thunkApi.rejectWithValue(message);
+  }
+});
+
+//Eliminar nota
+export const deleteNote = createAsyncThunk<string, DeleteNotePayload, { rejectValue: string }>(
+  'backendPatients/deleteNote',
+  async ({ patientId, noteId }, thunkApi) => {
+    const state = thunkApi.getState() as RootState;
+    const token = state.auth.token;
+
+    try {
+      const response = await fetch(`${BACKEND_BASE_URL}/api/Patient/${patientId}/notes/${noteId}`, {
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(`HTTP ${response.status}: ${errorText}`);
+      }
+
+      return noteId;
+    } catch (error) {
+      const message = error instanceof Error ? error.message : 'Error desconocido';
+      return thunkApi.rejectWithValue(message);
+    }
+  }
+);
+
+//Eliminar material
+export const deleteMaterial = createAsyncThunk<
+  string,
+  DeleteMaterialPayload,
+  { rejectValue: string }
+>('backendPatients/deleteMaterial', async ({ patientId, materialId }, thunkApi) => {
+  const state = thunkApi.getState() as RootState;
+  const token = state.auth.token;
+
+  try {
+    const response = await fetch(
+      `${BACKEND_BASE_URL}/api/Patient/${patientId}/materials/${materialId}`,
+      {
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(`HTTP ${response.status}: ${errorText}`);
+    }
+
+    return materialId;
   } catch (error) {
     const message = error instanceof Error ? error.message : 'Error desconocido';
     return thunkApi.rejectWithValue(message);
