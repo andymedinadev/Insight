@@ -1,12 +1,18 @@
+export { fetchAllMaterials, fetchOneMaterial } from './materialsThunks';
+
+export {
+  addNoteToPatient,
+  deleteNoteOfPatient,
+  editNoteOfPatient,
+  fetchAllNotes,
+  fetchOneNote,
+} from './notesThunks';
+
 export {
   createBackendPatient,
-  fetchPatients,
   fetchArchivedPatients,
   fetchOnePatient,
-  fetchAllNotes,
-  fetchAllMaterials,
-  fetchOneNote,
-  fetchOneMaterial,
-} from './backendPatientsThunks';
+  fetchPatients,
+} from './patientsThunks';
 
 export { updateProfile } from './updateThunk';
