@@ -10,7 +10,6 @@ import Left from '../../public/icons/Left.svg';
 import Right from '../../public/icons/Right.svg';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
-
 import PatientOptionsMenu from './PatientListArchived/PatientOptionsMenu';
 import Toast from './Toast';
 
@@ -40,10 +39,28 @@ export default function PatientList({ variant = 'home' }: Props) {
   const searchTerm = useSelector((state: RootState) =>
     state.backendPatients.searchTerm.toLowerCase()
   );
-  const isDashboardHome = pathname === '/dashboard/home';
-  const filteredPatients = patients.filter((patient) =>
-    patient.name.toLowerCase().includes(searchTerm)
+  const modalidadFilter = useSelector(
+    (state: RootState) => state.backendPatients.filters.modalidad
   );
+  const generoFilter = useSelector((state: RootState) => state.backendPatients.filters.genero);
+  const rangoEtarioFilter = useSelector(
+    (state: RootState) => state.backendPatients.filters.rangoEtario
+  );
+  const isDashboardHome = pathname === '/dashboard/home';
+  const filteredPatients = patients.filter((patient) => {
+    const matchesName = patient.name.toLowerCase().includes(searchTerm);
+
+    const matchesModalidad =
+      modalidadFilter.length === 0 ||
+      (patient.modality != null && modalidadFilter.includes(patient.modality));
+
+    const matchesGenero = generoFilter.length === 0 || generoFilter.includes(patient.sex);
+
+    const matchesRangoEtario =
+      rangoEtarioFilter.length === 0 || rangoEtarioFilter.includes(patient.rangoEtario);
+
+    return matchesName && matchesModalidad && matchesGenero && matchesRangoEtario;
+  });
 
   const avatars = [
     'https://res.cloudinary.com/dwc1rj9tj/image/upload/v1747278017/AvatarGeneral_hq0avb.svg',
