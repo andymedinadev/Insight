@@ -3,13 +3,35 @@
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 
-import { useNewPatientById } from '@/hooks';
+// import { useNewPatientById } from '@/hooks';
 import { AvatarGeneral } from '@/public';
+
+// BORRAR Y CORREGIR
+const patient = {
+  id: 1,
+  name: 'Juan',
+  surname: 'Pérez',
+  birthdate: '1985-04-12',
+  identification: 12345678,
+  sex: 'Masculino',
+  email: 'juan.perez@example.com',
+  phone: '123456789',
+  modality: 'Presencial',
+  admissionDate: '2024-01-01',
+  diagnosis: 'Ansiedad',
+  institution: 'Instituto X',
+  age: 39,
+  lastSession: '02/10/2022',
+  category: 'Adulto',
+  filed: false,
+  nationality: '',
+  typeOfIdentification: '',
+};
 
 export function PatientProfileInfo() {
   const router = useRouter();
 
-  const { patient } = useNewPatientById();
+  // const { patient } = useNewPatientById();
 
   if (!patient)
     return (

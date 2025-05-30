@@ -1,12 +1,12 @@
 'use client';
 
 import { useSearchParams } from 'next/navigation';
-import { useDispatch } from 'react-redux';
+// import { useDispatch } from 'react-redux';
 import { useFormik } from 'formik';
 import { InputField } from '@/components';
-import { useNewPatientById } from '@/hooks';
+// import { useNewPatientById } from '@/hooks';
 import { medicalHistoryValidationSchema } from '@/schemas';
-import { editMaterialOfPatient, editNoteOfPatient } from '@/store/slices/patientSlice';
+// import { editMaterialOfPatient, editNoteOfPatient } from '@/store/slices/patientSlice';
 import { Note /*, Material*/ } from '@/types';
 
 type Props = {
@@ -34,8 +34,8 @@ export default function MedicalHistoryEdit({ onSaved, goBack, note }: Props) {
   const from = searchParams.get('from');
   const isMaterial = from === 'material';
 
-  const dispatch = useDispatch();
-  const { id } = useNewPatientById();
+  // const dispatch = useDispatch();
+  // const { id } = useNewPatientById();
 
   const initialValues: Note = note || {
     id: 0,
@@ -55,20 +55,21 @@ export default function MedicalHistoryEdit({ onSaved, goBack, note }: Props) {
     enableReinitialize: true,
     initialValues: formattedNote,
     validationSchema: medicalHistoryValidationSchema,
-    onSubmit: async (values) => {
-      const updatedNote: Note = {
-        id: values.id,
-        content: values.content,
-        date: values.date,
-        title: values.title,
-      };
+    onSubmit: async () => {
+      // onSubmit: async (values) => {
+      // const updatedNote: Note = {
+      //   id: values.id,
+      //   content: values.content,
+      //   date: values.date,
+      //   title: values.title,
+      // };
 
       onSaved();
 
       if (isMaterial) {
-        dispatch(editMaterialOfPatient({ patientId: id, material: updatedNote }));
+        // dispatch(editMaterialOfPatient({ patientId: id, material: updatedNote }));
       } else {
-        dispatch(editNoteOfPatient({ patientId: id, note: updatedNote }));
+        // dispatch(editNoteOfPatient({ patientId: id, note: updatedNote }));
       }
     },
   });

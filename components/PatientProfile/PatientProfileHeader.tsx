@@ -1,9 +1,13 @@
 'use client';
 import { useRouter } from 'next/navigation';
-import { useNewPatientById } from '@/hooks';
+// import { useNewPatientById } from '@/hooks';
 
 export function PatientProfileHeader() {
-  const { patient } = useNewPatientById();
+  // const { patient } = useNewPatientById();
+
+  // BORRAR Y CORREGIR
+  const patient = { id: 5 };
+
   const router = useRouter();
 
   const handleRedirect = (id: number, queryParam?: string) => {
@@ -14,12 +18,12 @@ export function PatientProfileHeader() {
     router.push(path);
   };
 
-  if (!patient) {
-    return null;
-  }
+  // if (!patient) {
+  //   return null;
+  // }
 
   const handleEditClick = () => {
-    router.push(`/dashboard/patientprofile/${patient.id}/edit`);
+    // router.push(`/dashboard/patientprofile/${patient.id}/edit`);
   };
 
   return (

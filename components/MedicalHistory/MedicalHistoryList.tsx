@@ -4,9 +4,9 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectCurrentPage } from '@/store/selectors/paginationSelectors';
 import { setTotalPages } from '@/store/slices/paginationSlice';
-import { useNewPatientById } from '@/hooks';
+// import { useNewPatientById } from '@/hooks';
 import { Note } from '@/types';
-import { selectSearchTerm } from '@/store/selectors/patientSelectors';
+// import { selectSearchTerm } from '@/store/selectors/patientSelectors';
 import { RootState } from '@/store';
 import { isSameWeek, subWeeks, isSameMonth, parseISO } from 'date-fns';
 import Pagination from '../Pagination/Pagination';
@@ -23,13 +23,15 @@ export default function MedicalHistoryList({ onSelectedNote }: Props) {
   const searchParams = useSearchParams();
   const isMaterial = searchParams.get('from') === 'material';
 
-  const { patient } = useNewPatientById();
+  // const { patient } = useNewPatientById();
   const dispatch = useDispatch();
   const currentPage = useSelector(selectCurrentPage);
-  const searchTerm = useSelector(selectSearchTerm);
+  // const searchTerm = useSelector(selectSearchTerm);
+  const searchTerm = 'DELETE';
 
-  const patientData = isMaterial ? patient?.materials : patient?.notes;
-  const data = patientData ?? [];
+  // const patientData = isMaterial ? patient?.materials : patient?.notes;
+  // const data = patientData ?? [];
+  const data: Note[] = [];
 
   const currentDate = useSelector((state: RootState) => state.backendPatients.filters.creationDate);
   const selectedDate = Array.isArray(currentDate) ? currentDate[0] : currentDate;
@@ -54,7 +56,7 @@ export default function MedicalHistoryList({ onSelectedNote }: Props) {
     }
   };
 
-  const filteredData = data.filter((item) => {
+  const filteredData = data.filter((item: Note) => {
     const lowerSearch = searchTerm.toLowerCase();
 
     const matchesSearch =
@@ -100,7 +102,7 @@ export default function MedicalHistoryList({ onSelectedNote }: Props) {
     <div className="px-4 py-6 sm:px-6 md:px-10">
       {/* Lista de notas o materiales */}
       <div className="cursor-pointer space-y-4">
-        {paginatedData.map((item) => (
+        {paginatedData.map((item: Note) => (
           <div
             key={item.id}
             onClick={() => onSelectedNote(item)}

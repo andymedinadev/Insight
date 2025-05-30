@@ -32,7 +32,7 @@ export default function PatientList({ variant = 'home' }: Props) {
   const [toastMessage, setToastMessage] = useState('');
   const [toastType, setToastType] = useState<'success' | 'error'>('success');
 
-  const initialized = useSelector((state: RootState) => state.patients.initialized);
+  // const initialized = useSelector((state: RootState) => state.patients.initialized);
 
   const patients = useSelector((state: RootState) => state.backendPatients.patients) || [];
   const loading = useSelector(
@@ -70,11 +70,11 @@ export default function PatientList({ variant = 'home' }: Props) {
     return () => window.removeEventListener('click', handleClickOutside);
   }, []);
 
-  useEffect(() => {
-    if (!initialized) {
-      dispatch(fetchPatients());
-    }
-  }, [dispatch, initialized]);
+  // useEffect(() => {
+  //   if (!initialized) {
+  //     dispatch(fetchPatients());
+  //   }
+  // }, [dispatch, initialized]);
 
   useEffect(() => {
     const handleResize = () => {
