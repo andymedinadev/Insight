@@ -108,7 +108,7 @@ export const addNoteToPatient = createAsyncThunk<
       patientId: backendResponse.patientId,
       title: backendResponse.title,
       content: backendResponse.content,
-      createdDate: backendResponse.creationDate,
+      creationDate: backendResponse.creationDate,
     };
 
     return adaptedNote;
@@ -161,7 +161,7 @@ export const editNoteOfPatient = createAsyncThunk<
     patientId,
     title: note.title,
     content: note.content,
-    creationDate: note.createdDate,
+    creationDate: note.creationDate,
     sessionDate: '',
     actualizationDate: '',
   };
@@ -189,7 +189,7 @@ export const editNoteOfPatient = createAsyncThunk<
       title: patientNote.id,
       content: patientNote.content,
       patientId: patientNote.patientId,
-      createdDate: patientNote.creationDate,
+      creationDate: patientNote.creationDate,
     };
 
     return result;
