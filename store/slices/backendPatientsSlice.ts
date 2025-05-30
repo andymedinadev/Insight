@@ -1,6 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
 import {
+  addNoteToPatient,
   createBackendPatient,
+  deleteNoteOfPatient,
+  editNoteOfPatient,
   fetchPatients,
   fetchArchivedPatients,
   fetchOnePatient,
@@ -229,6 +232,62 @@ export const backendPatientsSlice = createSlice({
       .addCase(fetchOneNote.rejected, (state, action) => {
         state.notes.status.fetchOne.loading = false;
         state.notes.status.fetchOne.error = action.payload || 'Error al obtener la nota';
+      })
+
+      // CREAR UNA NOTA DE UN PACIENTE
+      .addCase(addNoteToPatient.pending, (state) => {
+        state.notes.status.fetchOne.loading = true;
+        state.notes.status.fetchOne.error = null;
+      })
+      .addCase(addNoteToPatient.fulfilled, (state, action) => {
+        state.notes.all.unshift(action.payload);
+        state.notes.status.fetchOne.loading = false;
+      })
+      .addCase(addNoteToPatient.rejected, (state, action) => {
+        state.notes.status.fetchOne.loading = false;
+        state.notes.status.fetchOne.error =
+          action.payload || 'Error al agregar la nota del paciente.';
+      })
+
+      // EDITAR UNA NOTA DE UN PACIENTE
+      .addCase(editNoteOfPatient.pending, (state) => {
+        state.notes.status.fetchOne.loading = true;
+        state.notes.status.fetchOne.error = null;
+      })
+      .addCase(editNoteOfPatient.fulfilled, (state, action) => {
+        const updated = action.payload;
+        const index = state.notes.all.findIndex((n) => n.id === updated.id);
+        if (index !== -1) {
+          state.notes.all[index] = updated;
+        }
+        if (state.notes.selected?.id === updated.id) {
+          state.notes.selected = updated;
+        }
+        state.notes.status.fetchOne.loading = false;
+      })
+      .addCase(editNoteOfPatient.rejected, (state, action) => {
+        state.notes.status.fetchOne.loading = false;
+        state.notes.status.fetchOne.error =
+          action.payload || 'Error al editar la nota del paciente.';
+      })
+
+      // BORRAR UNA NOTA DE UN PACIENTE
+      .addCase(deleteNoteOfPatient.pending, (state) => {
+        state.notes.status.fetchOne.loading = true;
+        state.notes.status.fetchOne.error = null;
+      })
+      .addCase(deleteNoteOfPatient.fulfilled, (state, action) => {
+        const deletedId = action.payload.noteId;
+        state.notes.all = state.notes.all.filter((n) => n.id !== deletedId);
+        if (state.notes.selected?.id === deletedId) {
+          state.notes.selected = null;
+        }
+        state.notes.status.fetchOne.loading = false;
+      })
+      .addCase(deleteNoteOfPatient.rejected, (state, action) => {
+        state.notes.status.fetchOne.loading = false;
+        state.notes.status.fetchOne.error =
+          action.payload || 'Error al eliminar la nota del paciente.';
       })
 
       // TRAER UN MATERIAL DE UN PACIENTE
