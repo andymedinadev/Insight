@@ -92,7 +92,7 @@ export const backendNewPatientValidationSchema = Yup.object({
   interconsulation: Yup.string().nullable(),
   patientEvolution: Yup.string().nullable(),
 
-  sessionDay: Yup.date().nullable(),
+  sessionDay: Yup.string().nullable(),
   modality: Yup.string().nullable(),
   sessionDuration: Yup.number()
     .nullable()
