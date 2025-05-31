@@ -1,6 +1,7 @@
 export { useAppDispatch } from './useAppDispatch';
 export { useBackendPatientById } from './useBackendPatientById';
 export { useChangePassword } from './useChangePassword';
+export { useClearSelectedPatientOnUnmount } from './useClearSelectedPatientOnUnmount';
 export { useCodeInput } from './useCodeInput';
 export { useLogin } from './useLogin';
 export { useLogout } from './useLogout';

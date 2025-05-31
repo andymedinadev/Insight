@@ -1,74 +1,70 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-// import { useDispatch } from 'react-redux';
 import { useFormik } from 'formik';
 
 import { InputField, ValidationError } from '@/components';
-// import { AppDispatch } from '@/store';
-// import { editNewTypePatient } from '@/store/slices/patientSlice';
-// import { useNewPatientById } from '@/hooks';
-import { newPatientFormValidationSchema } from '@/schemas';
-import { EditPatient } from '@/types';
+import { useAppDispatch, useBackendPatientById, useClearSelectedPatientOnUnmount } from '@/hooks';
+import { editBackendPatient } from '@/store/thunks';
+import { editPatientFormValidationSchema } from '@/schemas';
+import { mapBackendPatientToEditPatient } from '@/utils';
+import { modalityOptions, sessionOptions, sexOptions } from '@/constants';
+import { BackendEditPatient } from '@/types';
 
-const defaultInitialValues: EditPatient = {
+const defaultInitialValues: BackendEditPatient = {
   id: 0,
   name: '',
   surname: '',
   birthdate: '',
-  nationality: '',
   typeOfIdentification: '',
   identification: '',
-  sex: undefined,
+  sex: '',
   email: '',
   phone: '',
+  age: 0,
   admissionDate: '',
-  motivosConsulta: {
-    motivoPrincipal: '',
-    sintomasActuales: '',
-    eventosRecientesRelevantes: '',
-    diagnosticoPrevio: '',
-  },
-  historiaClinica: {
-    observaciones: '',
-    frasesRecurrentes: '',
-    actosFallidos: '',
-    derivacionesRealizadas: '',
-    evolucionPaciente: '',
-  },
-  seguimiento: {
-    diaYHorario: '',
-    modalidad: undefined,
-    duracionSesion: undefined,
-    frecuencia: '',
-    medioContactoPreferido: '',
-  },
-  notes: [],
-  materials: [],
+  rangoEtario: '',
+  nationality: '',
+  principalMotive: '',
+  actualSymptoms: '',
+  recentEvents: '',
+  previousDiagnosis: '',
+  profesionalObservations: '',
+  keyWords: '',
+  failedActs: '',
+  interconsulation: '',
+  patientEvolution: '',
+  sessionDay: '',
+  modality: '',
+  sessionDuration: 0,
+  sessionFrequency: '',
+  preferedContact: '',
 };
 
 export function EditPatientForm() {
-  // const dispatch = useDispatch<AppDispatch>();
-  // const { id, patient } = useNewPatientById();
-  // const { patient } = useNewPatientById();
+  const dispatch = useAppDispatch();
+  const { patient } = useBackendPatientById();
   const router = useRouter();
 
-  // const initialValues: EditPatient = patient ? patient : defaultInitialValues;
-  const initialValues = defaultInitialValues;
+  const initialValues: BackendEditPatient = patient
+    ? mapBackendPatientToEditPatient(patient)
+    : defaultInitialValues;
 
-  const formik = useFormik<EditPatient>({
+  const formik = useFormik<BackendEditPatient>({
     enableReinitialize: true,
     initialValues,
-    validationSchema: newPatientFormValidationSchema,
-    onSubmit: () => {
-      // onSubmit: (values) => {
-      // const editedPatient = { ...patient, ...values };
+    validationSchema: editPatientFormValidationSchema,
+    onSubmit: (values) => {
+      const editedPatient = { ...patient, ...values };
 
-      // dispatch(editNewTypePatient({ patientId: id, data: editedPatient }));
+      dispatch(editBackendPatient(editedPatient));
 
       router.push('/dashboard/patientlist');
     },
   });
+
+  // Limpiar paciente seleccionado al desmontar
+  useClearSelectedPatientOnUnmount();
 
   return (
     <div className="mt-2.5 max-w-xl flex-col lg:mx-auto lg:mt-6 lg:flex lg:w-1/3">
@@ -121,7 +117,7 @@ export function EditPatientForm() {
         <div className="flex flex-col">
           <InputField
             id="birthdate"
-            label="Fecha de nacimineto"
+            label="Fecha de nacimiento"
             type="date"
             value={formik.values.birthdate}
             onChange={formik.handleChange}
@@ -184,29 +180,21 @@ export function EditPatientForm() {
             Sexo <span className="text-red-600">*</span>
           </label>
           <div className="flex flex-col gap-y-2">
-            {[
-              'Femenino',
-              'Masculino',
-              'Transgénero',
-              'No binario',
-              'Bigénero',
-              'Intersexual',
-              'Otro',
-            ].map((option) => (
+            {sexOptions.map(({ value, label }) => (
               <label
-                key={option}
+                key={value}
                 className="flex h-[32px] w-[118px] cursor-pointer items-center gap-x-3"
               >
                 <input
                   type="radio"
                   name="sex"
-                  value={option}
-                  checked={formik.values.sex === option}
+                  value={value}
+                  checked={formik.values.sex === value}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                   className="h-5 w-5 border border-[#000D4D73] accent-indigo-600"
                 />
-                <span className="text-base text-gray-900">{option}</span>
+                <span className="text-base text-gray-900">{label}</span>
               </label>
             ))}
           </div>
@@ -266,44 +254,44 @@ export function EditPatientForm() {
         <div className="flex flex-col">
           <label className="mb-1">Motivo principal de consulta</label>
           <textarea
-            name="motivosConsulta.motivoPrincipal"
-            value={formik.values.motivosConsulta?.motivoPrincipal}
+            name="principalMotive"
+            value={formik.values.principalMotive}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            className="h-[100px] w-full rounded-lg border border-[#000D4D73] bg-white px-3"
+            className="h-[100px] w-full resize-none rounded-lg border border-[#000D4D73] bg-white px-3"
           />
         </div>
 
         <div className="flex flex-col">
           <label className="mb-1">Síntomas actuales</label>
           <textarea
-            name="motivosConsulta.sintomasActuales"
-            value={formik.values.motivosConsulta?.sintomasActuales}
+            name="actualSymptoms"
+            value={formik.values.actualSymptoms}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            className="h-[100px] w-full rounded-lg border border-[#000D4D73] bg-white px-3"
+            className="h-[100px] w-full resize-none rounded-lg border border-[#000D4D73] bg-white px-3"
           />
         </div>
 
         <div className="flex flex-col">
           <label className="mb-1">Eventos recientes relevantes</label>
           <textarea
-            name="motivosConsulta.eventosRecientesRelevantes"
-            value={formik.values.motivosConsulta?.eventosRecientesRelevantes}
+            name="recentEvents"
+            value={formik.values.recentEvents}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            className="h-[100px] w-full rounded-lg border border-[#000D4D73] bg-white px-3"
+            className="h-[100px] w-full resize-none rounded-lg border border-[#000D4D73] bg-white px-3"
           />
         </div>
 
         <div className="flex flex-col">
           <label className="mb-1">Diagnóstico previo</label>
           <textarea
-            name="motivosConsulta.diagnosticoPrevio"
-            value={formik.values.motivosConsulta?.diagnosticoPrevio}
+            name="previousDiagnosis"
+            value={formik.values.previousDiagnosis}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            className="h-[100px] w-full rounded-lg border border-[#000D4D73] bg-white px-3"
+            className="h-[100px] w-full resize-none rounded-lg border border-[#000D4D73] bg-white px-3"
           />
         </div>
 
@@ -315,55 +303,55 @@ export function EditPatientForm() {
         <div className="flex flex-col">
           <label className="mb-1">Observaciones del profesional</label>
           <textarea
-            name="historiaClinica.observaciones"
-            value={formik.values.historiaClinica?.observaciones}
+            name="profesionalObservations"
+            value={formik.values.profesionalObservations}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            className="h-[100px] w-full rounded-lg border border-[#000D4D73] bg-white px-3"
+            className="h-[100px] w-full resize-none rounded-lg border border-[#000D4D73] bg-white px-3"
           />
         </div>
 
         <div className="flex flex-col">
           <label className="mb-1">Frases recurrentes / palabras clave</label>
           <textarea
-            name="historiaClinica.frasesRecurrentes"
-            value={formik.values.historiaClinica?.frasesRecurrentes}
+            name="keyWords"
+            value={formik.values.keyWords}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            className="h-[100px] w-full rounded-lg border border-[#000D4D73] bg-white px-3"
+            className="h-[100px] w-full resize-none rounded-lg border border-[#000D4D73] bg-white px-3"
           />
         </div>
 
         <div className="flex flex-col">
           <label className="mb-1">Actos fallidos / asociaciones llamativas</label>
           <textarea
-            name="historiaClinica.actosFallidos"
-            value={formik.values.historiaClinica?.actosFallidos}
+            name="failedActs"
+            value={formik.values.failedActs}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            className="h-[100px] w-full rounded-lg border border-[#000D4D73] bg-white px-3"
+            className="h-[100px] w-full resize-none rounded-lg border border-[#000D4D73] bg-white px-3"
           />
         </div>
 
         <div className="flex flex-col">
           <label className="mb-1">Interconsultas / derivaciones realizadas</label>
           <textarea
-            name="historiaClinica.derivacionesRealizadas"
-            value={formik.values.historiaClinica?.derivacionesRealizadas}
+            name="interconsulation"
+            value={formik.values.interconsulation}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            className="h-[100px] w-full rounded-lg border border-[#000D4D73] bg-white px-3"
+            className="h-[100px] w-full resize-none rounded-lg border border-[#000D4D73] bg-white px-3"
           />
         </div>
 
         <div className="flex flex-col">
           <label className="mb-1">Evolución del paciente</label>
           <textarea
-            name="historiaClinica.evolucionPaciente"
-            value={formik.values.historiaClinica?.evolucionPaciente}
+            name="patientEvolution"
+            value={formik.values.patientEvolution}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            className="h-[100px] w-full rounded-lg border border-[#000D4D73] bg-white px-3"
+            className="h-[100px] w-full resize-none rounded-lg border border-[#000D4D73] bg-white px-3"
           />
         </div>
 
@@ -375,8 +363,8 @@ export function EditPatientForm() {
         <div className="flex flex-col">
           <label className="mb-1">Día y horario de la sesión</label>
           <input
-            name="seguimiento.diaYHorario"
-            value={formik.values.seguimiento?.diaYHorario}
+            name="sessionDay"
+            value={formik.values.sessionDay}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             className="h-[48px] w-full rounded-lg border border-[#000D4D73] bg-white px-3"
@@ -386,21 +374,21 @@ export function EditPatientForm() {
         <div className="flex flex-col">
           <label className="mb-2 text-base font-medium text-gray-900">Modalidad de atención</label>
           <div className="flex flex-col gap-y-2">
-            {['Presencial', 'Virtual', 'Híbrido'].map((option) => (
+            {modalityOptions.map(({ value, label }) => (
               <label
-                key={option}
+                key={value}
                 className="flex h-[32px] w-[118px] cursor-pointer items-center gap-x-3"
               >
                 <input
                   type="radio"
-                  name="seguimiento.modalidad"
-                  value={option}
-                  checked={formik.values.seguimiento?.modalidad === option}
+                  name="modality"
+                  value={value}
+                  checked={formik.values.modality === value}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                   className="h-5 w-5 border border-[#000D4D73] accent-indigo-600"
                 />
-                <span className="text-base text-gray-900">{option}</span>
+                <span className="text-base text-gray-900">{label}</span>
               </label>
             ))}
           </div>
@@ -411,21 +399,21 @@ export function EditPatientForm() {
             Duración aproximada de la sesión
           </label>
           <div className="flex flex-col gap-y-2">
-            {['30 min', '45 min', '50 min', '60 min'].map((option) => (
+            {sessionOptions.map(({ value, label }) => (
               <label
-                key={option}
+                key={value}
                 className="flex h-[32px] w-[118px] cursor-pointer items-center gap-x-3"
               >
                 <input
                   type="radio"
-                  name="seguimiento.duracionSesion"
-                  value={option}
-                  checked={formik.values.seguimiento?.duracionSesion === option}
+                  name="sessionDuration"
+                  value={value}
+                  checked={String(formik.values.sessionDuration) === String(value)}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                   className="h-5 w-5 border border-[#000D4D73] accent-indigo-600"
                 />
-                <span className="text-base text-gray-900">{option}</span>
+                <span className="text-base text-gray-900">{label}</span>
               </label>
             ))}
           </div>
@@ -434,8 +422,8 @@ export function EditPatientForm() {
         <div className="flex flex-col">
           <label className="mb-1">Frecuencia (semanal, mensual, etc)</label>
           <input
-            name="seguimiento.frecuencia"
-            value={formik.values.seguimiento?.frecuencia}
+            name="sessionFrequency"
+            value={formik.values.sessionFrequency}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             className="h-[48px] w-full rounded-lg border border-[#000D4D73] bg-white px-3"
@@ -445,8 +433,8 @@ export function EditPatientForm() {
         <div className="flex flex-col">
           <label className="mb-1">Medio de contacto preferido</label>
           <input
-            name="seguimiento.medioContactoPreferido"
-            value={formik.values.seguimiento?.medioContactoPreferido}
+            name="preferedContact"
+            value={formik.values.preferedContact}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             className="h-[48px] w-full rounded-lg border border-[#000D4D73] bg-white px-3"

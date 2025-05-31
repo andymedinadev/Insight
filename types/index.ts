@@ -3,7 +3,7 @@
 
 export type { default as TypesCardButtons } from './ButtonCards/components';
 export type { ChangePasswordPayload } from './ChangePassword/ChangePasswordPayload';
-export type { EditPatient } from './editPatient';
+export type { BackendEditPatient } from './backendEditPatient';
 export type { NewPatient } from './newPatient';
 export type { SignupFormData } from './Signup/signupFormData';
 export type { SignupPayload } from './Signup/signupPayload';
@@ -31,6 +31,7 @@ export type { BackendMaterial } from './backendMaterial';
 export type { BackendNewPatient } from './backendNewPatient';
 export type { BackendNote } from './backendNote';
 export type { BackendPatient } from './backendPatient';
+export type { FrontendPatient } from './frontendPatient';
 export type { User } from './user';
 
 // Thunks types

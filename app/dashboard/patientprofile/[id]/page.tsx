@@ -1,21 +1,14 @@
 'use client';
 
-import { useAppDispatch, useBackendPatientById } from '@/hooks';
+import { useBackendPatientById, useClearSelectedPatientOnUnmount } from '@/hooks';
 import { PatientProfileHeader, PatientProfileInfo, PatientProfileLorem } from '@/components';
-import { useEffect } from 'react';
-import { clearSelectedPatient } from '@/store/slices/backendPatientsSlice';
+import { formatPatientForFrontend } from '@/utils';
 
 export default function PatientProfile() {
-  const dispatch = useAppDispatch();
-
   const { patient, loading } = useBackendPatientById();
 
-  // Limpiar paciente seleccionado al navegar
-  useEffect(() => {
-    return () => {
-      dispatch(clearSelectedPatient());
-    };
-  }, [dispatch]);
+  // Limpiar paciente seleccionado al desmontar
+  useClearSelectedPatientOnUnmount();
 
   if (loading) {
     return (
@@ -54,13 +47,16 @@ export default function PatientProfile() {
       </div>
     );
 
+  // Formateo de paciente para mostrar prolijo
+  const formattedPatient = formatPatientForFrontend(patient);
+
   return (
     <div>
-      <PatientProfileHeader patient={patient} />
+      <PatientProfileHeader patient={formattedPatient} />
 
-      <PatientProfileInfo patient={patient} />
+      <PatientProfileInfo patient={formattedPatient} />
 
-      <PatientProfileLorem patient={patient} />
+      <PatientProfileLorem patient={formattedPatient} />
     </div>
   );
 }
