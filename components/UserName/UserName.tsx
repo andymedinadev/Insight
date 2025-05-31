@@ -4,7 +4,7 @@ import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { fetchUser, selectUser } from '@/store/slices/userSlice';
 import { useAppDispatch } from '@/hooks/useAppDispatch';
-import { User } from '@/types/Profile/profileTypes';
+import { User } from '@/types';
 
 const UserName = () => {
   const dispatch = useAppDispatch();

@@ -22,5 +22,3 @@ export {
   fetchAllMaterials,
   fetchOneMaterial,
 } from './materialsThunks';
-
-export { updateProfile } from './updateThunk';

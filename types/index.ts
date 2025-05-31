@@ -31,3 +31,4 @@ export type { BackendMaterial } from './backendMaterial';
 export type { BackendNewPatient } from './backendNewPatient';
 export type { BackendNote } from './backendNote';
 export type { BackendPatient } from './backendPatient';
+export type { User } from './user';
