@@ -22,9 +22,9 @@ export function PatientProfileHeader({ patient }: { patient: FrontendPatient }) 
   };
 
   return (
-    <div className="mb-5 border-b border-gray-200 px-5 pt-4 md:overflow-x-hidden lg:border-none lg:pt-12">
+    <div className="mb-11 border-b border-gray-200 px-5 pt-4 md:overflow-x-hidden lg:border-none lg:pt-12 lg:pl-0">
       <Link href={'/dashboard/patientlist'}>
-        <div className="flex h-10 w-60 items-center gap-3 lg:w-[258px] lg:pl-4 lg:text-nowrap">
+        <div className="flex h-10 w-60 items-center gap-3 lg:w-[258px] lg:pl-6 lg:text-nowrap">
           <Image src={ArrowBack} width={24} height={24} alt="Flecha Atrás" className="lg:hidden" />
           <Image
             src={ArrowBack}
@@ -49,22 +49,10 @@ export function PatientProfileHeader({ patient }: { patient: FrontendPatient }) 
           <button
             onClick={() => {
               if (patient?.id !== undefined) {
-                handleRedirect(patient?.id, 'material');
-              }
-            }}
-            className="h-12 w-[352px] cursor-pointer rounded-lg bg-[#0655D5] text-white outline-1 outline-offset-[-1px] lg:w-[205px]"
-          >
-            <p className="justify-start text-center font-['Roboto'] text-base leading-normal font-semibold">
-              Material para el paciente
-            </p>
-          </button>
-          <button
-            onClick={() => {
-              if (patient?.id !== undefined) {
                 handleRedirect(patient?.id, 'notes');
               }
             }}
-            className="h-12 w-[352px] cursor-pointer rounded-lg bg-[#0655D5] text-white outline-1 outline-offset-[-1px] lg:w-[205px]"
+            className="mt-8 h-12 w-[352px] cursor-pointer rounded-lg bg-[#0655D5] text-white outline-1 outline-offset-[-1px] lg:mt-0 lg:w-[205px]"
           >
             <p className="justify-start text-center font-['Roboto'] text-base leading-normal font-semibold">
               Gestionar notas
