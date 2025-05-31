@@ -26,7 +26,10 @@ export function ChangePasswordWizard() {
     <>
       {(step === 'currentPassword' || step === 'new-password') && (
         <div className="ml-4 self-start lg:ml-0">
-          <Link href={'login'} className="mb-7 flex h-10 w-24 items-center gap-[12px] lg:mb-14">
+          <Link
+            href={'/dashboard/profile'}
+            className="mb-7 flex h-10 w-24 items-center gap-[12px] lg:mb-14"
+          >
             <Image
               src={ArrowBack}
               width={24}
@@ -57,9 +60,15 @@ export function ChangePasswordWizard() {
           />
         )}
         {step === 'new-password' && (
-          <ChangePasswordNewStep payload={payload} onNext={() => setStep('success')} />
+          <ChangePasswordNewStep
+            payload={payload}
+            onNext={(payload) => {
+              setPayload({ ...payload });
+              setStep('success');
+            }}
+          />
         )}
-        {step === 'success' && <ChangePasswordSuccessStep />}
+        {step === 'success' && <ChangePasswordSuccessStep newPassword={payload.newPassword} />}
       </div>
     </>
   );
