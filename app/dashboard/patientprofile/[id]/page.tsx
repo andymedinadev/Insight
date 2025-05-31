@@ -2,6 +2,7 @@
 
 import { useBackendPatientById, useClearSelectedPatientOnUnmount } from '@/hooks';
 import { PatientProfileHeader, PatientProfileInfo, PatientProfileLorem } from '@/components';
+import { formatPatientDatesForFrontend } from '@/utils';
 
 export default function PatientProfile() {
   const { patient, loading } = useBackendPatientById();
@@ -46,13 +47,16 @@ export default function PatientProfile() {
       </div>
     );
 
+  // Interpretado de fechas en formato ISO
+  const formattedPatient = formatPatientDatesForFrontend(patient);
+
   return (
     <div>
-      <PatientProfileHeader patient={patient} />
+      <PatientProfileHeader patient={formattedPatient} />
 
-      <PatientProfileInfo patient={patient} />
+      <PatientProfileInfo patient={formattedPatient} />
 
-      <PatientProfileLorem patient={patient} />
+      <PatientProfileLorem patient={formattedPatient} />
     </div>
   );
 }

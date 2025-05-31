@@ -1,6 +1,7 @@
 export { default as cardData } from './Data/cardData';
 export { buildNewPatient } from './buildNewPatient';
 export { calcularEdad } from './calcularEdad';
+export { formatPatientDatesForFrontend } from './formatPatientDatesForFrontend';
 export { getRangoEtario } from './getRangoEtario';
 export { mapBackendPatientToEditPatient } from './mapBackendPatientToEditPatient';
 export { mapEditPatientToBackendPatient } from './mapEditPatientToBackendPatient';
