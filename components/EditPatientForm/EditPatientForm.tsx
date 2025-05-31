@@ -6,8 +6,9 @@ import { useFormik } from 'formik';
 import { InputField, ValidationError } from '@/components';
 import { useAppDispatch, useBackendPatientById, useClearSelectedPatientOnUnmount } from '@/hooks';
 import { editBackendPatient } from '@/store/thunks';
-import { newPatientFormValidationSchema } from '@/schemas';
+import { editPatientFormValidationSchema } from '@/schemas';
 import { mapBackendPatientToEditPatient } from '@/utils';
+import { modalityOptions, sessionOptions, sexOptions } from '@/constants';
 import { BackendEditPatient } from '@/types';
 
 const defaultInitialValues: BackendEditPatient = {
@@ -35,7 +36,7 @@ const defaultInitialValues: BackendEditPatient = {
   patientEvolution: '',
   sessionDay: '',
   modality: '',
-  sessionDuration: '',
+  sessionDuration: 0,
   sessionFrequency: '',
   preferedContact: '',
 };
@@ -52,7 +53,7 @@ export function EditPatientForm() {
   const formik = useFormik<BackendEditPatient>({
     enableReinitialize: true,
     initialValues,
-    validationSchema: newPatientFormValidationSchema,
+    validationSchema: editPatientFormValidationSchema,
     onSubmit: (values) => {
       const editedPatient = { ...patient, ...values };
 
@@ -179,29 +180,21 @@ export function EditPatientForm() {
             Sexo <span className="text-red-600">*</span>
           </label>
           <div className="flex flex-col gap-y-2">
-            {[
-              'Femenino',
-              'Masculino',
-              'Transgénero',
-              'No binario',
-              'Bigénero',
-              'Intersexual',
-              'Otro',
-            ].map((option) => (
+            {sexOptions.map(({ value, label }) => (
               <label
-                key={option}
+                key={value}
                 className="flex h-[32px] w-[118px] cursor-pointer items-center gap-x-3"
               >
                 <input
                   type="radio"
                   name="sex"
-                  value={option}
-                  checked={formik.values.sex === option}
+                  value={value}
+                  checked={formik.values.sex === value}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                   className="h-5 w-5 border border-[#000D4D73] accent-indigo-600"
                 />
-                <span className="text-base text-gray-900">{option}</span>
+                <span className="text-base text-gray-900">{label}</span>
               </label>
             ))}
           </div>
@@ -381,21 +374,21 @@ export function EditPatientForm() {
         <div className="flex flex-col">
           <label className="mb-2 text-base font-medium text-gray-900">Modalidad de atención</label>
           <div className="flex flex-col gap-y-2">
-            {['Presencial', 'Virtual', 'Híbrido'].map((option) => (
+            {modalityOptions.map(({ value, label }) => (
               <label
-                key={option}
+                key={value}
                 className="flex h-[32px] w-[118px] cursor-pointer items-center gap-x-3"
               >
                 <input
                   type="radio"
                   name="modality"
-                  value={option}
-                  checked={formik.values.modality === option}
+                  value={value}
+                  checked={formik.values.modality === value}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                   className="h-5 w-5 border border-[#000D4D73] accent-indigo-600"
                 />
-                <span className="text-base text-gray-900">{option}</span>
+                <span className="text-base text-gray-900">{label}</span>
               </label>
             ))}
           </div>
@@ -406,21 +399,21 @@ export function EditPatientForm() {
             Duración aproximada de la sesión
           </label>
           <div className="flex flex-col gap-y-2">
-            {['30 min', '45 min', '50 min', '60 min'].map((option) => (
+            {sessionOptions.map(({ value, label }) => (
               <label
-                key={option}
+                key={value}
                 className="flex h-[32px] w-[118px] cursor-pointer items-center gap-x-3"
               >
                 <input
                   type="radio"
                   name="sessionDuration"
-                  value={option}
-                  checked={formik.values.sessionDuration === option}
+                  value={value}
+                  checked={formik.values.sessionDuration === value}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                   className="h-5 w-5 border border-[#000D4D73] accent-indigo-600"
                 />
-                <span className="text-base text-gray-900">{option}</span>
+                <span className="text-base text-gray-900">{label}</span>
               </label>
             ))}
           </div>
