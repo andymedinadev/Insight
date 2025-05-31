@@ -2,7 +2,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 
 import { BACKEND_BASE_URL } from '@/config';
 import type { RootState } from '@/store';
-import type { BackendNote } from '@/types';
+import type { BackendNote, CreateNotePayload, DeleteNotePayload } from '@/types';
 
 // Traer todas las notas de un paciente
 export const fetchAllNotes = createAsyncThunk<BackendNote[], number, { rejectValue: string }>(
@@ -60,15 +60,6 @@ export const fetchOneNote = createAsyncThunk<
     return thunkApi.rejectWithValue(message);
   }
 });
-
-interface CreateNotePayload {
-  patientId: number;
-  noteData: {
-    title: string;
-    content: string;
-    date: string;
-  };
-}
 
 // Crear una nota para un paciente
 export const createNote = createAsyncThunk<BackendNote, CreateNotePayload, { rejectValue: string }>(
@@ -134,11 +125,6 @@ export const editNote = createAsyncThunk<
     return thunkApi.rejectWithValue(message);
   }
 });
-
-export interface DeleteNotePayload {
-  patientId: string;
-  noteId: string;
-}
 
 //Eliminar nota
 export const deleteNote = createAsyncThunk<string, DeleteNotePayload, { rejectValue: string }>(

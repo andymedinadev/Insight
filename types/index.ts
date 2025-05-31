@@ -32,3 +32,11 @@ export type { BackendNewPatient } from './backendNewPatient';
 export type { BackendNote } from './backendNote';
 export type { BackendPatient } from './backendPatient';
 export type { User } from './user';
+
+// Thunks types
+export type { CreateMaterialPayload } from './Thunks/createMaterialPayload';
+export type { CreateNotePayload } from './Thunks/createNotePayload';
+export type { DeleteMaterialPayload } from './Thunks/deleteMaterialPayload';
+export type { DeleteNotePayload } from './Thunks/deleteNotePayload';
+export type { EditResponse } from './Thunks/editResponse';
+export type { UpdateUserPayload } from './Thunks/updateUserPayload';

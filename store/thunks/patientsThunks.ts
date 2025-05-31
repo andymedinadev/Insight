@@ -2,7 +2,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 
 import { BACKEND_BASE_URL } from '@/config';
 import type { RootState } from '@/store';
-import type { BackendPatient, BackendNewPatient } from '@/types';
+import type { BackendPatient, BackendNewPatient, EditResponse } from '@/types';
 
 // Traer todos los pacientes
 export const fetchPatients = createAsyncThunk<BackendPatient[], void, { rejectValue: string }>(
@@ -154,12 +154,6 @@ export const deleteBackendPatient = createAsyncThunk<
 });
 
 // Editar un paciente
-type EditResponse = {
-  patientId: number;
-  success: boolean;
-  message: string;
-};
-
 export const editBackendPatient = createAsyncThunk<
   EditResponse,
   BackendPatient,

@@ -2,7 +2,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 
 import { BACKEND_BASE_URL } from '@/config';
 import type { RootState } from '@/store';
-import type { BackendMaterial } from '@/types';
+import type { BackendMaterial, CreateMaterialPayload, DeleteMaterialPayload } from '@/types';
 
 // Traer todos los materiales de un paciente
 export const fetchAllMaterials = createAsyncThunk<
@@ -64,15 +64,6 @@ export const fetchOneMaterial = createAsyncThunk<
     return thunkApi.rejectWithValue(message);
   }
 });
-
-export interface CreateMaterialPayload {
-  patientId: number;
-  materialData: {
-    title: string;
-    content: string;
-    date: string;
-  };
-}
 
 // Crear un material para un paciente
 export const createMaterial = createAsyncThunk<
@@ -145,11 +136,6 @@ export const editMaterial = createAsyncThunk<
     return thunkApi.rejectWithValue(message);
   }
 });
-
-export interface DeleteMaterialPayload {
-  patientId: string;
-  materialId: string;
-}
 
 //Eliminar material
 export const deleteMaterial = createAsyncThunk<

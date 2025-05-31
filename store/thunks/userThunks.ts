@@ -2,6 +2,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 
 import { BACKEND_BASE_URL } from '@/config';
 import type { RootState } from '@/store';
+import type { UpdateUserPayload } from '@/types';
 
 export const fetchUser = createAsyncThunk('user/fetchUser', async (_, thunkApi) => {
   try {
@@ -28,12 +29,6 @@ export const fetchUser = createAsyncThunk('user/fetchUser', async (_, thunkApi) 
     return thunkApi.rejectWithValue(message);
   }
 });
-
-interface UpdateUserPayload {
-  nombre: string;
-  email: string;
-  titulo: string;
-}
 
 export const updateUser = createAsyncThunk<void, UpdateUserPayload, { state: RootState }>(
   'user/updateUser',
