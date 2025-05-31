@@ -4,7 +4,6 @@ import { useSearchParams } from 'next/navigation';
 import { useDispatch } from 'react-redux';
 import { useFormik } from 'formik';
 import { InputField } from '@/components';
-// import { useBackPatientById } from '@/hooks';
 import { useBackendPatientById } from '@/hooks';
 import { medicalHistoryValidationSchema } from '@/schemas';
 import { createNote, createMaterial } from '@/store/thunks';
@@ -30,7 +29,6 @@ export default function MedicalHistoryNew({ onSaved, goBack }: Props) {
 
   const dispatch = useDispatch<AppDispatch>();
   const { id } = useBackendPatientById();
-  console.log(id);
 
   const initialValues: BackendNote = {
     id: 0,
@@ -44,15 +42,13 @@ export default function MedicalHistoryNew({ onSaved, goBack }: Props) {
     initialValues,
     validationSchema: medicalHistoryValidationSchema,
     onSubmit: async (values) => {
-      console.log('Datos del formulario de notas:', values);
-
       const newNote: Omit<BackendNotePayload, 'id'> = {
         content: values.content,
         date: new Date(values.creationDate).toISOString(),
         title: values.title,
         patientId: id,
       };
-      console.log(newNote);
+
       onSaved();
 
       if (isMaterial) {
@@ -62,8 +58,6 @@ export default function MedicalHistoryNew({ onSaved, goBack }: Props) {
       }
     },
   });
-
-  console.log(formik.values.creationDate);
 
   return (
     <div className="ml-2 max-w-xl p-4 sm:p-6 md:p-8">

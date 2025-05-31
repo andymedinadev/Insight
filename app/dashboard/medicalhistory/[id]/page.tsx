@@ -12,7 +12,6 @@ import { useSearchParams, useRouter } from 'next/navigation';
 import { BackendNote } from '@/types';
 import { useDispatch } from 'react-redux';
 import { deleteNote, deleteMaterial } from '@/store/thunks';
-// import { useBackPatientById } from '@/hooks';
 import { useBackendPatientById } from '@/hooks';
 import { AppDispatch } from '@/store';
 import Image from 'next/image';

@@ -60,14 +60,6 @@ export default function MedicalHistoryEdit({ onSaved, goBack, note }: Props) {
     initialValues: formattedNote,
     validationSchema: medicalHistoryValidationSchema,
     onSubmit: async (values) => {
-      const updatedNote: BackendNote = {
-        id: values.id,
-        content: values.content,
-        creationDate: values.creationDate,
-        title: values.title,
-        patientId: id,
-      };
-      console.log(updatedNote);
       onSaved();
 
       if (isMaterial) {
