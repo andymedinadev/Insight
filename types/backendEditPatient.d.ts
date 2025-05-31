@@ -65,7 +65,7 @@ export interface BackendEditPatient {
   patientEvolution: string | undefined;
   sessionDay: string | undefined;
   modality: string | undefined;
-  sessionDuration: string | undefined;
+  sessionDuration: number | undefined;
   sessionFrequency: string | undefined;
   preferedContact: string | undefined;
 }

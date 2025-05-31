@@ -23,7 +23,7 @@ export interface BackendPatient {
   patientEvolution: string | null;
   sessionDay: string | null;
   modality: string | null;
-  sessionDuration: string | null;
+  sessionDuration: number | null;
   sessionFrequency: string | null;
   preferedContact: string | null;
 }
