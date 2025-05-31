@@ -40,13 +40,13 @@ export default function FormPatient() {
       const patientToSend: BackendNewPatient = {
         ...values,
         birthdate: new Date(values.birthdate).toISOString(),
-        sessionDay: values.sessionDay ? new Date(values.sessionDay).toISOString() : '',
+        sessionDay: values.sessionDay ? values.sessionDay : '',
         userId: 0,
         modality: values.modality ? values.modality : 'Presencial',
         sessionDuration: values.sessionDuration ? values.sessionDuration : 0,
         identification: values.identification.toString(),
       };
-
+      console.log(patientToSend);
       try {
         await dispatch(createBackendPatient(patientToSend)).unwrap();
         router.push('/dashboard/patientlist');
