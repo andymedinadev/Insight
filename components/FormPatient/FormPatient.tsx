@@ -46,7 +46,7 @@ export default function FormPatient() {
         sessionDuration: values.sessionDuration ? values.sessionDuration : 0,
         identification: values.identification.toString(),
       };
-      console.log(patientToSend);
+
       try {
         await dispatch(createBackendPatient(patientToSend)).unwrap();
         router.push('/dashboard/patientlist');

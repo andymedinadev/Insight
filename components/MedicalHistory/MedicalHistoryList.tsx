@@ -38,11 +38,8 @@ export default function MedicalHistoryList({ onSelectedNote }: Props) {
 
   const materialsData = useSelector((state: RootState) => state.backendPatients.materials.all);
   const notesData = useSelector((state: RootState) => state.backendPatients.notes.all);
-
   const patientData = isMaterial ? materialsData : notesData;
-
   const data = patientData ?? [];
-  console.log(data);
   const currentDate = useSelector((state: RootState) => state.backendPatients.filters.creationDate);
   const selectedDate = Array.isArray(currentDate) ? currentDate[0] : currentDate;
 
@@ -76,7 +73,6 @@ export default function MedicalHistoryList({ onSelectedNote }: Props) {
 
     return matchesSearch && matchesDate;
   });
-  console.log(filteredData);
 
   const startIndex = (currentPage - 1) * itemsPerPage;
   const paginatedData = filteredData.slice(startIndex, startIndex + itemsPerPage);

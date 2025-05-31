@@ -69,7 +69,6 @@ export const createNote = createAsyncThunk<BackendNote, CreateNotePayload, { rej
     const token = state.auth.token;
 
     try {
-      console.log('Datos enviados al backend:', noteData);
       const response = await fetch(`${BACKEND_BASE_URL}/api/Patient/${patientId}/notes`, {
         method: 'POST',
         headers: {
@@ -78,7 +77,6 @@ export const createNote = createAsyncThunk<BackendNote, CreateNotePayload, { rej
         },
         body: JSON.stringify(noteData),
       });
-      console.log(response);
 
       if (!response.ok) {
         const errorText = await response.text();
