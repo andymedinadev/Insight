@@ -12,6 +12,8 @@ import {
   createMaterial,
   deleteNote,
   deleteMaterial,
+  editNote,
+  editMaterial,
 } from '@/store/thunks/backendPatientsThunks';
 import type { BackendPatient, BackendMaterial, BackendNote } from '@/types';
 
@@ -34,6 +36,7 @@ interface BackendPatientsState {
       fetchOne: FetchStatus;
       create: FetchStatus;
       delete: FetchStatus;
+      edit: FetchStatus;
     };
   };
 
@@ -45,6 +48,7 @@ interface BackendPatientsState {
       fetchOne: FetchStatus;
       create: FetchStatus;
       delete: FetchStatus;
+      edit: FetchStatus;
     };
   };
 
@@ -86,6 +90,7 @@ const initialState: BackendPatientsState = {
         loading: false,
       },
       delete: { loading: false, error: null },
+      edit: { loading: false, error: null },
     },
   },
 
@@ -106,6 +111,7 @@ const initialState: BackendPatientsState = {
         loading: false,
       },
       delete: { loading: false, error: null },
+      edit: { loading: false, error: null },
     },
   },
 
@@ -353,6 +359,52 @@ export const backendPatientsSlice = createSlice({
       .addCase(deleteMaterial.rejected, (state, action) => {
         state.materials.status.delete.loading = false;
         state.materials.status.delete.error = action.payload || 'Error al eliminar el material';
+      })
+
+      // EDITAR UNA NOTA
+      .addCase(editNote.pending, (state) => {
+        if (!state.notes.status.edit) {
+          state.notes.status.edit = { loading: true, error: null };
+        } else {
+          state.notes.status.edit.loading = true;
+          state.notes.status.edit.error = null;
+        }
+      })
+      .addCase(editNote.fulfilled, (state, action) => {
+        const index = state.notes.all.findIndex((note) => note.id === action.payload.id);
+        if (index !== -1) {
+          state.notes.all[index] = action.payload;
+        }
+        state.notes.status.edit.loading = false;
+        state.notes.status.edit.error = null;
+      })
+      .addCase(editNote.rejected, (state, action) => {
+        state.notes.status.edit.loading = false;
+        state.notes.status.edit.error = action.payload || 'Error al editar la nota';
+      })
+
+      // EDITAR UN MATERIAL
+      .addCase(editMaterial.pending, (state) => {
+        if (!state.materials.status.edit) {
+          state.materials.status.edit = { loading: true, error: null };
+        } else {
+          state.materials.status.edit.loading = true;
+          state.materials.status.edit.error = null;
+        }
+      })
+      .addCase(editMaterial.fulfilled, (state, action) => {
+        const index = state.materials.all.findIndex(
+          (material) => material.id === action.payload.id
+        );
+        if (index !== -1) {
+          state.materials.all[index] = action.payload;
+        }
+        state.materials.status.edit.loading = false;
+        state.materials.status.edit.error = null;
+      })
+      .addCase(editMaterial.rejected, (state, action) => {
+        state.materials.status.edit.loading = false;
+        state.materials.status.edit.error = action.payload || 'Error al editar el material';
       })
 
       // CREAR UN PACIENTE
