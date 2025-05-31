@@ -9,7 +9,7 @@ import { ArrowBack } from '@/public';
 import type { ResetPasswordPayload } from '@/types';
 
 export function Wizard() {
-  const [step, setStep] = useState<'email' | 'code' | 'new-password' | 'success'>('success');
+  const [step, setStep] = useState<'email' | 'code' | 'new-password' | 'success'>('email');
   const [payload, setPayload] = useState<ResetPasswordPayload>({
     email: '',
     code: '',
@@ -60,9 +60,15 @@ export function Wizard() {
           />
         )}
         {step === 'new-password' && (
-          <NewPasswordStep payload={payload} onNext={() => setStep('success')} />
+          <NewPasswordStep
+            payload={payload}
+            onNext={(payload: ResetPasswordPayload) => {
+              setPayload(payload);
+              setStep('success');
+            }}
+          />
         )}
-        {step === 'success' && <SuccessStep />}
+        {step === 'success' && <SuccessStep email={payload.email} password={payload.newPassword} />}
       </div>
     </>
   );

@@ -1,8 +1,35 @@
+'use client';
+
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 
+import { useLogin } from '@/hooks';
 import { ValidCodeImage } from '@/public';
 
-export function SuccessStep() {
+type Props = {
+  email: string;
+  password: string;
+};
+
+export function SuccessStep({ email, password }: Props) {
+  const router = useRouter();
+
+  const { login, loading } = useLogin();
+
+  const [redirecting, setRedirecting] = useState(false);
+
+  const isLoading = loading || redirecting;
+
+  const handleClick = async () => {
+    const successLogin = await login(email, password);
+
+    if (successLogin) {
+      setRedirecting(true);
+      router.push('/dashboard/home');
+    }
+  };
+
   return (
     <>
       <div>
@@ -18,13 +45,12 @@ export function SuccessStep() {
         <div className="mt-24 flex justify-center lg:mt-32">
           <button
             type="submit"
-            // Pendiente el inicio de sesión
-            // disabled={redirecting}
-            // onClick={handleClick}
-            className={`mb-0 inline-flex h-12 w-[350px] items-center justify-center rounded-lg bg-[#0655D5] lg:mt-0 lg:w-[470px] lg:rounded-xl ${false ? 'cursor-not-allowed' : 'cursor-pointer'}`}
+            disabled={isLoading}
+            onClick={handleClick}
+            className={`mb-0 inline-flex h-12 w-[350px] items-center justify-center rounded-lg bg-[#0655D5] lg:mt-0 lg:w-[470px] lg:rounded-xl ${isLoading ? 'cursor-not-allowed' : 'cursor-pointer'}`}
           >
             <p className="justify-start border-none text-center font-['Roboto'] text-base leading-normal font-semibold text-white lg:text-2xl lg:leading-7">
-              {false ? 'Cargando...' : 'Iniciar Sesión'}
+              {isLoading ? 'Cargando...' : 'Iniciar Sesión'}
             </p>
           </button>
         </div>
