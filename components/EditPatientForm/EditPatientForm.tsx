@@ -408,7 +408,7 @@ export function EditPatientForm() {
                   type="radio"
                   name="sessionDuration"
                   value={value}
-                  checked={formik.values.sessionDuration === value}
+                  checked={String(formik.values.sessionDuration) === String(value)}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                   className="h-5 w-5 border border-[#000D4D73] accent-indigo-600"
