@@ -68,7 +68,7 @@ export function LoginForm() {
         />
 
         <div className="h-6 justify-start text-right font-['Roboto'] text-sm leading-normal font-bold text-blue-700 underline">
-          ¿Olvidó su contraseña?
+          <Link href={'/auth/forgot-password'}>¿Olvidó su contraseña?</Link>
         </div>
 
         <button

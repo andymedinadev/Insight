@@ -9,7 +9,7 @@ import type { ResetPasswordPayload } from '@/types';
 
 interface NewPasswordStepProps {
   payload: ResetPasswordPayload;
-  onNext: () => void;
+  onNext: (payload: ResetPasswordPayload) => void;
 }
 
 const validationSchema = Yup.object({
@@ -42,7 +42,7 @@ export function NewPasswordStep({ payload, onNext }: NewPasswordStepProps) {
       const success = await resetPassword(lastPayload);
 
       if (success) {
-        onNext();
+        onNext(lastPayload);
       }
     },
   });
