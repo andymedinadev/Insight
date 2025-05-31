@@ -107,6 +107,45 @@ export const createMaterial = createAsyncThunk<
   }
 });
 
+// Editar material
+export const editMaterial = createAsyncThunk<
+  BackendMaterial,
+  {
+    patientId: number;
+    materialId: number;
+    materialData: { title: string; content: string; date: string };
+  },
+  { rejectValue: string }
+>('backendPatients/editMaterial', async ({ patientId, materialId, materialData }, thunkApi) => {
+  const state = thunkApi.getState() as RootState;
+  const token = state.auth.token;
+
+  try {
+    const response = await fetch(
+      `${BACKEND_BASE_URL}/api/Patient/${patientId}/materials/${materialId}`,
+      {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(materialData),
+      }
+    );
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(`HTTP ${response.status}: ${errorText}`);
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'Error desconocido';
+    return thunkApi.rejectWithValue(message);
+  }
+});
+
 export interface DeleteMaterialPayload {
   patientId: string;
   materialId: string;

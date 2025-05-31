@@ -3,12 +3,10 @@
 import { useSearchParams } from 'next/navigation';
 import { useFormik } from 'formik';
 import { InputField } from '@/components';
-// import { useNewPatientById } from '@/hooks';
+import { useAppDispatch, useBackendPatientById } from '@/hooks';
 import { medicalHistoryValidationSchema } from '@/schemas';
-// import { editMaterialOfPatient, editNoteOfPatient } from '@/store/slices/patientSlice';
-import { BackendNote /*, Material*/ } from '@/types';
-// import { useAppDispatch, useBackendPatientById } from '@/hooks';
-import { useBackendPatientById } from '@/hooks';
+import { editNote, editMaterial } from '@/store/thunks';
+import { BackendNote } from '@/types';
 
 type Props = {
   onSaved: () => void;
@@ -21,10 +19,14 @@ function convertToISO(dateString: string): string {
     return dateString;
   }
 
+  if (/^\d{4}-\d{2}-\d{2}T/.test(dateString)) {
+    return new Date(dateString).toISOString().split('T')[0];
+  }
+
   const [day, month, year] = dateString.split('/');
   if (!day || !month || !year) {
     console.warn('Formato de fecha inválido:', dateString);
-    return dateString;
+    return '';
   }
 
   return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
@@ -35,7 +37,7 @@ export default function MedicalHistoryEdit({ onSaved, goBack, note }: Props) {
   const from = searchParams.get('from');
   const isMaterial = from === 'material';
 
-  // const dispatch = useAppDispatch();
+  const dispatch = useAppDispatch();
   const { id } = useBackendPatientById();
 
   const initialValues: BackendNote = note || {
@@ -49,7 +51,7 @@ export default function MedicalHistoryEdit({ onSaved, goBack, note }: Props) {
   const formattedNote = note
     ? {
         ...note,
-        date: convertToISO(note.creationDate),
+        creationDate: convertToISO(note.creationDate),
       }
     : initialValues;
 
@@ -69,12 +71,34 @@ export default function MedicalHistoryEdit({ onSaved, goBack, note }: Props) {
       onSaved();
 
       if (isMaterial) {
-        // dispatch(editMaterialOfPatient({ patientId: id, material: updatedNote }));
+        dispatch(
+          editMaterial({
+            patientId: id,
+            materialId: values.id,
+            materialData: {
+              title: values.title,
+              content: values.content,
+              date: values.creationDate,
+            },
+          })
+        );
       } else {
-        // dispatch(editNoteOfPatient({ patientId: id, note: updatedNote }));
+        dispatch(
+          editNote({
+            patientId: id,
+            noteId: values.id,
+            noteData: {
+              title: values.title,
+              content: values.content,
+              date: values.creationDate,
+            },
+          })
+        );
       }
     },
   });
+
+  const formattedDate = new Date(formik.values.creationDate).toISOString().split('T')[0];
 
   return (
     <div className="ml-2 max-w-xl p-4 sm:p-6 md:p-8">
@@ -94,10 +118,10 @@ export default function MedicalHistoryEdit({ onSaved, goBack, note }: Props) {
 
         <div className="flex flex-col space-y-1">
           <InputField
-            id="date"
+            id="creationDate"
             label="Fecha de la sesión"
             type="date"
-            value={formik.values.creationDate}
+            value={formattedDate}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             required

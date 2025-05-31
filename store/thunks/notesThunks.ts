@@ -103,52 +103,32 @@ export const createNote = createAsyncThunk<BackendNote, CreateNotePayload, { rej
   }
 );
 
-// Editar una nota
-export const editNoteOfPatient = createAsyncThunk<
+// Editar nota
+export const editNote = createAsyncThunk<
   BackendNote,
-  { patientId: number; note: BackendNote },
+  { patientId: number; noteId: number; noteData: { title: string; content: string; date: string } },
   { rejectValue: string }
->('backendPatients/editNoteOfPatient', async ({ patientId, note }, thunkApi) => {
+>('backendPatients/editNote', async ({ patientId, noteId, noteData }, thunkApi) => {
   const state = thunkApi.getState() as RootState;
   const token = state.auth.token;
 
-  const payload = {
-    id: note.id,
-    patientId,
-    title: note.title,
-    content: note.content,
-    creationDate: note.creationDate,
-    sessionDate: '',
-    actualizationDate: '',
-  };
-
   try {
-    const response = await fetch(`${BACKEND_BASE_URL}/api/Patient/${patientId}/notes/${note.id}`, {
+    const response = await fetch(`${BACKEND_BASE_URL}/api/Patient/${patientId}/notes/${noteId}`, {
       method: 'PUT',
       headers: {
-        Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify(payload),
+      body: JSON.stringify(noteData),
     });
 
     if (!response.ok) {
       const errorText = await response.text();
-      throw new Error(`Error HTTP ${response.status}: ${errorText}`);
+      throw new Error(`HTTP ${response.status}: ${errorText}`);
     }
 
     const data = await response.json();
-    const { patientNote } = data;
-
-    const result: BackendNote = {
-      id: patientNote.id,
-      title: patientNote.id,
-      content: patientNote.content,
-      patientId: patientNote.patientId,
-      creationDate: patientNote.creationDate,
-    };
-
-    return result;
+    return data;
   } catch (error) {
     const message = error instanceof Error ? error.message : 'Error desconocido';
     return thunkApi.rejectWithValue(message);

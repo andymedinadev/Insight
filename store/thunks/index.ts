@@ -8,17 +8,12 @@ export {
   submitEditedPatient,
 } from './patientsThunks';
 
-export {
-  createNote,
-  deleteNote,
-  editNoteOfPatient,
-  fetchAllNotes,
-  fetchOneNote,
-} from './notesThunks';
+export { createNote, deleteNote, editNote, fetchAllNotes, fetchOneNote } from './notesThunks';
 
 export {
   createMaterial,
   deleteMaterial,
+  editMaterial,
   fetchAllMaterials,
   fetchOneMaterial,
 } from './materialsThunks';

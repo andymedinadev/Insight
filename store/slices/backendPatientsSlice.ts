@@ -3,7 +3,8 @@ import {
   createBackendPatient,
   deleteBackendPatient,
   editBackendPatient,
-  editNoteOfPatient,
+  editNote,
+  editMaterial,
   fetchPatients,
   fetchArchivedPatients,
   fetchOnePatient,
@@ -37,6 +38,7 @@ interface BackendPatientsState {
       fetchOne: FetchStatus;
       create: FetchStatus;
       delete: FetchStatus;
+      edit: FetchStatus;
     };
   };
 
@@ -48,6 +50,7 @@ interface BackendPatientsState {
       fetchOne: FetchStatus;
       create: FetchStatus;
       delete: FetchStatus;
+      edit: FetchStatus;
     };
   };
 
@@ -89,6 +92,7 @@ const initialState: BackendPatientsState = {
         loading: false,
       },
       delete: { loading: false, error: null },
+      edit: { loading: false, error: null },
     },
   },
 
@@ -109,6 +113,7 @@ const initialState: BackendPatientsState = {
         loading: false,
       },
       delete: { loading: false, error: null },
+      edit: { loading: false, error: null },
     },
   },
 
@@ -279,28 +284,6 @@ export const backendPatientsSlice = createSlice({
         state.notes.status.fetchOne.error = action.payload || 'Error al obtener la nota';
       })
 
-      // EDITAR UNA NOTA DE UN PACIENTE
-      .addCase(editNoteOfPatient.pending, (state) => {
-        state.notes.status.fetchOne.loading = true;
-        state.notes.status.fetchOne.error = null;
-      })
-      .addCase(editNoteOfPatient.fulfilled, (state, action) => {
-        const updated = action.payload;
-        const index = state.notes.all.findIndex((n) => n.id === updated.id);
-        if (index !== -1) {
-          state.notes.all[index] = updated;
-        }
-        if (state.notes.selected?.id === updated.id) {
-          state.notes.selected = updated;
-        }
-        state.notes.status.fetchOne.loading = false;
-      })
-      .addCase(editNoteOfPatient.rejected, (state, action) => {
-        state.notes.status.fetchOne.loading = false;
-        state.notes.status.fetchOne.error =
-          action.payload || 'Error al editar la nota del paciente.';
-      })
-
       // TRAER UN MATERIAL DE UN PACIENTE
       .addCase(fetchOneMaterial.pending, (state) => {
         state.materials.status.fetchOne.loading = true;
@@ -379,6 +362,52 @@ export const backendPatientsSlice = createSlice({
       .addCase(deleteMaterial.rejected, (state, action) => {
         state.materials.status.delete.loading = false;
         state.materials.status.delete.error = action.payload || 'Error al eliminar el material';
+      })
+
+      // EDITAR UNA NOTA
+      .addCase(editNote.pending, (state) => {
+        if (!state.notes.status.edit) {
+          state.notes.status.edit = { loading: true, error: null };
+        } else {
+          state.notes.status.edit.loading = true;
+          state.notes.status.edit.error = null;
+        }
+      })
+      .addCase(editNote.fulfilled, (state, action) => {
+        const index = state.notes.all.findIndex((note) => note.id === action.payload.id);
+        if (index !== -1) {
+          state.notes.all[index] = action.payload;
+        }
+        state.notes.status.edit.loading = false;
+        state.notes.status.edit.error = null;
+      })
+      .addCase(editNote.rejected, (state, action) => {
+        state.notes.status.edit.loading = false;
+        state.notes.status.edit.error = action.payload || 'Error al editar la nota';
+      })
+
+      // EDITAR UN MATERIAL
+      .addCase(editMaterial.pending, (state) => {
+        if (!state.materials.status.edit) {
+          state.materials.status.edit = { loading: true, error: null };
+        } else {
+          state.materials.status.edit.loading = true;
+          state.materials.status.edit.error = null;
+        }
+      })
+      .addCase(editMaterial.fulfilled, (state, action) => {
+        const index = state.materials.all.findIndex(
+          (material) => material.id === action.payload.id
+        );
+        if (index !== -1) {
+          state.materials.all[index] = action.payload;
+        }
+        state.materials.status.edit.loading = false;
+        state.materials.status.edit.error = null;
+      })
+      .addCase(editMaterial.rejected, (state, action) => {
+        state.materials.status.edit.loading = false;
+        state.materials.status.edit.error = action.payload || 'Error al editar el material';
       })
 
       // CREAR UN PACIENTE
