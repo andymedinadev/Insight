@@ -91,3 +91,4 @@ export { ChangePasswordNewStep } from './ChangePassword/ChangePasswordNewStep';
 export { ChangePasswordOldStep } from './ChangePassword/ChangePasswordOldStep';
 export { ChangePasswordSuccessStep } from './ChangePassword/ChangePasswordSuccessStep';
 export { ChangePasswordWizard } from './ChangePassword/ChangePasswordWizard';
+export { UserChangePassword } from './UserChangePassword/UserChangePassword';

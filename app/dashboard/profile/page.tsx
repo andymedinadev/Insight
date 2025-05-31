@@ -1,4 +1,4 @@
-import { UserProfileView } from '@/components';
+import { UserProfileView, UserChangePassword } from '@/components';
 import { AvatarGeneral } from '@/public';
 import Image from 'next/image';
 import React from 'react';
@@ -20,6 +20,7 @@ export default function page() {
             Datos personales
           </h1>
           <UserProfileView />
+          <UserChangePassword />
         </div>
       </div>
     </div>
