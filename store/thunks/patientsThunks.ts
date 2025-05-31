@@ -2,7 +2,8 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 
 import { BACKEND_BASE_URL } from '@/config';
 import type { RootState } from '@/store';
-import type { BackendPatient, BackendNewPatient, EditResponse } from '@/types';
+import { mapEditPatientToBackendPatient } from '@/utils';
+import type { BackendPatient, BackendEditPatient, BackendNewPatient } from '@/types';
 
 // Traer todos los pacientes
 export const fetchPatients = createAsyncThunk<BackendPatient[], void, { rejectValue: string }>(
@@ -155,12 +156,14 @@ export const deleteBackendPatient = createAsyncThunk<
 
 // Editar un paciente
 export const editBackendPatient = createAsyncThunk<
-  EditResponse,
-  BackendPatient,
+  void,
+  BackendEditPatient,
   { rejectValue: string }
 >('backendPatients/editBackendPatient', async (patient, thunkApi) => {
   const state = thunkApi.getState() as RootState;
   const token = state.auth.token;
+
+  const payload = mapEditPatientToBackendPatient(patient);
 
   try {
     const response = await fetch(`${BACKEND_BASE_URL}/api/Patient/${patient.id}`, {
@@ -169,7 +172,7 @@ export const editBackendPatient = createAsyncThunk<
         Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(patient),
+      body: JSON.stringify(payload),
     });
 
     if (!response.ok) {
@@ -182,24 +185,8 @@ export const editBackendPatient = createAsyncThunk<
       const errorText = await response.text();
       throw new Error(`Error HTTP ${response.status}: ${errorText}`);
     }
-
-    const result = await response.json();
-    return result;
   } catch (error) {
     const message = error instanceof Error ? error.message : 'Error desconocido';
     return thunkApi.rejectWithValue(message);
   }
 });
-
-export const submitEditedPatient = createAsyncThunk<void, BackendPatient, { rejectValue: string }>(
-  'backendPatients/submitEditedPatient',
-  async (patient, thunkApi) => {
-    const result = await thunkApi.dispatch(editBackendPatient(patient));
-
-    if (editBackendPatient.rejected.match(result)) {
-      return thunkApi.rejectWithValue(result.payload as string);
-    }
-
-    await thunkApi.dispatch(fetchOnePatient(patient.id));
-  }
-);

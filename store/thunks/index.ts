@@ -5,7 +5,6 @@ export {
   fetchArchivedPatients,
   fetchOnePatient,
   fetchPatients,
-  submitEditedPatient,
 } from './patientsThunks';
 
 export { createNote, deleteNote, editNote, fetchAllNotes, fetchOneNote } from './notesThunks';

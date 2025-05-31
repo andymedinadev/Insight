@@ -3,7 +3,7 @@
 
 export type { default as TypesCardButtons } from './ButtonCards/components';
 export type { ChangePasswordPayload } from './ChangePassword/ChangePasswordPayload';
-export type { EditPatient } from './editPatient';
+export type { BackendEditPatient } from './backendEditPatient';
 export type { NewPatient } from './newPatient';
 export type { SignupFormData } from './Signup/signupFormData';
 export type { SignupPayload } from './Signup/signupPayload';
