@@ -1,6 +1,6 @@
 import * as Yup from 'yup';
 
-export const newPatientFormValidationSchema = Yup.object({
+export const editPatientFormValidationSchema = Yup.object({
   name: Yup.string()
     .required('El nombre es obligatorio')
     .matches(/^[A-Za-zÁÉÍÓÚÑáéíóúñ\s'-]+$/, 'El nombre solo puede contener letras')
@@ -40,4 +40,22 @@ export const newPatientFormValidationSchema = Yup.object({
   admissionDate: Yup.date()
     .required('La fecha de ingreso es obligatoria')
     .max(new Date(), 'La fecha de ingreso no puede ser futura'),
+
+  // Opcionales
+  principalMotive: Yup.string().nullable(),
+  actualSymptoms: Yup.string().nullable(),
+  recentEvents: Yup.string().nullable(),
+  previousDiagnosis: Yup.string().nullable(),
+
+  profesionalObservations: Yup.string().nullable(),
+  keyWords: Yup.string().nullable(),
+  failedActs: Yup.string().nullable(),
+  interconsulation: Yup.string().nullable(),
+  patientEvolution: Yup.string().nullable(),
+
+  sessionDay: Yup.string().nullable(),
+  modality: Yup.string().nullable(),
+  sessionDuration: Yup.string().nullable(),
+  sessionFrequency: Yup.string().nullable(),
+  preferedContact: Yup.string().nullable(),
 });
