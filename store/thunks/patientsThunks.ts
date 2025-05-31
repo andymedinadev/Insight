@@ -178,6 +178,14 @@ export const editBackendPatient = createAsyncThunk<
     if (!response.ok) {
       if (response.status === 400) {
         const errorBody = await response.json();
+
+        if (errorBody?.errors && typeof errorBody.errors === 'object') {
+          const errorMessages = Object.entries(errorBody.errors)
+            .map(([field, messages]) => `${field}: ${(messages as string[]).join(', ')}`)
+            .join(' | ');
+          return thunkApi.rejectWithValue(errorMessages);
+        }
+
         const detail = errorBody?.detail ?? 'Error de validación';
         return thunkApi.rejectWithValue(detail);
       }
