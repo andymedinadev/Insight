@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { AppDispatch, RootState } from '@/store';
-import { fetchUser } from '@/store/slices/userSlice';
+import { fetchUser } from '@/store/thunks';
 import UserProfileEdit from './UserProfileEdit';
 import { iconEdit, CheckIcon } from '@/public';
 import Image from 'next/image';

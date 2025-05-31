@@ -22,3 +22,5 @@ export {
   fetchAllMaterials,
   fetchOneMaterial,
 } from './materialsThunks';
+
+export { fetchUser, updateUser } from './userThunks';

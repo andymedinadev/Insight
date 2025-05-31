@@ -2,7 +2,8 @@
 
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { fetchUser, selectUser } from '@/store/slices/userSlice';
+import { selectUser } from '@/store/slices/userSlice';
+import { fetchUser } from '@/store/thunks';
 import { useAppDispatch } from '@/hooks/useAppDispatch';
 import { User } from '@/types';
 
