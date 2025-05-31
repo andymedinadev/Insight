@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation';
 import { useFormik } from 'formik';
 
 import { InputField, ValidationError } from '@/components';
-import { useAppDispatch, useBackendPatientById } from '@/hooks';
+import { useAppDispatch, useBackendPatientById, useClearSelectedPatientOnUnmount } from '@/hooks';
 import { editBackendPatient } from '@/store/thunks';
 import { newPatientFormValidationSchema } from '@/schemas';
 import { mapBackendPatientToEditPatient } from '@/utils';
@@ -61,6 +61,9 @@ export function EditPatientForm() {
       router.push('/dashboard/patientlist');
     },
   });
+
+  // Limpiar paciente seleccionado al desmontar
+  useClearSelectedPatientOnUnmount();
 
   return (
     <div className="mt-2.5 max-w-xl flex-col lg:mx-auto lg:mt-6 lg:flex lg:w-1/3">

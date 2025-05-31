@@ -1,21 +1,13 @@
 'use client';
 
-import { useAppDispatch, useBackendPatientById } from '@/hooks';
+import { useBackendPatientById, useClearSelectedPatientOnUnmount } from '@/hooks';
 import { PatientProfileHeader, PatientProfileInfo, PatientProfileLorem } from '@/components';
-import { useEffect } from 'react';
-import { clearSelectedPatient } from '@/store/slices/backendPatientsSlice';
 
 export default function PatientProfile() {
-  const dispatch = useAppDispatch();
-
   const { patient, loading } = useBackendPatientById();
 
-  // Limpiar paciente seleccionado al navegar
-  useEffect(() => {
-    return () => {
-      dispatch(clearSelectedPatient());
-    };
-  }, [dispatch]);
+  // Limpiar paciente seleccionado al desmontar
+  useClearSelectedPatientOnUnmount();
 
   if (loading) {
     return (
