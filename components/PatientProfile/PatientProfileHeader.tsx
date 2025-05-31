@@ -4,9 +4,9 @@ import Link from 'next/link';
 import Image from 'next/image';
 
 import { ArrowBack } from '@/public';
-import type { BackendPatient } from '@/types';
+import type { FrontendPatient } from '@/types';
 
-export function PatientProfileHeader({ patient }: { patient: BackendPatient }) {
+export function PatientProfileHeader({ patient }: { patient: FrontendPatient }) {
   const router = useRouter();
 
   const handleRedirect = (id: number, queryParam?: string) => {

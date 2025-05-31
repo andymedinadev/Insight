@@ -4,9 +4,9 @@ import { useState } from 'react';
 import Image from 'next/image';
 
 import { FlechaBaja } from '@/public';
-import type { BackendPatient } from '@/types';
+import type { FrontendPatient } from '@/types';
 
-export function PatientProfileLorem({ patient }: { patient: BackendPatient }) {
+export function PatientProfileLorem({ patient }: { patient: FrontendPatient }) {
   const [openSection, setOpenSection] = useState<string | null>(null);
 
   const toggleSection = (section: string) => {

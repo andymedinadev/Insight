@@ -4,9 +4,9 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 
 import { AvatarGeneral } from '@/public';
-import type { BackendPatient } from '@/types';
+import type { FrontendPatient } from '@/types';
 
-export function PatientProfileInfo({ patient }: { patient: BackendPatient }) {
+export function PatientProfileInfo({ patient }: { patient: FrontendPatient }) {
   const router = useRouter();
 
   const handleEditClick = () => {
