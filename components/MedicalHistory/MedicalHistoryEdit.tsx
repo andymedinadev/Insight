@@ -1,13 +1,11 @@
 'use client';
 
 import { useSearchParams } from 'next/navigation';
-import { useDispatch } from 'react-redux';
 import { useFormik } from 'formik';
 import { InputField } from '@/components';
-import { useBackPatientById } from '@/hooks';
+import { useAppDispatch, useBackendPatientById } from '@/hooks';
 import { medicalHistoryValidationSchema } from '@/schemas';
-import { AppDispatch } from '@/store';
-import { editNote, editMaterial } from '@/store/thunks/backendPatientsThunks';
+import { editNote, editMaterial } from '@/store/thunks';
 import { BackendNote } from '@/types';
 
 type Props = {
@@ -39,8 +37,8 @@ export default function MedicalHistoryEdit({ onSaved, goBack, note }: Props) {
   const from = searchParams.get('from');
   const isMaterial = from === 'material';
 
-  const dispatch = useDispatch<AppDispatch>();
-  const { id } = useBackPatientById();
+  const dispatch = useAppDispatch();
+  const { id } = useBackendPatientById();
 
   const initialValues: BackendNote = note || {
     id: 0,

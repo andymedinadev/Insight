@@ -1,6 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
 import {
   createBackendPatient,
+  deleteBackendPatient,
+  editBackendPatient,
+  editNote,
+  editMaterial,
   fetchPatients,
   fetchArchivedPatients,
   fetchOnePatient,
@@ -12,9 +16,7 @@ import {
   createMaterial,
   deleteNote,
   deleteMaterial,
-  editNote,
-  editMaterial,
-} from '@/store/thunks/backendPatientsThunks';
+} from '@/store/thunks';
 import type { BackendPatient, BackendMaterial, BackendNote } from '@/types';
 
 type FetchStatus = {
@@ -149,6 +151,7 @@ export const backendPatientsSlice = createSlice({
     clearSelectedPatient(state) {
       state.selectedPatient = null;
       state.status.fetchOnePatient = { loading: false, error: null };
+      state.selectedPatient = null;
     },
     clearSelectedNote(state) {
       state.notes.selected = null;
@@ -423,11 +426,45 @@ export const backendPatientsSlice = createSlice({
         } else {
           state.status.createPatient.error = 'Error desconocido';
         }
+      })
+
+      // ELIMINAR UN PACIENTE
+      .addCase(deleteBackendPatient.pending, (state) => {
+        state.status.fetchOnePatient.loading = true;
+        state.status.fetchOnePatient.error = null;
+      })
+      .addCase(deleteBackendPatient.fulfilled, (state, action) => {
+        const deletedId = action.payload.id;
+        state.patients = state.patients.filter((p) => p.id !== deletedId);
+        state.archivedPatients = state.archivedPatients.filter((p) => p.id !== deletedId);
+
+        if (state.selectedPatient?.id === deletedId) {
+          state.selectedPatient = null;
+        }
+
+        state.status.fetchOnePatient.loading = false;
+      })
+      .addCase(deleteBackendPatient.rejected, (state, action) => {
+        state.status.fetchOnePatient.loading = false;
+        state.status.fetchOnePatient.error = action.payload || 'Error al eliminar el paciente.';
+      })
+
+      // EDITAR UN PACIENTE
+      .addCase(editBackendPatient.pending, (state) => {
+        state.status.fetchOnePatient.loading = true;
+        state.status.fetchOnePatient.error = null;
+      })
+      .addCase(editBackendPatient.rejected, (state, action) => {
+        state.status.fetchOnePatient.loading = false;
+        state.status.fetchOnePatient.error = action.payload || 'Error al editar el paciente.';
       });
   },
 });
 
 export const {
+  clearSelectedPatient,
+  resetSearchTerm,
+  setSearchTerm,
   setCreationDateFilter,
   resetCreationDateFilter,
   setModalidadFilter,
@@ -439,4 +476,3 @@ export const {
 } = backendPatientsSlice.actions;
 
 export default backendPatientsSlice.reducer;
-export const { setSearchTerm, resetSearchTerm } = backendPatientsSlice.actions;

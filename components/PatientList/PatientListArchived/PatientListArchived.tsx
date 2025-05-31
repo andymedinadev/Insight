@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { AppDispatch, RootState } from '@/store';
-import { fetchArchivedPatients } from '@/store/thunks/backendPatientsThunks';
+import { fetchArchivedPatients } from '@/store/thunks';
 import { flechaAbajoLista, flechaArribaLista, puntosFiltros } from '@/public';
 import { usePathname } from 'next/navigation';
 import Left from '../../../public/icons/Left.svg';
@@ -30,8 +30,6 @@ export default function PatientList({ variant = 'home' }: Props) {
   const [desktopPage, setDesktopPage] = useState(1);
   const [toastMessage, setToastMessage] = useState('');
   const [toastType, setToastType] = useState<'success' | 'error'>('success');
-
-  const initialized = useSelector((state: RootState) => state.patients.initialized);
 
   const patients = useSelector((state: RootState) => state.backendPatients.archivedPatients) || [];
   const loading = useSelector(
@@ -89,10 +87,8 @@ export default function PatientList({ variant = 'home' }: Props) {
   }, []);
 
   useEffect(() => {
-    if (!initialized) {
-      dispatch(fetchArchivedPatients());
-    }
-  }, [dispatch, initialized]);
+    dispatch(fetchArchivedPatients());
+  }, [dispatch]);
 
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth <= 1024);

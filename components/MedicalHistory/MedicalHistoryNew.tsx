@@ -4,9 +4,10 @@ import { useSearchParams } from 'next/navigation';
 import { useDispatch } from 'react-redux';
 import { useFormik } from 'formik';
 import { InputField } from '@/components';
-import { useBackPatientById } from '@/hooks';
+// import { useBackPatientById } from '@/hooks';
+import { useBackendPatientById } from '@/hooks';
 import { medicalHistoryValidationSchema } from '@/schemas';
-import { createNote, createMaterial } from '@/store/thunks/backendPatientsThunks';
+import { createNote, createMaterial } from '@/store/thunks';
 import { BackendNote } from '@/types';
 import { AppDispatch } from '@/store';
 
@@ -28,7 +29,7 @@ export default function MedicalHistoryNew({ onSaved, goBack }: Props) {
   const isMaterial = from === 'material';
 
   const dispatch = useDispatch<AppDispatch>();
-  const { id } = useBackPatientById();
+  const { id } = useBackendPatientById();
   console.log(id);
 
   const initialValues: BackendNote = {

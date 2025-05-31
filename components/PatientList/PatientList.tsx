@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { AppDispatch, RootState } from '@/store';
-import { fetchPatients } from '@/store/thunks/backendPatientsThunks';
+import { fetchPatients } from '@/store/thunks';
 import { flechaAbajoLista, flechaArribaLista, puntosFiltros } from '@/public';
 import { usePathname } from 'next/navigation';
 import Left from '../../public/icons/Left.svg';
@@ -31,7 +31,6 @@ export default function PatientList({ variant = 'home' }: Props) {
   const [toastMessage, setToastMessage] = useState('');
   const [toastType, setToastType] = useState<'success' | 'error'>('success');
 
-  const initialized = useSelector((state: RootState) => state.patients.initialized);
   const patients = useSelector((state: RootState) => state.backendPatients.patients) || [];
   const loading = useSelector(
     (state: RootState) => state.backendPatients.status.fetchPatients.loading
@@ -88,10 +87,8 @@ export default function PatientList({ variant = 'home' }: Props) {
   }, []);
 
   useEffect(() => {
-    if (!initialized) {
-      dispatch(fetchPatients());
-    }
-  }, [dispatch, initialized]);
+    dispatch(fetchPatients());
+  }, [dispatch]);
 
   useEffect(() => {
     const handleResize = () => {

@@ -11,8 +11,9 @@ import {
 import { useSearchParams, useRouter } from 'next/navigation';
 import { BackendNote } from '@/types';
 import { useDispatch } from 'react-redux';
-import { deleteNote, deleteMaterial } from '@/store/thunks/backendPatientsThunks';
-import { useBackPatientById } from '@/hooks';
+import { deleteNote, deleteMaterial } from '@/store/thunks';
+// import { useBackPatientById } from '@/hooks';
+import { useBackendPatientById } from '@/hooks';
 import { AppDispatch } from '@/store';
 import Image from 'next/image';
 import ArrowBack from '../../../../public/icons/ArrowBack.svg';
@@ -25,7 +26,7 @@ export default function MedicalHistory() {
 
   const dispatch = useDispatch<AppDispatch>();
 
-  const { id } = useBackPatientById();
+  const { id } = useBackendPatientById();
 
   const [showNewNote, setShowNewNote] = useState(false);
   const [selectedNote, setSelectedNote] = useState<BackendNote | null>(null);

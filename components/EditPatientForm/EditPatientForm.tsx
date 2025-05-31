@@ -1,13 +1,13 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { useDispatch } from 'react-redux';
+// import { useDispatch } from 'react-redux';
 import { useFormik } from 'formik';
 
 import { InputField, ValidationError } from '@/components';
-import { AppDispatch } from '@/store';
-import { editNewTypePatient } from '@/store/slices/patientSlice';
-import { useNewPatientById } from '@/hooks';
+// import { AppDispatch } from '@/store';
+// import { editNewTypePatient } from '@/store/slices/patientSlice';
+// import { useNewPatientById } from '@/hooks';
 import { newPatientFormValidationSchema } from '@/schemas';
 import { EditPatient } from '@/types';
 
@@ -48,20 +48,23 @@ const defaultInitialValues: EditPatient = {
 };
 
 export function EditPatientForm() {
-  const dispatch = useDispatch<AppDispatch>();
-  const { id, patient } = useNewPatientById();
+  // const dispatch = useDispatch<AppDispatch>();
+  // const { id, patient } = useNewPatientById();
+  // const { patient } = useNewPatientById();
   const router = useRouter();
 
-  const initialValues: EditPatient = patient ? patient : defaultInitialValues;
+  // const initialValues: EditPatient = patient ? patient : defaultInitialValues;
+  const initialValues = defaultInitialValues;
 
   const formik = useFormik<EditPatient>({
     enableReinitialize: true,
     initialValues,
     validationSchema: newPatientFormValidationSchema,
-    onSubmit: (values) => {
-      const editedPatient = { ...patient, ...values };
+    onSubmit: () => {
+      // onSubmit: (values) => {
+      // const editedPatient = { ...patient, ...values };
 
-      dispatch(editNewTypePatient({ patientId: id, data: editedPatient }));
+      // dispatch(editNewTypePatient({ patientId: id, data: editedPatient }));
 
       router.push('/dashboard/patientlist');
     },
