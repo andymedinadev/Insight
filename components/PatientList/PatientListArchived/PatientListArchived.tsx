@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { AppDispatch, RootState } from '@/store';
-import { fetchArchivedPatients } from '@/store/thunks/backendPatientsThunks';
+import { fetchArchivedPatients } from '@/store/thunks';
 import { flechaAbajoLista, flechaArribaLista, puntosFiltros } from '@/public';
 import { usePathname } from 'next/navigation';
 import Left from '../../../public/icons/Left.svg';
@@ -31,8 +31,6 @@ export default function PatientList({ variant = 'home' }: Props) {
   const [toastMessage, setToastMessage] = useState('');
   const [toastType, setToastType] = useState<'success' | 'error'>('success');
 
-  const initialized = useSelector((state: RootState) => state.patients.initialized);
-
   const patients = useSelector((state: RootState) => state.backendPatients.archivedPatients) || [];
   const loading = useSelector(
     (state: RootState) => state.backendPatients.status.fetchPatients.loading
@@ -41,10 +39,31 @@ export default function PatientList({ variant = 'home' }: Props) {
   const searchTerm = useSelector((state: RootState) =>
     state.backendPatients.searchTerm.toLowerCase()
   );
-  const isDashboardHome = pathname === '/dashboard/home';
-  const filteredPatients = patients.filter((patient) =>
-    patient.name.toLowerCase().includes(searchTerm)
+
+  const modalidadFilter = useSelector(
+    (state: RootState) => state.backendPatients.filters.modalidad
   );
+  const generoFilter = useSelector((state: RootState) => state.backendPatients.filters.genero);
+  const rangoEtarioFilter = useSelector(
+    (state: RootState) => state.backendPatients.filters.rangoEtario
+  );
+
+  const isDashboardHome = pathname === '/dashboard/home';
+  const filteredPatients = patients.filter((patient) => {
+    const matchesName = patient.name.toLowerCase().includes(searchTerm);
+
+    const matchesModalidad =
+      modalidadFilter.length === 0 ||
+      (patient.modality != null && modalidadFilter.includes(patient.modality));
+
+    const matchesGenero = generoFilter.length === 0 || generoFilter.includes(patient.sex);
+
+    const matchesRangoEtario =
+      rangoEtarioFilter.length === 0 || rangoEtarioFilter.includes(patient.rangoEtario);
+
+    return matchesName && matchesModalidad && matchesGenero && matchesRangoEtario;
+  });
+
   const avatars = [
     'https://res.cloudinary.com/dwc1rj9tj/image/upload/v1747278017/AvatarGeneral_hq0avb.svg',
   ];
@@ -68,10 +87,8 @@ export default function PatientList({ variant = 'home' }: Props) {
   }, []);
 
   useEffect(() => {
-    if (!initialized) {
-      dispatch(fetchArchivedPatients());
-    }
-  }, [dispatch, initialized]);
+    dispatch(fetchArchivedPatients());
+  }, [dispatch]);
 
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth <= 1024);
@@ -218,7 +235,9 @@ export default function PatientList({ variant = 'home' }: Props) {
                       </div>
                     </td>
                     <td className="hidden px-4 py-3 lg:table-cell">{patient.email}</td>
-                    <td className="hidden px-4 py-3 lg:table-cell">{patient.modality}</td>
+                    <td className="hidden px-4 py-3 lg:table-cell">
+                      {patient.rangoEtario.replace('�', 'ñ')}
+                    </td>
                     <td className="relative px-5 py-3">
                       <button
                         className="cursor-pointer"

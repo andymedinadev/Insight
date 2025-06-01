@@ -1,5 +1,4 @@
 // Importaciones barril
-// EJEMPLO: export { default as RootLayout } from "./layout";
 
 export { default as Button } from './ui/Button';
 export { default as InputField } from './ui/InputField';
@@ -91,3 +90,4 @@ export { ChangePasswordNewStep } from './ChangePassword/ChangePasswordNewStep';
 export { ChangePasswordOldStep } from './ChangePassword/ChangePasswordOldStep';
 export { ChangePasswordSuccessStep } from './ChangePassword/ChangePasswordSuccessStep';
 export { ChangePasswordWizard } from './ChangePassword/ChangePasswordWizard';
+export { UserChangePassword } from './UserChangePassword/UserChangePassword';

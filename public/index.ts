@@ -1,5 +1,4 @@
 // Importaciones barril
-// EJEMPLO: export { default as ImagenHero } from "./ImagenHero.png";
 
 // Exportaciones de iconos y logos
 export { default as Logo } from './icons/Logo.svg';
@@ -34,6 +33,7 @@ export { default as UserplusButton } from './icons/UserplusButton.svg';
 export { default as puntosFiltros } from './icons/puntosFiltros.svg';
 export { default as flechaAbajoLista } from './icons/flechaAbajoLista.svg';
 export { default as flechaArribaLista } from './icons/flechaArribaLista.svg';
+export { default as flechaDerecha } from './icons/Vector.svg';
 export { default as Edit } from './icons/Edit.svg';
 export { default as Archive } from './icons/Archive.svg';
 

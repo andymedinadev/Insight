@@ -1,8 +1,43 @@
+'use client';
+
+import { useState } from 'react';
+import { useSelector } from 'react-redux';
+import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 
+import { selectUserEmail } from '@/store/slices/userSlice';
+import { useLogin } from '@/hooks';
+import { useAlert } from '@/contexts/AlertContext';
 import { ValidCodeImage } from '@/public';
 
-export function ChangePasswordSuccessStep() {
+export function ChangePasswordSuccessStep({ newPassword }: { newPassword: string }) {
+  const router = useRouter();
+  const email = useSelector(selectUserEmail);
+  const { showAlert } = useAlert();
+
+  const { login, loading } = useLogin();
+
+  const [redirecting, setRedirecting] = useState(false);
+
+  const isLoading = loading || redirecting;
+
+  const handleClick = async () => {
+    if (!email) {
+      router.push('/auth/login');
+    } else {
+      const result = await login(email, newPassword);
+
+      showAlert(result.alert);
+
+      if (result.success) {
+        setRedirecting(true);
+        setTimeout(() => {
+          router.push('/dashboard/home');
+        }, 5000);
+      }
+    }
+  };
+
   return (
     <>
       <div>
@@ -18,13 +53,12 @@ export function ChangePasswordSuccessStep() {
         <div className="mt-24 flex justify-center lg:mt-32">
           <button
             type="submit"
-            // Pendiente el inicio de sesión
-            // disabled={redirecting}
-            // onClick={handleClick}
-            className={`mb-0 inline-flex h-12 w-[350px] items-center justify-center rounded-lg bg-[#0655D5] lg:mt-0 lg:w-[470px] lg:rounded-xl ${false ? 'cursor-not-allowed' : 'cursor-pointer'}`}
+            disabled={isLoading}
+            onClick={handleClick}
+            className={`mb-0 inline-flex h-12 w-[350px] items-center justify-center rounded-lg bg-[#0655D5] lg:mt-0 lg:w-[470px] lg:rounded-xl ${isLoading ? 'cursor-not-allowed' : 'cursor-pointer'}`}
           >
             <p className="justify-start border-none text-center font-['Roboto'] text-base leading-normal font-semibold text-white lg:text-2xl lg:leading-7">
-              {false ? 'Cargando...' : 'Iniciar sesión nuevamente'}
+              {isLoading ? 'Cargando...' : 'Iniciar sesión nuevamente'}
             </p>
           </button>
         </div>

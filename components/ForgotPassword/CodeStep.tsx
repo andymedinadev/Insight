@@ -39,7 +39,7 @@ export function CodeStep({ payload, onNext }: CodeStepProps) {
         <button
           type="submit"
           disabled={!isComplete}
-          className={`mt-20 mb-0 inline-flex h-12 w-[350px] items-center justify-center rounded-lg lg:mt-20 lg:w-[470px] lg:rounded-xl ${
+          className={`mt-20 mb-20 inline-flex h-12 w-[350px] items-center justify-center rounded-lg lg:mt-20 lg:mb-9 lg:w-[470px] lg:rounded-xl ${
             !isComplete ? 'cursor-not-allowed bg-[#0011661A]' : 'cursor-pointer bg-[#0655D5]'
           }`}
         >
@@ -47,9 +47,6 @@ export function CodeStep({ payload, onNext }: CodeStepProps) {
             Verificar código
           </p>
         </button>
-        <a className="mt-20 justify-start self-stretch text-center font-['Roboto'] text-sm leading-normal font-bold text-blue-700 underline lg:mt-9">
-          Enviar de nuevo
-        </a>
       </form>
     </>
   );

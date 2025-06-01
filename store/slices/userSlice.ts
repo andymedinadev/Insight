@@ -1,6 +1,6 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
+import { fetchUser } from '@/store/thunks';
 import { RootState } from '@/store';
-import { BACKEND_BASE_URL } from '@/config';
 
 interface UserState {
   data: null | {
@@ -22,44 +22,10 @@ const initialState: UserState = {
   error: null,
 };
 
-export const fetchUser = createAsyncThunk(
-  'user/fetchUser',
-  async (_, { getState, rejectWithValue }) => {
-    try {
-      const state = getState() as RootState;
-      const token = state.auth.token;
-
-      if (!token) throw new Error('Token no disponible');
-
-      const res = await fetch(`${BACKEND_BASE_URL}/api/User/me`, {
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      if (!res.ok) {
-        const errorData = await res.json();
-        throw new Error(errorData?.message || 'Error al obtener el usuario');
-      }
-
-      return await res.json();
-    } catch (error: any) {
-      return rejectWithValue(error.message || 'Error inesperado');
-    }
-  }
-);
-
 const userSlice = createSlice({
   name: 'user',
   initialState,
-  reducers: {
-    clearUser: (state) => {
-      state.data = null;
-      state.error = null;
-      state.loading = false;
-    },
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(fetchUser.pending, (state) => {
@@ -77,6 +43,6 @@ const userSlice = createSlice({
   },
 });
 
-export const { clearUser } = userSlice.actions;
 export const selectUser = (state: RootState) => state.user;
+export const selectUserEmail = (state: RootState) => state.user.data?.email ?? null;
 export default userSlice.reducer;

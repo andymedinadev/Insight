@@ -4,19 +4,14 @@ import { useState } from 'react';
 import Image from 'next/image';
 
 import { FlechaBaja } from '@/public';
-import { useNewPatientById } from '@/hooks';
+import type { FrontendPatient } from '@/types';
 
-export function PatientProfileLorem() {
+export function PatientProfileLorem({ patient }: { patient: FrontendPatient }) {
   const [openSection, setOpenSection] = useState<string | null>(null);
-  const { patient } = useNewPatientById();
 
   const toggleSection = (section: string) => {
     setOpenSection((prev) => (prev === section ? null : section));
   };
-
-  if (!patient) {
-    return null;
-  }
 
   return (
     <div>
@@ -44,13 +39,13 @@ export function PatientProfileLorem() {
                 Motivo principal de consulta
               </h3>
               <p className="text-base text-[#59616f] lg:text-lg">
-                {patient.motivosConsulta?.motivoPrincipal || '(vacío)'}
+                {patient.principalMotive || '(vacío)'}
               </p>
             </div>
             <div className="mb-2">
               <h3 className="font-semibold text-[#59616F] lg:text-lg">Síntomas actuales</h3>
               <p className="text-base text-[#59616f] lg:text-lg">
-                {patient.motivosConsulta?.sintomasActuales || '(vacío)'}
+                {patient.actualSymptoms || '(vacío)'}
               </p>
             </div>
             <div className="mb-2">
@@ -58,13 +53,13 @@ export function PatientProfileLorem() {
                 Eventos recientes relevantes
               </h3>
               <p className="text-base text-[#59616f] lg:text-lg">
-                {patient.motivosConsulta?.eventosRecientesRelevantes || '(vacío)'}
+                {patient.recentEvents || '(vacío)'}
               </p>
             </div>
             <div className="mb-2">
               <h3 className="font-semibold text-[#59616F] lg:text-lg">Diagnóstico previo</h3>
               <p className="text-base text-[#59616f] lg:text-lg">
-                {patient.motivosConsulta?.diagnosticoPrevio || '(vacío)'}
+                {patient.previousDiagnosis || '(vacío)'}
               </p>
             </div>
           </div>
@@ -93,23 +88,21 @@ export function PatientProfileLorem() {
             <div className="mb-2">
               <h3 className="font-semibold text-[#59616F] lg:text-lg">Observaciones</h3>
               <p className="text-base text-[#59616f] lg:text-lg">
-                {patient.historiaClinica?.observaciones || '(vacío)'}
+                {patient.profesionalObservations || '(vacío)'}
               </p>
             </div>
             <div className="mb-2">
               <h3 className="font-semibold text-[#59616F] lg:text-lg">
                 Frases recurrentes / palabras clave
               </h3>
-              <p className="text-base text-[#59616f] lg:text-lg">
-                {patient.historiaClinica?.frasesRecurrentes || '(vacío)'}
-              </p>
+              <p className="text-base text-[#59616f] lg:text-lg">{patient.keyWords || '(vacío)'}</p>
             </div>
             <div className="mb-2">
               <h3 className="font-semibold text-[#59616F] lg:text-lg">
                 Actos fallidos / asociaciones llamativas
               </h3>
               <p className="text-base text-[#59616f] lg:text-lg">
-                {patient.historiaClinica?.actosFallidos || '(vacío)'}
+                {patient.failedActs || '(vacío)'}
               </p>
             </div>
             <div className="mb-2">
@@ -117,13 +110,13 @@ export function PatientProfileLorem() {
                 Interconsultas / derivaciones realizadas
               </h3>
               <p className="text-base text-[#59616f] lg:text-lg">
-                {patient.historiaClinica?.derivacionesRealizadas || '(vacío)'}
+                {patient.interconsulation || '(vacío)'}
               </p>
             </div>
             <div className="mb-2">
               <h3 className="font-semibold text-[#59616F] lg:text-lg">Evolución del paciente</h3>
               <p className="text-base text-[#59616f] lg:text-lg">
-                {patient.historiaClinica?.evolucionPaciente || '(vacío)'}
+                {patient.patientEvolution || '(vacío)'}
               </p>
             </div>
           </div>
@@ -154,14 +147,14 @@ export function PatientProfileLorem() {
                 Día y horario de la sesión
               </h3>
               <p className="text-base text-[#59616f] lg:text-lg">
-                {patient.seguimiento?.diaYHorario || '(vacío)'}
+                {patient.sessionDay || '(vacío)'}
               </p>
             </div>
             <div className="mb-2">
               <h3 className="font-semibold text-[#59616F] lg:text-lg">Modalidad de atención</h3>
               <p className="text-base text-[#59616f] lg:text-lg">
                 {' '}
-                {patient.seguimiento?.modalidad || '(vacío)'}
+                {patient.modality || '(vacío)'}
               </p>
             </div>
             <div className="mb-2">
@@ -170,14 +163,14 @@ export function PatientProfileLorem() {
               </h3>
               <p className="text-base text-[#59616f] lg:text-lg">
                 {' '}
-                {patient.seguimiento?.duracionSesion || '(vacío)'}
+                {patient.sessionDuration || '(vacío)'}
               </p>
             </div>
             <div className="mb-2">
               <h3 className="font-semibold text-[#59616F] lg:text-lg">Frecuencia de la sesión</h3>
               <p className="text-base text-[#59616f] lg:text-lg">
                 {' '}
-                {patient.seguimiento?.frecuencia || '(vacío)'}
+                {patient.sessionFrequency || '(vacío)'}
               </p>
             </div>
             <div className="mb-2">
@@ -186,7 +179,7 @@ export function PatientProfileLorem() {
               </h3>
               <p className="text-base text-[#59616f] lg:text-lg">
                 {' '}
-                {patient.seguimiento?.medioContactoPreferido || '(vacío)'}
+                {patient.preferedContact || '(vacío)'}
               </p>
             </div>
           </div>

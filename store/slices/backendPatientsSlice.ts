@@ -1,6 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
 import {
   createBackendPatient,
+  deleteBackendPatient,
+  editBackendPatient,
+  editNote,
+  editMaterial,
   fetchPatients,
   fetchArchivedPatients,
   fetchOnePatient,
@@ -8,7 +12,11 @@ import {
   fetchAllMaterials,
   fetchOneNote,
   fetchOneMaterial,
-} from '@/store/thunks/backendPatientsThunks';
+  createNote,
+  createMaterial,
+  deleteNote,
+  deleteMaterial,
+} from '@/store/thunks';
 import type { BackendPatient, BackendMaterial, BackendNote } from '@/types';
 
 type FetchStatus = {
@@ -28,6 +36,9 @@ interface BackendPatientsState {
     status: {
       fetchAll: FetchStatus;
       fetchOne: FetchStatus;
+      create: FetchStatus;
+      delete: FetchStatus;
+      edit: FetchStatus;
     };
   };
 
@@ -37,6 +48,9 @@ interface BackendPatientsState {
     status: {
       fetchAll: FetchStatus;
       fetchOne: FetchStatus;
+      create: FetchStatus;
+      delete: FetchStatus;
+      edit: FetchStatus;
     };
   };
 
@@ -49,6 +63,9 @@ interface BackendPatientsState {
 
   filters: {
     creationDate: string[];
+    modalidad: string[];
+    genero: string[];
+    rangoEtario: string[];
   };
 }
 
@@ -70,6 +87,12 @@ const initialState: BackendPatientsState = {
         error: null,
         loading: false,
       },
+      create: {
+        error: null,
+        loading: false,
+      },
+      delete: { loading: false, error: null },
+      edit: { loading: false, error: null },
     },
   },
 
@@ -85,6 +108,12 @@ const initialState: BackendPatientsState = {
         error: null,
         loading: false,
       },
+      create: {
+        error: null,
+        loading: false,
+      },
+      delete: { loading: false, error: null },
+      edit: { loading: false, error: null },
     },
   },
 
@@ -109,6 +138,9 @@ const initialState: BackendPatientsState = {
 
   filters: {
     creationDate: [],
+    modalidad: [],
+    genero: [],
+    rangoEtario: [],
   },
 };
 
@@ -119,6 +151,7 @@ export const backendPatientsSlice = createSlice({
     clearSelectedPatient(state) {
       state.selectedPatient = null;
       state.status.fetchOnePatient = { loading: false, error: null };
+      state.selectedPatient = null;
     },
     clearSelectedNote(state) {
       state.notes.selected = null;
@@ -139,6 +172,26 @@ export const backendPatientsSlice = createSlice({
     },
     resetCreationDateFilter(state) {
       state.filters.creationDate = [];
+    },
+    setModalidadFilter(state, action) {
+      state.filters.modalidad = action.payload;
+    },
+    resetModalidadFilter(state) {
+      state.filters.modalidad = [];
+    },
+
+    setGeneroFilter(state, action) {
+      state.filters.genero = action.payload;
+    },
+    resetGeneroFilter(state) {
+      state.filters.genero = [];
+    },
+
+    setRangoEtarioFilter(state, action) {
+      state.filters.rangoEtario = action.payload;
+    },
+    resetRangoEtarioFilter(state) {
+      state.filters.rangoEtario = [];
     },
   },
   extraReducers: (builder) => {
@@ -245,6 +298,118 @@ export const backendPatientsSlice = createSlice({
         state.materials.status.fetchOne.error = action.payload || 'Error al obtener el material';
       })
 
+      // CREAR UNA NOTA
+      .addCase(createNote.pending, (state) => {
+        if (!state.notes.status.create) {
+          state.notes.status.create = { loading: true, error: null };
+        } else {
+          state.notes.status.create.loading = true;
+          state.notes.status.create.error = null;
+        }
+      })
+      .addCase(createNote.fulfilled, (state, action) => {
+        state.notes.all.push(action.payload);
+        state.notes.status.create.loading = false;
+        state.notes.status.create.error = null;
+      })
+      .addCase(createNote.rejected, (state, action) => {
+        state.notes.status.create.loading = false;
+        state.notes.status.create.error = action.payload || 'Error al crear la nota';
+      })
+
+      // CREAR MATERIAL
+      .addCase(createMaterial.pending, (state) => {
+        if (!state.materials.status.create) {
+          state.materials.status.create = { loading: true, error: null };
+        } else {
+          state.materials.status.create.loading = true;
+          state.materials.status.create.error = null;
+        }
+      })
+      .addCase(createMaterial.fulfilled, (state, action) => {
+        state.materials.all.push(action.payload);
+        state.materials.status.create.loading = false;
+        state.materials.status.create.error = null;
+      })
+      .addCase(createMaterial.rejected, (state, action) => {
+        state.materials.status.create.loading = false;
+        state.materials.status.create.error = action.payload || 'Error al crear el material';
+      })
+
+      // ELIMINAR NOTA
+      .addCase(deleteNote.pending, (state) => {
+        state.notes.status.delete = { loading: true, error: null };
+      })
+      .addCase(deleteNote.fulfilled, (state, action) => {
+        state.notes.all = state.notes.all.filter((note) => note.id !== +action.payload);
+        state.notes.status.delete.loading = false;
+        state.notes.status.delete.error = null;
+      })
+      .addCase(deleteNote.rejected, (state, action) => {
+        state.notes.status.delete.loading = false;
+        state.notes.status.delete.error = action.payload || 'Error al eliminar la nota';
+      })
+
+      // ELIMINAR MATERIAL
+      .addCase(deleteMaterial.pending, (state) => {
+        state.materials.status.delete = { loading: true, error: null };
+      })
+      .addCase(deleteMaterial.fulfilled, (state, action) => {
+        state.materials.all = state.materials.all.filter((mat) => mat.id !== +action.payload);
+        state.materials.status.delete.loading = false;
+        state.materials.status.delete.error = null;
+      })
+      .addCase(deleteMaterial.rejected, (state, action) => {
+        state.materials.status.delete.loading = false;
+        state.materials.status.delete.error = action.payload || 'Error al eliminar el material';
+      })
+
+      // EDITAR UNA NOTA
+      .addCase(editNote.pending, (state) => {
+        if (!state.notes.status.edit) {
+          state.notes.status.edit = { loading: true, error: null };
+        } else {
+          state.notes.status.edit.loading = true;
+          state.notes.status.edit.error = null;
+        }
+      })
+      .addCase(editNote.fulfilled, (state, action) => {
+        const index = state.notes.all.findIndex((note) => note.id === action.payload.id);
+        if (index !== -1) {
+          state.notes.all[index] = action.payload;
+        }
+        state.notes.status.edit.loading = false;
+        state.notes.status.edit.error = null;
+      })
+      .addCase(editNote.rejected, (state, action) => {
+        state.notes.status.edit.loading = false;
+        state.notes.status.edit.error = action.payload || 'Error al editar la nota';
+      })
+
+      // EDITAR UN MATERIAL
+      .addCase(editMaterial.pending, (state) => {
+        if (!state.materials.status.edit) {
+          state.materials.status.edit = { loading: true, error: null };
+        } else {
+          state.materials.status.edit.loading = true;
+          state.materials.status.edit.error = null;
+        }
+      })
+      .addCase(editMaterial.fulfilled, (state, action) => {
+        const index = state.materials.all.findIndex(
+          (material) => material.id === action.payload.id
+        );
+        if (index !== -1) {
+          state.materials.all[index] = action.payload;
+        }
+        state.materials.status.edit.loading = false;
+        state.materials.status.edit.error = null;
+      })
+      .addCase(editMaterial.rejected, (state, action) => {
+        state.materials.status.edit.loading = false;
+        state.materials.status.edit.error = action.payload || 'Error al editar el material';
+      })
+
       // CREAR UN PACIENTE
       .addCase(createBackendPatient.pending, (state) => {
         state.status.createPatient.loading = true;
@@ -261,11 +426,53 @@ export const backendPatientsSlice = createSlice({
         } else {
           state.status.createPatient.error = 'Error desconocido';
         }
+      })
+
+      // ELIMINAR UN PACIENTE
+      .addCase(deleteBackendPatient.pending, (state) => {
+        state.status.fetchOnePatient.loading = true;
+        state.status.fetchOnePatient.error = null;
+      })
+      .addCase(deleteBackendPatient.fulfilled, (state, action) => {
+        const deletedId = action.payload.id;
+        state.patients = state.patients.filter((p) => p.id !== deletedId);
+        state.archivedPatients = state.archivedPatients.filter((p) => p.id !== deletedId);
+
+        if (state.selectedPatient?.id === deletedId) {
+          state.selectedPatient = null;
+        }
+
+        state.status.fetchOnePatient.loading = false;
+      })
+      .addCase(deleteBackendPatient.rejected, (state, action) => {
+        state.status.fetchOnePatient.loading = false;
+        state.status.fetchOnePatient.error = action.payload || 'Error al eliminar el paciente.';
+      })
+
+      // EDITAR UN PACIENTE
+      .addCase(editBackendPatient.pending, (state) => {
+        state.status.fetchOnePatient.loading = true;
+        state.status.fetchOnePatient.error = null;
+      })
+      .addCase(editBackendPatient.rejected, (state, action) => {
+        state.status.fetchOnePatient.loading = false;
+        state.status.fetchOnePatient.error = action.payload || 'Error al editar el paciente.';
       });
   },
 });
 
-export const { setCreationDateFilter, resetCreationDateFilter } = backendPatientsSlice.actions;
+export const {
+  clearSelectedPatient,
+  resetSearchTerm,
+  setSearchTerm,
+  setCreationDateFilter,
+  resetCreationDateFilter,
+  setModalidadFilter,
+  resetModalidadFilter,
+  setGeneroFilter,
+  resetGeneroFilter,
+  setRangoEtarioFilter,
+  resetRangoEtarioFilter,
+} = backendPatientsSlice.actions;
 
 export default backendPatientsSlice.reducer;
-export const { setSearchTerm, resetSearchTerm } = backendPatientsSlice.actions;

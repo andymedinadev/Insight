@@ -1,7 +1,7 @@
 import type { SexType, ModalityType } from './index';
 
 export interface BackendNewPatient {
-  // ✅ Requeridos con validaciones
+  // Requeridos con validaciones
   userId: number;
   name: string; // máx 50, solo letras, espacios, tildes y ñ
   surname: string; // igual que name
@@ -10,10 +10,10 @@ export interface BackendNewPatient {
   typeOfIdentification: string; // máx 50, solo letras y espacios
   identification: string; // máx 20, solo dígitos (validar /^\d+$/)
   sex: SexType; // enum
-  email: string; // debe ser email válido
-  phone: string; // debe ser número de teléfono válido (validación tipo E.164 en frontend si querés ser preciso)
+  email: string;
+  phone: string;
 
-  // ✅ Opcionales
+  // Opcionales
   // Motivo de consulta
   principalMotive: string | null;
   actualSymptoms: string | null;

@@ -13,7 +13,7 @@ export const initialValues: Omit<BackendNewPatient, 'birthdate' | 'sessionDay'> 
   nationality: '',
   typeOfIdentification: '',
   identification: '',
-  sex: 'Masculino', // <- revisar
+  sex: 'Masculino',
   email: '',
   phone: '',
 
@@ -92,7 +92,7 @@ export const backendNewPatientValidationSchema = Yup.object({
   interconsulation: Yup.string().nullable(),
   patientEvolution: Yup.string().nullable(),
 
-  sessionDay: Yup.date().nullable(),
+  sessionDay: Yup.string().nullable(),
   modality: Yup.string().nullable(),
   sessionDuration: Yup.number()
     .nullable()

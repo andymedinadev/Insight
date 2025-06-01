@@ -1,9 +1,9 @@
 'use client';
 
 import { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootState } from '@/store';
-import { fetchUser } from '@/store/slices/userSlice';
+
+import { useAppDispatch } from '@/hooks';
+import { updateUser } from '@/store/thunks';
 
 interface UserProfile {
   nombre: string;
@@ -25,8 +25,7 @@ const profileFields = [
 ];
 
 const UserProfileEdit = ({ user, onCancel }: Props) => {
-  const dispatch = useDispatch<AppDispatch>();
-  const token = useSelector((state: RootState) => state.auth.token);
+  const dispatch = useAppDispatch();
 
   const [form, setForm] = useState(user);
   const [loading, setLoading] = useState(false);
@@ -37,47 +36,14 @@ const UserProfileEdit = ({ user, onCancel }: Props) => {
   };
 
   const handleSave = async () => {
-    if (!token) {
-      setError('Token no disponible');
-      return;
-    }
-
     setLoading(true);
     setError(null);
 
     try {
-      const [name, surname = ''] = form.nombre.trim().split(' ');
-
-      const res = await fetch(
-        'https://comfortable-manifestation-production.up.railway.app/api/User/me/edit',
-        {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({
-            name,
-            surname,
-            email: form.email,
-            title: form.titulo,
-          }),
-        }
-      );
-
-      if (!res.ok) {
-        const errorData = await res.json();
-        throw new Error(errorData?.message || 'Error al guardar cambios');
-      }
-
-      dispatch(fetchUser());
+      await dispatch(updateUser(form)).unwrap();
       onCancel(true);
     } catch (error: unknown) {
-      if (error instanceof Error) {
-        setError(error.message);
-      } else {
-        setError('Error inesperado');
-      }
+      setError(String(error) || 'Error inesperado');
     } finally {
       setLoading(false);
     }

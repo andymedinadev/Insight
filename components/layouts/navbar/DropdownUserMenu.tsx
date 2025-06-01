@@ -7,8 +7,9 @@ import { UserNav, Logout, AvatarGeneral } from '@/public';
 import { UserNameDrop } from '@/components';
 import { useAppDispatch } from '@/hooks/useAppDispatch';
 import { useSelector } from 'react-redux';
-import { fetchUser, selectUser } from '@/store/slices/userSlice';
-import { User } from '@/types/Profile/profileTypes';
+import { selectUser } from '@/store/slices/userSlice';
+import { fetchUser } from '@/store/thunks';
+import { User } from '@/types';
 
 type DropdownUserMenuProps = {
   onLogout: () => void;

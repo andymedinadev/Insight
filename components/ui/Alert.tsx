@@ -13,7 +13,7 @@ type AlertStyle = {
 
 const alertStyles: Record<AlertType, AlertStyle> = {
   error: {
-    bg: 'bg-[#FF4A4A]/20',
+    bg: 'bg-[#FFF6F6]',
     border: 'outline-[#C73A3A]/14',
     sideBar: 'bg-[#C73A3A]/80',
     icon: Xerror,
@@ -25,7 +25,7 @@ const alertStyles: Record<AlertType, AlertStyle> = {
     icon: InfoIcon,
   },
   success: {
-    bg: 'bg-[#0ACC92]/20',
+    bg: 'bg-[#F3FCF9]',
     border: 'outline-[#067A57]/20',
     sideBar: 'bg-[#067A57]/80',
     icon: CheckIcon,

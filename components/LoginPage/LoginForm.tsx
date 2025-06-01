@@ -6,11 +6,13 @@ import Link from 'next/link';
 import { useFormik } from 'formik';
 
 import { useLogin } from '@/hooks/useLogin';
+import { useAlert } from '@/contexts/AlertContext';
 import { loginValidationSchema } from '@/schemas';
 import { InputField } from '@/components';
 
 export function LoginForm() {
   const router = useRouter();
+  const { showAlert } = useAlert();
 
   const { login, loading } = useLogin();
 
@@ -24,9 +26,11 @@ export function LoginForm() {
     initialValues,
     validationSchema: loginValidationSchema,
     onSubmit: async ({ email, password }) => {
-      const successLogin = await login(email, password);
+      const result = await login(email, password);
 
-      if (successLogin) {
+      showAlert(result.alert);
+
+      if (result.success) {
         setRedirecting(true);
         router.push('/dashboard/home');
       }
@@ -68,7 +72,7 @@ export function LoginForm() {
         />
 
         <div className="h-6 justify-start text-right font-['Roboto'] text-sm leading-normal font-bold text-blue-700 underline">
-          ¿Olvidó su contraseña?
+          <Link href={'/auth/forgot-password'}>¿Olvidó su contraseña?</Link>
         </div>
 
         <button

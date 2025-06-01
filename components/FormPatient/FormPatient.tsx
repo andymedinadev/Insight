@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useFormik } from 'formik';
 import { InputField, ValidationError } from '@/components';
 import { initialValues, backendNewPatientValidationSchema } from '@/schemas/backendNewPatient';
-import { createBackendPatient } from '@/store/thunks/backendPatientsThunks';
+import { createBackendPatient } from '@/store/thunks';
 import { AppDispatch } from '@/store';
 import { BackendNewPatient } from '@/types';
 
@@ -40,7 +40,7 @@ export default function FormPatient() {
       const patientToSend: BackendNewPatient = {
         ...values,
         birthdate: new Date(values.birthdate).toISOString(),
-        sessionDay: values.sessionDay ? new Date(values.sessionDay).toISOString() : '',
+        sessionDay: values.sessionDay ? values.sessionDay : '',
         userId: 0,
         modality: values.modality ? values.modality : 'Presencial',
         sessionDuration: values.sessionDuration ? values.sessionDuration : 0,
