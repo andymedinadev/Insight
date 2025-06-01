@@ -48,7 +48,7 @@ export default function PatientOptionsMenu({
       showToast('El paciente fue archivado', 'success');
       onPatientUpdated();
     } catch (error) {
-      console.error(error);
+      void error;
       showToast('No se pudo archivar el paciente', 'error');
     } finally {
       setLoading(false);
@@ -80,7 +80,7 @@ export default function PatientOptionsMenu({
       showToast('El paciente fue desarchivado', 'success');
       onPatientUpdated();
     } catch (error) {
-      console.error(error);
+      void error;
       showToast('No se pudo archivar el paciente', 'error');
     } finally {
       setLoading(false);

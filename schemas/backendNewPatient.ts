@@ -13,7 +13,7 @@ export const initialValues: Omit<BackendNewPatient, 'birthdate' | 'sessionDay'> 
   nationality: '',
   typeOfIdentification: '',
   identification: '',
-  sex: 'Masculino', // <- revisar
+  sex: 'Masculino',
   email: '',
   phone: '',
 

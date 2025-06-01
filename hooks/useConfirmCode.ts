@@ -12,7 +12,6 @@ export function useConfirmCode(onSuccess?: () => void) {
     const storedEmail = sessionStorage.getItem('signupEmail');
 
     if (!storedEmail) {
-      console.error('No email en sessionStorage');
       return;
     }
 

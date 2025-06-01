@@ -1,5 +1,3 @@
-// types/DropdownFilterProps.ts
-
 import { StaticImageData } from 'next/image';
 
 export interface DropdownFilterProps {
