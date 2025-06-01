@@ -39,7 +39,6 @@ export function useVerification() {
 
       return true;
     } catch (err) {
-      console.error(err);
       setError(JSON.stringify(err));
       return false;
     } finally {

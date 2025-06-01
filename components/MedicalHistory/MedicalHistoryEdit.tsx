@@ -25,7 +25,6 @@ function convertToISO(dateString: string): string {
 
   const [day, month, year] = dateString.split('/');
   if (!day || !month || !year) {
-    console.warn('Formato de fecha inválido:', dateString);
     return '';
   }
 

@@ -18,7 +18,6 @@ export default function FilterDropdown({ onClose }: Props) {
   const dateOptions = ['Esta semana', 'Última semana', 'Este mes'];
 
   const currentDate = useSelector((state: RootState) => state.backendPatients.filters.creationDate);
-  console.log('currentDate = ', currentDate);
 
   const [date, setDate] = useState<string[]>(currentDate);
 
@@ -55,9 +54,7 @@ export default function FilterDropdown({ onClose }: Props) {
   );
 
   const handleApplyFilter = () => {
-    console.log('handleApplyFilter ejecutado');
     dispatch(setCreationDateFilter(date));
-    console.log('date = ', date);
     onClose?.();
   };
 

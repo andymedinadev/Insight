@@ -75,7 +75,6 @@ export const createMaterial = createAsyncThunk<
   const token = state.auth.token;
 
   try {
-    console.log('Datos enviados al backend:', materialData);
     const response = await fetch(`${BACKEND_BASE_URL}/api/Patient/${patientId}/materials`, {
       method: 'POST',
       headers: {

@@ -36,7 +36,7 @@ export function useChangePassword() {
 
       return true;
     } catch (err) {
-      console.error(err);
+      void error;
       setError(JSON.stringify(err));
       return false;
     } finally {
