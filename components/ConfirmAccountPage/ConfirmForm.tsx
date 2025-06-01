@@ -25,7 +25,7 @@ export function ConfirmForm({
       <button
         type="submit"
         disabled={!isComplete || isLoading}
-        className={`mt-20 mb-0 inline-flex h-12 w-[350px] items-center justify-center rounded-lg lg:mt-20 lg:w-[470px] lg:rounded-xl ${
+        className={`mt-20 mb-16 inline-flex h-12 w-[350px] items-center justify-center rounded-lg lg:mt-20 lg:w-[470px] lg:rounded-xl ${
           !isComplete ? 'cursor-not-allowed bg-[#0011661A]' : 'cursor-pointer bg-[#0655D5]'
         }`}
       >
@@ -33,9 +33,6 @@ export function ConfirmForm({
           {isLoading ? 'Cargando...' : 'Verificar código'}
         </p>
       </button>
-      <a className="my-7 font-['Roboto'] text-sm font-bold text-blue-700 underline">
-        Enviar de nuevo
-      </a>
     </form>
   );
 }
