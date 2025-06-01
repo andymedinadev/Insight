@@ -29,7 +29,6 @@ export function useLogin() {
         throw new Error(data.message || 'Error al iniciar sesión');
       }
 
-      // Obtengo el token y lo guardo
       const data = await res.json();
       const token = data.token;
 

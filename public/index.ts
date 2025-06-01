@@ -1,5 +1,4 @@
 // Importaciones barril
-// EJEMPLO: export { default as ImagenHero } from "./ImagenHero.png";
 
 // Exportaciones de iconos y logos
 export { default as Logo } from './icons/Logo.svg';

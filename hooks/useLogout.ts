@@ -1,4 +1,3 @@
-// hooks/useAuth.ts
 import { useDispatch } from 'react-redux';
 import { useRouter } from 'next/navigation';
 

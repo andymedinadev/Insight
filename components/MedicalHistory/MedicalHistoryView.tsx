@@ -1,5 +1,3 @@
-// import Image from 'next/image';
-// import Download from '../../public/icons/Download.svg';
 import { BackendNote } from '@/types';
 import { format, parseISO } from 'date-fns';
 
@@ -30,9 +28,6 @@ export default function MedicalHistoryView({ note, onEdit, onDelete }: Props) {
           >
             Borrar
           </button>
-          {/* <button className="cursor-pointer">
-            <Image src={Download} alt="Descargar" width={24} height={24} />
-          </button> */}
         </div>
       </div>
       <div className="mb-3 h-6 w-fit font-['Roboto'] text-sm text-[#000C21] md:mb-5 md:h-7 md:text-base">
