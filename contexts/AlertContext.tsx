@@ -26,7 +26,7 @@ export function AlertProvider({ children }: { children: React.ReactNode }) {
   const [visible, setVisible] = useState(false);
 
   const showAlert = useCallback(
-    ({ title, type, description = '', duration = 700000 }: ShowAlertParams) => {
+    ({ title, type, description = '', duration = 7000 }: ShowAlertParams) => {
       setMessage(title);
       setDescription(description);
       setType(type);
