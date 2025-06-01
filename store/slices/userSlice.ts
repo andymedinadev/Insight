@@ -44,4 +44,5 @@ const userSlice = createSlice({
 });
 
 export const selectUser = (state: RootState) => state.user;
+export const selectUserEmail = (state: RootState) => state.user.data?.email ?? null;
 export default userSlice.reducer;
