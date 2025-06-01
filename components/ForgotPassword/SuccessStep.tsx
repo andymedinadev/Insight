@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 
 import { useLogin } from '@/hooks';
+import { useAlert } from '@/contexts/AlertContext';
 import { ValidCodeImage } from '@/public';
 
 type Props = {
@@ -14,6 +15,7 @@ type Props = {
 
 export function SuccessStep({ email, password }: Props) {
   const router = useRouter();
+  const { showAlert } = useAlert();
 
   const { login, loading } = useLogin();
 
@@ -22,11 +24,15 @@ export function SuccessStep({ email, password }: Props) {
   const isLoading = loading || redirecting;
 
   const handleClick = async () => {
-    const successLogin = await login(email, password);
+    const result = await login(email, password);
 
-    if (successLogin) {
+    showAlert(result.alert);
+
+    if (result.success) {
       setRedirecting(true);
-      router.push('/dashboard/home');
+      setTimeout(() => {
+        router.push('/dashboard/home');
+      }, 5000);
     }
   };
 

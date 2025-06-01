@@ -7,11 +7,13 @@ import Image from 'next/image';
 
 import { selectUserEmail } from '@/store/slices/userSlice';
 import { useLogin } from '@/hooks';
+import { useAlert } from '@/contexts/AlertContext';
 import { ValidCodeImage } from '@/public';
 
 export function ChangePasswordSuccessStep({ newPassword }: { newPassword: string }) {
   const router = useRouter();
   const email = useSelector(selectUserEmail);
+  const { showAlert } = useAlert();
 
   const { login, loading } = useLogin();
 
@@ -23,11 +25,15 @@ export function ChangePasswordSuccessStep({ newPassword }: { newPassword: string
     if (!email) {
       router.push('/auth/login');
     } else {
-      const successLogin = await login(email, newPassword);
+      const result = await login(email, newPassword);
 
-      if (successLogin) {
+      showAlert(result.alert);
+
+      if (result.success) {
         setRedirecting(true);
-        router.push('/dashboard/home');
+        setTimeout(() => {
+          router.push('/dashboard/home');
+        }, 5000);
       }
     }
   };
