@@ -35,6 +35,8 @@ export { default as flechaAbajoLista } from './icons/flechaAbajoLista.svg';
 export { default as flechaArribaLista } from './icons/flechaArribaLista.svg';
 export { default as flechaDerecha } from './icons/Vector.svg';
 export { default as Edit } from './icons/Edit.svg';
+export { default as EditBlue } from './icons/EditBlue.svg';
+export { default as TrashBlue } from './icons/TrashBlue.svg';
 export { default as Archive } from './icons/Archive.svg';
 
 //exportaciones de iconos de inputs
