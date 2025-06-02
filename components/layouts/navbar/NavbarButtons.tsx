@@ -1,14 +1,19 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import { useSelector } from 'react-redux';
 import Image from 'next/image';
 
 import { useLogout } from '@/hooks';
+import { selectUserName, selectUserSurname } from '@/store/slices/userSlice';
 import { AvatarGeneral, FlechaBaja } from '@/public';
 import DropdownUserMenu from './DropdownUserMenu';
 
 export default function NavbarButtons() {
   const { logout } = useLogout();
+
+  const userName = useSelector(selectUserName);
+  const userSurname = useSelector(selectUserSurname);
 
   const optionsButtonRef = useRef<HTMLDivElement>(null);
   const optionsPopupRef = useRef<HTMLDivElement>(null);
@@ -41,6 +46,9 @@ export default function NavbarButtons() {
     <div className="flex items-center gap-4">
       <span>
         <Image src={AvatarGeneral} height={32} width={32} alt="Avatar" className="object-contain" />
+      </span>
+      <span className="hidden justify-center font-['Roboto'] text-sm leading-tight font-normal text-[#000F27]/90 lg:block">
+        {`${userName} ${userSurname}`}
       </span>
       <span ref={optionsButtonRef} onClick={() => setIsOpen(!isOpen)}>
         <Image src={FlechaBaja} alt="Flecha Baja" className="object-contain hover:cursor-pointer" />

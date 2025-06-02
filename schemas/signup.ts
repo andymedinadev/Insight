@@ -21,7 +21,7 @@ export const signupValidationSchema = Yup.object({
   email: Yup.string()
     .required('El correo electrónico es obligatorio')
     .email('Debe ser un correo electrónico válido')
-    .max(254, 'El correo no puede tener más de 254 caracteres'),
+    .max(60, 'El correo no puede tener más de 60 caracteres'),
 
   password: Yup.string()
     .required('La contraseña es obligatoria')
