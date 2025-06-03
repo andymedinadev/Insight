@@ -19,12 +19,18 @@ export const editPatientFormValidationSchema = Yup.object({
     .matches(/^[A-Za-zÁÉÍÓÚÑáéíóúñ\s'-]+$/, 'La nacionalidad solo puede contener letras')
     .min(2, 'La nacionalidad debe tener al menos 2 caracteres')
     .max(50, 'La nacionalidad no puede tener más de 50 caracteres'),
-  typeOfIdentification: Yup.string().required('El tipo de documento es obligatorio'),
+  typeOfIdentification: Yup.string()
+    .required('El tipo de identificación es obligatorio')
+    .max(50, 'El tipo de identificación no puede superar los 50 caracteres')
+    .matches(
+      /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/,
+      'El tipo de identificación solo permite letras y espacios'
+    ),
   identification: Yup.string()
-    .required('El número de documento es obligatorio')
-    .matches(/^\d+$/, 'El número de documento solo puede contener números')
-    .max(15, 'El número de documento no puede tener más de 15 caracteres'),
-  sex: Yup.string().required('El género es obligatorio'),
+    .required('La identificación es obligatoria')
+    .matches(/^[A-Za-z0-9-]+$/, 'La identificación solo puede contener letras, números y guiones')
+    .min(9, 'La identificación debe tener al menos 9 caracteres')
+    .max(20, 'La identificación no puede superar los 20 caracteres'),
   email: Yup.string()
     .required('El correo electrónico es obligatorio')
     .email('Debe ser un correo electrónico válido')

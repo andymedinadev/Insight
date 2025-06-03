@@ -146,11 +146,11 @@ export function EditPatientForm() {
         <div className="flex flex-col">
           <InputField
             id="typeOfIdentification"
-            label="Tipo de documento"
+            label="Tipo de identificación"
             value={formik.values.typeOfIdentification}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            placeholder="Ingrese el tipo de documento"
+            placeholder="Ingrese el tipo de identificación"
             required
             hasError={
               formik.touched.typeOfIdentification && Boolean(formik.errors.typeOfIdentification)
@@ -164,11 +164,11 @@ export function EditPatientForm() {
         <div className="flex flex-col">
           <InputField
             id="identification"
-            label="Número de documento"
+            label="Identificación"
             value={formik.values.identification}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            placeholder="Ingrese el número de documento"
+            placeholder="Ingrese la identificación"
             required
             hasError={formik.touched.identification && Boolean(formik.errors.identification)}
             errorMessage={formik.touched.identification ? formik.errors.identification : undefined}
