@@ -60,11 +60,11 @@ export function PatientProfileInfo({ patient }: { patient: FrontendPatient }) {
               Nacionalidad: {patient.nationality}
             </span>
             <span className="text-center font-['Roboto'] text-sm font-normal text-black lg:order-9 lg:col-span-1 lg:justify-start lg:text-left lg:text-base lg:leading-normal">
-              Tipo de documento: {patient.typeOfIdentification}
+              Tipo de identificación: {patient.typeOfIdentification}
             </span>
             {/* SEGUNDA COLUMNA */}
             <span className="text-center font-['Roboto'] text-sm font-normal text-black lg:order-2 lg:col-span-1 lg:justify-start lg:text-left lg:text-base lg:leading-normal">
-              N° de documento: {patient.identification}
+              Identificación: {patient.identification}
             </span>
             <span className="text-center font-['Roboto'] text-sm font-normal text-black lg:order-4 lg:col-span-1 lg:justify-start lg:text-left lg:text-base lg:leading-normal">
               Sexo: {patient.sex}
