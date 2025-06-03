@@ -7,6 +7,8 @@ export { default as Calendar } from './icons/Calendar.svg';
 export { default as Xerror } from './icons/Xerror.svg';
 export { default as OpenEye } from './icons/openEye.svg';
 export { default as ClosedEye } from './icons/closedEye.svg';
+export { default as Left } from './icons/Left.svg';
+export { default as Right } from './icons/Right.svg';
 
 //Exportaciones sidebar
 export { default as Home } from './icons/Home.svg';
