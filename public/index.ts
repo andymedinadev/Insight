@@ -7,6 +7,8 @@ export { default as Calendar } from './icons/Calendar.svg';
 export { default as Xerror } from './icons/Xerror.svg';
 export { default as OpenEye } from './icons/openEye.svg';
 export { default as ClosedEye } from './icons/closedEye.svg';
+export { default as Left } from './icons/Left.svg';
+export { default as Right } from './icons/Right.svg';
 
 //Exportaciones sidebar
 export { default as Home } from './icons/Home.svg';
@@ -35,6 +37,8 @@ export { default as flechaAbajoLista } from './icons/flechaAbajoLista.svg';
 export { default as flechaArribaLista } from './icons/flechaArribaLista.svg';
 export { default as flechaDerecha } from './icons/Vector.svg';
 export { default as Edit } from './icons/Edit.svg';
+export { default as EditBlue } from './icons/EditBlue.svg';
+export { default as TrashBlue } from './icons/TrashBlue.svg';
 export { default as Archive } from './icons/Archive.svg';
 
 //exportaciones de iconos de inputs

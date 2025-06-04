@@ -62,13 +62,16 @@ export const backendNewPatientValidationSchema = Yup.object({
   typeOfIdentification: Yup.string()
     .required('El tipo de identificación es obligatorio')
     .max(50, 'El tipo de identificación no puede superar los 50 caracteres')
-    .matches(/^[a-zA-Z\s]+$/, 'El tipo de identificación solo permite letras y espacios'),
+    .matches(
+      /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/,
+      'El tipo de identificación solo permite letras y espacios'
+    ),
 
   identification: Yup.string()
     .required('La identificación es obligatoria')
     .matches(/^[A-Za-z0-9-]+$/, 'La identificación solo puede contener letras, números y guiones')
-    .min(9, 'La identificación debe tener al menos 9 dígitos')
-    .max(20, 'La identificación no puede superar los 20 dígitos'),
+    .min(9, 'La identificación debe tener al menos 9 caracteres')
+    .max(20, 'La identificación no puede superar los 20 caracteres'),
 
   sex: Yup.string().required('El sexo es obligatorio'),
 

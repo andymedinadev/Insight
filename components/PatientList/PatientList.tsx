@@ -2,16 +2,21 @@
 
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { AppDispatch, RootState } from '@/store';
-import { fetchPatients } from '@/store/thunks';
-import { flechaAbajoLista, flechaArribaLista, puntosFiltros } from '@/public';
-import { usePathname } from 'next/navigation';
-import Left from '../../public/icons/Left.svg';
-import Right from '../../public/icons/Right.svg';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import Image from 'next/image';
+
+import { fetchPatients } from '@/store/thunks';
 import PatientOptionsMenu from './PatientListArchived/PatientOptionsMenu';
 import Toast from './Toast';
+import { AppDispatch, RootState } from '@/store';
+import {
+  AvatarGeneral,
+  flechaAbajoLista,
+  flechaArribaLista,
+  Left,
+  puntosFiltros,
+  Right,
+} from '@/public';
 
 interface Props {
   variant?: 'home' | 'list';
@@ -61,10 +66,6 @@ export default function PatientList({ variant = 'home' }: Props) {
 
     return matchesName && matchesModalidad && matchesGenero && matchesRangoEtario;
   });
-
-  const avatars = [
-    'https://res.cloudinary.com/dwc1rj9tj/image/upload/v1747278017/AvatarGeneral_hq0avb.svg',
-  ];
 
   const closeMenuAndResetList = () => {
     setOpenMenuId(null);
@@ -176,7 +177,6 @@ export default function PatientList({ variant = 'home' }: Props) {
           <p className="h-[20px] w-[156px] text-center text-sm leading-tight font-normal text-gray-600">
             Mostrando {startIndex + 1} - {Math.min(startIndex + 8, filteredPatients.length)} de{' '}
             {filteredPatients.length}
-            {patients.length}
           </p>
         </div>
       </div>
@@ -221,7 +221,7 @@ export default function PatientList({ variant = 'home' }: Props) {
           <tbody className="bg-white text-base leading-normal font-normal text-black">
             {isListVisible ? (
               (variant === 'list' && isMobile ? patientsForMobile : patientsForDesktop).map(
-                (patient, index) => (
+                (patient) => (
                   <tr key={patient.id} className="relative border-b border-[#CDDDF7]">
                     <td
                       className="px-4 py-3 hover:cursor-pointer"
@@ -230,7 +230,7 @@ export default function PatientList({ variant = 'home' }: Props) {
                       <div className="flex flex-row items-center gap-2">
                         <div>
                           <Image
-                            src={avatars[index % avatars.length]}
+                            src={AvatarGeneral}
                             alt="avatar"
                             width={32}
                             height={32}
