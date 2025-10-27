@@ -17,7 +17,7 @@ export function useVerification() {
     setError(null);
 
     try {
-      const res = await fetch(`${BACKEND_BASE_URL}/api/User/verify-registration`, {
+      const res = await fetch(`${BACKEND_BASE_URL}/api/auth/verify-registration`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -31,11 +31,13 @@ export function useVerification() {
         throw new Error(responseBody.message || 'Error al verificar');
       }
 
-      // Si la verificaión funcionó seteo token
+      // Si la verificación retornó un token lo guardamos, pero no es obligatorio
       const token = responseBody.token;
 
-      dispatch(setToken(token));
-      sessionStorage.setItem('token', token);
+      if (token) {
+        dispatch(setToken(token));
+        sessionStorage.setItem('token', token);
+      }
 
       return true;
     } catch (err) {

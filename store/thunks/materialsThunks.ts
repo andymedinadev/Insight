@@ -1,7 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
 import { BACKEND_BASE_URL } from '@/config';
-import type { RootState } from '@/store';
 import type { BackendMaterial, CreateMaterialPayload, DeleteMaterialPayload } from '@/types';
 
 // Traer todos los materiales de un paciente
@@ -10,15 +9,8 @@ export const fetchAllMaterials = createAsyncThunk<
   number,
   { rejectValue: string }
 >('backendPatients/fetchAllMaterials', async (patientId, thunkApi) => {
-  const state = thunkApi.getState() as RootState;
-  const token = state.auth.token;
-
   try {
-    const response = await fetch(`${BACKEND_BASE_URL}/api/Patient/${patientId}/materials`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const response = await fetch(`${BACKEND_BASE_URL}/api/patients/${patientId}/materials`);
 
     if (!response.ok) {
       const errorText = await response.text();
@@ -39,17 +31,9 @@ export const fetchOneMaterial = createAsyncThunk<
   { patientId: number; materialId: number },
   { rejectValue: string }
 >('backendPatients/fetchOneMaterial', async ({ patientId, materialId }, thunkApi) => {
-  const state = thunkApi.getState() as RootState;
-  const token = state.auth.token;
-
   try {
     const response = await fetch(
-      `${BACKEND_BASE_URL}/api/Patient/${patientId}/materials/${materialId}`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
+      `${BACKEND_BASE_URL}/api/patients/${patientId}/materials/${materialId}`
     );
 
     if (!response.ok) {
@@ -71,15 +55,11 @@ export const createMaterial = createAsyncThunk<
   CreateMaterialPayload,
   { rejectValue: string }
 >('backendPatients/createMaterial', async ({ patientId, materialData }, thunkApi) => {
-  const state = thunkApi.getState() as RootState;
-  const token = state.auth.token;
-
   try {
-    const response = await fetch(`${BACKEND_BASE_URL}/api/Patient/${patientId}/materials`, {
+    const response = await fetch(`${BACKEND_BASE_URL}/api/patients/${patientId}/materials`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(materialData),
     });
@@ -107,17 +87,13 @@ export const editMaterial = createAsyncThunk<
   },
   { rejectValue: string }
 >('backendPatients/editMaterial', async ({ patientId, materialId, materialData }, thunkApi) => {
-  const state = thunkApi.getState() as RootState;
-  const token = state.auth.token;
-
   try {
     const response = await fetch(
-      `${BACKEND_BASE_URL}/api/Patient/${patientId}/materials/${materialId}`,
+      `${BACKEND_BASE_URL}/api/patients/${patientId}/materials/${materialId}`,
       {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(materialData),
       }
@@ -142,17 +118,11 @@ export const deleteMaterial = createAsyncThunk<
   DeleteMaterialPayload,
   { rejectValue: string }
 >('backendPatients/deleteMaterial', async ({ patientId, materialId }, thunkApi) => {
-  const state = thunkApi.getState() as RootState;
-  const token = state.auth.token;
-
   try {
     const response = await fetch(
-      `${BACKEND_BASE_URL}/api/Patient/${patientId}/materials/${materialId}`,
+      `${BACKEND_BASE_URL}/api/patients/${patientId}/materials/${materialId}`,
       {
         method: 'DELETE',
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
       }
     );
 

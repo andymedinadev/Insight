@@ -37,7 +37,7 @@ export function useLogin() {
     };
 
     try {
-      const res = await fetch(`${BACKEND_BASE_URL}/api/Auth/login`, {
+      const res = await fetch(`${BACKEND_BASE_URL}/api/auth/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),
@@ -51,8 +51,10 @@ export function useLogin() {
         const data = await res.json();
         const token = data.token;
 
-        dispatch(setToken(token));
-        sessionStorage.setItem('token', token);
+        if (token) {
+          dispatch(setToken(token));
+          sessionStorage.setItem('token', token);
+        }
 
         return { success: true, alert: alertSuccess };
       }

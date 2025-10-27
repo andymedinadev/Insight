@@ -4,8 +4,7 @@ import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { Edit, Archive } from '@/public';
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
-import { RootState } from '@/store';
+import { BACKEND_BASE_URL } from '@/config';
 
 type Props = {
   patientId: string;
@@ -22,27 +21,18 @@ export default function PatientOptionsMenu({
   showToast,
   onPatientUpdated,
 }: Props) {
-  const token = useSelector((state: RootState) => state.auth.token);
   const router = useRouter();
   const [loading, setLoading] = useState(false);
 
   const archivePatient = async () => {
-    if (!token) {
-      alert('Debes estar autenticado para archivar');
-      return;
-    }
     setLoading(true);
     try {
-      const res = await fetch(
-        `https://comfortable-manifestation-production.up.railway.app/api/Patient/pacientes/${patientId}/archive`,
-        {
-          method: 'PUT',
-          headers: {
-            Authorization: `Bearer ${token}`,
-            'Content-Type': 'application/json',
-          },
-        }
-      );
+      const res = await fetch(`${BACKEND_BASE_URL}/api/patients/${patientId}/archive`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
       if (!res.ok) throw new Error('Error al archivar');
       router.refresh();
       showToast('El paciente fue archivado', 'success');
@@ -59,22 +49,14 @@ export default function PatientOptionsMenu({
   };
 
   const unarchivePatient = async () => {
-    if (!token) {
-      alert('Debes estar autenticado para desarchivar');
-      return;
-    }
     setLoading(true);
     try {
-      const res = await fetch(
-        `https://comfortable-manifestation-production.up.railway.app/api/Patient/pacientes/${patientId}/unarchive`,
-        {
-          method: 'PUT',
-          headers: {
-            Authorization: `Bearer ${token}`,
-            'Content-Type': 'application/json',
-          },
-        }
-      );
+      const res = await fetch(`${BACKEND_BASE_URL}/api/patients/${patientId}/unarchive`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
       if (!res.ok) throw new Error('Error al desarchivar');
       router.refresh();
       showToast('El paciente fue desarchivado', 'success');

@@ -1,7 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
 import { BACKEND_BASE_URL } from '@/config';
-import type { RootState } from '@/store';
 import { mapEditPatientToBackendPatient } from '@/utils';
 import type { BackendPatient, BackendEditPatient, BackendNewPatient } from '@/types';
 
@@ -9,19 +8,8 @@ import type { BackendPatient, BackendEditPatient, BackendNewPatient } from '@/ty
 export const fetchPatients = createAsyncThunk<BackendPatient[], void, { rejectValue: string }>(
   'backendPatients/fetchPatients',
   async (_, thunkApi) => {
-    const state = thunkApi.getState() as RootState;
-    const token = state.auth.token;
-
-    if (!token) {
-      return thunkApi.rejectWithValue('Token no disponible');
-    }
-
     try {
-      const response = await fetch(`${BACKEND_BASE_URL}/api/Patient/pacientes`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await fetch(`${BACKEND_BASE_URL}/api/patients`);
 
       if (!response.ok) {
         const errorText = await response.text();
@@ -43,15 +31,8 @@ export const fetchArchivedPatients = createAsyncThunk<
   void,
   { rejectValue: string }
 >('backendPatients/fetchArchivedPatients', async (_, thunkApi) => {
-  const state = thunkApi.getState() as RootState;
-  const token = state.auth.token;
-
   try {
-    const response = await fetch(`${BACKEND_BASE_URL}/api/Patient/patients/archived`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const response = await fetch(`${BACKEND_BASE_URL}/api/patients/archived`);
 
     if (!response.ok) {
       const errorText = await response.text();
@@ -70,15 +51,8 @@ export const fetchArchivedPatients = createAsyncThunk<
 export const fetchOnePatient = createAsyncThunk<BackendPatient, number, { rejectValue: string }>(
   'backendPatients/fetchOnePatient',
   async (id, thunkApi) => {
-    const state = thunkApi.getState() as RootState;
-    const token = state.auth.token;
-
     try {
-      const response = await fetch(`${BACKEND_BASE_URL}/api/Patient/${id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await fetch(`${BACKEND_BASE_URL}/api/patients/${id}`);
 
       if (!response.ok) {
         const errorText = await response.text();
@@ -100,15 +74,11 @@ export const createBackendPatient = createAsyncThunk<
   BackendNewPatient,
   { rejectValue: { detail: string } }
 >('backendPatients/createBackendPatient', async (newPatient, thunkApi) => {
-  const state = thunkApi.getState() as RootState;
-  const token = state.auth.token;
-
   try {
-    const response = await fetch(`${BACKEND_BASE_URL}/api/Patient`, {
+    const response = await fetch(`${BACKEND_BASE_URL}/api/patients`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(newPatient),
     });
@@ -131,15 +101,9 @@ export const deleteBackendPatient = createAsyncThunk<
   number,
   { rejectValue: string }
 >('backendPatients/deleteBackendPatient', async (id, thunkApi) => {
-  const state = thunkApi.getState() as RootState;
-  const token = state.auth.token;
-
   try {
-    const response = await fetch(`${BACKEND_BASE_URL}/api/Patient/${id}`, {
+    const response = await fetch(`${BACKEND_BASE_URL}/api/patients/${id}`, {
       method: 'DELETE',
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
     });
 
     if (response.status !== 204) {
@@ -160,16 +124,12 @@ export const editBackendPatient = createAsyncThunk<
   BackendEditPatient,
   { rejectValue: string }
 >('backendPatients/editBackendPatient', async (patient, thunkApi) => {
-  const state = thunkApi.getState() as RootState;
-  const token = state.auth.token;
-
   const payload = mapEditPatientToBackendPatient(patient);
 
   try {
-    const response = await fetch(`${BACKEND_BASE_URL}/api/Patient/${patient.id}`, {
+    const response = await fetch(`${BACKEND_BASE_URL}/api/patients/${patient.id}`, {
       method: 'PUT',
       headers: {
-        Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(payload),
