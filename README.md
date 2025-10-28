@@ -61,23 +61,6 @@ La aplicación estará disponible en `http://localhost:3000`
 └── public/             # Archivos estáticos
 ```
 
-## 🔄 Flujo de Trabajo (Desarrollo en Equipo)
-
-### Estructura de Ramas
-
-- `main` → Producción (código estable)
-- `develop` → Integración de cambios
-- `dev-[nombre]` → Rama personal de cada desarrollador
-
-### Crear tu rama de desarrollo
-
-```bash
-git checkout develop
-git pull origin develop
-git checkout -b dev-tu-nombre
-git push origin dev-tu-nombre
-```
-
 ## 📋 Scripts Disponibles
 
 - `npm run dev` - Servidor de desarrollo
