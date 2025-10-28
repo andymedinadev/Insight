@@ -1,35 +1,28 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
 import { BACKEND_BASE_URL } from '@/config';
-import type { RootState } from '@/store';
-import { mapEditPatientToBackendPatient } from '@/utils';
+import { mapEditPatientToBackendPatient, mapExpressPatientToBackendPatient } from '@/utils';
 import type { BackendPatient, BackendEditPatient, BackendNewPatient } from '@/types';
 
 // Traer todos los pacientes
 export const fetchPatients = createAsyncThunk<BackendPatient[], void, { rejectValue: string }>(
   'backendPatients/fetchPatients',
   async (_, thunkApi) => {
-    const state = thunkApi.getState() as RootState;
-    const token = state.auth.token;
-
-    if (!token) {
-      return thunkApi.rejectWithValue('Token no disponible');
-    }
-
     try {
-      const response = await fetch(`${BACKEND_BASE_URL}/api/Patient/pacientes`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await fetch(`${BACKEND_BASE_URL}/api/patients`);
 
       if (!response.ok) {
         const errorText = await response.text();
         throw new Error(`Error HTTP ${response.status}: ${errorText}`);
       }
 
-      const data = await response.json();
-      return data;
+      const data = await response.json().catch(() => null);
+
+      if (!response.ok || !data?.success || !Array.isArray(data.data)) {
+        throw new Error(data?.message ?? 'Respuesta inválida del servidor');
+      }
+
+      return data.data.map(mapExpressPatientToBackendPatient);
     } catch (error: unknown) {
       const message = error instanceof Error ? error.message : 'Error desconocido';
       return thunkApi.rejectWithValue(message);
@@ -43,23 +36,21 @@ export const fetchArchivedPatients = createAsyncThunk<
   void,
   { rejectValue: string }
 >('backendPatients/fetchArchivedPatients', async (_, thunkApi) => {
-  const state = thunkApi.getState() as RootState;
-  const token = state.auth.token;
-
   try {
-    const response = await fetch(`${BACKEND_BASE_URL}/api/Patient/patients/archived`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const response = await fetch(`${BACKEND_BASE_URL}/api/patients/archived`);
 
     if (!response.ok) {
       const errorText = await response.text();
       throw new Error(`Error HTTP ${response.status}: ${errorText}`);
     }
 
-    const data = await response.json();
-    return data;
+    const data = await response.json().catch(() => null);
+
+    if (!response.ok || !data?.success || !Array.isArray(data.data)) {
+      throw new Error(data?.message ?? 'Respuesta inválida del servidor');
+    }
+
+    return data.data.map(mapExpressPatientToBackendPatient);
   } catch (error: unknown) {
     const message = error instanceof Error ? error.message : 'Error desconocido';
     return thunkApi.rejectWithValue(message);
@@ -70,23 +61,21 @@ export const fetchArchivedPatients = createAsyncThunk<
 export const fetchOnePatient = createAsyncThunk<BackendPatient, number, { rejectValue: string }>(
   'backendPatients/fetchOnePatient',
   async (id, thunkApi) => {
-    const state = thunkApi.getState() as RootState;
-    const token = state.auth.token;
-
     try {
-      const response = await fetch(`${BACKEND_BASE_URL}/api/Patient/${id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await fetch(`${BACKEND_BASE_URL}/api/patients/${id}`);
 
       if (!response.ok) {
         const errorText = await response.text();
         throw new Error(`Error HTTP ${response.status}: ${errorText}`);
       }
 
-      const data = await response.json();
-      return data;
+      const data = await response.json().catch(() => null);
+
+      if (!response.ok || !data?.success || !data.data) {
+        throw new Error(data?.message ?? 'Respuesta inválida del servidor');
+      }
+
+      return mapExpressPatientToBackendPatient(data.data);
     } catch (error: unknown) {
       const message = error instanceof Error ? error.message : 'Error desconocido';
       return thunkApi.rejectWithValue(message);
@@ -100,26 +89,26 @@ export const createBackendPatient = createAsyncThunk<
   BackendNewPatient,
   { rejectValue: { detail: string } }
 >('backendPatients/createBackendPatient', async (newPatient, thunkApi) => {
-  const state = thunkApi.getState() as RootState;
-  const token = state.auth.token;
-
   try {
-    const response = await fetch(`${BACKEND_BASE_URL}/api/Patient`, {
+    const response = await fetch(`${BACKEND_BASE_URL}/api/patients`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(newPatient),
     });
 
-    if (!response.ok) {
-      const errorJson = await response.json();
-      return thunkApi.rejectWithValue(errorJson);
+    const data = await response.json().catch(() => null);
+
+    if (!response.ok || !data?.success) {
+      const detail =
+        (typeof data?.message === 'string' && data.message) ||
+        (typeof data?.detail === 'string' && data.detail) ||
+        'Error desconocido';
+      return thunkApi.rejectWithValue({ detail });
     }
 
-    const data = await response.json();
-    return data;
+    return mapExpressPatientToBackendPatient(data.data);
   } catch {
     return thunkApi.rejectWithValue({ detail: 'Error desconocido' });
   }
@@ -131,20 +120,18 @@ export const deleteBackendPatient = createAsyncThunk<
   number,
   { rejectValue: string }
 >('backendPatients/deleteBackendPatient', async (id, thunkApi) => {
-  const state = thunkApi.getState() as RootState;
-  const token = state.auth.token;
-
   try {
-    const response = await fetch(`${BACKEND_BASE_URL}/api/Patient/${id}`, {
+    const response = await fetch(`${BACKEND_BASE_URL}/api/patients/${id}`, {
       method: 'DELETE',
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
     });
 
-    if (response.status !== 204) {
-      const errorText = await response.text();
-      throw new Error(`Error HTTP ${response.status}: ${errorText}`);
+    const data = await response.json().catch(() => null);
+
+    if (!response.ok || (data && data.success === false)) {
+      const message =
+        (data && typeof data.message === 'string' && data.message) ||
+        `Error HTTP ${response.status}`;
+      throw new Error(message);
     }
 
     return { id };
@@ -160,38 +147,29 @@ export const editBackendPatient = createAsyncThunk<
   BackendEditPatient,
   { rejectValue: string }
 >('backendPatients/editBackendPatient', async (patient, thunkApi) => {
-  const state = thunkApi.getState() as RootState;
-  const token = state.auth.token;
-
   const payload = mapEditPatientToBackendPatient(patient);
 
   try {
-    const response = await fetch(`${BACKEND_BASE_URL}/api/Patient/${patient.id}`, {
+    const response = await fetch(`${BACKEND_BASE_URL}/api/patients/${patient.id}`, {
       method: 'PUT',
       headers: {
-        Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(payload),
     });
 
-    if (!response.ok) {
-      if (response.status === 400) {
-        const errorBody = await response.json();
+    const data = await response.json().catch(() => null);
 
-        if (errorBody?.errors && typeof errorBody.errors === 'object') {
-          const errorMessages = Object.entries(errorBody.errors)
-            .map(([field, messages]) => `${field}: ${(messages as string[]).join(', ')}`)
-            .join(' | ');
-          return thunkApi.rejectWithValue(errorMessages);
-        }
-
-        const detail = errorBody?.detail ?? 'Error de validación';
-        return thunkApi.rejectWithValue(detail);
+    if (!response.ok || (data && data.success === false)) {
+      if (data?.errors && typeof data.errors === 'object') {
+        const errorMessages = Object.entries(data.errors)
+          .map(([field, messages]) => `${field}: ${(messages as string[]).join(', ')}`)
+          .join(' | ');
+        return thunkApi.rejectWithValue(errorMessages);
       }
 
-      const errorText = await response.text();
-      throw new Error(`Error HTTP ${response.status}: ${errorText}`);
+      const detail = data?.message ?? 'Error al editar el paciente.';
+      return thunkApi.rejectWithValue(detail);
     }
   } catch (error) {
     const message = error instanceof Error ? error.message : 'Error desconocido';

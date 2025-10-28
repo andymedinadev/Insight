@@ -1,7 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
 import { BACKEND_BASE_URL } from '@/config';
-import type { RootState } from '@/store';
+import { mapExpressMaterialToBackendMaterial } from '@/utils';
 import type { BackendMaterial, CreateMaterialPayload, DeleteMaterialPayload } from '@/types';
 
 // Traer todos los materiales de un paciente
@@ -10,23 +10,21 @@ export const fetchAllMaterials = createAsyncThunk<
   number,
   { rejectValue: string }
 >('backendPatients/fetchAllMaterials', async (patientId, thunkApi) => {
-  const state = thunkApi.getState() as RootState;
-  const token = state.auth.token;
-
   try {
-    const response = await fetch(`${BACKEND_BASE_URL}/api/Patient/${patientId}/materials`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const response = await fetch(`${BACKEND_BASE_URL}/api/patients/${patientId}/materials`);
 
     if (!response.ok) {
       const errorText = await response.text();
       throw new Error(`HTTP ${response.status}: ${errorText}`);
     }
 
-    const data = await response.json();
-    return data;
+    const data = await response.json().catch(() => null);
+
+    if (!response.ok || !data?.success || !Array.isArray(data.data)) {
+      throw new Error(data?.message ?? 'Respuesta inválida del servidor');
+    }
+
+    return data.data.map(mapExpressMaterialToBackendMaterial);
   } catch (error) {
     const message = error instanceof Error ? error.message : 'Error desconocido';
     return thunkApi.rejectWithValue(message);
@@ -39,17 +37,9 @@ export const fetchOneMaterial = createAsyncThunk<
   { patientId: number; materialId: number },
   { rejectValue: string }
 >('backendPatients/fetchOneMaterial', async ({ patientId, materialId }, thunkApi) => {
-  const state = thunkApi.getState() as RootState;
-  const token = state.auth.token;
-
   try {
     const response = await fetch(
-      `${BACKEND_BASE_URL}/api/Patient/${patientId}/materials/${materialId}`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
+      `${BACKEND_BASE_URL}/api/patients/${patientId}/materials/${materialId}`
     );
 
     if (!response.ok) {
@@ -57,8 +47,13 @@ export const fetchOneMaterial = createAsyncThunk<
       throw new Error(`HTTP ${response.status}: ${errorText}`);
     }
 
-    const data = await response.json();
-    return data;
+    const data = await response.json().catch(() => null);
+
+    if (!response.ok || !data?.success || !data.data) {
+      throw new Error(data?.message ?? 'Respuesta inválida del servidor');
+    }
+
+    return mapExpressMaterialToBackendMaterial(data.data);
   } catch (error) {
     const message = error instanceof Error ? error.message : 'Error desconocido';
     return thunkApi.rejectWithValue(message);
@@ -71,26 +66,28 @@ export const createMaterial = createAsyncThunk<
   CreateMaterialPayload,
   { rejectValue: string }
 >('backendPatients/createMaterial', async ({ patientId, materialData }, thunkApi) => {
-  const state = thunkApi.getState() as RootState;
-  const token = state.auth.token;
-
   try {
-    const response = await fetch(`${BACKEND_BASE_URL}/api/Patient/${patientId}/materials`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify(materialData),
-    });
+      const payload = {
+        title: materialData.title,
+        content: materialData.content,
+        creationDate: materialData.date,
+      };
 
-    if (!response.ok) {
-      const errorText = await response.text();
-      throw new Error(`HTTP ${response.status}: ${errorText}`);
-    }
+      const response = await fetch(`${BACKEND_BASE_URL}/api/patients/${patientId}/materials`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+      });
 
-    const data = await response.json();
-    return data;
+      const data = await response.json().catch(() => null);
+
+      if (!response.ok || !data?.success || !data.data) {
+        throw new Error(data?.message ?? 'Error al crear el material');
+      }
+
+      return mapExpressMaterialToBackendMaterial(data.data);
   } catch (error) {
     const message = error instanceof Error ? error.message : 'Error desconocido';
     return thunkApi.rejectWithValue(message);
@@ -107,29 +104,31 @@ export const editMaterial = createAsyncThunk<
   },
   { rejectValue: string }
 >('backendPatients/editMaterial', async ({ patientId, materialId, materialData }, thunkApi) => {
-  const state = thunkApi.getState() as RootState;
-  const token = state.auth.token;
-
   try {
+    const payload = {
+      title: materialData.title,
+      content: materialData.content,
+      creationDate: materialData.date,
+    };
+
     const response = await fetch(
-      `${BACKEND_BASE_URL}/api/Patient/${patientId}/materials/${materialId}`,
+      `${BACKEND_BASE_URL}/api/patients/${patientId}/materials/${materialId}`,
       {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify(materialData),
+        body: JSON.stringify(payload),
       }
     );
 
-    if (!response.ok) {
-      const errorText = await response.text();
-      throw new Error(`HTTP ${response.status}: ${errorText}`);
+    const data = await response.json().catch(() => null);
+
+    if (!response.ok || !data?.success || !data.data) {
+      throw new Error(data?.message ?? 'Error al editar el material');
     }
 
-    const data = await response.json();
-    return data;
+    return mapExpressMaterialToBackendMaterial(data.data);
   } catch (error) {
     const message = error instanceof Error ? error.message : 'Error desconocido';
     return thunkApi.rejectWithValue(message);
@@ -142,26 +141,21 @@ export const deleteMaterial = createAsyncThunk<
   DeleteMaterialPayload,
   { rejectValue: string }
 >('backendPatients/deleteMaterial', async ({ patientId, materialId }, thunkApi) => {
-  const state = thunkApi.getState() as RootState;
-  const token = state.auth.token;
-
   try {
     const response = await fetch(
-      `${BACKEND_BASE_URL}/api/Patient/${patientId}/materials/${materialId}`,
+      `${BACKEND_BASE_URL}/api/patients/${patientId}/materials/${materialId}`,
       {
         method: 'DELETE',
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
       }
     );
 
-    if (!response.ok) {
-      const errorText = await response.text();
-      throw new Error(`HTTP ${response.status}: ${errorText}`);
-    }
+      const data = await response.json().catch(() => null);
 
-    return materialId;
+      if (!response.ok || (data && data.success === false)) {
+        throw new Error(data?.message ?? 'Error al eliminar el material');
+      }
+
+      return materialId;
   } catch (error) {
     const message = error instanceof Error ? error.message : 'Error desconocido';
     return thunkApi.rejectWithValue(message);

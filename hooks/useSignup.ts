@@ -17,7 +17,7 @@ export function useSignup() {
     const signupPayload = transformFormDataToSignupPayload(formData);
 
     try {
-      const res = await fetch(`${BACKEND_BASE_URL}/api/User/register`, {
+      const res = await fetch(`${BACKEND_BASE_URL}/api/auth/register`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

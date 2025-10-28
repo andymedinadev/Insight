@@ -32,6 +32,7 @@ export default function MedicalHistoryNew({ onSaved, goBack }: Props) {
 
   const initialValues: BackendNote = {
     id: 0,
+    noteId: 0,
     title: '',
     creationDate: '',
     content: '',

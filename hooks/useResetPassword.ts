@@ -14,7 +14,7 @@ export function useResetPassword() {
     setError(null);
 
     try {
-      const res = await fetch(`${BACKEND_BASE_URL}/api/Auth/verify-password-reset-code`, {
+      const res = await fetch(`${BACKEND_BASE_URL}/api/auth/verify-password-reset-code`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -5,6 +5,12 @@ import { BackendEditPatient, BackendPatient } from '@/types';
 export function mapEditPatientToBackendPatient(editPatient: BackendEditPatient): BackendPatient {
   return {
     ...editPatient,
+    patientId: editPatient.id,
+    ageRange: editPatient.rangoEtario,
+    isEnabled: (editPatient as BackendPatient).isEnabled ?? true,
+    nextNoteId: (editPatient as BackendPatient).nextNoteId ?? 0,
+    nextMaterialId: (editPatient as BackendPatient).nextMaterialId ?? 0,
+    __v: (editPatient as BackendPatient).__v,
     birthdate: formatISO(parse(editPatient.birthdate, 'yyyy-MM-dd', new Date())),
     admissionDate: formatISO(parse(editPatient.admissionDate, 'yyyy-MM-dd', new Date())),
     principalMotive: editPatient.principalMotive ?? null,
