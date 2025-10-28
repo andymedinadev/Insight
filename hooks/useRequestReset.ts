@@ -13,7 +13,7 @@ export function useRequestReset() {
     setError(null);
 
     try {
-      const res = await fetch(`${BACKEND_BASE_URL}/api/Auth/request-password-reset`, {
+      const res = await fetch(`${BACKEND_BASE_URL}/api/auth/request-password-reset`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
