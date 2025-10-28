@@ -2,6 +2,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 
 import { BACKEND_BASE_URL } from '@/config';
 import { mapEditPatientToBackendPatient, mapExpressPatientToBackendPatient } from '@/utils';
+import { mapEditPatientToBackendPatient } from '@/utils';
 import type { BackendPatient, BackendEditPatient, BackendNewPatient } from '@/types';
 
 // Traer todos los pacientes
