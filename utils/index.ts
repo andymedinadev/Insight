@@ -1,6 +1,11 @@
 export { default as cardData } from './Data/cardData';
 export { calcularEdad, calcularRangoEtario } from './age';
+export { delay } from './async';
+export { toIsoDate } from './date';
 export { formatPatientForFrontend } from './formatPatientForFrontend';
+export { getNextId } from './id';
 export { mapBackendPatientToEditPatient } from './mapBackendPatientToEditPatient';
 export { mapEditPatientToBackendPatient } from './mapEditPatientToBackendPatient';
+export { clone } from './object';
+export { sanitizeNumber, sanitizeText } from './sanitize';
 export { transformFormDataToSignupPayload } from './transformSignupData';
