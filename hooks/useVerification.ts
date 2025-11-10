@@ -4,8 +4,8 @@ import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 
 import { setToken } from '@/store/slices/authSlice';
-import { BACKEND_BASE_URL } from '@/config';
-import { VerifyPayload, VerifyResponse } from '@/types';
+import { mockApi } from '@/mocks/mockBackend';
+import { VerifyPayload } from '@/types';
 
 export function useVerification() {
   const dispatch = useDispatch();
@@ -17,29 +17,18 @@ export function useVerification() {
     setError(null);
 
     try {
-      const res = await fetch(`${BACKEND_BASE_URL}/api/User/verify-registration`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-      });
-
-      const responseBody: VerifyResponse = await res.json();
-
-      if (!res.ok) {
-        throw new Error(responseBody.message || 'Error al verificar');
-      }
-
-      // Si la verificaión funcionó seteo token
-      const token = responseBody.token;
+      const { token } = await mockApi.auth.verifyRegistration(data);
 
       dispatch(setToken(token));
+
       sessionStorage.setItem('token', token);
 
       return true;
     } catch (err) {
-      setError(JSON.stringify(err));
+      const message = err instanceof Error ? err.message : JSON.stringify(err);
+
+      setError(message);
+
       return false;
     } finally {
       setLoading(false);

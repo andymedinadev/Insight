@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 
-import { BACKEND_BASE_URL } from '@/config';
+import { mockApi } from '@/mocks/mockBackend';
 
 export function useRequestReset() {
   const [loading, setLoading] = useState(false);
@@ -13,23 +13,14 @@ export function useRequestReset() {
     setError(null);
 
     try {
-      const res = await fetch(`${BACKEND_BASE_URL}/api/Auth/request-password-reset`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email }),
-      });
-
-      if (!res.ok) {
-        const message = await res.text();
-        setError(message || 'Error desconocido');
-        return false;
-      }
+      await mockApi.auth.requestPasswordReset(email);
 
       return true;
     } catch (err) {
-      setError(JSON.stringify(err));
+      const message = err instanceof Error ? err.message : JSON.stringify(err);
+
+      setError(message);
+
       return false;
     } finally {
       setLoading(false);
