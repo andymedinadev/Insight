@@ -4,8 +4,8 @@ import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { Edit, Archive } from '@/public';
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
-import { RootState } from '@/store';
+
+import { mockApi } from '@/mocks/mockBackend';
 
 type Props = {
   patientId: string;
@@ -22,36 +22,27 @@ export default function PatientOptionsMenu({
   showToast,
   onPatientUpdated,
 }: Props) {
-  const token = useSelector((state: RootState) => state.auth.token);
   const router = useRouter();
   const [loading, setLoading] = useState(false);
 
   const archivePatient = async () => {
-    if (!token) {
-      alert('Debes estar autenticado para archivar');
-      return;
-    }
     setLoading(true);
+
     try {
-      const res = await fetch(
-        `https://comfortable-manifestation-production.up.railway.app/api/Patient/pacientes/${patientId}/archive`,
-        {
-          method: 'PUT',
-          headers: {
-            Authorization: `Bearer ${token}`,
-            'Content-Type': 'application/json',
-          },
-        }
-      );
-      if (!res.ok) throw new Error('Error al archivar');
+      await mockApi.patients.archive(Number(patientId));
+
       router.refresh();
+
       showToast('El paciente fue archivado', 'success');
+
       onPatientUpdated();
     } catch (error) {
       void error;
+
       showToast('No se pudo archivar el paciente', 'error');
     } finally {
       setLoading(false);
+
       setTimeout(() => {
         onClose();
       }, 2000);
@@ -59,31 +50,23 @@ export default function PatientOptionsMenu({
   };
 
   const unarchivePatient = async () => {
-    if (!token) {
-      alert('Debes estar autenticado para desarchivar');
-      return;
-    }
     setLoading(true);
+
     try {
-      const res = await fetch(
-        `https://comfortable-manifestation-production.up.railway.app/api/Patient/pacientes/${patientId}/unarchive`,
-        {
-          method: 'PUT',
-          headers: {
-            Authorization: `Bearer ${token}`,
-            'Content-Type': 'application/json',
-          },
-        }
-      );
-      if (!res.ok) throw new Error('Error al desarchivar');
+      await mockApi.patients.unarchive(Number(patientId));
+
       router.refresh();
+
       showToast('El paciente fue desarchivado', 'success');
+
       onPatientUpdated();
     } catch (error) {
       void error;
+
       showToast('No se pudo archivar el paciente', 'error');
     } finally {
       setLoading(false);
+
       setTimeout(() => {
         onClose();
       }, 2000);
