@@ -7,5 +7,6 @@ export { getNextId } from './id';
 export { mapBackendPatientToEditPatient } from './mapBackendPatientToEditPatient';
 export { mapEditPatientToBackendPatient } from './mapEditPatientToBackendPatient';
 export { clone } from './object';
+export { normalizePatientAge } from './patient';
 export { sanitizeNumber, sanitizeText } from './sanitize';
 export { transformFormDataToSignupPayload } from './transformSignupData';
