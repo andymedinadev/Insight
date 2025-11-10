@@ -12,3 +12,9 @@ export function calcularEdad(fechaNacimiento: string): number {
 
   return edad;
 }
+
+export function calcularRangoEtario(edad: number): string {
+  if (edad <= 12) return 'Niño';
+  if (edad <= 17) return 'Adolescente';
+  return 'Adulto';
+}

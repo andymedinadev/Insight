@@ -1,5 +1,5 @@
 export { default as cardData } from './Data/cardData';
-export { calcularEdad } from './calcularEdad';
+export { calcularEdad, calcularRangoEtario } from './age';
 export { formatPatientForFrontend } from './formatPatientForFrontend';
 export { mapBackendPatientToEditPatient } from './mapBackendPatientToEditPatient';
 export { mapEditPatientToBackendPatient } from './mapEditPatientToBackendPatient';
