@@ -1,4 +1,4 @@
-import { LoginForm, LoginHeader, LoginIllustration, LoginLogo } from '@/components';
+import { LoginForm, LoginHeaderContainer, LoginIllustration, LoginLogo } from '@/components';
 
 export default function LoginPage() {
   return (
@@ -6,7 +6,7 @@ export default function LoginPage() {
       <div className="flex flex-col items-center justify-center bg-white px-6 py-10 md:px-12 lg:px-20">
         <div className="w-full max-w-[470px]">
           <LoginLogo />
-          <LoginHeader />
+          <LoginHeaderContainer />
           <LoginForm />
         </div>
       </div>

@@ -60,6 +60,7 @@ export { default as UserNameDrop } from './UserName/UserNameDrop';
 // Login
 export { LoginForm } from './LoginPage/LoginForm';
 export { LoginHeader } from './LoginPage/LoginHeader';
+export { LoginHeaderContainer } from './LoginPage/LoginHeaderContainer';
 export { LoginIllustration } from './LoginPage/LoginIllustration';
 export { LoginLogo } from './LoginPage/LoginLogo';
 

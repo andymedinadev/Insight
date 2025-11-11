@@ -39,13 +39,6 @@ export function LoginForm() {
 
   return (
     <>
-      <div className="mt-10 md:mt-14">
-        <span className="text-red-600">*</span>
-        <span className="ml-1 font-['Roboto'] text-sm text-black md:text-base">
-          Datos requeridos
-        </span>
-      </div>
-
       <form onSubmit={formik.handleSubmit} className="mt-6 space-y-5 md:mt-8">
         <InputField
           type="email"
