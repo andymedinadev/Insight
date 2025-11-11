@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 
-import { BACKEND_BASE_URL } from '@/config';
+import { mockApi } from '@/mocks/mockBackend';
 import { ResetPasswordPayload } from '@/types';
 
 export function useResetPassword() {
@@ -14,23 +14,14 @@ export function useResetPassword() {
     setError(null);
 
     try {
-      const res = await fetch(`${BACKEND_BASE_URL}/api/Auth/verify-password-reset-code`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(payload),
-      });
-
-      if (!res.ok) {
-        const message = await res.text();
-        setError(message || 'Error desconocido');
-        return false;
-      }
+      await mockApi.auth.resetPassword(payload);
 
       return true;
     } catch (err) {
-      setError(JSON.stringify(err));
+      const message = err instanceof Error ? err.message : JSON.stringify(err);
+
+      setError(message);
+
       return false;
     } finally {
       setLoading(false);

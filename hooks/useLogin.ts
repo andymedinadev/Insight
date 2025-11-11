@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 
 import { setToken } from '@/store/slices/authSlice';
-import { BACKEND_BASE_URL } from '@/config';
+import { mockApi } from '@/mocks/mockBackend';
 
 type AlertType = 'error' | 'info' | 'success';
 
@@ -37,43 +37,15 @@ export function useLogin() {
     };
 
     try {
-      const res = await fetch(`${BACKEND_BASE_URL}/api/Auth/login`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password }),
-      });
+      const { token } = await mockApi.auth.login(email, password);
 
-      if (res.status === 401) {
-        return { success: false, alert: alertError };
-      }
+      dispatch(setToken(token));
 
-      if (res.status === 200) {
-        const data = await res.json();
-        const token = data.token;
+      sessionStorage.setItem('token', token);
 
-        dispatch(setToken(token));
-        sessionStorage.setItem('token', token);
-
-        return { success: true, alert: alertSuccess };
-      }
-
-      return {
-        success: false,
-        alert: {
-          title: 'Error inesperado',
-          type: 'error',
-          description: 'Ocurrió un error inesperado al iniciar sesión.',
-        },
-      };
+      return { success: true, alert: alertSuccess };
     } catch {
-      return {
-        success: false,
-        alert: {
-          title: 'Error de conexión',
-          type: 'error',
-          description: 'No se pudo conectar con el servidor.',
-        },
-      };
+      return { success: false, alert: alertError };
     } finally {
       setLoading(false);
     }

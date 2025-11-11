@@ -3,7 +3,7 @@
 import { useState } from 'react';
 
 import { transformFormDataToSignupPayload } from '@/utils';
-import { BACKEND_BASE_URL } from '@/config';
+import { mockApi } from '@/mocks/mockBackend';
 import { SignupFormData } from '@/types';
 
 export function useSignup() {
@@ -17,25 +17,15 @@ export function useSignup() {
     const signupPayload = transformFormDataToSignupPayload(formData);
 
     try {
-      const res = await fetch(`${BACKEND_BASE_URL}/api/User/register`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(signupPayload),
-      });
+      await mockApi.auth.signup(signupPayload);
 
-      if (!res.ok) {
-        const responseBody = await res.json();
-        throw new Error(responseBody.message || 'Error al registrarse');
-      }
-
-      // Si el registro funcionó guardo el email temporalmente para verificar cuenta
       sessionStorage.setItem('signupEmail', signupPayload.email);
 
       return true;
     } catch (err) {
-      setError(JSON.stringify(err));
+      const message = err instanceof Error ? err.message : JSON.stringify(err);
+
+      setError(message);
       return false;
     } finally {
       setLoading(false);
