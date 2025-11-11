@@ -1,5 +1,6 @@
 import { formatISO } from 'date-fns';
 
+import { authAlerts } from '@/constants';
 import {
   clone,
   delay,
@@ -11,6 +12,8 @@ import {
 } from '@/utils';
 
 import {
+  DEMO_EMAIL,
+  DEMO_PASSWORD,
   demoUser,
   initialArchivedPatients,
   initialMaterials,
@@ -42,13 +45,19 @@ let currentUser = { ...demoUser };
 
 const mockAuthService = {
   async login(email: string, password: string) {
-    await delay();
+    await delay(2000);
 
     if (!email || !password) {
-      throw new Error('Credenciales inválidas');
+      throw authAlerts.errorMissingFields;
     }
 
-    return { token: 'mock-token' } as const;
+    const isDemoUser = email === DEMO_EMAIL && password === DEMO_PASSWORD;
+
+    if (!isDemoUser) {
+      throw authAlerts.errorInvalidCredentials;
+    }
+
+    return { token: 'mock-token', alert: authAlerts.successLogin } as const;
   },
   async signup(payload: SignupPayload) {
     await delay();
