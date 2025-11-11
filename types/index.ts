@@ -15,6 +15,7 @@ export type { ModalityType } from './modalityType';
 export type { RangoEtario } from './rangoEtario';
 export type { DropdownFilterProps } from './Filters/DropdownFilterProps';
 
+export type { AlertCatalog, AlertData, AlertKey, AlertType, AlertValue } from './alert';
 export type { BackendMaterial } from './backendMaterial';
 export type { BackendNewPatient } from './backendNewPatient';
 export type { BackendNote } from './backendNote';
